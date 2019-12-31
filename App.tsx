@@ -24,10 +24,8 @@ const App = () => {
     <I18nextProvider i18n={i18n}>
       <Provider {...rootStore}>
         <View style={{ flex: 1 }}>
-          <StatusBar barStyle="dark-content" />
-          <View style={{ flex: 1 }}>
-            <Router />
-          </View>
+          <StatusBar barStyle="dark-content" backgroundColor="#fff"/>
+          <Router />
         </View>
       </Provider>
     </I18nextProvider>

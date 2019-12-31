@@ -4,9 +4,15 @@ import { walletStack, discoveryStack, meStack, initWalletStack } from './config'
 import { getTabNavigationOptions } from './utils'
 
 const walletTabs = createBottomTabNavigator({
-  wallet: walletStack,
-  discovery: discoveryStack,
-  me: meStack,
+  wallet: {
+    screen: walletStack,
+  },
+  discovery: {
+    screen: discoveryStack,
+  },
+  me: {
+    screen: meStack,
+  }
 },
 {
   defaultNavigationOptions: navigateInfo => getTabNavigationOptions(navigateInfo)
@@ -14,8 +20,8 @@ const walletTabs = createBottomTabNavigator({
 )
 
 const switchNavigator = createSwitchNavigator({
+  wallet: walletTabs,
   init: initWalletStack,
-  wallet: walletTabs
 })
 
 export default createAppContainer(switchNavigator)
