@@ -1,6 +1,6 @@
 import React from "react"
 import { Image } from "react-native"
-import { Tabs } from "Global/constans"
+import { Tabs } from "Global/constants"
 
 
 
