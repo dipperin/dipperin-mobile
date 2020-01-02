@@ -18,6 +18,7 @@ class Me extends React.Component<any> {
         <View key={index}>
           <Icon name={'icon|shezhi'} size={20} color="#adadad"/>
           <Text>{item.title}</Text>
+          <Icon name={'icon|xiangyou'} size={20} color="#333"/>
         </View>
       )
     })
