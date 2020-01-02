@@ -1,3 +1,5 @@
+// import { I18StartType } from 'I18n/config'
+
 export const MeListItems = [
   {
     iconName: '',

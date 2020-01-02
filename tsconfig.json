@@ -15,12 +15,8 @@
     "target": "esnext",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "src/*"
-      ],
-      "tests": [
-        "tests/*"
-      ]
+      "tests": ["tests/*"],
+      "*": ["src/*"],
     },
   },
   "exclude": [
