@@ -22,12 +22,11 @@ class Start extends React.Component<Props> {
   }
   
   render() {
-    const { labels, wallet } = this.props
+    const { labels } = this.props
     return (
       <View>
         <TouchableOpacity onPress={this.test}>
           <Text>{labels.start}</Text>
-          <Text>{wallet!.name}</Text>
         </TouchableOpacity>
       </View>
     )
