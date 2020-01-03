@@ -2,7 +2,6 @@ import React from 'react'
 import {
   StyleSheet,
   StatusBar,
-  View,
 } from 'react-native'
 import { configure } from 'mobx'
 import { I18nextProvider } from 'react-i18next'
@@ -23,10 +22,8 @@ const App = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <Provider {...rootStore}>
-        <View style={{ flex: 1 }}>
-          <StatusBar barStyle="dark-content" backgroundColor="#fff"/>
-          <Router />
-        </View>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff"/>
+        <Router />
       </Provider>
     </I18nextProvider>
   )

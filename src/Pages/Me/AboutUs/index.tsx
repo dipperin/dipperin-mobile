@@ -4,7 +4,7 @@ import {Text} from 'react-native'
 class AboutUs extends React.Component {
   render() {
     return (
-      <Text>设置</Text>
+      <Text>关于我们</Text>
     )
   }
 }

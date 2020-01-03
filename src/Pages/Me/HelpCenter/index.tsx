@@ -4,7 +4,7 @@ import {Text} from 'react-native'
 class HelpCenter extends React.Component {
   render() {
     return (
-      <Text>设置</Text>
+      <Text>帮助中心</Text>
     )
   }
 }
