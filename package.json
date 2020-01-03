@@ -11,6 +11,8 @@
     "postinstall": "rn-nodeify --install fs,http,buffer,vm,crypto,stream --hack"
   },
   "dependencies": {
+    "@ant-design/icons-react-native": "^1.0.2",
+    "@ant-design/react-native": "^3.2.2",
     "@dipperin/dipperin.js": "^0.4.50",
     "@react-native-community/async-storage": "^1.7.1",
     "@tradle/react-native-http": "^2.0.1",
@@ -37,6 +39,7 @@
     "react-native-randombytes": "^3.5.3",
     "react-native-reanimated": "^1.4.0",
     "react-native-storage": "^1.0.1",
+    "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",
     "react-navigation-tabs": "^2.6.2",
@@ -56,8 +59,10 @@
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.17",
     "@types/react-native": "^0.60.26",
+    "@types/react-native-vector-icons": "^6.4.5",
     "@types/react-test-renderer": "^16.9.1",
     "babel-jest": "^24.9.0",
+    "babel-plugin-import": "^1.13.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^6.8.0",
     "jest": "^24.9.0",

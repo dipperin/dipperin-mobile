@@ -5,12 +5,15 @@ import Account from './account'
 import ChainData from './chainData'
 import Transaction from './transaction'
 import Timer from './timer'
+import System from './System'
+
 class Root {
   timer: Timer
   chainData: ChainData
   wallet: WalletStore
   account: Account
   transaction: Transaction
+  system: System
   dipperin?: Dipperin
   constructor() {
     this.timer = new Timer()
@@ -18,6 +21,7 @@ class Root {
     this.wallet = new WalletStore(this)
     this.account = new Account(this)
     this.transaction = new Transaction(this)
+    this.system = new System()
     this.init()
   }
 

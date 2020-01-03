@@ -4,6 +4,9 @@ const enResouce = {
   dipperin: {
     start: {
       start: 'start'
+    },
+    me: {
+      
     }
   }
 
@@ -15,6 +18,9 @@ const zhResource: typeof enResouce = {
   dipperin: {
     start: {
       start: '初始页'
+    },
+    me: {
+
     }
   }
 }
