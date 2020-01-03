@@ -1,6 +1,3 @@
-
-import SQLite from 'react-native-sqlite-helper'
-
 import { AccountObj } from 'Models/account'
 import { ContractObj } from 'Models/contract'
 import { WalletObj } from 'Models/wallet'
@@ -34,6 +31,25 @@ export const storage = new Storage({
     defaultExpires: null,
     enableCache: true,
 });
+
+export const setStorage = async (key: string, value: any) => {
+    try {
+
+        storage.save({
+            key,
+            data: value
+        })
+    } catch(_) {
+        
+    }
+}
+
+export const getStorage = async (key: string) => {
+    try {
+       return await storage.load({key})
+    }catch(_) {
+    }
+}
 
 
 

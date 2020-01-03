@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig",
+  "moduleNameMapper": {
+    "Db": "./src/tests/mocks/db"
+  },
+  "setupFiles": "./src/tests/jestSetupFile.js",
+  "transformIgnorePatterns": ["node_modules/(?!(@react-native-community|react-native)/)"]
+}

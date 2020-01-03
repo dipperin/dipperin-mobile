@@ -2,28 +2,27 @@ import BIP39 from 'bip39'
 import { noop } from 'lodash'
 import { observable, reaction, computed, action, runInAction } from 'mobx'
 import { Accounts, AccountObject } from '@dipperin/dipperin.js'
-
+import { getRandom } from 'Global/utils'
 // import settings from '@/utils/settings'
-// import {
-//   getWallet,
-//   insertWallet,
-//   updateErrTimes,
-//   updateLockTime,
-//   updateActiveId
-//   // insertMinerData,
-//   // removeMinerData
-// } from '@/db'
+import {
+  getWallet,
+  insertWallet,
+  updateErrTimes,
+  updateLockTime,
+  updateActiveId,
+  setStorage,
+  getStorage
+} from 'Db'
 
 import RootStore from './root'
 import WalletModel, { WalletObj } from 'Models/wallet'
 import {
-  WALLET_ID,
+  STORAGE_KEYS,
   DEFAULT_ERR_TIMES,
   DEFAULT_LOCK_TIME,
   LOCKTIMES,
   FIRST_ACCOUNT_ID,
-} from 'Global/constans'
-
+} from 'Global/constants'
 export default class WalletStore {
   private _store: RootStore
   private _mnemonic?: string // Mnemonic
@@ -34,12 +33,6 @@ export default class WalletStore {
   @observable
   private _hdAccount?: AccountObject // Seed
 
-  @observable
-  private _blockInfo: any
-
-  // @observable
-  // private _isConnecting: boolean = false
-
   destroyMnemonic: () => void = noop
 
   constructor(store: RootStore) {
@@ -48,7 +41,7 @@ export default class WalletStore {
       () => this.unlockErrTimes,
       errTimes => {
         if (this._currentWallet) {
-          // updateErrTimes(this._currentWallet.walletId, errTimes) // TODO update in storage
+          updateErrTimes(this._currentWallet.walletId, errTimes)
           this.checkUnlockErrTimes(errTimes)
         }
       }
@@ -58,7 +51,7 @@ export default class WalletStore {
       () => this.lockTime,
       lockTime => {
         if (this._currentWallet) {
-          // updateLockTime(this._currentWallet.walletId, lockTime) // TODO update in storage
+          updateLockTime(this._currentWallet.walletId, lockTime)
         }
       }
     )
@@ -112,13 +105,10 @@ export default class WalletStore {
   set activeAccountId(id: string) {
     if (this._currentWallet) {
       this._currentWallet.activeAccountId = id
-      // updateActiveId(this.walletId, id) // TODO update in storage
+      updateActiveId(this.walletId, id)
     }
   }
 
-  get blockInfo() {
-    return this._blockInfo
-  }
 
   // get isConnecting() {
   //   return this._isConnecting
@@ -158,9 +148,6 @@ export default class WalletStore {
     const account = this.getHdAccount(password)
     if (account) {
       this._hdAccount = account
-      // if (this._store.isConnecting) { // TODO
-      //   this.startService()
-      // }
       return true
     }
     return false
@@ -203,11 +190,13 @@ export default class WalletStore {
     try {
       if (!mnemonic) {
         // If not input a mnemonic, generate a new mnemonic and save
-        this.destroyMnemonic = this.createDestroyMnemonic(password)
+        this.destroyMnemonic = await this.createDestroyMnemonic(password)
+        console.log('ssssssssssssssss')
       } else {
         await this.initWallet(password, mnemonic)
       }
     } catch (err) {
+      console.log(err, 'ssss')
       return err
     } finally {
       // this._store.loading.stop() // TODO
@@ -218,35 +207,30 @@ export default class WalletStore {
    * Save wallet to db
    */
   save() {
-    // this.saveWallet() // TODO
+    this.saveWallet()
   }
 
   /**
    * Load wallet from data store
    */
 
-  // async load(): Promise<boolean> { // TODO
-  //   const walletId = settings.get(WALLET_ID) as number
-  //   const walletObj = await getWallet(walletId)
-  //   if (!walletObj) {
-  //     // FIXME: When the wallet cannot be successfully loaded, an error message should pop up.
-  //     return false
-  //   }
-  //   try {
-  //     runInAction(() => {
-  //       this._currentWallet = new WalletModel(walletObj)
-  //     })
-  //     return true
-  //   } catch (err) {
-  //     console.error(err)
-  //     return false
-  //   }
-  // }
-
-  @action
-  resetBlockInfo() {
-    this._blockInfo = undefined
+  async load(): Promise<boolean> {
+    const walletId = await getStorage(STORAGE_KEYS.WALLET_ID) as number || 1
+    const walletObj = await getWallet(walletId)
+    if (!walletObj) {
+      // FIXME: When the wallet cannot be successfully loaded, an error message should pop up.
+      return false
+    }
+    try {
+      runInAction(() => {
+        this._currentWallet = new WalletModel(walletObj)
+      })
+      return true
+    } catch (err) {
+      return false
+    }
   }
+
 
   /**
    * Clear all data
@@ -254,7 +238,6 @@ export default class WalletStore {
   @action
   clear() {
     this._currentWallet = undefined
-    this.resetBlockInfo()
   }
 
   /**
@@ -269,19 +252,20 @@ export default class WalletStore {
   /**
    * Save wallet to db and save wallet id to setting
    */
-  // private saveWallet(): void { // TODO
-  //   // save current wallet id in settings
-  //   settings.set(WALLET_ID, this._currentWallet!.walletId)
-  //   insertWallet(this._currentWallet!.toJS())
-  // }
+  private saveWallet(): void {
+    // save current wallet id in storage
+    setStorage(STORAGE_KEYS.WALLET_ID, this._currentWallet!.walletId)
+    insertWallet(this._currentWallet!.toJS())
+  }
 
   /**
    * Create Destroy mnemonic
    * @param password
    */
   @action
-  private createDestroyMnemonic(password: string): () => void {
-    const mnemonic = BIP39.generateMnemonic()
+  private async createDestroyMnemonic(password: string): Promise<() => void> {
+    const random = await getRandom(16)
+    const mnemonic = BIP39.entropyToMnemonic(random.toString('hex'))
     this._mnemonic = mnemonic
     return () => {
       // Destroy mnemonic and init the wallet
@@ -314,8 +298,9 @@ export default class WalletStore {
     }
     this._currentWallet = new WalletModel(walletObj)
     this._hdAccount = hdAccount
+    this.saveWallet() // save wallet in storage
     // init account
-    // await this._store.account.initAccount() // TODO
+    await this._store.account.initAccount()
   }
 
   /**
@@ -326,11 +311,11 @@ export default class WalletStore {
   private checkUnlockErrTimes(errTimes: number): void {
     if (errTimes >= LOCKTIMES) {
       const nowDateString = String(new Date().valueOf())
-      // updateLockTime(this._currentWallet!.walletId, nowDateString) // TODO
+      updateLockTime(this._currentWallet!.walletId, nowDateString)
       this._currentWallet!.lockTime = nowDateString
       this._currentWallet!.showLock = true
       this._currentWallet!.unlockErrTimes = 0
-      // updateErrTimes(this._currentWallet!.walletId, 0) // TODO
+      updateErrTimes(this._currentWallet!.walletId, 0)
     }
   }
 
@@ -345,7 +330,6 @@ export default class WalletStore {
     }
 
     try {
-      // console.log(this._currentWallet.encryptSeed)
       const account = Accounts.decrypt(this._currentWallet.encryptSeed, password)
       this._currentWallet.unlockErrTimes = DEFAULT_ERR_TIMES
       return account

@@ -4,6 +4,7 @@
  *
  * @format
  */
+const nodeLibs = require('node-libs-react-native');
 
 module.exports = {
   transformer: {
@@ -13,5 +14,8 @@ module.exports = {
         inlineRequires: false,
       },
     }),
+  },
+  resolver: {
+    extraNodeModules: nodeLibs
   },
 };
