@@ -10,7 +10,7 @@ const glyphMap = {
   fenxiang: 59050, // 分享
   yanjing: 59362, // 眼睛
   danxuan: 58881, // 单选
-  tianjia: 58936, // 添加
+  tianjia: 59103, // 添加
   xiangxia: 58943, // 向下
   xiangshang: 58942, // 向上
   xiangzuo: 58998, // 向左

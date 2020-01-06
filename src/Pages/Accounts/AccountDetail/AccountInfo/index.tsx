@@ -5,11 +5,10 @@ interface Props {
     account: AccountModel
 }
 
-const AccountInfo = (props: Props) => {
+const AccountInfo = () => {
 
     return (
         <View>
-            {/* <Image/> */}
             <Text>555555555.3333 DIP</Text>
         </View>
     )

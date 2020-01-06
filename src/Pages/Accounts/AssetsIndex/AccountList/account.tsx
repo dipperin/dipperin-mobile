@@ -1,21 +1,60 @@
-import React, { Fragment } from "react"
-import { View, Text, Image } from "react-native"
+import React from "react"
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native"
 import AccountModel from "Models/account"
+import { withNavigation, NavigationScreenProp } from "react-navigation"
+import AcountIcon from "Assets/account.png"
 interface Props {
-    account: AccountModel
+    account: AccountModel,
+    navigation: NavigationScreenProp<any>
+
+
 }
 
-const Account = (props: Props) => {
-    const { account } = props
+const AccountItem = (props: Props) => {
+    const goDetail = () => {
+        props.navigation.navigate("AccountDetail")
+    }
+
     return (
-        <Fragment>
-            <View>
-                {/* <Image/> */}
-                <Text>name</Text>
+        <TouchableOpacity
+            onPress={goDetail}
+            style={styles.item}
+        >
+            <View style={styles.itemLeft}>
+                <Image source={AcountIcon} style={styles.accountLogo}/>
+                <Text style={styles.txt}>name</Text>
             </View>
-            <Text>444444 DIP</Text>
-        </Fragment>
+            <Text style={styles.txt} >444444 DIP</Text>
+        </TouchableOpacity>
     )
 }
 
-export default Account 
+export default withNavigation(AccountItem)
+
+const styles = StyleSheet.create({
+    item: {
+        backgroundColor: '#E8EBED',
+        borderRadius: 5,
+        marginHorizontal: 10,
+        flexDirection:'row',
+        justifyContent:"space-between",
+        alignItems:"center",
+        height:80,
+        paddingLeft:8,
+        paddingRight:15,
+        fontSize:16,
+        marginBottom:10
+    },
+    itemLeft:{
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    accountLogo:{
+        width:40,
+        height:40,
+        marginRight:8
+    },
+    txt:{
+        fontSize:16
+    }
+})
