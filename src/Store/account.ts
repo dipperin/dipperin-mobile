@@ -66,6 +66,7 @@ export default class AccountStore {
   load = async () => {
     try {
       const accounts = await getAccount()
+      console.log(accounts, 'sssss')
       if (accounts.length > 0) {
         accounts.forEach(account => {
           runInAction(() => {
@@ -166,7 +167,6 @@ export default class AccountStore {
    * @param id Account id
    */
   async updateAccountsBalance(id?: string): Promise<void> {
-    console.log('updateAccountsBalance..........')
     if (id) {
       const selectAccount = this._accountMap.get(id)
       if (selectAccount) {

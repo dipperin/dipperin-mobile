@@ -14,6 +14,10 @@ import HelpCenter from 'Pages/Me/HelpCenter'
 import ChangePassword from 'Pages/Me/Settings/ChangePassword'
 import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
 import NodeChoose from 'Pages/Me/Settings/NodeChoose'
+import Import from 'Pages/InitWallet/Import'
+
+import i18n from 'I18n'
+
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -52,6 +56,13 @@ export const initWalletStack = createStackNavigator({
     navigationOptions: () => ({
       header: null
     })
+  },
+  import: {
+    screen: Import,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:start.import')
+    })
   }
 })
 
@@ -68,7 +79,7 @@ export const discoveryStack = createStackNavigator({
   apps: {
     screen: Apps,
     navigationOptions: () => ({
-      header: null
+      ...headerBackConfig,
     })
   }
 })
