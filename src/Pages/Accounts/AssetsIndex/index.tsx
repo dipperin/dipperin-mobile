@@ -9,7 +9,7 @@ class Assets extends React.Component<any> {
     return (
       <Fragment>
         <AssetsInfo />
-        <AccountList />
+        {/* <AccountList /> */}
       </Fragment>
 
     )

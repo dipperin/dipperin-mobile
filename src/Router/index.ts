@@ -20,8 +20,8 @@ const walletTabs = createBottomTabNavigator({
 )
 
 const switchNavigator = createSwitchNavigator({
-  init: initWalletStack,
   wallet: walletTabs,
+  init: initWalletStack,
 })
 
 export default createAppContainer(switchNavigator)

@@ -59,7 +59,10 @@ export const walletStack = createStackNavigator({
   Assets: {
     screen: Assets,
     navigationOptions: () => ({
-      header: null
+      headerRight:<CustomBack />,
+      headerStyle:{commonHeaderStyle,backgroundColor: '#275DA5'},
+      headerTitleStyle:defaultHeaderTitleStyle,
+      title:'Wallet'
     })
   }
 })

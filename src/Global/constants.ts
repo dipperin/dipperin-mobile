@@ -29,15 +29,6 @@ export const MINE_DB = 'mine'
 export const CONFIG_DB = 'config'
 
 
-
-/**
- * Account
- */
-
-export const ACCOUNTS_PATH = `m/44'/709394'/0'/0`
-export const FIRST_ACCOUNT_ID = '1'
-
-
 /**
  * Transaction
  */
