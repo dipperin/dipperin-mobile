@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@dipperin/dipperin.js": "^0.4.50",
     "@react-native-community/async-storage": "^1.7.1",
     "i18next": "^19.0.2",
     "mobx": "^5.15.1",

@@ -1,25 +1,14 @@
 
-import SQLite from 'react-native-sqlite-helper'
-
 import { AccountObj } from 'Models/account'
-import { ContractObj } from 'Models/contract'
 import { WalletObj } from 'Models/wallet'
-import ReceiptModel from 'Models/receipt'
 
 
 import {
     ACCOUNT_DB,
-    CONTRACT_DB,
     DEFAULT_NET,
-    FAVORITE_CONTRACT,
-    OWNER_DB,
     TRANSACTION_DB,
     TRANSACTION_STATUS_SUCCESS,
     WALLET_DB,
-    VM_CONTRACT_DB,
-    RECEIPT_DB,
-    MINE_DB // FIXME: to remove
-    // CONFIG_DB
 } from 'Global/constants'
 
 import { TransactionInterface } from 'Models/transaction'
@@ -38,10 +27,7 @@ export const storage = new Storage({
 
 
 export const getAccount = async (): Promise<AccountObj[]> => {
-
-
     const res = await storage.getAllDataForKey(ACCOUNT_DB)
-
     return res as AccountObj[]
 }
 
@@ -102,18 +88,18 @@ export const getContractTx = async (
 export const insertTx = async (tx: TransactionInterface, net: string = DEFAULT_NET) => {
     const insertData = { ...tx, net }
     await storage.save({
-        key:TRANSACTION_DB,
-        id:tx.transactionHash+net,
-        data:insertData
+        key: TRANSACTION_DB,
+        id: tx.transactionHash + net,
+        data: insertData
 
     })
 }
 
-export const updateTx = async(txHash: string, updateObj: any, net: string = DEFAULT_NET) => {
+export const updateTx = async (txHash: string, updateObj: any, net: string = DEFAULT_NET) => {
     await storage.save({
-        key:TRANSACTION_DB,
-        id:txHash+net,
-        data:updateObj
+        key: TRANSACTION_DB,
+        id: txHash + net,
+        data: updateObj
     })
 }
 
@@ -123,9 +109,9 @@ export const updateTx = async(txHash: string, updateObj: any, net: string = DEFA
 
 export const insertWallet = async (walletObj: WalletObj) => {
     await storage.save({
-        key:WALLET_DB,
-        id:walletObj.walletId+'',
-        data:walletObj
+        key: WALLET_DB,
+        id: walletObj.walletId + '',
+        data: walletObj
     })
 }
 
@@ -136,10 +122,10 @@ export const insertWallet = async (walletObj: WalletObj) => {
 export const getWallet = async (walletId?: number): Promise<WalletObj | undefined> => {
 
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
-    return res 
+    return res
 }
 
 // /**
@@ -148,38 +134,38 @@ export const getWallet = async (walletId?: number): Promise<WalletObj | undefine
 
 export const getActiveId = async (walletId: number): Promise<string> => {
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
     return res ? res.activeAccountId as string : '1'
 }
 
 export const getErrTimes = async (walletId: number): Promise<number> => {
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
     return res ? res.unlockErrTimes : 0
 }
 
 export const getLockTime = async (walletId: number): Promise<string> => {
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
     return res ? res.lockTime : ''
 }
 
 export const updateLockTime = async (walletId: number, lockTime: string) => {
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
-    if(res){
+    if (res) {
         await storage.save({
-            key:WALLET_DB,
-            id:walletId+'',
-            data:{
+            key: WALLET_DB,
+            id: walletId + '',
+            data: {
                 ...res,
                 lockTime
             }
@@ -191,14 +177,14 @@ export const updateLockTime = async (walletId: number, lockTime: string) => {
 export const updateActiveId = async (walletId: number, activeAccountId: string) => {
 
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
-    if(res){
+    if (res) {
         await storage.save({
-            key:WALLET_DB,
-            id:walletId+'',
-            data:{
+            key: WALLET_DB,
+            id: walletId + '',
+            data: {
                 ...res,
                 activeAccountId
             }
@@ -208,16 +194,15 @@ export const updateActiveId = async (walletId: number, activeAccountId: string) 
 }
 
 export const updateErrTimes = async (walletId: number, unlockErrTimes: number = 0) => {
-
     const res = await storage.load({
-        key:WALLET_DB,
-        id:walletId+''
+        key: WALLET_DB,
+        id: walletId + ''
     })
-    if(res){
+    if (res) {
         await storage.save({
-            key:WALLET_DB,
-            id:walletId+'',
-            data:{
+            key: WALLET_DB,
+            id: walletId + '',
+            data: {
                 ...res,
                 unlockErrTimes
             }

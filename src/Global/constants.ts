@@ -9,7 +9,6 @@ export enum Tabs {
  */
 
 export const DEFAULT_NET = 'venus'
-
 export const VENUS = 'venus'
 export const MERCURY = 'mercury'
 
@@ -28,6 +27,16 @@ export const OWNER_DB = 'owner'
 export const RECEIPT_DB = 'receipt'
 export const MINE_DB = 'mine'
 export const CONFIG_DB = 'config'
+
+
+
+/**
+ * Account
+ */
+
+export const ACCOUNTS_PATH = `m/44'/709394'/0'/0`
+export const FIRST_ACCOUNT_ID = '1'
+
 
 /**
  * Transaction

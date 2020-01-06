@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import CustomBack from './CustomBack'
 
 import Start from 'Pages/InitWallet/Start'
-import Accounts from 'Pages/Accounts'
+import Assets from 'Pages/Accounts/AssetsIndex'
 import Apps from 'Pages/Discovery/Apps'
 import Me from 'Pages/Me'
 
@@ -39,8 +39,8 @@ export const initWalletStack = createStackNavigator({
 })
 
 export const walletStack = createStackNavigator({
-  accounts: {
-    screen: Accounts,
+  Assets: {
+    screen: Assets,
     navigationOptions: () => ({
       header: null
     })
