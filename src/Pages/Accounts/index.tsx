@@ -34,6 +34,12 @@ class Accounts extends React.Component<any> {
     const res = await storage.getAllDataForKey("accountTable")
     console.log(res)
   }
+  turnToSend = () => {
+    this.props.navigation.navigate('send')
+  }
+  turnToReceive = () => {
+    this.props.navigation.navigate('receive')
+  }
   render() {
     return (
       <View>
@@ -46,6 +52,14 @@ class Accounts extends React.Component<any> {
           title={"get"}
           onPress={this.get}
         />
+        <Button
+          title={"send"}
+          onPress={this.turnToSend}
+          />
+        <Button
+          title={"receive"}
+          onPress={this.turnToReceive}
+          />
       </View>
     )
   }

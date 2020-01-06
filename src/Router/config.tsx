@@ -7,6 +7,8 @@ import Start from 'Pages/InitWallet/Start'
 import Accounts from 'Pages/Accounts'
 import Apps from 'Pages/Discovery/Apps'
 import Me from 'Pages/Me'
+import Send from 'Pages/Send'
+import Receive from 'Pages/Receive'
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -44,6 +46,12 @@ export const walletStack = createStackNavigator({
     navigationOptions: () => ({
       header: null
     })
+  },
+  send: {
+    screen: Send,
+  },
+  receive: {
+    screen: Receive,
   }
 })
 
