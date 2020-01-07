@@ -4,9 +4,18 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { defaultTabBarOptions } from './utils'
 import CustomBack from './CustomBack'
 
+
+import AddAccountIcon from './AddAccountIcon'
 import Start from 'Pages/InitWallet/Start'
-import Accounts from 'Pages/Accounts'
+import Assets from 'Pages/Accounts/AssetsIndex'
+import AddAccount from "Pages/Accounts/AddAccount"
+import AccountDetail from "Pages/Accounts/AccountDetail"
+
+
+
 import Apps from 'Pages/Discovery/Apps'
+
+
 import Me from 'Pages/Me'
 import Settings from 'Pages/Me/Settings'
 import AboutUs from 'Pages/Me/AboutUs'
@@ -76,12 +85,31 @@ export const initWalletStack = createStackNavigator({
 })
 
 export const walletStack = createStackNavigator({
-  accounts: {
-    screen: Accounts,
-    navigationOptions: () => ({
-      header: null
+  Assets: {
+    screen: Assets,
+    navigationOptions: (props) => ({
+      headerLeft:<View/>,
+      headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('AddAccount')}}/>,
+      headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
+      headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
+      title:'Wallet'
     })
-  }
+  },
+  AddAccount:{
+    screen:AddAccount,
+    navigationOptions:() => ({
+      ...headerBackConfig,
+      title: 'Add Account'
+    })
+  },
+  AccountDetail:{
+    screen:AccountDetail,
+    navigationOptions:() => ({
+      ...headerBackConfig,
+      title: 'Dip'
+    })
+  },
+
 })
 
 export const discoveryStack = createStackNavigator({
@@ -164,3 +192,17 @@ export const meStack = createStackNavigator({
 })
 
 
+
+// hide tab 
+export const hideTab = ({ navigation }: any) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+      tabBarVisible = false;
+  }
+  return {
+      tabBarVisible,
+  };
+};
+meStack.navigationOptions = hideTab
+discoveryStack.navigationOptions = hideTab
+walletStack.navigationOptions = hideTab
