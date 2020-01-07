@@ -16,6 +16,7 @@ import {
 } from 'react-navigation-stack';
 import {observer} from 'mobx-react';
 import {observable, action} from 'mobx';
+import {label} from './config';
 
 const styles = StyleSheet.create({
   mainWrapper: {
@@ -47,9 +48,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sendAmountBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
+    paddingRight: 20,
   },
   sendAmountInput: {
     alignSelf: 'center',
@@ -59,37 +63,73 @@ const styles = StyleSheet.create({
   },
   ExtraDataWrapper: {
     backgroundColor: '#fff',
+    flexDirection: 'row',
+    paddingLeft: 15,
   },
   txFeeWrapper: {
     backgroundColor: '#fff',
-    marginTop: 20
+    marginTop: 20,
   },
   txFeeBar: {
     padding: 10,
-  } 
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  txFeeBottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  btnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 30,
+    height: 50,
+    borderRadius: 25,
+  },
+  btnSend: {
+    height: 30,
+    // borderRadius: 15,
+  },
 });
 
 @observer
 class Send extends React.Component<NavigationStackScreenProps> {
   static navigationOptions: NavigationStackOptions = {
-    title: '转账',
+    title: label.transaction,
     headerTitleStyle: {
       backgroundColor: '#fff',
       textAlign: 'center',
     },
+    headerRight: () => <Text>扫一扫</Text>,
   };
+
+  validateEnteringAmount(amountString: string) {
+    const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
+    return reg.test(amountString);
+  }
 
   @observable toAddress: string = '';
   @observable accountBalance: number = 0;
-
-  handleSend = () => {
-    console.warn(this.toAddress);
-  };
+  @observable sendAmount: string = '';
+  @observable extraData: string = '';
 
   @action handleChangeToAddress = (text: string) => {
     this.toAddress = text;
   };
+  @action handleChangeSendAmount = (amountString: string) => {
+    if (this.validateEnteringAmount(amountString)) {
+      this.sendAmount = amountString;
+    }
+  };
+  @action handleChangeExtraData = (text: string) => {
+    if (text.length < 200) {
+      this.extraData = text;
+    }
+  };
 
+  handleSend = () => {
+    console.warn(this.toAddress);
+  };
   render() {
     return (
       <View style={styles.mainWrapper}>
@@ -100,13 +140,13 @@ class Send extends React.Component<NavigationStackScreenProps> {
           resetScrollToCoords={{x: 0, y: 0}}>
           <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
             <View style={styles.toAddressLabel}>
-              <Text>合约地址</Text>
+              <Text>{label.toAddress}</Text>
             </View>
             <TextInput
               style={styles.toAddressInput}
               value={this.toAddress}
               onChangeText={this.handleChangeToAddress}
-              placeholder={'请输入地址或口令'}
+              placeholder={label.enterAddressOrWord}
             />
           </TouchableOpacity>
 
@@ -114,42 +154,59 @@ class Send extends React.Component<NavigationStackScreenProps> {
             style={styles.sendAmountWrapper}
             activeOpacity={0.8}>
             <View style={styles.sendAmountBar}>
-              <Text>发送金额</Text>
+              <Text>{label.sendAmount}</Text>
               <Text>{`${this.accountBalance} DIP`}</Text>
             </View>
             <TextInput
               style={styles.sendAmountInput}
-              value={this.toAddress}
-              onChangeText={this.handleChangeToAddress}
-              placeholder={'输入金额'}
+              value={this.sendAmount}
+              onChangeText={this.handleChangeSendAmount}
+              placeholder={label.enterAmount}
               keyboardType="numeric"
             />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.ExtraDataWrapper}
-            activeOpacity={0.8}>
-            <Text>备注</Text>
-            <Text>(选填)</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.txFeeWrapper}
-            activeOpacity={0.8}>
-            <View style={styles.txFeeBar}>
-              <Text>交易费</Text>
-              <Text>1.060494606 DIP ≈ $ 0.63</Text>
-            </View>
-            <Slider 
-              maximumValue={3}  
+          <TouchableOpacity style={styles.ExtraDataWrapper} activeOpacity={0.8}>
+            <Text style={{height: '100%', lineHeight: 50, fontSize: 18}}>
+              {label.remark}
+            </Text>
+            <TextInput
+              style={styles.sendAmountInput}
+              value={this.extraData}
+              onChangeText={this.handleChangeExtraData}
+              placeholder={label.optional}
             />
           </TouchableOpacity>
 
-          <View>
+          <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
+            <View style={styles.txFeeBar}>
+              <Text>{label.txFee}</Text>
+              <Text>1.060494606 DIP ≈ $ 0.63</Text>
+            </View>
+            <Slider minimumValue={1} maximumValue={3} step={1} />
+            <View style={styles.txFeeBottomBar}>
+              <Text>低</Text>
+              <Text>中</Text>
+              <Text>高</Text>
+            </View>
+          </TouchableOpacity>
 
-          <Button title={'发送'} onPress={this.handleSend} />
-          </View>
-
+          <TouchableOpacity
+            style={styles.btnWrapper}
+            onPress={this.handleSend}
+            activeOpacity={0.8}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 400,
+                height: 40,
+                borderRadius: 20,
+                backgroundColor: '#149bd5',
+              }}>
+              <Text style={{color: '#fff', fontSize: 17}}>{label.send}</Text>
+            </View>
+          </TouchableOpacity>
         </KeyboardAwareScrollView>
       </View>
     );
