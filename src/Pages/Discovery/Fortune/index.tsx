@@ -2,14 +2,16 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 
-class Contracts extends React.Component<any> {
+class Fortune extends React.Component<any> {
   render() {
     const mockData=[{
+      sort: 1,
       adress: '0X0000485737748892',
       name: 'test name',
       over: '56,565.235698',
       holdings: '16,234'
     },{
+      sort:2,
       adress: '0X0000485737748892',
       name: 'test name',
       over: '56,565.235698',
@@ -18,10 +20,10 @@ class Contracts extends React.Component<any> {
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>
-          <Text style={styles.adress}>合约地址</Text>
+          <Text style={styles.sort}>排序</Text>
+          <Text style={styles.adress}>账户地址</Text>
           <Text style={styles.name}>合约名称</Text>
           <Text style={styles.over}>余额(DIP)</Text>
-          <Text style={styles.holdings}>交易数</Text>
         </View>
         <FlatList 
           data={mockData}
@@ -31,13 +33,12 @@ class Contracts extends React.Component<any> {
     )
   }
   renderItem = (item:any) => {
-    console.log(item)
     return (
       <View style={styles.tRow}>
+        <Text style={styles.sort}>{item.sort}</Text>
         <Text style={styles.adress}>{`${item.adress.substr(0,6)}...${item.adress.substr(item.adress.length-2,2)}`}</Text>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.over}>{item.over}</Text>
-        <Text style={styles.holdings}>{item.holdings}</Text>
       </View>
     )
   }
@@ -74,11 +75,11 @@ const styles  = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff'
   },
-  holdings: {
+  sort: {
     flex:1,
     textAlign: 'center',
     color: '#ffffff'
   }
 })
 
-export default Contracts
+export default Fortune

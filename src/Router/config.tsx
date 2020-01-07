@@ -5,8 +5,8 @@ import CustomBack from './CustomBack'
 
 import Start from 'Pages/InitWallet/Start'
 import Accounts from 'Pages/Accounts'
-import Apps from 'Pages/Discovery/Apps'
 import Me from 'Pages/Me'
+import Discovery from 'Pages/Discovery'
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -48,8 +48,8 @@ export const walletStack = createStackNavigator({
 })
 
 export const discoveryStack = createStackNavigator({
-  apps: {
-    screen: Apps,
+  discovery: {
+    screen: Discovery,
     navigationOptions: () => ({
       header: null
     })
