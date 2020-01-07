@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native"
+import i18n from 'I18n'
+import { I18nMeType } from "I18n/config"
 
 export interface MeItemProps {
   iconName: string
@@ -8,20 +10,20 @@ export interface MeItemProps {
 
 export type MeListItemsProps = MeItemProps[]
 
-export const MeListItems: MeListItemsProps = [
+export const MeListItems = (labels: I18nMeType): MeListItemsProps => [
   {
     iconName: 'icon|shezhi',
-    title: '设置',
+    title: labels.setting,
     routeName: 'settings',
   },
   {
     iconName: 'icon|guanyuwomen',
-    title: '关于我们',
+    title: labels.aboutUs,
     routeName: 'aboutUs',
   },
   {
     iconName: 'icon|shezhi',
-    title: 'FAQ',
+    title: labels.FAQ,
     routeName: 'helpCenter',
   }
 ]

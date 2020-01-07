@@ -6,36 +6,69 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fafbfc'
   },
 
-  headerWrap: {
+  content: {
+    flex: 1,
+    marginTop: 20,
+  },
+  inputItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingLeft: 14,
     paddingRight: 14,
+    height: 58,
+    backgroundColor: '#fff',
+    borderColor: '#EFF2F4',
+    borderBottomWidth: 1
+  },
+  inputItemBorderTopAndBottom: {
+    borderTopWidth: 1,
+  },
+  inputItemLabel: {
+    marginRight: 10,
+    flexWrap: 'nowrap',
+    fontSize: 17,
+    color: '#393B42'
+  },
+  input: {
+    flex: 1,
+    fontSize: 17,
+    textAlign: 'right'
+  },
+
+  psdHint: {
+    marginTop: 10,
+    marginBottom: 24,
+    paddingLeft: 14,
+    paddingRight: 14,
+    fontSize: 12,
+    color: '#B7BBBE'
+  },
+
+  btnBox: {
+    alignItems: 'center'
+  },
+  btnTounch: {
+    minWidth: 308,
+    maxWidth: 400,
     height: 44,
-    borderBottomColor: '#e5e5e6',
-    borderBottomWidth: 1,
-    backgroundColor: '#fff'
+    justifyContent: 'center',
+    backgroundColor: '#1C77BC',
+    borderRadius: 20,
   },
-  cancelText: {
-    color: '#AEAEAE',
-    fontSize: 15,
-  },
-  title: {
-    color: '#6A7575',
-    fontSize: 18,
-    fontWeight: '700'
-  },
-  savePassword: {
-    color: '#AEAEAE',
+  btnText: {
+    textAlign: 'center',
+    color: '#fff',
     fontSize: 15
   },
 
-  content: {
-    marginTop: 20,
-    backgroundColor: '#fff'
+  forgetPassword: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 34,
+    
   },
-  inputItem: {
-    lineHeight: 60,
+  forgetPasswordText: {
+    fontSize: 13,
+    color: '#767F86',
   }
 })

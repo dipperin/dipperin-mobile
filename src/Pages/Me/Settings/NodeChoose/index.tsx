@@ -1,11 +1,12 @@
 import React from 'react'
 import { View, TouchableNativeFeedbackBase } from 'react-native'
-import { dataSource, styles } from './config'
+import { styles } from './config'
 import { List, Radio } from '@ant-design/react-native'
 import { observer, inject } from 'mobx-react';
 import { observable, action } from 'mobx';
-import { VENUS } from 'Global/constants';
+import { VENUS, MERCURY } from 'Global/constants';
 import System from 'Store/System';
+import i18n from 'I18n'
 
 const RadioItem = Radio.RadioItem;
 
@@ -22,6 +23,17 @@ interface Props {
 @observer
 class NodeChoose extends React.Component<Props> {
   render() {
+    const dataSource = [
+      {
+        label: i18n.t('dipperin:me.remoteNode') + " - " +i18n.t('dipperin:me.venus'),
+        value: VENUS,
+      },
+      {
+        label: i18n.t('dipperin:me.remoteNode') + " - " +i18n.t('dipperin:me.mercury'),
+        value: MERCURY,
+      }
+    ]
+    
     return (
       <View style={styles.box}>
         <List>
