@@ -13,6 +13,13 @@ export const DEFAULT_NET = 'venus'
 export const VENUS = 'venus'
 export const MERCURY = 'mercury'
 
+/**
+ * Language type
+ */
+export const LANGUAGE = {
+  ZH: 'zh',
+  EN: 'en'
+}
 
 /**
  * DB
