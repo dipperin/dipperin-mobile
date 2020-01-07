@@ -21,6 +21,14 @@ class System {
   @action setFingerPay = (value: boolean) => {
     this.fingerPay = value
   }
+
+  @action setCurSystemNodeAddr = (_value: string) => {
+    this.curSystemNodeAddr = _value
+  }
+
+  @action setCurLanguage = (_value: string) => {
+    this.curLanguage = _value
+  }
 }
 
 export default System

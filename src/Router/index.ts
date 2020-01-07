@@ -15,15 +15,15 @@ const walletTabs = createBottomTabNavigator({
     screen: meStack,
   }
 },
-{
-  defaultNavigationOptions: navigateInfo => getTabNavigationOptions(navigateInfo)
-}
+  {
+    defaultNavigationOptions: navigateInfo => getTabNavigationOptions(navigateInfo)
+  }
 )
 
 const switchNavigator = createSwitchNavigator({
+  wallet: walletTabs,
   splash: Splash,
   init: initWalletStack,
-  wallet: walletTabs,
 })
 
 export default createAppContainer(switchNavigator)

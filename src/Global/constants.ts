@@ -9,10 +9,16 @@ export enum Tabs {
  */
 
 export const DEFAULT_NET = 'venus'
-
 export const VENUS = 'venus'
 export const MERCURY = 'mercury'
 
+/**
+ * Language type
+ */
+export const LANGUAGE = {
+  ZH: 'zh',
+  EN: 'en'
+}
 
 /**
  * DB
@@ -28,6 +34,7 @@ export const OWNER_DB = 'owner'
 export const RECEIPT_DB = 'receipt'
 export const MINE_DB = 'mine'
 export const CONFIG_DB = 'config'
+
 
 /**
  * Transaction
