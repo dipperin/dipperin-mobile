@@ -65,23 +65,23 @@ export const initWalletStack = createStackNavigator({
 })
 
 export const walletStack = createStackNavigator({
-  // Assets: {
-  //   screen: Assets,
-  //   navigationOptions: (props) => ({
-  //     headerLeft:<View/>,
-  //     headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('AddAccount')}}/>,
-  //     headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
-  //     headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
-  //     title:'Wallet'
-  //   })
-  // },
-  // AddAccount:{
-  //   screen:AddAccount,
-  //   navigationOptions:() => ({
-  //     ...headerBackConfig,
-  //     title: 'Add Account'
-  //   })
-  // },
+  Assets: {
+    screen: Assets,
+    navigationOptions: (props) => ({
+      headerLeft:<View/>,
+      headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('AddAccount')}}/>,
+      headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
+      headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
+      title:'Wallet'
+    })
+  },
+  AddAccount:{
+    screen:AddAccount,
+    navigationOptions:() => ({
+      ...headerBackConfig,
+      title: 'Add Account'
+    })
+  },
   AccountDetail:{
     screen:AccountDetail,
     navigationOptions:() => ({
@@ -155,3 +155,17 @@ export const meStack = createStackNavigator({
 })
 
 
+
+// hide tab 
+export const hideTab = ({ navigation }: any) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+      tabBarVisible = false;
+  }
+  return {
+      tabBarVisible,
+  };
+};
+meStack.navigationOptions = hideTab
+discoveryStack.navigationOptions = hideTab
+walletStack.navigationOptions = hideTab
