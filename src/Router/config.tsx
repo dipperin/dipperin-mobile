@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleProp, TextStyle } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack'
-import {defaultTabBarOptions} from './utils'
+import { defaultTabBarOptions } from './utils'
 import CustomBack from './CustomBack'
 
 
@@ -23,6 +23,13 @@ import HelpCenter from 'Pages/Me/HelpCenter'
 import ChangePassword from 'Pages/Me/Settings/ChangePassword'
 import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
 import NodeChoose from 'Pages/Me/Settings/NodeChoose'
+import Import from 'Pages/InitWallet/Import'
+
+import i18n from 'I18n'
+
+import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail'
+import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr'
+import UserProtocol from 'Pages/Me/AboutUs/UserProtocol'
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -55,11 +62,24 @@ const headerBackConfig = {
   headerTitleStyle: defaultHeaderTitleStyle
 }
 
+const headerBackConfigNoBorder = {
+  ...commonHeaderBack,
+  headerStyle: commonHeaderStyle,
+  headerTitleStyle: defaultHeaderTitleStyle
+}
+
 export const initWalletStack = createStackNavigator({
   start: {
     screen: Start,
     navigationOptions: () => ({
       header: null
+    })
+  },
+  import: {
+    screen: Import,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:start.import')
     })
   }
 })
@@ -96,7 +116,7 @@ export const discoveryStack = createStackNavigator({
   apps: {
     screen: Apps,
     navigationOptions: () => ({
-      header: null
+      ...headerBackConfig,
     })
   }
 })
@@ -118,8 +138,7 @@ export const meStack = createStackNavigator({
   changePassword: {
     screen: ChangePassword,
     navigationOptions: () => ({
-      ...headerBackConfig,
-      title: '修改密码'
+      header: null
     })
   },
   toggleLanguage: {
@@ -138,9 +157,20 @@ export const meStack = createStackNavigator({
   },
   aboutUs: {
     screen: AboutUs,
+    navigationOptions: () => ({...headerBackConfigNoBorder})
+  },
+  functionIntr: {
+    screen: FunctionIntr,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '关于我们'
+      title: '功能介绍'
+    })
+  },
+  userProtocol: {
+    screen: UserProtocol,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '用户协议'
     })
   },
   helpCenter: {
@@ -148,6 +178,13 @@ export const meStack = createStackNavigator({
     navigationOptions: () => ({
       ...headerBackConfig,
       title: '帮助中心'
+    })
+  },
+  helpCenterDetail: {
+    screen: HelpCenterDetail,
+    navigationOptions: () => ({
+      title: '帮助中心详情',
+      ...headerBackConfig
     })
   }
 }, {

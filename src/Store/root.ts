@@ -26,21 +26,28 @@ class Root {
   }
 
   async init() {
-    await this.chainData.init()
-    this.dipperin = new Dipperin(this.chainData.currentNetHost) 
-    await this.wallet.load() 
-    await this.account.load()
-    await this.transaction.load()
-    this.chainData.startUpdate()
-    reaction(
-      () => this.chainData.isConnect, // once connected, update trasction & account
-      isConnect => {
-        if (isConnect) {
-          this.account.startUpdate()
-          this.transaction.startUpdate()
-        } 
-      }
-    )
+    try {
+      await this.chainData.init()
+      this.dipperin = new Dipperin(this.chainData.currentNetHost) 
+      await this.wallet.load() 
+      await this.account.load()
+      await this.transaction.load()
+      this.chainData.startUpdate()
+      reaction(
+        () => this.chainData.isConnect, // once connected, update trasction & account
+        isConnect => {
+          if (isConnect) {
+            this.account.startUpdate()
+            this.transaction.startUpdate()
+          } 
+        }
+      )
+    }catch(err) {
+      console.log(err)
+    } finally {
+      console.log('filllllllllllllllllllll')
+      this.system.setLoading(false)
+    }
     
   }
 

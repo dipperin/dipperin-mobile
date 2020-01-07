@@ -3,7 +3,8 @@
 const enResouce = {
   dipperin: {
     start: {
-      start: 'start'
+      create: 'Create wallet',
+      import: 'Import wallet'
     },
     me: {
       
@@ -17,7 +18,8 @@ export type I18StartType = typeof enResouce.dipperin.start
 const zhResource: typeof enResouce = {
   dipperin: {
     start: {
-      start: '初始页'
+      create: '创建钱包',
+      import: '导入钱包'
     },
     me: {
 

@@ -186,21 +186,17 @@ export default class WalletStore {
    * @param password wallet decrypt password
    */
   create = async (password: string, mnemonic?: string): Promise<Error | void> => {
-    // this._store.loading.start() // TODO
     try {
       if (!mnemonic) {
         // If not input a mnemonic, generate a new mnemonic and save
         this.destroyMnemonic = await this.createDestroyMnemonic(password)
-        console.log('ssssssssssssssss')
       } else {
         await this.initWallet(password, mnemonic)
       }
     } catch (err) {
-      console.log(err, 'ssss')
+      console.log(err)
       return err
-    } finally {
-      // this._store.loading.stop() // TODO
-    }
+    } 
   }
 
   /**

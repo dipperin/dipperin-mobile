@@ -59,6 +59,8 @@ export const settingListItemsExt = (system: System, options: ListItemMainTypes):
 
 export const styles = StyleSheet.create({
   listItem: {
-    lineHeight: 54
+    lineHeight: 54,
+    fontSize: 18,
+    color: '#333'
   }
 })

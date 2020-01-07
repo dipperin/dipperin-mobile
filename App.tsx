@@ -16,9 +16,6 @@ configure({
   enforceActions: 'observed'
 })
 
-
-
-
 const rootStore = new RootStore()
 
 const App = () => {

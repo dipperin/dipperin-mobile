@@ -61,7 +61,6 @@ class ChainData {
   }
 
   private _checkIsConnect = async () => {
-    console.log('check connect.........................')
     this._rootStore.dipperin!.net
       .isConnecting()
       .then(res => {
