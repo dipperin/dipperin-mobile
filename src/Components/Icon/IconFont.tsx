@@ -22,6 +22,8 @@ const glyphMap = {
   card: 58880, // card
   closedEye:58899, //closed eye
   openEye:58893, // open eye
+  shezhi1: 0xe677, // settting1
+  faq: 0xe619, // faq icon
 }
 const OIcon = createIconSet(glyphMap, 'iconfont', 'iconfont.ttf')
 

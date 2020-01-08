@@ -35,7 +35,7 @@ class Me extends React.Component<Props> {
           activeOpacity={0.8}
         >
           <View style={styles.itemContent}>
-            <Icon name={item.iconName} size={22} color="#adadad" />
+            <Icon name={item.iconName} size={24} color={item.iconColor} />
             <Text style={styles.itemTitle}>{item.title}</Text>
           </View>
           <Icon name={'icon|xiangyou'} size={16} color="#aeaeae" />
