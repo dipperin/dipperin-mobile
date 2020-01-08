@@ -1,6 +1,6 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react';
-import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, StatusBar, TextInput} from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, TextInput, ToastAndroid} from 'react-native'
 import { NavigationScreenProp } from 'react-navigation'
 import { withTranslation, WithTranslation } from 'react-i18next'
 
@@ -21,6 +21,12 @@ class Import extends React.Component<Props> {
   @observable password: string = ''
 
   handleImport = async () => {
+    ToastAndroid.showWithGravity(
+      'testttttttt',
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+    );
+    return
     if(this.password.length < 8) return
     const err = await this.props.wallet!.create(this.password, this.mnemonic)
     if(!err) {
