@@ -712,10 +712,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@dipperin/dipperin.js@^0.4.50":
-  version "0.4.50"
-  resolved "https://registry.npm.taobao.org/@dipperin/dipperin.js/download/@dipperin/dipperin.js-0.4.50.tgz#195328221fb5a59334732e4cf410ee324ce51372"
-  integrity sha1-GVMoIh+1pZM0cy5M9BDuMkzlE3I=
+"@dipperin/dipperin.js@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@dipperin/dipperin.js/-/dipperin.js-0.5.1.tgz#085fa5747dd3de73ae9feb9e25b3eb844b1fdbbe"
+  integrity sha512-hb0wlc30rimYmioQK/7teb8o9o6pgHHuUwFYJctqclCTPZE/rXQwlG97SQdyozDzgU+CO/MEx6XW7C2Xb5P7tQ==
   dependencies:
     axios "^0.18.0"
     bignumber.js "^7.2.1"
