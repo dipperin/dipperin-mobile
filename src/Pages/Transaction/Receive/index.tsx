@@ -2,11 +2,9 @@ import React from 'react';
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   TouchableWithoutFeedback,
   StatusBar,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import {
@@ -15,8 +13,8 @@ import {
   HeaderBackButtonProps,
 } from 'react-navigation-stack';
 import QRCode from 'react-native-qrcode-svg';
-
-import {label} from './config';
+import {withTranslation, WithTranslation} from 'react-i18next';
+import {I18nTransactionType} from 'I18n/config';
 
 const styles = StyleSheet.create({
   mainWrapper: {
@@ -68,27 +66,25 @@ const styles = StyleSheet.create({
   },
 });
 
-class Receive extends React.Component<NavigationStackScreenProps> {
+interface Props {
+  navigation: NavigationStackScreenProps['navigation'];
+  labels: I18nTransactionType;
+}
+
+class Receive extends React.Component<Props> {
   static navigationOptions: NavigationStackOptions = {
-    title: label.receive,
-    headerTitleStyle: {
-      flex: 1,
-      textAlign: 'center',
-      color: '#fff',
-      fontWeight: 'bold',
-    },
     headerStyle: {
       backgroundColor: '#666',
       elevation: 0,
     },
-    headerLeft: (props: HeaderBackButtonProps) => (
-      <TouchableWithoutFeedback
-        style={{height: 30, width: 30}}
-        onPress={props.onPress}>
-        <Text style={{fontSize: 30, color: '#fff'}}>{'<'}</Text>
-      </TouchableWithoutFeedback>
-    ),
-    headerRight: () => <Text>分享</Text>,
+    // headerLeft: (props: HeaderBackButtonProps) => (
+    //   <TouchableWithoutFeedback
+    //     style={{height: 30, width: 30}}
+    //     onPress={props.onPress}>
+    //     <Text style={{fontSize: 30, color: '#fff'}}>{'<'}</Text>
+    //   </TouchableWithoutFeedback>
+    // ),
+    // headerRight: () => <Text>分享</Text>,
   };
   handleClose = () => {
     this.props.navigation.goBack();
@@ -141,4 +137,14 @@ class Receive extends React.Component<NavigationStackScreenProps> {
   }
 }
 
-export default Receive;
+const Wrapped = (
+  props: WithTranslation & {
+    navigation: NavigationStackScreenProps['navigation'];
+  },
+) => {
+  const {t, navigation} = props;
+  const labels = t('dipperin:transaction') as I18nTransactionType;
+  return <Receive labels={labels} navigation={navigation} />;
+};
+
+export default withTranslation()(Wrapped);

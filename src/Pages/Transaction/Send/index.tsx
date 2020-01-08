@@ -8,7 +8,6 @@ import {
   Platform,
   TouchableOpacity,
   Slider,
-  StatusBar,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -17,7 +16,8 @@ import {
 } from 'react-navigation-stack';
 import {observer} from 'mobx-react';
 import {observable, action} from 'mobx';
-import {label} from './config';
+import {withTranslation, WithTranslation} from 'react-i18next';
+import {I18nTransactionType} from 'I18n/config';
 
 const styles = StyleSheet.create({
   mainWrapper: {
@@ -93,20 +93,26 @@ const styles = StyleSheet.create({
   },
 });
 
+interface Props {
+  navigation: NavigationStackScreenProps['navigation']
+  labels: I18nTransactionType;
+}
+
 @observer
-class Shortword extends React.Component<NavigationStackScreenProps> {
-  static navigationOptions: NavigationStackOptions = {
-    title: label.shortWordReceive,
-    headerTitleStyle: {
-      backgroundColor: '#fff',
-      textAlign: 'center',
-    },
-    headerRight: () => <Text>扫一扫</Text>,
-  };
+class Send extends React.Component<Props> {
+
 
   validateEnteringAmount(amountString: string) {
     const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
     return reg.test(amountString);
+  }
+
+  validateExtraData(text: string) {
+    if (text.length > 200) {
+      return false;
+    }
+    // --- add new rule here
+    return true;
   }
 
   @observable toAddress: string = '';
@@ -123,7 +129,7 @@ class Shortword extends React.Component<NavigationStackScreenProps> {
     }
   };
   @action handleChangeExtraData = (text: string) => {
-    if (text.length < 200) {
+    if (this.validateExtraData(text)) {
       this.extraData = text;
     }
   };
@@ -132,9 +138,9 @@ class Shortword extends React.Component<NavigationStackScreenProps> {
     console.warn(this.toAddress);
   };
   render() {
+    const {labels} = this.props
     return (
       <View style={styles.mainWrapper}>
-        <StatusBar backgroundColor="#fff" />
         <KeyboardAwareScrollView
           contentContainerStyle={styles.wrapper}
           style={styles.mainWrapper}
@@ -142,13 +148,13 @@ class Shortword extends React.Component<NavigationStackScreenProps> {
           resetScrollToCoords={{x: 0, y: 0}}>
           <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
             <View style={styles.toAddressLabel}>
-              <Text>{label.Shortword}</Text>
+              <Text>{labels.toAddress}</Text>
             </View>
             <TextInput
               style={styles.toAddressInput}
               value={this.toAddress}
               onChangeText={this.handleChangeToAddress}
-              placeholder={label.enterAddressOrWord}
+              placeholder={labels.enterAddressOrWord}
             />
           </TouchableOpacity>
 
@@ -156,40 +162,40 @@ class Shortword extends React.Component<NavigationStackScreenProps> {
             style={styles.sendAmountWrapper}
             activeOpacity={0.8}>
             <View style={styles.sendAmountBar}>
-              <Text>{label.sendAmount}</Text>
+              <Text>{labels.sendAmount}</Text>
               <Text>{`${this.accountBalance} DIP`}</Text>
             </View>
             <TextInput
               style={styles.sendAmountInput}
               value={this.sendAmount}
               onChangeText={this.handleChangeSendAmount}
-              placeholder={label.enterAmount}
+              placeholder={labels.enterAmount}
               keyboardType="numeric"
             />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.ExtraDataWrapper} activeOpacity={0.8}>
             <Text style={{height: '100%', lineHeight: 50, fontSize: 18}}>
-              {label.remark}
+              {labels.remark}
             </Text>
             <TextInput
               style={styles.sendAmountInput}
               value={this.extraData}
               onChangeText={this.handleChangeExtraData}
-              placeholder={label.optional}
+              placeholder={labels.optional}
             />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
             <View style={styles.txFeeBar}>
-              <Text>{label.txFee}</Text>
+              <Text>{labels.txFee}</Text>
               <Text>1.060494606 DIP ≈ $ 0.63</Text>
             </View>
             <Slider minimumValue={1} maximumValue={3} step={1} />
             <View style={styles.txFeeBottomBar}>
-              <Text>低</Text>
-              <Text>中</Text>
-              <Text>高</Text>
+              <Text>{labels.low}}</Text>
+              <Text>{labels.middle}</Text>
+              <Text>{labels.high}</Text>
             </View>
           </TouchableOpacity>
 
@@ -206,7 +212,7 @@ class Shortword extends React.Component<NavigationStackScreenProps> {
                 borderRadius: 20,
                 backgroundColor: '#149bd5',
               }}>
-              <Text style={{color: '#fff', fontSize: 17}}>{label.send}</Text>
+              <Text style={{color: '#fff', fontSize: 17}}>{labels.send}</Text>
             </View>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
@@ -215,4 +221,14 @@ class Shortword extends React.Component<NavigationStackScreenProps> {
   }
 }
 
-export default Shortword;
+const Wrapped = (
+  props: WithTranslation & {
+    navigation: NavigationStackScreenProps['navigation'];
+  },
+) => {
+  const {t, navigation} = props;
+  const labels = t('dipperin:transaction') as I18nTransactionType;
+  return <Send labels={labels} navigation={navigation} />;
+};
+
+export default withTranslation()(Wrapped);

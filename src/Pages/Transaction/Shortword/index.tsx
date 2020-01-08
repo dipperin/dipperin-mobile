@@ -8,6 +8,7 @@ import {
   Platform,
   TouchableOpacity,
   Slider,
+  StatusBar,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -16,7 +17,8 @@ import {
 } from 'react-navigation-stack';
 import {observer} from 'mobx-react';
 import {observable, action} from 'mobx';
-import {label} from './config';
+import {withTranslation, WithTranslation} from 'react-i18next';
+import {I18nTransactionType} from 'I18n/config';
 
 const styles = StyleSheet.create({
   mainWrapper: {
@@ -92,47 +94,58 @@ const styles = StyleSheet.create({
   },
 });
 
+interface Props {
+  navigation: NavigationStackScreenProps['navigation'];
+  labels: I18nTransactionType;
+}
+
 @observer
-class Send extends React.Component<NavigationStackScreenProps> {
-  static navigationOptions: NavigationStackOptions = {
-    title: label.transaction,
-    headerTitleStyle: {
-      backgroundColor: '#fff',
-      textAlign: 'center',
-    },
-    headerRight: () => <Text>扫一扫</Text>,
-  };
+class Shortword extends React.Component<Props> {
+  validateShortword(word: string): boolean {
+    return true;
+  }
 
   validateEnteringAmount(amountString: string) {
     const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
     return reg.test(amountString);
   }
 
-  @observable toAddress: string = '';
-  @observable accountBalance: number = 0;
-  @observable sendAmount: string = '';
+  validateExtraData(text: string) {
+    if (text.length > 200) {
+      return false;
+    }
+    // --- add new rule here
+    return true;
+  }
+
+  @observable shortword: string = '';
+  @observable receiveAmount: string = '';
   @observable extraData: string = '';
 
-  @action handleChangeToAddress = (text: string) => {
-    this.toAddress = text;
+  @action handleChangeShortword = (text: string) => {
+    if (this.validateShortword(text)) {
+      this.shortword = text;
+    }
   };
   @action handleChangeSendAmount = (amountString: string) => {
     if (this.validateEnteringAmount(amountString)) {
-      this.sendAmount = amountString;
+      this.receiveAmount = amountString;
     }
   };
   @action handleChangeExtraData = (text: string) => {
-    if (text.length < 200) {
+    if (this.validateExtraData(text)) {
       this.extraData = text;
     }
   };
 
   handleSend = () => {
-    console.warn(this.toAddress);
+    console.warn(this.shortword);
   };
   render() {
+    const {labels} = this.props;
     return (
       <View style={styles.mainWrapper}>
+        <StatusBar backgroundColor="#fff" />
         <KeyboardAwareScrollView
           contentContainerStyle={styles.wrapper}
           style={styles.mainWrapper}
@@ -140,54 +153,50 @@ class Send extends React.Component<NavigationStackScreenProps> {
           resetScrollToCoords={{x: 0, y: 0}}>
           <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
             <View style={styles.toAddressLabel}>
-              <Text>{label.toAddress}</Text>
+              <Text>{labels.Shortword}</Text>
             </View>
             <TextInput
               style={styles.toAddressInput}
-              value={this.toAddress}
-              onChangeText={this.handleChangeToAddress}
-              placeholder={label.enterAddressOrWord}
+              value={this.shortword}
+              onChangeText={this.handleChangeShortword}
+              placeholder={labels.enterRegisterShortword}
             />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.sendAmountWrapper}
             activeOpacity={0.8}>
-            <View style={styles.sendAmountBar}>
-              <Text>{label.sendAmount}</Text>
-              <Text>{`${this.accountBalance} DIP`}</Text>
-            </View>
             <TextInput
               style={styles.sendAmountInput}
-              value={this.sendAmount}
+              value={this.receiveAmount}
               onChangeText={this.handleChangeSendAmount}
-              placeholder={label.enterAmount}
+              placeholder={labels.enterReceiveAmount}
               keyboardType="numeric"
             />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.ExtraDataWrapper} activeOpacity={0.8}>
             <Text style={{height: '100%', lineHeight: 50, fontSize: 18}}>
-              {label.remark}
+              {labels.remarkOptional}
             </Text>
             <TextInput
               style={styles.sendAmountInput}
               value={this.extraData}
               onChangeText={this.handleChangeExtraData}
-              placeholder={label.optional}
+              placeholder={labels.ehterRemark}
             />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
             <View style={styles.txFeeBar}>
-              <Text>{label.txFee}</Text>
+              <Text>{labels.txFee}</Text>
               <Text>1.060494606 DIP ≈ $ 0.63</Text>
             </View>
             <Slider minimumValue={1} maximumValue={3} step={1} />
             <View style={styles.txFeeBottomBar}>
-              <Text>低</Text>
-              <Text>中</Text>
-              <Text>高</Text>
+              <Text>{labels.low}}</Text>
+              <Text>{labels.middle}</Text>
+              <Text>{labels.high}</Text>
             </View>
           </TouchableOpacity>
 
@@ -204,7 +213,9 @@ class Send extends React.Component<NavigationStackScreenProps> {
                 borderRadius: 20,
                 backgroundColor: '#149bd5',
               }}>
-              <Text style={{color: '#fff', fontSize: 17}}>{label.send}</Text>
+              <Text style={{color: '#fff', fontSize: 17}}>
+                {labels.sendShortword}
+              </Text>
             </View>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
@@ -213,4 +224,14 @@ class Send extends React.Component<NavigationStackScreenProps> {
   }
 }
 
-export default Send;
+const Wrapped = (
+  props: WithTranslation & {
+    navigation: NavigationStackScreenProps['navigation'];
+  },
+) => {
+  const {t, navigation} = props;
+  const labels = t('dipperin:transaction') as I18nTransactionType;
+  return <Shortword labels={labels} navigation={navigation} />;
+};
+
+export default withTranslation()(Wrapped);
