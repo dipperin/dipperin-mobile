@@ -47,9 +47,10 @@ export const getAccount = async (): Promise<AccountObj[]> => {
     let res
     try {
         res = await storage.getAllDataForKey(ACCOUNT_DB)
+        return res as AccountObj[]
     } catch (_) {
+        return []
     }
-    return res as AccountObj[]
 
 }
 
@@ -88,7 +89,7 @@ export const removeAccount = async (id: number) => {
     }
 }
 
-export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[] | null> => {
+export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[]> => {
     try {
         let res = await storage.getAllDataForKey(TRANSACTION_DB)
         return res.filter(item => {
@@ -98,7 +99,7 @@ export const getTx = async (address: string, net: string = DEFAULT_NET): Promise
                 || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
         })
     } catch (_) {
-        return null
+        return []
 
     }
 }

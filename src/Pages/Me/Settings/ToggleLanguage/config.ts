@@ -1,14 +1,14 @@
 import { LANGUAGE } from 'Global/constants'
 import { StyleSheet } from 'react-native'
-
+import i18n from 'I18n'
 
 export const dataSource = [
   {
-    label: '简体中文',
+    label: i18n.t('dipperin:me.simplifiedChinese'),
     value: LANGUAGE.ZH,
   },
   {
-    label: 'English',
+    label: i18n.t('dipperin:me.English'),
     value: LANGUAGE.EN,
   }
 ]

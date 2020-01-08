@@ -66,7 +66,6 @@ export default class AccountStore {
   load = async () => {
     try {
       const accounts = await getAccount()
-      console.log(accounts, 'sssss')
       if (accounts.length > 0) {
         accounts.forEach(account => {
           runInAction(() => {

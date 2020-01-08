@@ -1,11 +1,11 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { List, Radio } from '@ant-design/react-native'
 import { observer, inject } from 'mobx-react';
-import { observable, action } from 'mobx';
+import { action } from 'mobx';
 import { dataSource, styles } from './config'
-import { LANGUAGE } from 'Global/constants';
 import System from 'Store/System';
+import i18next from 'i18next';
 
 const RadioItem = Radio.RadioItem;
 
@@ -39,10 +39,11 @@ class ToggleLanguage extends React.Component<Props> {
     )
   }
 
-  // TODO
+  // Toggle Langueage
   @action handleChange = (_value: string) => {
     this.props.system.setCurLanguage(_value)
     // TODO toggle language
+    i18next.changeLanguage(_value)
   }
 }
 
