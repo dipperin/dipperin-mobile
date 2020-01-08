@@ -79,10 +79,10 @@ export const initWalletStack = createStackNavigator({
     screen: Import,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: i18n.t('dipperin:start.import'),
-    }),
-  },
-});
+      title: i18n.t('dipperin:import.title')
+    })
+  }
+})
 
 export const walletStack = createStackNavigator({
   Assets: {

@@ -55,7 +55,7 @@ class Start extends React.Component<Props> {
           <TouchableOpacity style={styles.btn} onPress={this.handleCreate} activeOpacity={0.7}>
             <Text style={styles.text}>{labels.create}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={this.handleImport} activeOpacity={0.7}>
+          <TouchableOpacity style={[styles.btn, styles.importBtn]} onPress={this.handleImport} activeOpacity={0.7}>
             <Text style={styles.text}>{labels.import}</Text>
           </TouchableOpacity>
         </ImageBackground>
@@ -77,7 +77,6 @@ export default withTranslation()(StartWrap)
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
-    
   },
   bg: {
     width: '100%',
@@ -87,16 +86,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   btn: {
-    marginBottom: '15%',
-    width: 135,
-    height: 40,
-    borderRadius: 40,
-    backgroundColor: 'rgb(48, 143, 234)',
+    marginBottom: 64,
+    width: 153,
+    height: 44,
+    borderRadius: 44,
+    backgroundColor: '#1C77BC',
+  },
+  importBtn: {
+    backgroundColor: '#107E4A'
   },
   text: {
     lineHeight: 40,
-    fontSize: 16,
+    fontSize: 15,
     color: '#fff',
+    fontWeight: 'bold',
     textAlign: 'center'
   }
 })

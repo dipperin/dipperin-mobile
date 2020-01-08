@@ -5,6 +5,16 @@ const enResouce = {
       create: 'Create wallet',
       import: 'Import wallet',
     },
+    import: {
+      title: '助记词导入',
+      mnemonicPlh: '请按顺序输入助记词',
+      passwordPlh: '请设置钱包密码',
+      repeatPasswordPlh: '请重复密码',
+      passwordTip: '密码提示信息(可不填)',
+      agreeLabel: '我已仔细阅读并同意',
+      agree: "《用户协议》",
+      btnText: '导入钱包'
+    },
     me: {
       personalCenter: 'Personal center',
       setting: 'Setting',
@@ -61,8 +71,9 @@ const enResouce = {
   },
 };
 
-export type I18StartType = typeof enResouce.dipperin.start;
-export type I18nMeType = typeof enResouce.dipperin.me;
+export type I18StartType = typeof enResouce.dipperin.start
+export type I18ImportType = typeof enResouce.dipperin.import
+export type I18nMeType = typeof enResouce.dipperin.me
 export type I18nTransactionType = typeof enResouce.dipperin.transaction;
 
 const zhResource: typeof enResouce = {
@@ -71,6 +82,16 @@ const zhResource: typeof enResouce = {
     start: {
       create: '创建钱包',
       import: '导入钱包',
+    },
+    import: {
+      title: '助记词导入',
+      mnemonicPlh: '请按顺序输入助记词',
+      passwordPlh: '请设置钱包密码',
+      repeatPasswordPlh: '请重复密码',
+      passwordTip: '密码提示信息(可不填)',
+      agreeLabel: '我已仔细阅读并同意',
+      agree: "《用户协议》",
+      btnText: '导入钱包'
     },
     me: {
       personalCenter: '个人中心',
