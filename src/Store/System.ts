@@ -1,33 +1,43 @@
 import { observable, action } from "mobx";
-import { VENUS } from "Global/constants";
-
+import {
+  setStorage,
+  getStorage
+} from 'Db'
+import i18n from "I18n";
 
 class System {
   @observable loading: boolean = true // loading data from storage
-  @observable curLanguage: string = 'zh' // 当前语言
-  @observable curSystemNodeAddr: string = VENUS // 当前节点地址
-  @observable fingerUnLock: boolean = false // 指纹解锁
-  @observable fingerPay: boolean =  false // 指纹支付
+  @observable curLanguage: string = '' // Current Language
+  @observable fingerUnLock: boolean = false // Fingerprint unlock
+  @observable fingerPay: boolean =  false // Fingerprint payment
+
+  /**
+   * async init
+   */
+  public async init() {
+    this.curLanguage = await getStorage('Language')
+    i18n.changeLanguage(this.curLanguage)
+  }
 
   @action
-  setLoading(loading: boolean) {
+  public setLoading(loading: boolean) {
     this.loading = loading
   }
 
-  @action setFingerUnLock = (value: boolean) => {
+  @action 
+  public setFingerUnLock = (value: boolean) => {
     this.fingerUnLock = value
   }
 
-  @action setFingerPay = (value: boolean) => {
+  @action 
+  public setFingerPay = (value: boolean) => {
     this.fingerPay = value
   }
 
-  @action setCurSystemNodeAddr = (_value: string) => {
-    this.curSystemNodeAddr = _value
-  }
-
-  @action setCurLanguage = (_value: string) => {
+  @action 
+  public setCurLanguage = (_value: string) => {
     this.curLanguage = _value
+    setStorage('Language', _value)
   }
 }
 

@@ -1,27 +1,33 @@
 import { StyleSheet } from "react-native"
+import i18n from 'I18n'
+import { I18nMeType } from "I18n/config"
 
 export interface MeItemProps {
   iconName: string
+  iconColor: string
   title: string
   routeName: string
 }
 
 export type MeListItemsProps = MeItemProps[]
 
-export const MeListItems: MeListItemsProps = [
+export const MeListItems = (labels: I18nMeType): MeListItemsProps => [
   {
-    iconName: 'icon|shezhi',
-    title: '设置',
+    iconName: 'icon|shezhi1',
+    iconColor: '#1C77BC',
+    title: labels.setting,
     routeName: 'settings',
   },
   {
     iconName: 'icon|guanyuwomen',
-    title: '关于我们',
+    iconColor: '#399AB6',
+    title: labels.aboutUs,
     routeName: 'aboutUs',
   },
   {
-    iconName: 'icon|shezhi',
-    title: 'FAQ',
+    iconName: 'icon|faq',
+    iconColor: '#E36918',
+    title: labels.FAQ,
     routeName: 'helpCenter',
   }
 ]

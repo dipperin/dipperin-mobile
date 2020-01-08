@@ -132,27 +132,28 @@ export const meStack = createStackNavigator({
     screen: Settings,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '设置'
+      title: i18n.t('dipperin:me.setting')
     })
   },
   changePassword: {
     screen: ChangePassword,
     navigationOptions: () => ({
-      header: null
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.changePassword')
     })
   },
   toggleLanguage: {
     screen: ToggleLanguage,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '语言切换'
+      title: i18n.t('dipperin:me.language')
     })
   },
   nodeChoose: {
     screen: NodeChoose,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '节点选择'
+      title: i18n.t('dipperin:me.nodeChoose')
     })
   },
   aboutUs: {
@@ -163,27 +164,27 @@ export const meStack = createStackNavigator({
     screen: FunctionIntr,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '功能介绍'
+      title: i18n.t('dipperin:me.functionIntroduction')
     })
   },
   userProtocol: {
     screen: UserProtocol,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '用户协议'
+      title: i18n.t('dipperin:userProtocol')
     })
   },
   helpCenter: {
     screen: HelpCenter,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '帮助中心'
+      title: i18n.t('dipperin:me.helpCenter')
     })
   },
   helpCenterDetail: {
     screen: HelpCenterDetail,
     navigationOptions: () => ({
-      title: '帮助中心详情',
+      title: i18n.t('dipperin:me.helpCenterDetails'),
       ...headerBackConfig
     })
   }
