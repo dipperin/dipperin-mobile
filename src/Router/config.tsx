@@ -1,54 +1,30 @@
-<<<<<<< HEAD
 import React from 'react'
+import i18n from 'I18n';
 import { View, StyleProp, TextStyle ,Text} from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack'
 import { defaultTabBarOptions } from './utils'
+
+// Components
 import CustomBack from './CustomBack'
 import CustomIcon from "./CustomIcon"
 import { Icon } from 'Components/Icon'
 
-
-
-import Start from 'Pages/InitWallet/Start'
-import Assets from 'Pages/Accounts/AssetsIndex'
-import AddAccount from "Pages/Accounts/AddAccount"
-import AccountDetail from "Pages/Accounts/AccountDetail"
-
-
-
-
-import Apps from 'Pages/Discovery/Apps'
-
-
-import Me from 'Pages/Me'
-import Settings from 'Pages/Me/Settings'
-import AboutUs from 'Pages/Me/AboutUs'
-import HelpCenter from 'Pages/Me/HelpCenter'
-import ChangePassword from 'Pages/Me/Settings/ChangePassword'
-import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
-import NodeChoose from 'Pages/Me/Settings/NodeChoose'
-import Import from 'Pages/InitWallet/Import'
-
-import i18n from 'I18n'
-
-import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail'
-import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr'
-import UserProtocol from 'Pages/Me/AboutUs/UserProtocol'
-=======
-import React from 'react';
-import {View, StyleProp, TextStyle} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {defaultTabBarOptions} from './utils';
-import CustomBack from './CustomBack';
-
-import AddAccountIcon from './AddAccountIcon';
+// about wallet
 import Start from 'Pages/InitWallet/Start';
+import Import from 'Pages/InitWallet/Import';
+
+//about acount
 import Assets from 'Pages/Accounts/AssetsIndex';
 import AddAccount from 'Pages/Accounts/AddAccount';
 import AccountDetail from 'Pages/Accounts/AccountDetail';
+import Send from 'Pages/Transaction/Send';
+import Receive from 'Pages/Transaction/Receive';
+import Shortword from 'Pages/Transaction/Shortword';
 
+// discovery
 import Apps from 'Pages/Discovery/Apps';
 
+//setting
 import Me from 'Pages/Me';
 import Settings from 'Pages/Me/Settings';
 import AboutUs from 'Pages/Me/AboutUs';
@@ -56,18 +32,12 @@ import HelpCenter from 'Pages/Me/HelpCenter';
 import ChangePassword from 'Pages/Me/Settings/ChangePassword';
 import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage';
 import NodeChoose from 'Pages/Me/Settings/NodeChoose';
-import Import from 'Pages/InitWallet/Import';
 
-import Send from 'Pages/Transaction/Send';
-import Receive from 'Pages/Transaction/Receive';
-import Shortword from 'Pages/Transaction/Shortword';
 
-import i18n from 'I18n';
 
 import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail';
 import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr';
 import UserProtocol from 'Pages/Me/AboutUs/UserProtocol';
->>>>>>> 391f3f8a2c61c1d48dc5ae18dc0c466c8196cda9
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -149,6 +119,27 @@ export const walletStack = createStackNavigator({
       title: 'Dip'
     })
   },
+  send: {
+    screen: Send,
+    navigationOptions: () => ({
+      title: i18n.t('dipperin:transaction.transaction'),
+      ...headerBackConfig,
+    }),
+  },
+  receive: {
+    screen: Receive,
+    navigationOptions: () => ({
+      title: i18n.t('dipperin:transaction.receive'),
+      ...headerBackConfig,
+    }),
+  },
+  shortword: {
+    screen: Shortword,
+    navigationOptions: () => ({
+      title: i18n.t('dipperin:transaction.shortWordReceive'),
+      ...headerBackConfig,
+    }),
+  },
 });
 
 export const discoveryStack = createStackNavigator({
@@ -225,27 +216,6 @@ export const meStack = createStackNavigator(
       screen: HelpCenterDetail,
       navigationOptions: () => ({
         title: i18n.t('dipperin:me.helpCenterDetails'),
-        ...headerBackConfig,
-      }),
-    },
-    send: {
-      screen: Send,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:transaction.transaction'),
-        ...headerBackConfig,
-      }),
-    },
-    receive: {
-      screen: Receive,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:transaction.receive'),
-        ...headerBackConfig,
-      }),
-    },
-    shortword: {
-      screen: Shortword,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:transaction.shortWordReceive'),
         ...headerBackConfig,
       }),
     },
