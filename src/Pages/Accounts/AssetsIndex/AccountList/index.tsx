@@ -1,23 +1,24 @@
 import React, { Fragment } from "react"
+import {inject,observer} from "mobx-react"
 import { View, Text, Image,ScrollView ,StyleSheet} from "react-native"
 import AccountItem from "./account"
 import AccountModel from "Models/account"
-const mockAccount = new AccountModel(
-    'sqEVSm4jZaNAegxA',
-    "m/44'/709394'/0'/0/1",
-    '0x0000b4293d60F051936beDecfaE1B85d5A46d377aF37',
-    ''
-)
+interface Props{
+    accounts:AccountModel[]
+    isEyeOpen:boolean
+    changeActiveAccount:(id:string)=>void
+}
 
-const AccountList = () => {
-    const accounts = [mockAccount,mockAccount,mockAccount,mockAccount,mockAccount]
+
+const AccountList = (props:Props) => {
+    const {accounts,isEyeOpen,changeActiveAccount} = props
     return (
         <View style={styles.listBox}>
             <Text style={styles.title}>资产</Text>
             <ScrollView style={styles.list}>
                 {
                     accounts.map((item, index) => {
-                        return <AccountItem account={item} key={index} />
+                        return <AccountItem account={item} key={index} isEyeOpen={isEyeOpen} changeActiveAccount={changeActiveAccount}/>
                     })
                 }
                 <View style={styles.space}/>

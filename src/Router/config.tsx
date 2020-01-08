@@ -1,16 +1,18 @@
 import React from 'react'
-import { View, StyleProp, TextStyle } from 'react-native'
+import { View, StyleProp, TextStyle ,Text} from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack'
 import { defaultTabBarOptions } from './utils'
 import CustomBack from './CustomBack'
+import CustomIcon from "./CustomIcon"
+import { Icon } from 'Components/Icon'
 
 
-import AddAccountIcon from './AddAccountIcon'
-import ScanIcon from "./ScanIcon"
+
 import Start from 'Pages/InitWallet/Start'
 import Assets from 'Pages/Accounts/AssetsIndex'
 import AddAccount from "Pages/Accounts/AddAccount"
 import AccountDetail from "Pages/Accounts/AccountDetail"
+
 
 
 
@@ -90,7 +92,7 @@ export const walletStack = createStackNavigator({
     screen: Assets,
     navigationOptions: (props) => ({
       headerLeft:<View/>,
-      headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('AddAccount')}}/>,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('AddAccount')}}><Icon name={'icon|tianjia'} size={25} color="#fff" /></CustomIcon>,
       headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
       headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
       title:'Wallet'
@@ -98,16 +100,17 @@ export const walletStack = createStackNavigator({
   },
   AddAccount:{
     screen:AddAccount,
-    navigationOptions:() => ({
+    navigationOptions:(props) => ({
       ...headerBackConfig,
-      title: 'Add Account'
+      title: 'Add Account',
+      headerRight:<CustomIcon onPress={props.navigation.getParam('addAccount')}><Text>确定</Text></CustomIcon>
     })
   },
-  AccountDetail:{
+  accountDetail:{
     screen:AccountDetail,
     navigationOptions:(props) => ({
       ...headerBackConfig,
-      headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('Scan')}}/>,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('Scan')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
       title: 'Dip'
     })
   },

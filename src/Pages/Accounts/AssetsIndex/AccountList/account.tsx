@@ -2,34 +2,46 @@ import React from "react"
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native"
 import AccountModel from "Models/account"
 import { withNavigation, NavigationScreenProp } from "react-navigation"
+import { observer } from "mobx-react"
+import { formatNumber } from "Global/utils"
 import AcountIcon from "Assets/account.png"
+
 interface Props {
-    account: AccountModel,
+    account: AccountModel
+    isEyeOpen:boolean
+    changeActiveAccount:(id:string)=>void
     navigation: NavigationScreenProp<any>
 
 
 }
 
-const AccountItem = (props: Props) => {
-    const goDetail = () => {
-        props.navigation.navigate("AccountDetail")
+@observer
+class AccountItem extends React.Component<Props>{
+    goDetail = () => {
+        const { account:{id},changeActiveAccount } = this.props
+        changeActiveAccount(id)
+        this.props.navigation.navigate("accountDetail")
+    }
+    render() {
+        const { account:{name, balance, id},isEyeOpen } = this.props        
+        const showName = name ? name : `account ${id}`
+        return (
+            <TouchableOpacity
+                onPress={this.goDetail}
+            >
+                <View style={styles.item}>
+                    <View style={styles.itemLeft}>
+                        <Image source={AcountIcon} style={styles.accountLogo} />
+                        <Text style={styles.txt}>{showName}</Text>
+                    </View>
+                    <Text style={styles.txt} >{isEyeOpen ?`${formatNumber(Number(balance), 6)} DIP` :'*******'}</Text>
+                </View>
+            </TouchableOpacity>
+        )
     }
 
-    return (
-        <TouchableOpacity
-            onPress={goDetail}
-
-        >
-            <View style={styles.item}>
-                <View style={styles.itemLeft}>
-                    <Image source={AcountIcon} style={styles.accountLogo} />
-                    <Text style={styles.txt}>name</Text>
-                </View>
-                <Text style={styles.txt} >444444 DIP</Text>
-            </View>
-        </TouchableOpacity>
-    )
 }
+
 
 export default withNavigation(AccountItem)
 
@@ -57,6 +69,7 @@ const styles = StyleSheet.create({
         marginRight: 8
     },
     txt: {
-        fontSize: 16
+        fontSize: 16,
+        color:'#393B42'
     }
 })
