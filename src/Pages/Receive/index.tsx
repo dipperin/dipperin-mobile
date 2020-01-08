@@ -93,6 +93,9 @@ class Receive extends React.Component<NavigationStackScreenProps> {
   handleClose = () => {
     this.props.navigation.goBack();
   };
+  turnToShortword = () => {
+    this.props.navigation.navigate('shortword');
+  };
 
   render() {
     return (
@@ -115,7 +118,10 @@ class Receive extends React.Component<NavigationStackScreenProps> {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.btnWrapper} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.btnWrapper}
+            activeOpacity={0.8}
+            onPress={this.turnToShortword}>
             <View
               style={{
                 justifyContent: 'center',
