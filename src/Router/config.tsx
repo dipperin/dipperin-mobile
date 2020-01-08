@@ -1,17 +1,30 @@
-import React from 'react';
-import {View, StyleProp, TextStyle} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {defaultTabBarOptions} from './utils';
-import CustomBack from './CustomBack';
+import React from 'react'
+import i18n from 'I18n';
+import { View, StyleProp, TextStyle ,Text} from 'react-native'
+import { createStackNavigator } from 'react-navigation-stack'
+import { defaultTabBarOptions } from './utils'
 
-import AddAccountIcon from './AddAccountIcon';
+// Components
+import CustomBack from './CustomBack'
+import CustomIcon from "./CustomIcon"
+import { Icon } from 'Components/Icon'
+
+// about wallet
 import Start from 'Pages/InitWallet/Start';
+import Import from 'Pages/InitWallet/Import';
+
+//about acount
 import Assets from 'Pages/Accounts/AssetsIndex';
 import AddAccount from 'Pages/Accounts/AddAccount';
 import AccountDetail from 'Pages/Accounts/AccountDetail';
+import Send from 'Pages/Transaction/Send';
+import Receive from 'Pages/Transaction/Receive';
+import Shortword from 'Pages/Transaction/Shortword';
 
+// discovery
 import Apps from 'Pages/Discovery/Apps';
 
+//setting
 import Me from 'Pages/Me';
 import Settings from 'Pages/Me/Settings';
 import AboutUs from 'Pages/Me/AboutUs';
@@ -19,13 +32,8 @@ import HelpCenter from 'Pages/Me/HelpCenter';
 import ChangePassword from 'Pages/Me/Settings/ChangePassword';
 import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage';
 import NodeChoose from 'Pages/Me/Settings/NodeChoose';
-import Import from 'Pages/InitWallet/Import';
 
-import Send from 'Pages/Transaction/Send';
-import Receive from 'Pages/Transaction/Receive';
-import Shortword from 'Pages/Transaction/Shortword';
 
-import i18n from 'I18n';
 
 import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail';
 import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr';
@@ -87,32 +95,49 @@ export const initWalletStack = createStackNavigator({
 export const walletStack = createStackNavigator({
   Assets: {
     screen: Assets,
-    navigationOptions: props => ({
-      headerLeft: <View />,
-      headerRight: (
-        <AddAccountIcon
-          onPress={() => {
-            props.navigation.navigate('AddAccount');
-          }}
-        />
-      ),
-      headerStyle: {...commonHeaderStyle, backgroundColor: '#275DA5'},
-      headerTitleStyle: {...defaultHeaderTitleStyle, color: '#fff'},
-      title: 'Wallet',
-    }),
+    navigationOptions: (props) => ({
+      headerLeft:<View/>,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('AddAccount')}}><Icon name={'icon|tianjia'} size={25} color="#fff" /></CustomIcon>,
+      headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
+      headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
+      title:'Wallet'
+    })
   },
-  AddAccount: {
-    screen: AddAccount,
-    navigationOptions: () => ({
+  AddAccount:{
+    screen:AddAccount,
+    navigationOptions:(props) => ({
       ...headerBackConfig,
       title: 'Add Account',
+      headerRight:<CustomIcon onPress={props.navigation.getParam('addAccount')}><Text>确定</Text></CustomIcon>
+    })
+  },
+  accountDetail:{
+    screen:AccountDetail,
+    navigationOptions:(props) => ({
+      ...headerBackConfig,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('Scan')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
+      title: 'Dip'
+    })
+  },
+  send: {
+    screen: Send,
+    navigationOptions: () => ({
+      title: i18n.t('dipperin:transaction.transaction'),
+      ...headerBackConfig,
     }),
   },
-  AccountDetail: {
-    screen: AccountDetail,
+  receive: {
+    screen: Receive,
     navigationOptions: () => ({
+      title: i18n.t('dipperin:transaction.receive'),
       ...headerBackConfig,
-      title: 'Dip',
+    }),
+  },
+  shortword: {
+    screen: Shortword,
+    navigationOptions: () => ({
+      title: i18n.t('dipperin:transaction.shortWordReceive'),
+      ...headerBackConfig,
     }),
   },
 });
@@ -191,27 +216,6 @@ export const meStack = createStackNavigator(
       screen: HelpCenterDetail,
       navigationOptions: () => ({
         title: i18n.t('dipperin:me.helpCenterDetails'),
-        ...headerBackConfig,
-      }),
-    },
-    send: {
-      screen: Send,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:transaction.transaction'),
-        ...headerBackConfig,
-      }),
-    },
-    receive: {
-      screen: Receive,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:transaction.receive'),
-        ...headerBackConfig,
-      }),
-    },
-    shortword: {
-      screen: Shortword,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:transaction.shortWordReceive'),
         ...headerBackConfig,
       }),
     },

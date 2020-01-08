@@ -12,3 +12,11 @@ export const getRandom = (count: number): Promise<Buffer> => new Promise((resolv
   })
 })
 
+
+export const formatNumber = (num: number, w: number) => {
+  const m = 10 ** w
+  const b = Math.floor(num * m) / m
+  return b.toLocaleString('zh-Hans', {
+    maximumFractionDigits: w
+  })
+}

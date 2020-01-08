@@ -104,9 +104,7 @@ class TransactionStore {
     gas?: string,
     gasPrice?: string
   ): TransactionModel {
-    console.log(this._store.account.activeAccount!.path, 'aaaa')
     const privateKey = this._store.wallet.getPrivateKeyByPath(this._store.account.activeAccount!.path)
-    console.log(privateKey, 'pppppppppppppp')
     const transaction = this.createNewTransaction(address, amount, memo, gas, gasPrice)
     const net = this._store.chainData.currentNet
     const chainId = net in CHAIN_ID_DIC ? CHAIN_ID_DIC[net] : DEFAULT_CHAIN_ID
@@ -209,6 +207,7 @@ class TransactionStore {
     await Promise.all(
       this._store.account.accounts.map(async account => {
         const txs = await getTx(account.address, this._store.chainData.currentNet)
+        if(!txs) return
         try {
           runInAction(() => {
             this._transactionsMap.set(
