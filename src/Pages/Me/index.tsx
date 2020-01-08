@@ -1,28 +1,59 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import * as config from './config'
 import { Icon } from 'Components/Icon'
+import { styles, MeItemProps } from './config'
+import { NavigationScreenProp } from 'react-navigation'
+import i18n from 'I18n'
+import { observer } from 'mobx-react'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { I18nMeType } from 'I18n/config'
 
-class Me extends React.Component<any> {
+interface Props {
+  navigation: NavigationScreenProp<any>
+  labels: I18nMeType
+}
+
+class Me extends React.Component<Props> {
   render() {
     return (
-      <View>
+      <View style={styles.box}>
+        <Text style={styles.title}>{i18n.t('dipperin:me.personalCenter')}</Text>
         {this.renderItems()}
       </View>
     )
   }
 
   renderItems = (): JSX.Element[] => {
-    return config.MeListItems.map((item, index: number): JSX.Element => {
+    return config.MeListItems(this.props.labels).map((item: MeItemProps, index: number): JSX.Element => {
+      const _styles = index === 0 ? [styles.item, styles.firstItem] : styles.item
       return (
-        <View key={index}>
-          <Icon name={'icon|shezhi'} size={20} color="#adadad"/>
-          <Text>{item.title}</Text>
-          <Icon name={'icon|xiangyou'} size={20} color="#333"/>
-        </View>
+        <TouchableOpacity 
+          key={index} 
+          style={_styles} 
+          onPress={() => this.clickItem(item)} 
+          activeOpacity={0.8}
+        >
+          <View style={styles.itemContent}>
+            <Icon name={item.iconName} size={24} color={item.iconColor} />
+            <Text style={styles.itemTitle}>{item.title}</Text>
+          </View>
+          <Icon name={'icon|xiangyou'} size={16} color="#aeaeae" />
+        </TouchableOpacity>
       )
     })
   }
+
+  clickItem = (item: MeItemProps) => {
+    if (!item.routeName) return
+    this.props.navigation.navigate(item.routeName)
+  }
 }
 
-export default Me
+const MeWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+  const { t, navigation } = props
+  const labels = t('dipperin:me') as I18nMeType
+  return <Me labels={labels} navigation={navigation} />
+}
+
+export default withTranslation()(MeWrap)

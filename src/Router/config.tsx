@@ -1,15 +1,35 @@
-import React from 'react';
-import {View, StyleProp, TextStyle} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import CustomBack from './CustomBack';
+import React from 'react'
+import { View, StyleProp, TextStyle } from 'react-native'
+import { createStackNavigator } from 'react-navigation-stack'
+import { defaultTabBarOptions } from './utils'
+import CustomBack from './CustomBack'
 
-import Start from 'Pages/InitWallet/Start';
-import Accounts from 'Pages/Accounts';
-import Apps from 'Pages/Discovery/Apps';
-import Me from 'Pages/Me';
-import Send from 'Pages/Send';
-import Receive from 'Pages/Receive';
-import Shortword from 'Pages/Shortword';
+
+import AddAccountIcon from './AddAccountIcon'
+import Start from 'Pages/InitWallet/Start'
+import Assets from 'Pages/Accounts/AssetsIndex'
+import AddAccount from "Pages/Accounts/AddAccount"
+import AccountDetail from "Pages/Accounts/AccountDetail"
+
+
+
+import Apps from 'Pages/Discovery/Apps'
+
+
+import Me from 'Pages/Me'
+import Settings from 'Pages/Me/Settings'
+import AboutUs from 'Pages/Me/AboutUs'
+import HelpCenter from 'Pages/Me/HelpCenter'
+import ChangePassword from 'Pages/Me/Settings/ChangePassword'
+import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
+import NodeChoose from 'Pages/Me/Settings/NodeChoose'
+import Import from 'Pages/InitWallet/Import'
+
+import i18n from 'I18n'
+
+import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail'
+import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr'
+import UserProtocol from 'Pages/Me/AboutUs/UserProtocol'
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -30,49 +50,160 @@ const defaultHeaderTitleStyle: StyleProp<TextStyle> = {
   color: '#333',
   fontSize: 18,
   fontWeight: 'bold',
-};
+}
+
+const headerBackConfig = {
+  ...commonHeaderBack,
+  headerStyle: {
+    ...commonHeaderStyle,
+    borderBottomColor: '#e5e5e6',
+    borderBottomWidth: 1,
+  },
+  headerTitleStyle: defaultHeaderTitleStyle
+}
+
+const headerBackConfigNoBorder = {
+  ...commonHeaderBack,
+  headerStyle: commonHeaderStyle,
+  headerTitleStyle: defaultHeaderTitleStyle
+}
 
 export const initWalletStack = createStackNavigator({
   start: {
     screen: Start,
     navigationOptions: () => ({
-      header: null,
-    }),
+      header: null
+    })
   },
-  send: {
-    screen: Send,
-  },
-  receive: {
-    screen: Receive,
-  },
-  shortword: {
-    screen: Shortword,
-  },
-});
+  import: {
+    screen: Import,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:start.import')
+    })
+  }
+})
 
 export const walletStack = createStackNavigator({
-  accounts: {
-    screen: Accounts,
-    navigationOptions: () => ({
-      header: null,
-    }),
+  Assets: {
+    screen: Assets,
+    navigationOptions: (props) => ({
+      headerLeft:<View/>,
+      headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('AddAccount')}}/>,
+      headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
+      headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
+      title:'Wallet'
+    })
   },
-});
+  AddAccount:{
+    screen:AddAccount,
+    navigationOptions:() => ({
+      ...headerBackConfig,
+      title: 'Add Account'
+    })
+  },
+  AccountDetail:{
+    screen:AccountDetail,
+    navigationOptions:() => ({
+      ...headerBackConfig,
+      title: 'Dip'
+    })
+  },
+
+})
 
 export const discoveryStack = createStackNavigator({
   apps: {
     screen: Apps,
     navigationOptions: () => ({
-      header: null,
-    }),
-  },
-});
+      ...headerBackConfig,
+    })
+  }
+})
 
 export const meStack = createStackNavigator({
   me: {
     screen: Me,
     navigationOptions: () => ({
-      header: null,
-    }),
+      header: null
+    })
   },
-});
+  settings: {
+    screen: Settings,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.setting')
+    })
+  },
+  changePassword: {
+    screen: ChangePassword,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.changePassword')
+    })
+  },
+  toggleLanguage: {
+    screen: ToggleLanguage,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.language')
+    })
+  },
+  nodeChoose: {
+    screen: NodeChoose,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.nodeChoose')
+    })
+  },
+  aboutUs: {
+    screen: AboutUs,
+    navigationOptions: () => ({...headerBackConfigNoBorder})
+  },
+  functionIntr: {
+    screen: FunctionIntr,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.functionIntroduction')
+    })
+  },
+  userProtocol: {
+    screen: UserProtocol,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:userProtocol')
+    })
+  },
+  helpCenter: {
+    screen: HelpCenter,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:me.helpCenter')
+    })
+  },
+  helpCenterDetail: {
+    screen: HelpCenterDetail,
+    navigationOptions: () => ({
+      title: i18n.t('dipperin:me.helpCenterDetails'),
+      ...headerBackConfig
+    })
+  }
+}, {
+  navigationOptions: defaultTabBarOptions
+})
+
+
+
+// hide tab 
+export const hideTab = ({ navigation }: any) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+      tabBarVisible = false;
+  }
+  return {
+      tabBarVisible,
+  };
+};
+meStack.navigationOptions = hideTab
+discoveryStack.navigationOptions = hideTab
+walletStack.navigationOptions = hideTab

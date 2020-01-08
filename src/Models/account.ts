@@ -15,10 +15,10 @@ export interface Opt {
 }
 
 export default class AccountModel {
-  private _address: string
+  private _address: string = ''
   private _nonce: string = '0'
-  private _id: string
-  private _path: string
+  private _id: string = ''
+  private _path: string = ''
   private _type: number = AccountType.hd
   private _privateKey: string = ''
   private _encryptKey: EncryptResult | undefined

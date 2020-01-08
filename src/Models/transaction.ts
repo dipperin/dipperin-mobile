@@ -5,23 +5,23 @@ import {
   TRANSACTION_STATUS_FAIL,
   TRANSACTION_STATUS_PENDING,
   TRANSACTION_STATUS_SUCCESS
-} from '@/utils/constants'
+} from 'Global/constants'
 
 export default class TransactionModel {
   @observable
-  private _signedTransactionData: string
+  private _signedTransactionData?: string
   @observable
-  private _transactionHash: string
+  private _transactionHash?: string
   @observable
   private _fee: string
   @observable
-  private _gas: string
+  private _gas?: string
   @observable
-  private _gasPrice: string
+  private _gasPrice?: string
   @observable
   private _status: string
   @observable
-  private _timestamp: number
+  private _timestamp?: number
 
   private _nonce: string
   private _value: string
@@ -165,11 +165,11 @@ export default class TransactionModel {
   }
 
   isOverTime(now: number): boolean {
-    return now - this._timestamp > TRANSACTION_LIMIT_TIME
+    return now - this._timestamp! > TRANSACTION_LIMIT_TIME
   }
 
   isOverLongTime(now: number): boolean {
-    return now - this._timestamp > TRANSACTION_LIMIT_TIME * 10
+    return now - this._timestamp! > TRANSACTION_LIMIT_TIME * 10
   }
 
   @action
