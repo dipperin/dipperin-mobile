@@ -13,7 +13,7 @@
   "dependencies": {
     "@ant-design/icons-react-native": "^1.0.2",
     "@ant-design/react-native": "^3.2.2",
-    "@dipperin/dipperin.js": "^0.4.50",
+    "@dipperin/dipperin.js": "^0.5.1",
     "@react-native-community/async-storage": "^1.7.1",
     "@react-native-community/viewpager": "^3.3.0",
     "@tradle/react-native-http": "^2.0.1",
@@ -47,6 +47,7 @@
     "react-navigation-stack": "^1.10.3",
     "react-navigation-tabs": "^2.6.2",
     "readable-stream": "^1.0.33",
+    "rn-nodeify": "^10.2.0",
     "stream-browserify": "^1.0.0",
     "tls": "^0.0.1",
     "vm-browserify": "0.0.4"
