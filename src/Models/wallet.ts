@@ -3,10 +3,10 @@ import { EncryptResult } from '@dipperin/dipperin.js'
 
 export default class WalletModel {
   @observable
-  private _walletId: number
+  private _walletId: number = 0
   // active account id
   @observable
-  private _activeAccountId: string
+  private _activeAccountId: string = '1'
   @observable
   private _showLock: boolean = false //  password error lock
   @observable

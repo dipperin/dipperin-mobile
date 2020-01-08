@@ -1,6 +1,14 @@
 import React from 'react'
 import TabIcon from './TabIcon'
 
+export const defaultTabBarOptions = ({ navigation }: any) => {
+    let tabBarVisible = true
+    if (navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+    return { tabBarVisible }
+}
+
 export const getTabNavigationOptions = ({ navigation }: any) => {
     return {
         tabBarIcon: ({ focused }: any) => {
