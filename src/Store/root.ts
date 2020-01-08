@@ -45,7 +45,6 @@ class Root {
     }catch(err) {
       console.log(err)
     } finally {
-      console.log('filllllllllllllllllllll')
       this.system.setLoading(false)
     }
     
