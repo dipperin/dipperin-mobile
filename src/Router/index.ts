@@ -21,8 +21,8 @@ const walletTabs = createBottomTabNavigator({
 )
 
 const switchNavigator = createSwitchNavigator({
-  splash: Splash,
   wallet: walletTabs,
+  splash: Splash,
   init: initWalletStack,
 })
 
