@@ -12,8 +12,8 @@ const TxList=(props:Props)=>{
     const { transactions } = props
     return (
         <ScrollView>
-            {transactions.map(item=>{
-                return <TxItem transaction={item}/>
+            {transactions.map((item,index)=>{
+                return <TxItem transaction={item} key={index}/>
             })}
             <View style={{height:40}}/>
         </ScrollView>

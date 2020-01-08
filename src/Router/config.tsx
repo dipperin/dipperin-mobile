@@ -6,6 +6,7 @@ import CustomBack from './CustomBack'
 
 
 import AddAccountIcon from './AddAccountIcon'
+import ScanIcon from "./ScanIcon"
 import Start from 'Pages/InitWallet/Start'
 import Assets from 'Pages/Accounts/AssetsIndex'
 import AddAccount from "Pages/Accounts/AddAccount"
@@ -104,8 +105,9 @@ export const walletStack = createStackNavigator({
   },
   AccountDetail:{
     screen:AccountDetail,
-    navigationOptions:() => ({
+    navigationOptions:(props) => ({
       ...headerBackConfig,
+      headerRight:<AddAccountIcon onPress={()=>{props.navigation.navigate('Scan')}}/>,
       title: 'Dip'
     })
   },

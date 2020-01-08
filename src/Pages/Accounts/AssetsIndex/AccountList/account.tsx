@@ -18,13 +18,15 @@ const AccountItem = (props: Props) => {
     return (
         <TouchableOpacity
             onPress={goDetail}
-            style={styles.item}
+
         >
-            <View style={styles.itemLeft}>
-                <Image source={AcountIcon} style={styles.accountLogo}/>
-                <Text style={styles.txt}>name</Text>
+            <View style={styles.item}>
+                <View style={styles.itemLeft}>
+                    <Image source={AcountIcon} style={styles.accountLogo} />
+                    <Text style={styles.txt}>name</Text>
+                </View>
+                <Text style={styles.txt} >444444 DIP</Text>
             </View>
-            <Text style={styles.txt} >444444 DIP</Text>
         </TouchableOpacity>
     )
 }
@@ -36,25 +38,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#E8EBED',
         borderRadius: 5,
         marginHorizontal: 10,
-        flexDirection:'row',
-        justifyContent:"space-between",
-        alignItems:"center",
-        height:80,
-        paddingLeft:8,
-        paddingRight:15,
-        fontSize:16,
-        marginBottom:10
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: 80,
+        paddingLeft: 8,
+        paddingRight: 15,
+        fontSize: 16,
+        marginBottom: 10
     },
-    itemLeft:{
-        flexDirection:'row',
-        alignItems:'center',
+    itemLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    accountLogo:{
-        width:40,
-        height:40,
-        marginRight:8
+    accountLogo: {
+        width: 40,
+        height: 40,
+        marginRight: 8
     },
-    txt:{
-        fontSize:16
+    txt: {
+        fontSize: 16
     }
 })

@@ -18,7 +18,6 @@ const AccountList = () => {
                 {
                     accounts.map((item, index) => {
                         return <AccountItem account={item} key={index} />
-
                     })
                 }
                 <View style={styles.space}/>
