@@ -8,15 +8,15 @@ import {withTranslation, WithTranslation} from 'react-i18next';
 import {I18nTransactionType} from 'I18n/config';
 import {styles} from './config';
 import EnterPassword from './EnterPassword';
-import TransactionStore from 'Store/transaction'
+// import TransactionStore from 'Store/transaction'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
   labels: I18nTransactionType;
-  transaction: TransactionStore
+  // transaction: TransactionStore
 }
 
-@inject('transaction')
+// @inject('transaction')
 @observer
 class Send extends React.Component<Props> {
   validateEnteringAmount(amountString: string) {
@@ -69,17 +69,17 @@ class Send extends React.Component<Props> {
   };
 
   handleConfirmTransaction = async (psw: string) => {
-    try {
-      const res = await this.props.transaction.confirmTransaction(this.toAddress,this.sendAmount,this.extraData,'21000','1')
-      if (res.success) {
-        console.warn('success')
-        return Promise.resolve()
-      } else {
-        return Promise.reject()
-      }
-    } catch(e) {
-      return Promise.reject()
-    }
+    // try {
+    //   const res = await this.props.transaction.confirmTransaction(this.toAddress,this.sendAmount,this.extraData,'21000','1')
+    //   if (res.success) {
+    //     console.warn('success')
+    //     return Promise.resolve()
+    //   } else {
+    //     return Promise.reject()
+    //   }
+    // } catch(e) {
+    //   return Promise.reject()
+    // }
   };
 
   render() {
