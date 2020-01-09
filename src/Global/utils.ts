@@ -20,6 +20,13 @@ export const balancePercent = (balance: string | number, height: number): string
   .toString(10)
   .substr(0, 10)
 }
+export const sleep = (time: number) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
 
 export const formatNumber = (num: number, w: number) => {
   const m = 10 ** w

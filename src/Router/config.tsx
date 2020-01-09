@@ -10,34 +10,39 @@ import CustomIcon from "./CustomIcon"
 import { Icon } from 'Components/Icon'
 
 // about wallet
-import Start from 'Pages/InitWallet/Start';
-import Import from 'Pages/InitWallet/Import';
+import Start from 'Pages/InitWallet/Start'
+import Import from 'Pages/InitWallet/Import'
+import Create from 'Pages/InitWallet/Create'
+import CreateStep1 from 'Pages/InitWallet/Create/CreateStep1'
+import CreateStep2 from 'Pages/InitWallet/Create/CreateStep2'
+import CreateStep3 from 'Pages/InitWallet/Create/CreateStep3'
 
 //about acount
-import Assets from 'Pages/Accounts/AssetsIndex';
-import AddAccount from 'Pages/Accounts/AddAccount';
-import AccountDetail from 'Pages/Accounts/AccountDetail';
-import Send from 'Pages/Transaction/Send';
-import Receive from 'Pages/Transaction/Receive';
-import Shortword from 'Pages/Transaction/Shortword';
+import Assets from 'Pages/Accounts/AssetsIndex'
+import AddAccount from 'Pages/Accounts/AddAccount'
+import AccountDetail from 'Pages/Accounts/AccountDetail'
+import Send from 'Pages/Transaction/Send'
+import Receive from 'Pages/Transaction/Receive'
+import Shortword from 'Pages/Transaction/Shortword'
 
 // discovery
 import Discovery from 'Pages/Discovery';
 
 //setting
-import Me from 'Pages/Me';
-import Settings from 'Pages/Me/Settings';
-import AboutUs from 'Pages/Me/AboutUs';
-import HelpCenter from 'Pages/Me/HelpCenter';
-import ChangePassword from 'Pages/Me/Settings/ChangePassword';
-import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage';
-import NodeChoose from 'Pages/Me/Settings/NodeChoose';
+import Me from 'Pages/Me'
+import Settings from 'Pages/Me/Settings'
+import AboutUs from 'Pages/Me/AboutUs'
+import HelpCenter from 'Pages/Me/HelpCenter'
+import ChangePassword from 'Pages/Me/Settings/ChangePassword'
+import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
+import NodeChoose from 'Pages/Me/Settings/NodeChoose'
 
 
 
-import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail';
-import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr';
-import UserProtocol from 'Pages/Me/AboutUs/UserProtocol';
+
+import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail'
+import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr'
+import UserProtocol from 'Pages/Me/AboutUs/UserProtocol'
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
@@ -90,13 +95,30 @@ export const initWalletStack = createStackNavigator({
       title: i18n.t('dipperin:import.title')
     })
   },
-  import: {
-    screen: Import,
+  create: {
+    screen: Create,
     navigationOptions: () => ({
-      ...headerBackConfig,
-      title: i18n.t('dipperin:start.import')
+      ...headerBackConfig
     })
-  }
+  },
+  createStep1: {
+    screen: CreateStep1,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
+  createStep2: {
+    screen: CreateStep2,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
+  createStep3: {
+    screen: CreateStep3,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
 })
 
 export const walletStack = createStackNavigator({

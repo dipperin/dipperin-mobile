@@ -38,7 +38,7 @@ class Start extends React.Component<Props> {
   }
 
   handleCreate = () => {
-    // this.props.navigation.navigate('wallet')
+    this.props.navigation.navigate('create')
   }
 
   handleImport = () => {
