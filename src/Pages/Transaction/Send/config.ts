@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     marginTop: 0,
     paddingBottom: 5,
     paddingLeft: 20,
+    paddingRight: 20,
     borderBottomColor: '#E3E6EB',
     borderBottomWidth: 0.5,
   },
@@ -43,6 +44,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 2,
     paddingLeft: 20,
+    paddingRight: 20,
     paddingBottom: 5,
     borderBottomColor: '#E3E6EB',
     borderBottomWidth: 0.5,
@@ -51,7 +53,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 10,
-    paddingRight: 20,
   },
   sendAmountLabel: {
     fontSize: 16,

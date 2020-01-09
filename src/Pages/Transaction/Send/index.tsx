@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity, Slider} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Slider,
+  EmitterSubscription,
+  Keyboard,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {observer, inject} from 'mobx-react';
@@ -7,40 +15,51 @@ import {observable, action} from 'mobx';
 import {withTranslation, WithTranslation} from 'react-i18next';
 import {I18nTransactionType} from 'I18n/config';
 import {styles} from './config';
+import Toast from 'Components/Toast';
+import Modal from 'Components/Modal';
 import EnterPassword from './EnterPassword';
-// import TransactionStore from 'Store/transaction'
+import TransactionStore from 'Store/transaction';
+import WalletStore from 'Store/wallet';
+import {sleep} from 'Global/utils';
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
   labels: I18nTransactionType;
-  // transaction: TransactionStore
+  transaction?: TransactionStore;
+  wallet?: WalletStore;
 }
 
-// @inject('transaction')
+@inject('transaction', 'wallet')
 @observer
 class Send extends React.Component<Props> {
-  validateEnteringAmount(amountString: string) {
-    const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
-    return reg.test(amountString);
-  }
-
-  validateExtraData(text: string) {
-    if (text.length > 200) {
-      return false;
-    }
-    // --- add new rule here
-    return true;
-  }
-
   @observable toAddress: string = '';
   @observable accountBalance: number = 0;
   @observable sendAmount: string = '';
   @observable extraData: string = '';
   @observable txFeeLevel: number = 1;
-  @observable isShowPasswordModal: boolean = false;
+  @observable keyboardShow: boolean = false;
+  keyboardDidShowListener: EmitterSubscription;
+  keyboardDidHideListener: EmitterSubscription;
+  constructor(props: Props) {
+    super(props);
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
+  }
 
-  @action setPasswordModal = (flag: boolean) => {
-    this.isShowPasswordModal = flag;
+  @action
+  keyboardDidShow = () => {
+    this.keyboardShow = true;
+  };
+
+  @action
+  keyboardDidHide = () => {
+    this.keyboardShow = false;
   };
 
   @action handleChangeToAddress = (text: string) => {
@@ -60,26 +79,66 @@ class Send extends React.Component<Props> {
     this.txFeeLevel = num;
   };
 
-  handleSend = () => {
-    this.setPasswordModal(true);
+  validateEnteringAmount(amountString: string) {
+    const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
+    return reg.test(amountString);
+  }
+
+  validateExtraData(text: string) {
+    if (text.length > 200) {
+      return false;
+    }
+    // --- add new rule here
+    return true;
+  }
+
+  sendTransaction = async () => {
+    try {
+      const res = await this.props.transaction!.confirmTransaction(
+        this.toAddress,
+        this.sendAmount,
+        this.extraData,
+        '21000',
+        '1',
+      );
+      if (res.success) {
+        console.warn('success');
+        return Promise.resolve();
+      } else {
+        console.warn(res.info);
+        return Promise.reject();
+      }
+    } catch (e) {
+      return Promise.reject();
+    }
   };
 
-  handleClosePasswordModal = () => {
-    this.setPasswordModal(false);
+  handleSend = () => {
+    Modal.password(this.handleConfirmTransaction);
+    // this.setPasswordModal(true);
+    // this.sendTransaction();
   };
 
   handleConfirmTransaction = async (psw: string) => {
-    // try {
-    //   const res = await this.props.transaction.confirmTransaction(this.toAddress,this.sendAmount,this.extraData,'21000','1')
-    //   if (res.success) {
-    //     console.warn('success')
-    //     return Promise.resolve()
-    //   } else {
-    //     return Promise.reject()
-    //   }
-    // } catch(e) {
-    //   return Promise.reject()
-    // }
+    Modal.hide();
+    Toast.loading();
+    await sleep(1000);
+    Toast.hide();
+    if (!this.props.wallet!.checkPassword(psw)) {
+      Toast.hide();
+      Toast.info(this.props.labels.passwordError);
+      return;
+    }
+
+    try {
+      await this.sendTransaction();
+      Toast.hide();
+      Toast.success(this.props.labels.sendSuccess);
+      return;
+    } catch (e) {
+      Toast.hide();
+      Toast.info(this.props.labels.sendFailure);
+    }
   };
 
   render() {
@@ -89,26 +148,15 @@ class Send extends React.Component<Props> {
           contentContainerStyle={styles.wrapper}
           style={styles.contentWrapper}
           resetScrollToCoords={{x: 0, y: 0}}>
-          <View style={styles.structure}>
-            <View style={styles.contentWrapper}>
-              {this.renderAddressBox()}
+          {this.renderAddressBox()}
 
-              {this.renderAmountBox()}
+          {this.renderAmountBox()}
 
-              {this.renderExtraDataBox()}
+          {this.renderExtraDataBox()}
 
-              {this.renderTxFeeBox()}
-            </View>
-
-            {this.renderBtnBox()}
-          </View>
-
-          <EnterPassword
-            onClose={this.handleClosePasswordModal}
-            onConfirm={this.handleConfirmTransaction}
-            visible={this.isShowPasswordModal}
-          />
+          {this.renderTxFeeBox()}
         </KeyboardAwareScrollView>
+        {!this.keyboardShow && this.renderBtnBox()}
       </View>
     );
   }
