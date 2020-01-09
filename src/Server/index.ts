@@ -1,4 +1,9 @@
-// import { fetchRequest } from './http'
+import { fetchRequest } from './http'
  
-// export const getAppsList = (params: any):any => fetchRequest('/applications', 'POST', params)
-export const a = 0
+// Get Apps List
+// export const getAppsList = (params: any):any => fetchRequest('/applications', 'POST',params)
+
+// get Block Height
+// export const getBlockHeight = (params: any):any => fetchRequest('/home', 'POST',params)
+
+export const getAppsList = (params: any):any => fetchRequest('/stock/index', 'POST',params)

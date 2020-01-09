@@ -35,6 +35,7 @@ class Root {
       await this.wallet.load() 
       await this.account.load()
       await this.transaction.load()
+      await this.system.init()
       this.chainData.startUpdate()
       reaction(
         () => this.chainData.isConnect, // once connected, update trasction & account
@@ -48,7 +49,6 @@ class Root {
     }catch(err) {
       console.log(err)
     } finally {
-      console.log('filllllllllllllllllllll')
       this.system.setLoading(false)
     }
     

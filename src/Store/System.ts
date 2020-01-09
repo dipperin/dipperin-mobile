@@ -1,33 +1,58 @@
 import { observable, action } from "mobx";
 import { VENUS } from "Global/constants";
+import { getStorage, setStorage } from "Db"
+import i18n from "I18n";
 
 
 class System {
   @observable loading: boolean = true // loading data from storage
-  @observable curLanguage: string = 'zh' // 当前语言
+  @observable curLanguage: string = '' // Current Language
+  @observable fingerUnLock: boolean = false // Fingerprint unlock
+  @observable fingerPay: boolean =  false // Fingerprint payment
   @observable curSystemNodeAddr: string = VENUS // 当前节点地址
-  @observable fingerUnLock: boolean = false // 指纹解锁
-  @observable fingerPay: boolean =  false // 指纹支付
+
+  @observable isEyeOpen: boolean = true
+  constructor() {
+    this.init()
+
+  }
 
   @action
-  setLoading(loading: boolean) {
+  async init() {
+    this.curLanguage = await getStorage('Language')
+    i18n.changeLanguage(this.curLanguage)
+    const res = await getStorage('isEyeOpen')
+    if (typeof res === 'boolean') {
+      this.isEyeOpen = res
+    }else{
+      this.isEyeOpen = true
+    }
+
+  }
+
+  @action
+  public setLoading(loading: boolean) {
     this.loading = loading
   }
 
-  @action setFingerUnLock = (value: boolean) => {
+  @action 
+  public setFingerUnLock = (value: boolean) => {
     this.fingerUnLock = value
   }
 
-  @action setFingerPay = (value: boolean) => {
+  @action 
+  public setFingerPay = (value: boolean) => {
     this.fingerPay = value
   }
 
-  @action setCurSystemNodeAddr = (_value: string) => {
-    this.curSystemNodeAddr = _value
-  }
-
-  @action setCurLanguage = (_value: string) => {
+  @action 
+  public setCurLanguage = (_value: string) => {
     this.curLanguage = _value
+    setStorage('Language', _value)
+  }
+  @action setIsEyeOpen=(val:boolean)=>{
+    this.isEyeOpen = val
+    setStorage('isEyeOpen',val)
   }
 }
 

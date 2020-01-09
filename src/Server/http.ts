@@ -1,42 +1,27 @@
-import ErrCode from './ErrCode'
-/**
- * header config
- */
+const host = 'http://14.17.65.122:8010'
+const baseUrl = '/api/v1'
 
-const DEFAULT_HEADER = {
-  'Content-Type': 'application/json',
-}
-const DEFAULT_TIMEOUT = 10000
-const PREFIX = '/api/v1'
-
-
-export const fetchRequest = async (url: string = '', method: string = 'GET', body?: object, isShowLoading: boolean | undefined = true) => {
+export const fetchRequest = async (url: string = '', method: string = 'GET', body?: object) => {
   try {
-    const headers: any = DEFAULT_HEADER
-    const res: any = await Promise.race([fetch(`${PREFIX}${url}`, {
+    const _reqUrl = `${host}${baseUrl}${url}`
+    const res: any = await Promise.race([fetch(_reqUrl, {
       method: method,
-      headers,
-      body: body ? JSON.stringify(body) : ''
-    }), new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject('timeout')
-      }, DEFAULT_TIMEOUT)
-    })])
-    
+      headers:{
+        'Content-Type': 'application/json',
+      }}), new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject('timeout')
+        }, 20000)
+      })])
+    // handle response
     const resJson = await res.json()
-    console.log("result", resJson)
-
-    if (resJson && resJson.success === false) {
-      if (ErrCode.hasOwnProperty(resJson.err_code)) {
-        // Toast.info(ErrCode[resJson.err_code])
-      } else {
-        // Toast.info(resJson.err_msg)
-      }
-
+    console.log(url, "api","params: ", body, "res: ", resJson)
+    if (resJson && resJson.success !== true) {
+      console.log("result", resJson.success)
     }
     return resJson
   } catch (error) {
-    // Toast.info("network failed")
+    console.log(error)
   }
 }
 

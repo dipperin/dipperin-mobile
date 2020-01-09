@@ -20,3 +20,11 @@ export const balancePercent = (balance: string | number, height: number): string
   .toString(10)
   .substr(0, 10)
 }
+
+export const formatNumber = (num: number, w: number) => {
+  const m = 10 ** w
+  const b = Math.floor(num * m) / m
+  return b.toLocaleString('zh-Hans', {
+    maximumFractionDigits: w
+  })
+}

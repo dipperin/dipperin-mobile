@@ -1,16 +1,18 @@
 import React from 'react'
-import {View, Text, Alert} from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 
 import {
   styles
 } from './config'
 import { NavigationScreenProp } from 'react-navigation'
-import { InputItem, List } from '@ant-design/react-native'
 import { observer } from 'mobx-react'
 import { observable, action } from 'mobx'
+import { WithTranslation, withTranslation } from 'react-i18next'
+import { I18nMeType } from 'I18n/config'
 
 interface Props {
   navigation: NavigationScreenProp<any>
+  label: I18nMeType
 }
 
 @observer
@@ -20,36 +22,65 @@ class ChangePassword extends React.Component<Props> {
   @observable confrimPassword: string = ''
 
   render() {
+    const { label } = this.props
     return (
       <View style={styles.box}>
-        <View style={styles.headerWrap}>
-          <Text style={styles.cancelText} onPress={this.goBack}>取消</Text>
-          <Text style={styles.title}>修改密码</Text>
-          <Text style={styles.savePassword} onPress={this.handleSave}>保存</Text>
+        <View style={styles.content}>
+          <View style={[styles.inputItem, styles.inputItemBorderTopAndBottom, { marginBottom: 10 }]}>
+            <Text style={styles.inputItemLabel}>{label.oldPassword}</Text>
+            <TextInput
+              secureTextEntry={true}
+              placeholder={label.pleaseEnterOldPsd}
+              autoCompleteType="password"
+              style={styles.input}
+              value={this.oldPassword}
+              onChangeText={this.inputOldPassword}
+            />
+          </View>
+
+          <View style={[styles.inputItem, styles.inputItemBorderTopAndBottom]}>
+            <Text style={styles.inputItemLabel}>{label.newPassword}</Text>
+            <TextInput
+              secureTextEntry={true}
+              placeholder={label.pleaseEnterNewPsd}
+              autoCompleteType="password"
+              style={styles.input}
+              value={this.newPassword}
+              onChangeText={this.inputNewPassword}
+            />
+          </View>
+
+          <View style={styles.inputItem}>
+            <Text style={styles.inputItemLabel}>{label.confrimPassword}</Text>
+            <TextInput
+              secureTextEntry={true}
+              placeholder={label.pleaseConfirmNewPsd}
+              autoCompleteType="password"
+              style={styles.input}
+              value={this.confrimPassword}
+              onChangeText={this.inputConfirmPassword}
+            />
+          </View>
+
+          <Text style={styles.psdHint}>{label.psdLimit}</Text>
+
+          <View style={styles.btnBox}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.btnTounch}
+              onPress={this.changePassword}
+            >
+              <Text style={styles.btnText}>{label.confrimChange}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <List style={styles.content}>
-          <InputItem 
-            type="password" 
-            placeholder="请输入旧密码"
-            style={styles.inputItem}
-            value={this.oldPassword}
-            onChange={this.inputOldPassword}
-          >旧密码</InputItem>
-          <InputItem 
-            type="password" 
-            placeholder="请输入新密码"
-            style={styles.inputItem}
-            value={this.newPassword}
-            onChange={this.inputNewPassword}
-          >新密码</InputItem>
-          <InputItem 
-            type="password"
-            placeholder="请再次输入"
-            style={styles.inputItem}
-            value={this.confrimPassword}
-            onChange={this.inputConfirmPassword}
-          >确认密码</InputItem>
-        </List>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.forgetPassword}
+        >
+          <Text style={styles.forgetPasswordText}>{label.forgetPassword}</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -59,8 +90,8 @@ class ChangePassword extends React.Component<Props> {
   }
 
   // TODO
-  handleSave = () => {
-    
+  changePassword = () => {
+
   }
 
   @action inputOldPassword = (_value: string) => {
@@ -74,7 +105,12 @@ class ChangePassword extends React.Component<Props> {
   @action inputConfirmPassword = (_value: string) => {
     this.confrimPassword = _value
   }
-
 }
 
-export default ChangePassword
+const ChangePasswordWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+  const { t, navigation } = props
+  const labels = t('dipperin:me') as I18nMeType
+  return <ChangePassword label={labels} navigation={navigation} />
+}
+
+export default withTranslation()(ChangePasswordWrap)
