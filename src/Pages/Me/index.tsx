@@ -5,7 +5,6 @@ import { Icon } from 'Components/Icon'
 import { styles, MeItemProps } from './config'
 import { NavigationScreenProp } from 'react-navigation'
 import i18n from 'I18n'
-import { observer } from 'mobx-react'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nMeType } from 'I18n/config'
 
