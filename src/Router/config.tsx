@@ -18,6 +18,7 @@ import Assets from 'Pages/Accounts/AssetsIndex';
 import AddAccount from 'Pages/Accounts/AddAccount';
 import AccountDetail from 'Pages/Accounts/AccountDetail';
 import TransactionDetail from "Pages/Accounts/TransactionDetail"
+import ScanScreen from "Pages/Accounts/ScanScreen"
 import Send from 'Pages/Transaction/Send';
 import Receive from 'Pages/Transaction/Receive';
 import Shortword from 'Pages/Transaction/Shortword';
@@ -117,7 +118,7 @@ export const walletStack = createStackNavigator({
     screen:AccountDetail,
     navigationOptions:(props) => ({
       ...headerBackConfig,
-      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('Scan')}}><Icon name={'icon|saoma'} size={20} color="#393B42"/></CustomIcon>,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('ScanScreen')}}><Icon name={'icon|saoma'} size={20} color="#393B42"/></CustomIcon>,
       title: 'Dip'
     })
   },
@@ -149,6 +150,12 @@ export const walletStack = createStackNavigator({
       ...headerBackConfig,
     }),
   },
+  ScanScreen:{
+    screen:ScanScreen,
+    navigationOptions:()=>({
+      header:null
+    })
+  }
 });
 
 export const discoveryStack = createStackNavigator({

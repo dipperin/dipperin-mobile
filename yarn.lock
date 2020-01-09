@@ -6427,6 +6427,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
+react-native-camera@^3.15.1:
+  version "3.15.1"
+  resolved "https://registry.npm.taobao.org/react-native-camera/download/react-native-camera-3.15.1.tgz#8e4eb67cb6687b5250f849b348f0d19a01649105"
+  integrity sha1-jk62fLZoe1JQ+EmzSPDRmgFkkQU=
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-collapsible@^1.4.0:
   version "1.5.1"
   resolved "https://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.5.1.tgz#da2937b509921b28bf1b0f9eb8e50ad61c3ffb5d"
