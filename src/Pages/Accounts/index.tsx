@@ -1,10 +1,13 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, StatusBar } from 'react-native'
 import { storage } from "Db"
 
 class Accounts extends React.Component<any> {
-
+  _navListener: any
   componentDidMount() {
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBackgroundColor('#ffffff');
+    });
     storage.save({
       key: "accountTable",
       id: 'dd',
@@ -16,6 +19,9 @@ class Accounts extends React.Component<any> {
         path: "string",
       }
     })
+  }
+  componentWillUnmount() {
+    this._navListener.remove();
   }
   save = () => {
     storage.save({

@@ -1,4 +1,5 @@
 import { randomBytes } from 'react-native-randombytes'
+import { BigNumber } from 'bignumber.js'
 
 
 export const getNowTimestamp = (): number => {
@@ -12,3 +13,10 @@ export const getRandom = (count: number): Promise<Buffer> => new Promise((resolv
   })
 })
 
+export const balancePercent = (balance: string | number, height: number): string => {  
+  return new BigNumber(balance)
+  .div(2 * height + 52560000)
+  .times(100)
+  .toString(10)
+  .substr(0, 10)
+}

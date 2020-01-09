@@ -1,8 +1,26 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { inject, observer } from 'mobx-react'
+import { View, Text } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import i18n from 'I18n'
+import DiscoveryStore from 'Store/discovery'
+import { contractInterface } from 'Global/inteface'
+import { styles } from './config'
+import { formatEllipsis } from '../config'
 
-class Contracts extends React.Component<any> {
+interface AppsProps {
+  discovery: DiscoveryStore
+}
+@inject('discovery')
+@observer
+class Contracts extends React.Component<AppsProps> {
+  componentDidMount(){
+    this.init()
+  }
+
+  init = async () => {
+    await this.props.discovery!.getContractList()
+  }
   render() {
     const mockData=[{
       adress: '0X0000485737748892',
@@ -15,13 +33,14 @@ class Contracts extends React.Component<any> {
       over: '56,565.235698',
       holdings: '16,234'
     }]
+    // const { contractsList } = this.props.discovery!
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>
-          <Text style={styles.adress}>合约地址</Text>
-          <Text style={styles.name}>合约名称</Text>
-          <Text style={styles.over}>余额(DIP)</Text>
-          <Text style={styles.holdings}>交易数</Text>
+          <Text style={styles.adress}>{i18n.t('dipperin:discovery.contracts.contractsAdress')}</Text>
+          <Text style={styles.name}>{i18n.t('dipperin:discovery.contracts.contractsName')}</Text>
+          <Text style={styles.over}>{i18n.t('dipperin:discovery.contracts.over')}</Text>
+          <Text style={styles.holdings}>{i18n.t('dipperin:discovery.contracts.transactionsNumber')}</Text>
         </View>
         <FlatList 
           data={mockData}
@@ -30,11 +49,10 @@ class Contracts extends React.Component<any> {
       </View>
     )
   }
-  renderItem = (item:any) => {
-    console.log(item)
+  renderItem = (item:contractInterface) => {
     return (
       <View style={styles.tRow}>
-        <Text style={styles.adress}>{`${item.adress.substr(0,6)}...${item.adress.substr(item.adress.length-2,2)}`}</Text>
+        <Text style={styles.adress}>{formatEllipsis(item.adress)}</Text>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.over}>{item.over}</Text>
         <Text style={styles.holdings}>{item.holdings}</Text>
@@ -42,43 +60,6 @@ class Contracts extends React.Component<any> {
     )
   }
 }
-const styles  = StyleSheet.create({
-  wrap: {
-    width: '100%',
-    padding: 24,
-  },
-  tHeader: {
-    backgroundColor: '#1C77BC',
-    color: '#ffffff'
-  },
-  tRow: {
-    backgroundColor: 'rgba(231, 245, 248, 0.1)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-    borderRadius: 8,
-    height: 44,
-  },
-  adress: {
-    flex: 1.5,
-    textAlign:'center',
-    color: '#ffffff'
-  },
-  name: {
-    flex:1,
-    textAlign: 'center',
-    color: '#ffffff'
-  },
-  over: {
-    flex:2,
-    textAlign: 'center',
-    color: '#ffffff'
-  },
-  holdings: {
-    flex:1,
-    textAlign: 'center',
-    color: '#ffffff'
-  }
-})
+
 
 export default Contracts

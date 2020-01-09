@@ -1,10 +1,19 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native'
 import * as config from './config'
 import { Icon } from 'Components/Icon'
 import { styles, MeItemProps } from './config'
 
 class Me extends React.Component<any> {
+  _navListener: any
+  componentDidMount() {
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setBackgroundColor('#ffffff');
+    });
+  }
+  componentWillUnmount() {
+    this._navListener.remove();
+  }
   render() {
     return (
       <View style={styles.box}>
@@ -13,7 +22,6 @@ class Me extends React.Component<any> {
       </View>
     )
   }
-
   renderItems = (): JSX.Element[] => {
     return config.MeListItems.map((item: MeItemProps, index: number): JSX.Element => {
       const _styles = index === 0 ? [styles.item, styles.firstItem] : styles.item

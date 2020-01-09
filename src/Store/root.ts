@@ -6,6 +6,7 @@ import ChainData from './chainData'
 import Transaction from './transaction'
 import Timer from './timer'
 import System from './System'
+import Discovery from './discovery'
 
 class Root {
   timer: Timer
@@ -15,6 +16,7 @@ class Root {
   transaction: Transaction
   system: System
   dipperin?: Dipperin
+  discovery: Discovery
   constructor() {
     this.timer = new Timer()
     this.chainData = new ChainData(this)
@@ -22,6 +24,7 @@ class Root {
     this.account = new Account(this)
     this.transaction = new Transaction(this)
     this.system = new System()
+    this.discovery = new Discovery()
     this.init()
   }
 

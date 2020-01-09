@@ -1,8 +1,19 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { inject, observer } from 'mobx-react'
+import { View, Text } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import i18n from 'I18n'
+import DiscoveryStore from 'Store/discovery'
+import { fortuneInterface } from 'Global/inteface'
+import { styles } from './config'
+import { formatEllipsis } from '../config'
 
-class Fortune extends React.Component<any> {
+interface FortuneProps {
+  discovery: DiscoveryStore
+}
+@inject('discovery')
+@observer
+class Fortune extends React.Component<FortuneProps> {
   render() {
     const mockData=[{
       sort: 1,
@@ -20,10 +31,10 @@ class Fortune extends React.Component<any> {
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>
-          <Text style={styles.sort}>排序</Text>
-          <Text style={styles.adress}>账户地址</Text>
-          <Text style={styles.name}>合约名称</Text>
-          <Text style={styles.over}>余额(DIP)</Text>
+          <Text style={styles.sort}>{i18n.t('dipperin:discovery.fortune.sort')}</Text>
+          <Text style={styles.adress}>{i18n.t('dipperin:discovery.fortune.account')}</Text>
+          <Text style={styles.name}>{i18n.t('dipperin:discovery.fortune.over')}</Text>
+          <Text style={styles.over}>{i18n.t('dipperin:discovery.fortune.holdings')}</Text>
         </View>
         <FlatList 
           data={mockData}
@@ -32,54 +43,17 @@ class Fortune extends React.Component<any> {
       </View>
     )
   }
-  renderItem = (item:any) => {
+  renderItem = (item:fortuneInterface) => {
     return (
       <View style={styles.tRow}>
         <Text style={styles.sort}>{item.sort}</Text>
-        <Text style={styles.adress}>{`${item.adress.substr(0,6)}...${item.adress.substr(item.adress.length-2,2)}`}</Text>
+        <Text style={styles.adress}>{formatEllipsis(item.adress)}</Text>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.over}>{item.over}</Text>
       </View>
     )
   }
 }
-const styles  = StyleSheet.create({
-  wrap: {
-    width: '100%',
-    padding: 24,
-  },
-  tHeader: {
-    backgroundColor: '#1C77BC',
-    color: '#ffffff'
-  },
-  tRow: {
-    backgroundColor: 'rgba(231, 245, 248, 0.1)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-    borderRadius: 8,
-    height: 44,
-  },
-  adress: {
-    flex: 1.5,
-    textAlign:'center',
-    color: '#ffffff'
-  },
-  name: {
-    flex:1,
-    textAlign: 'center',
-    color: '#ffffff'
-  },
-  over: {
-    flex:2,
-    textAlign: 'center',
-    color: '#ffffff'
-  },
-  sort: {
-    flex:1,
-    textAlign: 'center',
-    color: '#ffffff'
-  }
-})
+
 
 export default Fortune

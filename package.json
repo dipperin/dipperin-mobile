@@ -100,5 +100,6 @@
     "_stream_passthrough": "readable-stream/passthrough",
     "stream": "stream-browserify",
     "vm": "vm-browserify"
-  }
+  },
+  "proxy": "http://14.17.65.122:8886"
 }

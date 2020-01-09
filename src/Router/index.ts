@@ -2,6 +2,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { walletStack, discoveryStack, meStack, initWalletStack } from './config'
 import { getTabNavigationOptions } from './utils'
+import Splash from 'Pages/InitWallet/SplashPage'
 
 const walletTabs = createBottomTabNavigator({
   wallet: {
@@ -14,14 +15,16 @@ const walletTabs = createBottomTabNavigator({
     screen: meStack,
   }
 },
-{
-  defaultNavigationOptions: navigateInfo => getTabNavigationOptions(navigateInfo)
-}
+  {
+    defaultNavigationOptions: navigateInfo => getTabNavigationOptions(navigateInfo)
+  }
 )
 
 const switchNavigator = createSwitchNavigator({
+  // wallet: walletTabs,
+  // splash: Splash,
+  // init: initWalletStack,
   wallet: walletTabs,
-  init: initWalletStack,
 })
 
 export default createAppContainer(switchNavigator)
