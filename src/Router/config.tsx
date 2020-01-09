@@ -121,8 +121,9 @@ export const walletStack = createStackNavigator({
   },
   send: {
     screen: Send,
-    navigationOptions: () => ({
+    navigationOptions: (props) => ({
       title: i18n.t('dipperin:transaction.transaction'),
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('accountDetail')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
       ...headerBackConfig,
     }),
   },

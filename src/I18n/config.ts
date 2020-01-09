@@ -69,6 +69,10 @@ const enResouce = {
       remarkOptional: 'Remard(Optional)',
       ehterRemark: 'Please enter remark',
       sendShortword: 'Send Remark',
+      enterPassword: 'Password',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      passwordHit: 'Password Hint'
     },
   },
 };
@@ -148,6 +152,10 @@ const zhResource: typeof enResouce = {
       remarkOptional: '备注(选填)',
       ehterRemark: '输入备注',
       sendShortword: '发送口令',
+      enterPassword: '输入密码',
+      cancel: '取消',
+      confirm: '确认',
+      passwordHit: '密码提示信息'
     },
   },
 };

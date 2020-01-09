@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   structure: {
-    height: 695,
+    height: 692,
   },
   wrapper: {
     flex: Platform.OS === 'android' ? 0 : 1,
