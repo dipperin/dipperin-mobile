@@ -17,9 +17,11 @@ import Import from 'Pages/InitWallet/Import';
 import Assets from 'Pages/Accounts/AssetsIndex';
 import AddAccount from 'Pages/Accounts/AddAccount';
 import AccountDetail from 'Pages/Accounts/AccountDetail';
+import TransactionDetail from "Pages/Accounts/TransactionDetail"
 import Send from 'Pages/Transaction/Send';
 import Receive from 'Pages/Transaction/Receive';
 import Shortword from 'Pages/Transaction/Shortword';
+
 
 // discovery
 import Apps from 'Pages/Discovery/Apps';
@@ -115,7 +117,7 @@ export const walletStack = createStackNavigator({
     screen:AccountDetail,
     navigationOptions:(props) => ({
       ...headerBackConfig,
-      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('Scan')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('Scan')}}><Icon name={'icon|saoma'} size={20} color="#393B42"/></CustomIcon>,
       title: 'Dip'
     })
   },
@@ -123,6 +125,13 @@ export const walletStack = createStackNavigator({
     screen: Send,
     navigationOptions: () => ({
       title: i18n.t('dipperin:transaction.transaction'),
+      ...headerBackConfig,
+    }),
+  },
+  TransactionDetail: {
+    screen: TransactionDetail,
+    navigationOptions: () => ({
+      title: '交易记录',
       ...headerBackConfig,
     }),
   },
