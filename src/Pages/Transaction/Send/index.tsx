@@ -17,7 +17,6 @@ import {I18nTransactionType} from 'I18n/config';
 import {styles} from './config';
 import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
-import EnterPassword from './EnterPassword';
 import TransactionStore from 'Store/transaction';
 import WalletStore from 'Store/wallet';
 import {sleep} from 'Global/utils';
