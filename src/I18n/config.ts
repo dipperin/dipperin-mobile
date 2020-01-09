@@ -12,8 +12,8 @@ const enResouce = {
       repeatPasswordPlh: '请重复密码',
       passwordTip: '密码提示信息(可不填)',
       agreeLabel: '我已仔细阅读并同意',
-      agree: "《用户协议》",
-      btnText: '导入钱包'
+      agree: '《用户协议》',
+      btnText: '导入钱包',
     },
     me: {
       personalCenter: 'Personal center',
@@ -48,17 +48,19 @@ const enResouce = {
     },
     transaction: {
       transaction: 'Transaction',
-      toAddress: 'To',
+      toAddress: 'Receiver’s Address',
       enterAddressOrWord: 'Please enter address/Shortword',
+      balance: 'Balance',
       sendAmount: 'Amount',
       enterAmount: 'Please enter amount',
       remark: 'Remark',
+      enterRemark: 'Please enter remark',
       optional: 'Optional',
       txFee: 'Fee',
       send: 'Send',
-      low: 'low',
-      middle: 'middium',
-      high: 'high',
+      low: 'slow',
+      middle: 'middle',
+      high: 'fast',
       receive: 'Receive',
       shortWordReceive: 'Shortword Receive',
       Shortword: 'Short Word',
@@ -71,9 +73,9 @@ const enResouce = {
   },
 };
 
-export type I18StartType = typeof enResouce.dipperin.start
-export type I18ImportType = typeof enResouce.dipperin.import
-export type I18nMeType = typeof enResouce.dipperin.me
+export type I18StartType = typeof enResouce.dipperin.start;
+export type I18ImportType = typeof enResouce.dipperin.import;
+export type I18nMeType = typeof enResouce.dipperin.me;
 export type I18nTransactionType = typeof enResouce.dipperin.transaction;
 
 const zhResource: typeof enResouce = {
@@ -90,8 +92,8 @@ const zhResource: typeof enResouce = {
       repeatPasswordPlh: '请重复密码',
       passwordTip: '密码提示信息(可不填)',
       agreeLabel: '我已仔细阅读并同意',
-      agree: "《用户协议》",
-      btnText: '导入钱包'
+      agree: '《用户协议》',
+      btnText: '导入钱包',
     },
     me: {
       personalCenter: '个人中心',
@@ -124,18 +126,20 @@ const zhResource: typeof enResouce = {
       versionUpdate: '版本更新',
     },
     transaction: {
-      transaction: '交易',
-      toAddress: '发送地址',
-      enterAddressOrWord: '请输入地址或口令',
+      transaction: '转账',
+      toAddress: '收款方',
+      enterAddressOrWord: '接受地址/口令名称',
       sendAmount: '发送金额',
-      enterAmount: '输入金额',
+      balance: '余额',
+      enterAmount: '输入转账金额',
       remark: '备注',
       optional: '选填',
+      enterRemark: '输入备注',
       txFee: '交易费',
       send: '发送',
-      low: '低',
+      low: '慢',
       middle: '中',
-      high: '高',
+      high: '快',
       receive: '收款',
       shortWordReceive: '口令收款',
       Shortword: '口令',
