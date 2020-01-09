@@ -26,7 +26,7 @@ import Receive from 'Pages/Transaction/Receive'
 import Shortword from 'Pages/Transaction/Shortword'
 
 // discovery
-import Apps from 'Pages/Discovery/Apps'
+import Discovery from 'Pages/Discovery';
 
 //setting
 import Me from 'Pages/Me'
@@ -172,98 +172,92 @@ export const walletStack = createStackNavigator({
 });
 
 export const discoveryStack = createStackNavigator({
-  apps: {
-    screen: Apps,
+  discovery: {
+    screen: Discovery,
     navigationOptions: () => ({
       ...headerBackConfig,
-    }),
-  },
-});
-
-export const meStack = createStackNavigator(
-  {
-    me: {
-      screen: Me,
-      navigationOptions: () => ({
-        header: null,
-      }),
-    },
-    settings: {
-      screen: Settings,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:me.setting'),
-      }),
-    },
-    changePassword: {
-      screen: ChangePassword,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:me.changePassword'),
-      }),
-    },
-    toggleLanguage: {
-      screen: ToggleLanguage,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:me.language'),
-      }),
-    },
-    nodeChoose: {
-      screen: NodeChoose,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:me.nodeChoose'),
-      }),
-    },
-    aboutUs: {
-      screen: AboutUs,
-      navigationOptions: () => ({...headerBackConfigNoBorder}),
-    },
-    functionIntr: {
-      screen: FunctionIntr,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:me.functionIntroduction'),
-      }),
-    },
-    userProtocol: {
-      screen: UserProtocol,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:userProtocol'),
-      }),
-    },
-    helpCenter: {
-      screen: HelpCenter,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: i18n.t('dipperin:me.helpCenter'),
-      }),
-    },
-    helpCenterDetail: {
-      screen: HelpCenterDetail,
-      navigationOptions: () => ({
-        title: i18n.t('dipperin:me.helpCenterDetails'),
-        ...headerBackConfig,
-      }),
-    },
-  },
-  {
-    navigationOptions: defaultTabBarOptions,
-  },
-);
-
-// hide tab
-export const hideTab = ({navigation}: any) => {
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
+      headerLeft: null,
+      title: i18n.t('dipperin:discovery.title'),
+      headerStyle:{
+        backgroundColor: '#0B0E19',
+      },
+      headerTitleStyle: {
+        width: '100%',
+        color: '#ffffff',
+        textAlign: 'center'
+      }
+    })
   }
-  return {
-    tabBarVisible,
-  };
-};
-meStack.navigationOptions = hideTab;
-discoveryStack.navigationOptions = hideTab;
-walletStack.navigationOptions = hideTab;
+})
+
+export const meStack = createStackNavigator({
+  me: {
+    screen: Me,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+  settings: {
+    screen: Settings,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '设置'
+    })
+  },
+  changePassword: {
+    screen: ChangePassword,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
+  toggleLanguage: {
+    screen: ToggleLanguage,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '语言切换'
+    })
+  },
+  nodeChoose: {
+    screen: NodeChoose,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '节点选择'
+    })
+  },
+  aboutUs: {
+    screen: AboutUs,
+    navigationOptions: () => ({...headerBackConfigNoBorder})
+  },
+  functionIntr: {
+    screen: FunctionIntr,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '功能介绍'
+    })
+  },
+  userProtocol: {
+    screen: UserProtocol,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '用户协议'
+    })
+  },
+  helpCenter: {
+    screen: HelpCenter,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: '帮助中心'
+    })
+  },
+  helpCenterDetail: {
+    screen: HelpCenterDetail,
+    navigationOptions: () => ({
+      title: '帮助中心详情',
+      ...headerBackConfig
+    })
+  }
+}, {
+  navigationOptions: defaultTabBarOptions
+})
+
+
