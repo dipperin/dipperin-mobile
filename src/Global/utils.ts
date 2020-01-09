@@ -19,3 +19,11 @@ export const sleep = (time: number) => {
     }, time)
   })
 }
+
+export const formatNumber = (num: number, w: number) => {
+  const m = 10 ** w
+  const b = Math.floor(num * m) / m
+  return b.toLocaleString('zh-Hans', {
+    maximumFractionDigits: w
+  })
+}

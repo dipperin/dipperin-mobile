@@ -10,7 +10,7 @@ interface Props{
 
 
 const Eye = (props:Props) => {
-    const [isEyeOpen, setEyeStatus] = useState(false)
+    const [isEyeOpen, setEyeStatus] = useState(props.isEyeOpen)
     const handlePress = () => {
         props.onPress(!isEyeOpen)
         setEyeStatus(!isEyeOpen)

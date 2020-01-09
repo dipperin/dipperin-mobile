@@ -5,7 +5,7 @@ const enResource = {
     userProtocol: 'User agreement',
     start: {
       create: 'Create wallet',
-      import: 'Import wallet'
+      import: 'Import wallet',
     },
     import: {
       title: '助记词导入',
@@ -71,15 +71,37 @@ const enResource = {
       pleaseEnterOldPsd: 'Please enter the old password',
       pleaseEnterNewPsd: 'Please enter a new password',
       pleaseConfirmNewPsd: 'Please confirm the new password',
-      psdLimit: 'Password length is 8-24, is composed of Numbers, letters, symbols, letters are case sensitive',
+      psdLimit:
+        'Password length is 8-24, is composed of Numbers, letters, symbols, letters are case sensitive',
       confrimChange: 'Confirm the change',
       forgetPassword: 'Forgot password?',
       walletProduction: 'The wallet products',
       versionUpdate: 'Version update',
-    }
-  }
-
-}
+    },
+    transaction: {
+      transaction: 'Transaction',
+      toAddress: 'To',
+      enterAddressOrWord: 'Please enter address/Shortword',
+      sendAmount: 'Amount',
+      enterAmount: 'Please enter amount',
+      remark: 'Remark',
+      optional: 'Optional',
+      txFee: 'Fee',
+      send: 'Send',
+      low: 'low',
+      middle: 'middium',
+      high: 'high',
+      receive: 'Receive',
+      shortWordReceive: 'Shortword Receive',
+      Shortword: 'Short Word',
+      enterRegisterShortword: 'Please enter your Short Word',
+      enterReceiveAmount: 'Please enter amount',
+      remarkOptional: 'Remard(Optional)',
+      ehterRemark: 'Please enter remark',
+      sendShortword: 'Send Remark',
+    },
+  },
+};
 
 export type I18StartType = typeof enResource.dipperin.start
 export type I18ImportType = typeof enResource.dipperin.import
@@ -88,13 +110,14 @@ export type I18CreateStep1Type = typeof enResource.dipperin.createStep1
 export type I18CreateStep2Type = typeof enResource.dipperin.createStep2
 export type I18CreateStep3Type = typeof enResource.dipperin.createStep3
 export type I18nMeType = typeof enResource.dipperin.me
+export type I18nTransactionType = typeof enResource.dipperin.transaction;
 
 const zhResource: typeof enResource = {
   dipperin: {
     userProtocol: '用户协议',
     start: {
       create: '创建钱包',
-      import: '导入钱包'
+      import: '导入钱包',
     },
     import: {
       title: '助记词导入',
@@ -165,9 +188,31 @@ const zhResource: typeof enResource = {
       forgetPassword: '忘记密码?',
       walletProduction: '钱包产品',
       versionUpdate: '版本更新',
-    }
-  }
-}
+    },
+    transaction: {
+      transaction: '交易',
+      toAddress: '发送地址',
+      enterAddressOrWord: '请输入地址或口令',
+      sendAmount: '发送金额',
+      enterAmount: '输入金额',
+      remark: '备注',
+      optional: '选填',
+      txFee: '交易费',
+      send: '发送',
+      low: '低',
+      middle: '中',
+      high: '高',
+      receive: '收款',
+      shortWordReceive: '口令收款',
+      Shortword: '口令',
+      enterRegisterShortword: '请输入注册口令',
+      enterReceiveAmount: '请输入收款金额',
+      remarkOptional: '备注(选填)',
+      ehterRemark: '输入备注',
+      sendShortword: '发送口令',
+    },
+  },
+};
 
 export const resource = {
   en: enResource,
