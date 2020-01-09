@@ -6505,6 +6505,11 @@ react-native-modal-popover@^0.0.12:
     lodash.debounce "^4.0.8"
     prop-types "^15.6.2"
 
+react-native-modal-translucent@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-translucent/-/react-native-modal-translucent-5.0.0.tgz#8b35cfa4189dce776c77a925b00ad19d965bd0a2"
+  integrity sha512-xhJAlq4uCE7jPEIPxGS1WNiRIm5DCrZEO3SF88moTOm6b4/wfFEANf+lMsVkQf9b9dsQ6Em4nq4uAoejtbHb2A==
+
 react-native-qrcode-svg@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npm.taobao.org/react-native-qrcode-svg/download/react-native-qrcode-svg-6.0.1.tgz#e5609069532d5f0c22a673a74c0eda2d04ce46ec"

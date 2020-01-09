@@ -11,12 +11,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   fingerprintImg: {
-    marginBottom: 14,
+    marginBottom: 10,
     width: 73,
     height: 80,
     resizeMode: 'contain'
   },
   fingerHint: {
+    padding: 4,
     color: '#1C77BC',
     fontSize: 15,
   },

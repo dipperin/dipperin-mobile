@@ -1,11 +1,14 @@
 const enResouce = {
   dipperin: {
     userProtocol: 'User agreement',
-    cancel: 'Cancel',
-    confirm: 'Confirm',
     start: {
       create: 'Create wallet',
       import: 'Import wallet',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      clickAndFingerprintUnlock: 'Click to unlock fingerprint',
+      passwordUnlock: 'Password unlock',
+  
     },
     import: {
       title: '助记词导入',
@@ -77,15 +80,18 @@ export type I18StartType = typeof enResouce.dipperin.start
 export type I18ImportType = typeof enResouce.dipperin.import
 export type I18nMeType = typeof enResouce.dipperin.me
 export type I18nTransactionType = typeof enResouce.dipperin.transaction;
+export type I18nDipperinType = typeof enResouce.dipperin
 
 const zhResource: typeof enResouce = {
   dipperin: {
     userProtocol: '用户协议',
-    cancel: 'Cancel',
-    confirm: 'Confirm',
     start: {
       create: '创建钱包',
       import: '导入钱包',
+      cancel: '取消',
+    confirm: '确认',
+    clickAndFingerprintUnlock: '点击进行指纹解锁',
+    passwordUnlock: '密码解锁',
     },
     import: {
       title: '助记词导入',

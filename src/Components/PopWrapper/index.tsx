@@ -1,25 +1,29 @@
 import React from 'react'
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import i18n from 'I18n'
 
-interface Props {
-  animationType?: 'none' | 'slide' | 'fade',
+const client = Dimensions.get('window')
+
+export interface PopWrapperPropsInterface {
   visible: boolean
+  animationType?: 'none' | 'slide' | 'fade',
+  isConfirm?: boolean
   confrimText?: string
   cancelText?: string
-  onConfirm: () => void
+  onConfirm?: () => void
   onCancel: () => void
 }
 
-const PopWrapper = (Target: React.ComponentType<Props>): React.ReactNode => {
-  return class extends React.Component<Props> {
+const PopWrapper = (Target: React.ComponentType<any>): any => {
+  return class extends React.Component<PopWrapperPropsInterface> {
     static defaultProps = {
       animationType: 'fade',
       cancelText: i18n.t('dipperin:cancel'),
-      confrimText: i18n.t('dipperin:confirm')
+      confrimText: i18n.t('dipperin:confirm'),
+      isConfirm: true
     }
     render() {
-      const { animationType, visible, cancelText, confrimText } = this.props
+      const { animationType, visible, cancelText, confrimText, isConfirm } = this.props
       return (
         <Modal
           animationType={animationType}
@@ -27,14 +31,17 @@ const PopWrapper = (Target: React.ComponentType<Props>): React.ReactNode => {
           visible={visible}
         >
           <View style={styles.popWrapper}>
-            <Target {...this.props} />
-            <View style={styles.btnWrapper}>
-              <TouchableOpacity>
-                <Text>{cancelText}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text>{confrimText}</Text>
-              </TouchableOpacity>
+            <View style={styles.mask}>
+              <Target {...this.props} />
+
+              {isConfirm && <View style={styles.btnWrapper}>
+                <TouchableOpacity>
+                  <Text>{cancelText}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text>{confrimText}</Text>
+                </TouchableOpacity>
+              </View>}
             </View>
           </View>
         </Modal>
@@ -47,11 +54,23 @@ export default PopWrapper
 
 export const styles = StyleSheet.create({
   popWrapper: {
-
+    width: client.width,
+    height: "100%",
+    backgroundColor: 'rgba(52,52,52,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
-  btnWrapper: {
+  mask: {
+    backgroundColor: '#fff',
+    width: client.width * 0.8,
+    borderRadius: 8,
+    overflow: "hidden"
+  },
 
-  }
+
+  btnWrapper: {
+    
+  },
 })
 
