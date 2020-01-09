@@ -9,19 +9,19 @@ interface Props {
 }
 
 const TxItem = (props: Props) => {
-    const { transaction } = props
+    const { transaction: { from, value, timestamp } } = props
     return (
         <View style={styles.txItem}>
             <View style={styles.left}>
-                <Image source={Award} style={styles.icon}/>
+                <Image source={Award} style={styles.icon} />
                 <View>
                     <Text >类型</Text>
-                    <Text style={styles.txt}>from:ccxxx4987123132</Text>
+                    <Text style={styles.txt}>from:{from}</Text>
                 </View>
             </View>
             <View style={styles.right}>
-                <Text style={styles.dip}>65655 DIP</Text>
-                <Text style={styles.txt}>2020/02/02</Text>
+                <Text style={styles.dip}>{value} DIP</Text>
+                <Text style={styles.txt}>{timestamp}</Text>
             </View>
         </View>
     )
@@ -30,30 +30,30 @@ const TxItem = (props: Props) => {
 export default TxItem
 
 const styles = StyleSheet.create({
-    txItem:{
-        flexDirection:'row',
-        borderBottomColor:'#E8EBEE',
-        borderBottomWidth:1,
-        justifyContent:'space-between',
-        alignItems:'center',
-        height:68,
+    txItem: {
+        flexDirection: 'row',
+        borderBottomColor: '#E8EBEE',
+        borderBottomWidth: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 68,
     },
-    left:{
-        flexDirection:'row',
+    left: {
+        flexDirection: 'row',
     },
-    right:{
+    right: {
 
     },
-    icon:{
-        width:43,
-        height:43,
-        marginRight:10
+    icon: {
+        width: 43,
+        height: 43,
+        marginRight: 10
     },
-    dip:{
-        textAlign:"right"
+    dip: {
+        textAlign: "right"
     },
-    txt:{
-        paddingTop:3,
-        color:'#A1A1A1'
+    txt: {
+        paddingTop: 3,
+        color: '#A1A1A1'
     }
 })

@@ -6,9 +6,9 @@ import {
 import { configure } from 'mobx'
 import { I18nextProvider } from 'react-i18next'
 import { Provider } from 'mobx-react'
+import './ global' // for nodejs modules
 import Router from 'Router'
 import i18n from 'I18n'
-import './ global' // for nodejs modules
 import RootStore from 'Store/root'
 
 // Configure mobx

@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native'
+import i18n from 'I18n'
 
 interface Props {
   animationType?: 'none' | 'slide' | 'fade',
@@ -14,9 +15,11 @@ const PopWrapper = (Target: React.ComponentType<Props>): React.ReactNode => {
   return class extends React.Component<Props> {
     static defaultProps = {
       animationType: 'fade',
+      cancelText: i18n.t('dipperin:cancel'),
+      confrimText: i18n.t('dipperin:confirm')
     }
     render() {
-      const {animationType, visible} = this.props
+      const { animationType, visible, cancelText, confrimText } = this.props
       return (
         <Modal
           animationType={animationType}
@@ -24,13 +27,13 @@ const PopWrapper = (Target: React.ComponentType<Props>): React.ReactNode => {
           visible={visible}
         >
           <View style={styles.popWrapper}>
-            <Target {...this.props}/>
+            <Target {...this.props} />
             <View style={styles.btnWrapper}>
               <TouchableOpacity>
-                <Text></Text>
+                <Text>{cancelText}</Text>
               </TouchableOpacity>
               <TouchableOpacity>
-                <Text></Text>
+                <Text>{confrimText}</Text>
               </TouchableOpacity>
             </View>
           </View>

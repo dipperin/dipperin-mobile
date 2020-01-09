@@ -66,7 +66,6 @@ export default class AccountStore {
   load = async () => {
     try {
       const accounts = await getAccount()
-      console.log(accounts, 'sssss')
       if (accounts.length > 0) {
         accounts.forEach(account => {
           runInAction(() => {
@@ -99,12 +98,12 @@ export default class AccountStore {
    * @param index
    */
   @action
-  addAccount = async (index?: string) => {
+  addAccount = async (name:string,index?: string) => {
     const newIndex = index ? index : this.getSafeAccountIndex()
     const newPath = `${ACCOUNTS_PATH}/${newIndex}`
     const address = this._store.wallet.getAccountByPath(newPath).address
     // Add new account
-    const newAccount = this.newAccount(newIndex, newPath, address, '')
+    const newAccount = this.newAccount(newIndex, newPath, address, name)
     // Save account
     this._accountMap.set(newIndex, newAccount)
     // add to db
@@ -150,8 +149,10 @@ export default class AccountStore {
    * @param accountId new active account id
    */
   @action
-  changeActiveAccount(accountId: string): void {
+  changeActiveAccount=(accountId: string)=>{
+
     const newActiveAccount = this._accountMap.get(accountId)
+    console.log(newActiveAccount,accountId)
     if (newActiveAccount) {
       this._activeAccount = newActiveAccount
       // change wallet active accoun id

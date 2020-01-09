@@ -1,45 +1,23 @@
 import { View, Text, StyleSheet } from "react-native"
 import React from "react"
 import { Tabs } from "@ant-design/react-native"
-import {TabsConfig } from "../config"
-import TxList  from "./TxList"
+import { TabsConfig } from "../config"
+import TxList from "./TxList"
 
+import TransactionStore from 'Store/transaction'
+import AccountModel from "Models/account"
 
-import TransactionModel from "Models/transaction"
+import { getSentTransactions, getReceivedTransactions, getFailedTransactions } from "../config"
 
-
-const nonce = '1'
-const value = '1'
-const from = '0xaaa'
-const to = '0x11111'
-const extraData = 'aaaa'
-const timeLock = 1
-const status = 'pending'
-const hashLock = ''
-const transactionHash = '0x111112'
-const fee = '1'
-const timestamp = 111
-
-const mockTx = {
-  nonce,
-  value,
-  from,
-  to,
-  extraData,
-  timeLock,
-  status,
-  hashLock,
-  transactionHash,
-  fee,
-  timestamp
+interface Props {
+    transaction: TransactionStore
+    activeAccount: AccountModel
 }
 
+const TxRecord = (props: Props) => {
 
-
-const TxRecord = () => {
-    const tx = new TransactionModel(mockTx)
-    const txs = [tx,tx,tx,tx,tx,tx]
-
+    const { transactions } = props.transaction!
+    const { address } = props.activeAccount!
     return (
         <View style={styles.tabsBox}>
             <Tabs
@@ -49,16 +27,16 @@ const TxRecord = () => {
                 tabBarUnderlineStyle={styles.bottomLine}
             >
                 <View style={styles.tabContent}>
-                    <TxList transactions={txs}/>
+                    <TxList transactions={transactions} />
                 </View>
                 <View style={styles.tabContent}>
-                    <Text>Content of Second Tab</Text>
+                    <TxList transactions={getSentTransactions(transactions, address)} />
                 </View>
                 <View style={styles.tabContent}>
-                    <Text>Content of Third Tab</Text>
+                    <TxList transactions={getReceivedTransactions(transactions, address)} />
                 </View>
                 <View style={styles.tabContent}>
-                    <Text>Content of fourth Tab</Text>
+                    <TxList transactions={getFailedTransactions(transactions)} />
                 </View>
             </Tabs>
         </View>
