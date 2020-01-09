@@ -23,7 +23,12 @@ import HelpCenter from 'Pages/Me/HelpCenter'
 import ChangePassword from 'Pages/Me/Settings/ChangePassword'
 import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
 import NodeChoose from 'Pages/Me/Settings/NodeChoose'
+
 import Import from 'Pages/InitWallet/Import'
+import Create from 'Pages/InitWallet/Create'
+import CreateStep1 from 'Pages/InitWallet/Create/CreateStep1'
+import CreateStep2 from 'Pages/InitWallet/Create/CreateStep2'
+import CreateStep3 from 'Pages/InitWallet/Create/CreateStep3'
 
 import i18n from 'I18n'
 
@@ -81,7 +86,31 @@ export const initWalletStack = createStackNavigator({
       ...headerBackConfig,
       title: i18n.t('dipperin:import.title')
     })
-  }
+  },
+  create: {
+    screen: Create,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
+  createStep1: {
+    screen: CreateStep1,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
+  createStep2: {
+    screen: CreateStep2,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
+  createStep3: {
+    screen: CreateStep3,
+    navigationOptions: () => ({
+      ...headerBackConfig
+    })
+  },
 })
 
 export const walletStack = createStackNavigator({

@@ -33,7 +33,7 @@ export default class WalletStore {
   @observable
   private _hdAccount?: AccountObject // Seed
 
-  destroyMnemonic: () => void = noop
+  destroyMnemonic?: () => Promise<undefined | string>
 
   constructor(store: RootStore) {
     this._store = store
@@ -196,7 +196,7 @@ export default class WalletStore {
     } catch (err) {
       console.log(err)
       return err
-    } 
+    }
   }
 
   /**
@@ -259,15 +259,19 @@ export default class WalletStore {
    * @param password
    */
   @action
-  private async createDestroyMnemonic(password: string): Promise<() => void> {
+  private async createDestroyMnemonic(password: string): Promise< () => Promise<undefined | string>> {
     const random = await getRandom(16)
     const mnemonic = BIP39.entropyToMnemonic(random.toString('hex'))
     this._mnemonic = mnemonic
-    return () => {
-      // Destroy mnemonic and init the wallet
-      this.initWallet(password, mnemonic)
-      // this._store.startUpdate() // TODO
-      this._mnemonic = ''
+    return async () => {
+      try {
+        // Destroy mnemonic and init the wallet
+        await this.initWallet(password, mnemonic)
+        this._mnemonic = ''
+      } catch (err) {
+        console.log(err)
+        return err
+      }
     }
   }
 

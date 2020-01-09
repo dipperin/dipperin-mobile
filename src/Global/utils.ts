@@ -12,3 +12,10 @@ export const getRandom = (count: number): Promise<Buffer> => new Promise((resolv
   })
 })
 
+export const sleep = (time: number) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
