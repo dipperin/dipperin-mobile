@@ -1,9 +1,35 @@
-const enResouce = {
+
+
+const enResource = {
   dipperin: {
     userProtocol: 'User agreement',
     start: {
       create: 'Create wallet',
-      import: 'Import wallet',
+      import: 'Import wallet'
+    },
+    discovery: {
+      title: 'discovery',
+      tab1: 'Hot DApp',
+      tab2: 'Smart Contracts',
+      tab3: 'Rich List',
+      contracts: {
+        contractsAdress: 'Contracts Adress',
+        contractsName: 'Contracts name',
+        over: 'over(DIP)',
+        transactionsNumber: 'Transaction number'
+      },
+      apps: {
+        users: 'users',
+        transactionsNumber: 'transactions number',
+        transactionsValue: 'Transaction value',
+        over: 'over(DIP)',
+      },
+      fortune: {
+        sort: 'sort',
+        holdings: 'holdings',
+        account: 'account address',
+        over: 'over(DIP)',
+      }
     },
     import: {
       title: '助记词导入',
@@ -14,6 +40,36 @@ const enResouce = {
       agreeLabel: '我已仔细阅读并同意',
       agree: '《用户协议》',
       btnText: '导入钱包',
+    },
+    create: {
+      title: '创建钱包',
+      mnemonicPlh: '请按顺序输入助记词',
+      passwordPlh: '请设置钱包密码',
+      repeatPasswordPlh: '请重复密码',
+      passwordTip: '密码提示信息(可不填)',
+      agreeLabel: '我已仔细阅读并同意',
+      agree: "《用户协议》",
+      btnText: '创建钱包'
+    },
+    createStep1: {
+      title: '钱包助记词',
+      intro: '助记词即为私钥，它是掌管您资产的钥匙，请妥善保管。',
+      item1: '• 助记词由12或24个单词组成，请抄写并保管在安全的地方。',
+      item2: '• 100%由您掌管，一经丢失，无法找回。',
+      item3: '• 请在创建钱包时，务必完成助记词备份。',
+      btnText: '去备份'
+    },
+    createStep2: {
+      title: '备份助记词',
+      intro: '助记词用于恢复钱包或重置钱包密码，将它按顺序准确的抄写在纸上或保存在安全的电子设备内，并存放在只有你知道的地方。',
+      menmonic: '助记词',
+      btnText: '去备份'
+    },
+    createStep3: {
+      title: '确认助记词',
+      intro: '为了确保您已将助记词正确抄写，备份保存，请按照对应的顺序点击助记词。',
+      menmonic: '助记词',
+      btnText: '完成'
     },
     me: {
       personalCenter: 'Personal center',
@@ -77,17 +133,45 @@ const enResouce = {
   },
 };
 
-export type I18StartType = typeof enResouce.dipperin.start;
-export type I18ImportType = typeof enResouce.dipperin.import;
-export type I18nMeType = typeof enResouce.dipperin.me;
-export type I18nTransactionType = typeof enResouce.dipperin.transaction;
+export type I18StartType = typeof enResource.dipperin.start
+export type I18ImportType = typeof enResource.dipperin.import
+export type I18CreateType = typeof enResource.dipperin.create
+export type I18CreateStep1Type = typeof enResource.dipperin.createStep1
+export type I18CreateStep2Type = typeof enResource.dipperin.createStep2
+export type I18CreateStep3Type = typeof enResource.dipperin.createStep3
+export type I18nMeType = typeof enResource.dipperin.me
+export type I18nTransactionType = typeof enResource.dipperin.transaction;
 
-const zhResource: typeof enResouce = {
+const zhResource: typeof enResource = {
   dipperin: {
     userProtocol: '用户协议',
     start: {
       create: '创建钱包',
-      import: '导入钱包',
+      import: '导入钱包'
+    },
+    discovery: {
+      title: '发现',
+      tab1: '热门应用',
+      tab2: '合约排行',
+      tab3: '富豪榜',
+      contracts: {
+        contractsAdress: '合约地址',
+        contractsName: '合约名称',
+        over: '余额(DIP)',
+        transactionsNumber: '交易额'
+      },
+      apps: {
+        users: '用户',
+        transactionsNumber: '交易',
+        transactionsValue: 'Transaction value',
+        over: '余额(DIP)',
+      },
+      fortune: {
+        sort: '排序',
+        holdings: '持有量',
+        account: '账户地址',
+        over: '余额(DIP)',
+      }
     },
     import: {
       title: '助记词导入',
@@ -98,6 +182,36 @@ const zhResource: typeof enResouce = {
       agreeLabel: '我已仔细阅读并同意',
       agree: '《用户协议》',
       btnText: '导入钱包',
+    },
+    create: {
+      title: '创建钱包',
+      mnemonicPlh: '请按顺序输入助记词',
+      passwordPlh: '请设置钱包密码',
+      repeatPasswordPlh: '请重复密码',
+      passwordTip: '密码提示信息(可不填)',
+      agreeLabel: '我已仔细阅读并同意',
+      agree: "《用户协议》",
+      btnText: '创建钱包'
+    },
+    createStep1: {
+      title: '钱包助记词',
+      intro: '助记词即为私钥，它是掌管您资产的钥匙，请妥善保管。',
+      item1: '• 助记词由12或24个单词组成，请抄写并保管在安全的地方。',
+      item2: '• 100%由您掌管，一经丢失，无法找回。',
+      item3: '• 请在创建钱包时，务必完成助记词备份。',
+      btnText: '去备份'
+    },
+    createStep2: {
+      title: '备份助记词',
+      intro: '助记词用于恢复钱包或重置钱包密码，将它按顺序准确的抄写在纸上或保存在安全的电子设备内，并存放在只有你知道的地方。',
+      menmonic: '助记词',
+      btnText: '去备份'
+    },
+    createStep3: {
+      title: '确认助记词',
+      intro: '为了确保您已将助记词正确抄写，备份保存，请按照对应的顺序点击助记词。',
+      menmonic: '助记词',
+      btnText: '完成'
     },
     me: {
       personalCenter: '个人中心',
@@ -161,6 +275,6 @@ const zhResource: typeof enResouce = {
 };
 
 export const resource = {
-  en: enResouce,
-  zh: zhResource,
-};
+  en: enResource,
+  zh: zhResource
+}
