@@ -9,11 +9,13 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
 import Toast from 'Components/Toast'
+import { setStorage } from 'Db'
 
 import { I18CreateType } from 'I18n/config'
 import WalletStore from 'Store/wallet'
 
 import WalletIcon from 'Assets/create-wallet.png'
+import { STORAGE_KEYS } from 'Global/constants';
 
 interface Props {
   wallet?: WalletStore,
@@ -77,6 +79,7 @@ class Create extends React.Component<Props> {
 
     const err = await this.props.wallet!.create(password)
     if (!err) {
+      setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
       this.props.navigation.navigate('createStep1')
     }
   }

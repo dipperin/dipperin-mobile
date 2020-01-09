@@ -227,6 +227,30 @@ export default class WalletStore {
     }
   }
 
+  changePassword(newPassword: string): string | undefined {
+    try {
+      if (!this._hdAccount) {
+        return 'Account does not exist!'
+      }
+      // Try to parse mnemonic to seed, if fail, return error
+      // save encrypt seed, an then clear password and mnemonic
+      const encryptSeed = this._hdAccount!.encrypt(newPassword)
+      const { walletId, activeAccountId } = this._currentWallet!
+      const walletObj: WalletObj = {
+        walletId,
+        activeAccountId,
+        encryptSeed,
+        unlockErrTimes: DEFAULT_ERR_TIMES,
+        lockTime: DEFAULT_LOCK_TIME
+      }
+      this._currentWallet = new WalletModel(walletObj)
+      this.saveWallet() // save wallet in storage
+    } catch (err) {
+      console.log(err)
+      return err
+    }
+  }
+
 
   /**
    * Clear all data
@@ -259,7 +283,7 @@ export default class WalletStore {
    * @param password
    */
   @action
-  private async createDestroyMnemonic(password: string): Promise< () => Promise<undefined | string>> {
+  private async createDestroyMnemonic(password: string): Promise<() => Promise<undefined | string>> {
     const random = await getRandom(16)
     const mnemonic = BIP39.entropyToMnemonic(random.toString('hex'))
     this._mnemonic = mnemonic

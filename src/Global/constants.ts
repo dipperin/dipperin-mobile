@@ -54,7 +54,8 @@ export const TRANSACTION_LIMIT_TIME = 600000
  */
 export enum STORAGE_KEYS {
   WALLET_ID = 'walletId',
-  NET = 'net'
+  NET = 'net',
+  PASSWORD_TIP = 'passwordTip'
 }
 
 /**

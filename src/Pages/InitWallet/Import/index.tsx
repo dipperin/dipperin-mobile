@@ -10,6 +10,8 @@ import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
 import Toast from 'Components/Toast'
 import { sleep } from 'Global/utils'
+import { setStorage } from 'Db'
+import { STORAGE_KEYS } from 'Global/constants'
 
 import { I18ImportType } from 'I18n/config'
 import WalletStore from 'Store/wallet'
@@ -85,6 +87,7 @@ class Import extends React.Component<Props> {
     const err = await this.props.wallet!.create(password, mnemonic)
     Toast.hide()
     if (!err) {
+      setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
       this.props.navigation.navigate('wallet')
     }
   }
