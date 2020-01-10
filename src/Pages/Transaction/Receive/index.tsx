@@ -6,7 +6,9 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   TouchableOpacity,
+  Clipboard,
 } from 'react-native';
+import {Button} from '@ant-design/react-native';
 import {
   NavigationStackScreenProps,
   NavigationStackOptions,
@@ -36,11 +38,30 @@ class Receive extends React.Component<Props> {
     this.props.navigation.navigate('shortword');
   };
 
+  copyToClickboard = () => {
+    Clipboard.setString(this.props.account!.activeAccount!.address);
+  };
+
   render() {
     return (
       <View style={styles.mainWrapper}>
-        <StatusBar backgroundColor="#666" />
+        <StatusBar backgroundColor="#1C77BC" barStyle="light-content" />
         <View style={styles.mainContent}>
+          <View style={styles.contentTitleWrapper}>
+            <Text style={styles.contentTitle}>收款码</Text>
+          </View>
+
+          <View style={styles.addressWrapper}>
+            <View style={styles.addressContent}>
+              <Text style={styles.address}>
+                {this.props.account!.activeAccount!.address ||
+                  '0x0000351f283c318f43da159048Ded9542c20f1DFe89C'}
+              </Text>
+              <Button style={styles.copy} onPress={this.copyToClickboard}>
+              </Button>
+            </View>
+          </View>
+
           <View style={styles.qrcodeWrapper}>
             <QRCode
               value={
@@ -50,34 +71,23 @@ class Receive extends React.Component<Props> {
               size={200}
             />
           </View>
-          <View style={styles.addressWrapper}>
-            <Text>地址</Text>
-            <View style={styles.addressContent}>
-              <Text style={styles.address}>
-                {this.props.account!.activeAccount!.address ||
-                  '0x0000351f283c318f43da159048Ded9542c20f1DFe89C'}
-              </Text>
-              <Text style={styles.copy}>复制</Text>
-            </View>
-          </View>
-
-          <TouchableOpacity
-            style={styles.btnWrapper}
-            activeOpacity={0.8}
-            onPress={this.turnToShortword}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 250,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: '#149bd5',
-              }}>
-              <Text style={{color: '#fff', fontSize: 17}}>口令收款</Text>
-            </View>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={styles.btnWrapper}
+          activeOpacity={0.8}
+          onPress={this.turnToShortword}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 308,
+              height: 44,
+              borderRadius: 22,
+              backgroundColor: '#4992c9',
+            }}>
+            <Text style={{color: '#fff', fontSize: 17}}>口令收款</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
