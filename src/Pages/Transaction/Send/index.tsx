@@ -230,7 +230,7 @@ class Send extends React.Component<Props> {
         </View>
         <TextInput
           style={styles.toAddressInput}
-          value={this.toAddress}
+          value={this.addressOrShortWord}
           onChangeText={this.handleChangeAddressOrShortword}
           placeholder={labels.enterAddressOrWord}
         />
