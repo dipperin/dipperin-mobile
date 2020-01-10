@@ -1,5 +1,5 @@
-const host = 'http://14.17.65.122:8010'
-const baseUrl = '/api/v1'
+export const host = 'http://172.16.5.120:8886'
+export const baseUrl = '/api/v1'
 
 export const fetchRequest = async (url: string = '', method: string = 'GET', body?: object) => {
   try {
@@ -8,16 +8,19 @@ export const fetchRequest = async (url: string = '', method: string = 'GET', bod
       method: method,
       headers:{
         'Content-Type': 'application/json',
-      }}), new Promise((resolve, reject) => {
+      },
+      body: body ? JSON.stringify(body) : ''
+    }), new Promise((resolve, reject) => {
         setTimeout(() => {
           reject('timeout')
         }, 20000)
       })])
+    console.log('res:', res, 'params:', body)
     // handle response
     const resJson = await res.json()
-    console.log(url, "api","params: ", body, "res: ", resJson)
+    console.log("resJson: ", resJson)
     if (resJson && resJson.success !== true) {
-      console.log("result", resJson.success)
+      console.log("result", resJson.info)
     }
     return resJson
   } catch (error) {
