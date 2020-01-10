@@ -6,6 +6,7 @@ import TxList from "./TxList"
 
 import TransactionStore from 'Store/transaction'
 import AccountModel from "Models/account"
+import TransactionModel from "Models/transaction"
 
 import { getSentTransactions, getReceivedTransactions, getFailedTransactions } from "../config"
 
@@ -13,11 +14,38 @@ interface Props {
     transaction: TransactionStore
     activeAccount: AccountModel
 }
+const nonce = '1'
+const value = '1'
+const from = '0xaaa'
+const to = '0x11111'
+const extraData = 'aaaa'
+const timeLock = 1
+const status = 'pending'
+const hashLock = ''
+const transactionHash = '0x111112'
+const fee = '1'
+const timestamp = 111
+
+const mockTx = {
+  nonce,
+  value,
+  from,
+  to,
+  extraData,
+  timeLock,
+  status,
+  hashLock,
+  transactionHash,
+  fee,
+  timestamp
+}
+const tx = new TransactionModel(mockTx)
 
 const TxRecord = (props: Props) => {
 
     const { transactions } = props.transaction!
     const { address } = props.activeAccount!
+    const txs=[tx,tx,tx,tx,tx,tx,tx,tx]
     return (
         <View style={styles.tabsBox}>
             <Tabs
@@ -27,7 +55,7 @@ const TxRecord = (props: Props) => {
                 tabBarUnderlineStyle={styles.bottomLine}
             >
                 <View style={styles.tabContent}>
-                    <TxList transactions={transactions} />
+                    <TxList transactions={txs} />
                 </View>
                 <View style={styles.tabContent}>
                     <TxList transactions={getSentTransactions(transactions, address)} />
@@ -55,6 +83,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#1C77BC"
     },
     tabContent: {
-        flex: 1
+        flex: 1,
+        backgroundColor: "#fff"
     }
 })

@@ -18,12 +18,15 @@ import CreateStep2 from 'Pages/InitWallet/Create/CreateStep2'
 import CreateStep3 from 'Pages/InitWallet/Create/CreateStep3'
 
 //about acount
-import Assets from 'Pages/Accounts/AssetsIndex'
-import AddAccount from 'Pages/Accounts/AddAccount'
-import AccountDetail from 'Pages/Accounts/AccountDetail'
-import Send from 'Pages/Transaction/Send'
-import Receive from 'Pages/Transaction/Receive'
-import Shortword from 'Pages/Transaction/Shortword'
+import Assets from 'Pages/Accounts/AssetsIndex';
+import AddAccount from 'Pages/Accounts/AddAccount';
+import AccountDetail from 'Pages/Accounts/AccountDetail';
+import TransactionDetail from "Pages/Accounts/TransactionDetail"
+import ScanScreen from "Pages/Accounts/ScanScreen"
+import Send from 'Pages/Transaction/Send';
+import Receive from 'Pages/Transaction/Receive';
+import Shortword from 'Pages/Transaction/Shortword';
+
 
 // discovery
 import Discovery from 'Pages/Discovery';
@@ -144,7 +147,7 @@ export const walletStack = createStackNavigator({
     screen:AccountDetail,
     navigationOptions:(props) => ({
       ...headerBackConfig,
-      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('Scan')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
+      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('ScanScreen')}}><Icon name={'icon|saoma'} size={20} color="#393B42"/></CustomIcon>,
       title: 'Dip'
     })
   },
@@ -153,6 +156,13 @@ export const walletStack = createStackNavigator({
     navigationOptions: (props) => ({
       title: i18n.t('dipperin:transaction.transaction'),
       headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('accountDetail')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
+      ...headerBackConfig,
+    }),
+  },
+  TransactionDetail: {
+    screen: TransactionDetail,
+    navigationOptions: () => ({
+      title: '交易记录',
       ...headerBackConfig,
     }),
   },
@@ -170,6 +180,12 @@ export const walletStack = createStackNavigator({
       ...headerBackConfig,
     }),
   },
+  ScanScreen:{
+    screen:ScanScreen,
+    navigationOptions:()=>({
+      header:null
+    })
+  }
 });
 
 export const discoveryStack = createStackNavigator({
