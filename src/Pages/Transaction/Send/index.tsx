@@ -58,9 +58,14 @@ class Send extends React.Component<Props> {
   }
   componentDidMount() {
     if (this.props.navigation.getParam('address')) {
-      this.handleChangeToAddress(this.props.navigation.getParam('address'));
+      this.handleChangeAddressOrShortword(
+        this.props.navigation.getParam('address'),
+      );
     } else {
       this.getAddressFromClickboard();
+    }
+    if (this.props.navigation.getParam('amount')) {
+      this.handleChangeSendAmount(this.props.navigation.getParam('amount'));
     }
   }
 
