@@ -25,7 +25,6 @@ class AccountDetail extends React.Component<Props> {
         this.props.navigation.navigate(routeName)
     }
     render() {
-        console.log(1111111, this.props.transaction.transactions)
         const { activeAccount } = this.props.account
         const { isEyeOpen, setIsEyeOpen } = this.props.system
         return (
