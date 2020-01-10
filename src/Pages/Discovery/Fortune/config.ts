@@ -17,22 +17,22 @@ export const styles  = StyleSheet.create({
     borderRadius: 8,
     height: 44,
   },
-  adress: {
+  address: {
     flex: 1.5,
     textAlign:'center',
     color: '#ffffff'
   },
-  name: {
-    flex:1,
+  holdings: {
+    flex:1.5,
     textAlign: 'center',
     color: '#ffffff'
   },
-  over: {
+  balance: {
     flex:2,
     textAlign: 'center',
     color: '#ffffff'
   },
-  sort: {
+  ranking: {
     flex:1,
     textAlign: 'center',
     color: '#ffffff'

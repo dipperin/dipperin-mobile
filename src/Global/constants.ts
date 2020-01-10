@@ -92,3 +92,16 @@ export const CHAIN_ID_DIC = {
   [NET.VENUS]: '0x02',
   [NET.TEST]: '0x640'
 }
+
+
+export const CONTRACT_ADDRESS = '0x0014a4A3397aEFB57B0Db4b146E5f767411C0f445482'
+
+export const REGISTER_PASSWORD = 'registerPassword'
+export const QUERY_PASSWORD_BY_ADDR = 'queryPasswordByAddr'
+export const QUERY_ADDR_BY_PASSWORD = 'queryAddrByPassword'
+
+export const METHOD_INPUTS = {
+  [REGISTER_PASSWORD]: ['string'],
+  [QUERY_PASSWORD_BY_ADDR]: ['string'],
+  [QUERY_ADDR_BY_PASSWORD]: ['string'],
+}
