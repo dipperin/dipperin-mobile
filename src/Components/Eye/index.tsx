@@ -15,6 +15,9 @@ const Eye = (props:Props) => {
         props.onPress(!isEyeOpen)
         setEyeStatus(!isEyeOpen)
     }
+    useEffect(()=>{
+        setEyeStatus(props.isEyeOpen)
+    })
     return (
         <TouchableOpacity onPress={handlePress}>
             {isEyeOpen ? <Icon name={"icon|openEye"} size={20} color={"#67686E"} /> : <Icon name={"icon|closedEye"} size={20} color={"#67686E"} />}

@@ -1,6 +1,6 @@
 import React from 'react'
 import i18n from 'I18n';
-import { View, StyleProp, TextStyle ,Text} from 'react-native'
+import { View, StyleProp, TextStyle, Text } from 'react-native'
 import { createStackNavigator } from 'react-navigation-stack'
 import { defaultTabBarOptions } from './utils'
 
@@ -128,26 +128,26 @@ export const walletStack = createStackNavigator({
   Assets: {
     screen: Assets,
     navigationOptions: (props) => ({
-      headerLeft:<View/>,
-      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('AddAccount')}}><Icon name={'icon|tianjia'} size={25} color="#fff" /></CustomIcon>,
-      headerStyle:{...commonHeaderStyle,backgroundColor: '#275DA5'},
-      headerTitleStyle:{...defaultHeaderTitleStyle,color:"#fff"},
-      title:'Wallet'
+      headerLeft: <View />,
+      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('AddAccount') }}><Icon name={'icon|tianjia'} size={25} color="#fff" /></CustomIcon>,
+      headerStyle: { ...commonHeaderStyle, backgroundColor: '#275DA5' },
+      headerTitleStyle: { ...defaultHeaderTitleStyle, color: "#fff" },
+      title: 'Wallet'
     })
   },
-  AddAccount:{
-    screen:AddAccount,
-    navigationOptions:(props) => ({
+  AddAccount: {
+    screen: AddAccount,
+    navigationOptions: (props) => ({
       ...headerBackConfig,
       title: 'Add Account',
-      headerRight:<CustomIcon onPress={props.navigation.getParam('addAccount')}><Text>确定</Text></CustomIcon>
+      headerRight: <CustomIcon onPress={props.navigation.getParam('addAccount')}><Text>确定</Text></CustomIcon>
     })
   },
-  accountDetail:{
-    screen:AccountDetail,
-    navigationOptions:(props) => ({
+  accountDetail: {
+    screen: AccountDetail,
+    navigationOptions: (props) => ({
       ...headerBackConfig,
-      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('ScanScreen')}}><Icon name={'icon|saoma'} size={20} color="#393B42"/></CustomIcon>,
+      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('ScanScreen') }}><Icon name={'icon|saoma'} size={20} color="#393B42" /></CustomIcon>,
       title: 'Dip'
     })
   },
@@ -155,7 +155,7 @@ export const walletStack = createStackNavigator({
     screen: Send,
     navigationOptions: (props) => ({
       title: i18n.t('dipperin:transaction.transaction'),
-      headerRight:<CustomIcon onPress={()=>{props.navigation.navigate('accountDetail')}}><Icon name={'icon|saoma'} size={20} color="##393B42"/></CustomIcon>,
+      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('accountDetail') }}><Icon name={'icon|saoma'} size={20} color="##393B42" /></CustomIcon>,
       ...headerBackConfig,
     }),
   },
@@ -180,10 +180,10 @@ export const walletStack = createStackNavigator({
       ...headerBackConfig,
     }),
   },
-  ScanScreen:{
-    screen:ScanScreen,
-    navigationOptions:()=>({
-      header:null
+  ScanScreen: {
+    screen: ScanScreen,
+    navigationOptions: () => ({
+      header: null
     })
   }
 });
@@ -195,7 +195,7 @@ export const discoveryStack = createStackNavigator({
       ...headerBackConfig,
       headerLeft: null,
       title: i18n.t('dipperin:discovery.title'),
-      headerStyle:{
+      headerStyle: {
         backgroundColor: '#0B0E19',
       },
       headerTitleStyle: {
@@ -243,7 +243,7 @@ export const meStack = createStackNavigator({
   },
   aboutUs: {
     screen: AboutUs,
-    navigationOptions: () => ({...headerBackConfigNoBorder})
+    navigationOptions: () => ({ ...headerBackConfigNoBorder })
   },
   functionIntr: {
     screen: FunctionIntr,
@@ -278,3 +278,17 @@ export const meStack = createStackNavigator({
 })
 
 
+
+// hide tab
+export const hideTab = ({ navigation }: any) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+    return {
+      tabBarVisible,
+    };
+  };
+}
+meStack.navigationOptions = hideTab;
+discoveryStack.navigationOptions = hideTab;
+walletStack.navigationOptions = hideTab;

@@ -13,12 +13,12 @@ export const getRandom = (count: number): Promise<Buffer> => new Promise((resolv
   })
 })
 
-export const balancePercent = (balance: string | number, height: number): string => {  
+export const balancePercent = (balance: string | number, height: number): string => {
   return new BigNumber(balance)
-  .div(2 * height + 52560000)
-  .times(100)
-  .toString(10)
-  .substr(0, 10)
+    .div(2 * height + 52560000)
+    .times(100)
+    .toString(10)
+    .substr(0, 10)
 }
 export const sleep = (time: number) => {
   return new Promise(resolve => {
@@ -34,4 +34,8 @@ export const formatNumber = (num: number, w: number) => {
   return b.toLocaleString('zh-Hans', {
     maximumFractionDigits: w
   })
+}
+
+export const getIsTxFromMe = (myAddress: string, fromAddress: string) => {
+  return myAddress === fromAddress
 }

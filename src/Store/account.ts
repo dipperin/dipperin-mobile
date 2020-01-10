@@ -56,7 +56,7 @@ export default class AccountStore {
    */
   @action
   initAccount = async (): Promise<void> => {
-    await this.addAccount(FIRST_ACCOUNT_ID)
+    await this.addAccount('',FIRST_ACCOUNT_ID)
   }
 
   /**
@@ -152,7 +152,6 @@ export default class AccountStore {
   changeActiveAccount=(accountId: string)=>{
 
     const newActiveAccount = this._accountMap.get(accountId)
-    console.log(newActiveAccount,accountId)
     if (newActiveAccount) {
       this._activeAccount = newActiveAccount
       // change wallet active accoun id
