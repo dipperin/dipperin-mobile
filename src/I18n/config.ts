@@ -11,17 +11,10 @@ const enResource = {
       tab2: 'Smart Contracts',
       tab3: 'Rich List',
       contracts: {
-<<<<<<< HEAD
         address: 'Address',
         name: 'Name',
         txCount: 'TxCount',
         value: 'Value',
-=======
-        contractsAdress: 'Contracts Adress',
-        contractsName: 'Contracts name',
-        over: 'over(DIP)',
-        transactionsNumber: 'Transaction number',
->>>>>>> 28ae91216cc709ef0e2c3a410bc7810e9c8a0421
       },
       apps: {
         accounts: 'Accounts',
@@ -30,19 +23,11 @@ const enResource = {
         moreDapp: 'Stay tuned for more DApps'
       },
       fortune: {
-<<<<<<< HEAD
         ranking: 'Ranking',
         holdings: 'Holdings',
         address: 'Address',
         balance: 'Balance',
       }
-=======
-        sort: 'sort',
-        holdings: 'holdings',
-        account: 'account address',
-        over: 'over(DIP)',
-      },
->>>>>>> 28ae91216cc709ef0e2c3a410bc7810e9c8a0421
     },
     import: {
       title: 'Import Mnemonic',
