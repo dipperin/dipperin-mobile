@@ -1,12 +1,16 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import React from "react"
-import { NavigationScreenProp,withNavigation } from "react-navigation"
+import { NavigationScreenProp, withNavigation } from "react-navigation"
+import moment from "moment"
+import { getIsTxFromMe } from "Global/utils"
 
 import TransactionModel from "Models/transaction"
 import Collection from "Assets/collection.png"
+import Transfer from "Assets/transfer.png"
 
 
 interface Props {
+    activeAccountaddress: string
     transaction: TransactionModel
     navigation: NavigationScreenProp<any>
 }
@@ -17,23 +21,24 @@ class TxItem extends React.Component<Props>{
     }
 
     render() {
-        const { transaction: { from, value, timestamp } } = this.props
-
+        const { activeAccountaddress, transaction: { from, value, timestamp } } = this.props
+        const showTime = timestamp ? moment(Math.floor(timestamp / 1000000)).format('YYYY/MM/DD') : ''
+        const isFromMe = getIsTxFromMe(activeAccountaddress, from)
         return (
             <TouchableOpacity
                 onPress={this.goDetail}
             >
                 <View style={styles.txItem}>
                     <View style={styles.left}>
-                        <Image source={Collection} style={styles.icon} />
+                        <Image source={isFromMe ? Transfer : Collection} style={styles.icon} />
                         <View>
-                            <Text >类型</Text>
-                            <Text style={styles.txt}>from:{from}</Text>
+                            <Text >{isFromMe ? '转账' : '收款'}</Text>
+                            <Text style={styles.txt} numberOfLines={1} ellipsizeMode={'tail'}>{isFromMe?'To':'From'}: {from}</Text>
                         </View>
                     </View>
                     <View style={styles.right}>
                         <Text style={styles.dip}>{value} DIP</Text>
-                        <Text style={styles.txt}>{timestamp}</Text>
+                        <Text style={styles.txt}>{showTime}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
         textAlign: "right"
     },
     txt: {
+        maxWidth: 200,
         paddingTop: 3,
         color: '#A1A1A1'
     }

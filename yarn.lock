@@ -5481,6 +5481,11 @@ mobx@^5.15.1:
   resolved "https://registry.npm.taobao.org/mobx/download/mobx-5.15.1.tgz#ba07807808b3f9dc3e6b0a74ba69bcccc6df4ece"
   integrity sha1-ugeAeAiz+dw+awp0umm8zMbfTs4=
 
+moment@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.npm.taobao.org/moment/download/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
+
 morgan@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/morgan/download/morgan-1.9.1.tgz#0a8d16734a1d9afbc824b99df87e738e58e2da59"
@@ -6457,6 +6462,11 @@ react-native-crypto@^2.0.1, react-native-crypto@^2.2.0:
     public-encrypt "^4.0.0"
     randomfill "^1.0.3"
 
+react-native-fingerprint-scanner@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-fingerprint-scanner/-/react-native-fingerprint-scanner-3.0.2.tgz#ca9994de4b30dcf5ad2f5b420bfdd4d8775e8831"
+  integrity sha512-e6EkSgThwHAI9y5y2G3HdEbuKBka2lu3gRzpWzQs8FQF3t2DIB7fRHdA3/fnd33T39P0vU6hSCc9xwSpDbSdyg==
+
 react-native-gesture-handler@^1.5.2:
   version "1.5.3"
   resolved "https://registry.npm.taobao.org/react-native-gesture-handler/download/react-native-gesture-handler-1.5.3.tgz#191b44701fab7ba54c27a2438cb5eaa252666e66"
@@ -6506,6 +6516,11 @@ react-native-modal-popover@^0.0.12:
     "@types/prop-types" "^15.5.5"
     lodash.debounce "^4.0.8"
     prop-types "^15.6.2"
+
+react-native-modal-translucent@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-translucent/-/react-native-modal-translucent-5.0.0.tgz#8b35cfa4189dce776c77a925b00ad19d965bd0a2"
+  integrity sha512-xhJAlq4uCE7jPEIPxGS1WNiRIm5DCrZEO3SF88moTOm6b4/wfFEANf+lMsVkQf9b9dsQ6Em4nq4uAoejtbHb2A==
 
 react-native-qrcode-svg@^6.0.1:
   version "6.0.1"

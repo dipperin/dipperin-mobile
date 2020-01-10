@@ -1,9 +1,21 @@
 const enResource = {
   dipperin: {
+    tabName:{
+      me:'Me',
+      discovery:'Discovery',
+      wallet:'Wallet'
+    },
     userProtocol: 'User agreement',
     start: {
       create: 'Create wallet',
       import: 'Import wallet',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      clickAndFingerprintUnlock: 'Click to unlock fingerprint',
+      passwordUnlock: 'Password unlock',
+      pleaseEnterFingerprint: 'Please input fingerprint for verification',
+      hintFingerprintDisabled: 'Please check whether the system fingerprint verification is on',
+      passwordError: 'Wrong Password!'
     },
     discovery: {
       title: 'discovery',
@@ -155,10 +167,22 @@ export type I18nTransactionType = typeof enResource.dipperin.transaction;
 
 const zhResource: typeof enResource = {
   dipperin: {
+    tabName:{
+      me:'我的',
+      discovery:'发现',
+      wallet:'钱包'
+    },
     userProtocol: '用户协议',
     start: {
       create: '创建钱包',
       import: '导入钱包',
+      cancel: '取消',
+      confirm: '确认',
+      clickAndFingerprintUnlock: '点击进行指纹解锁',
+      passwordUnlock: '密码解锁',
+      pleaseEnterFingerprint: '请录入指纹验证',
+      hintFingerprintDisabled: '请检查系统指纹认证是否开启',
+      passwordError: '密码错误!'
     },
     discovery: {
       title: '发现',

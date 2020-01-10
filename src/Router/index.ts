@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { walletStack, discoveryStack, meStack, initWalletStack } from './config'
 import { getTabNavigationOptions } from './utils'
 import Splash from 'Pages/InitWallet/SplashPage'
+import { createStackNavigator } from 'react-navigation-stack'
+import LockPage from 'Pages/InitWallet/LockPage'
 
 const walletTabs = createBottomTabNavigator({
   wallet: {
@@ -20,11 +22,20 @@ const walletTabs = createBottomTabNavigator({
   }
 )
 
+const homeStack = createStackNavigator({
+  tabs: walletTabs
+})
+
 const switchNavigator = createSwitchNavigator({
-  // wallet: walletTabs,
   splash: Splash,
+  home: walletTabs,
   init: initWalletStack,
-  wallet: walletTabs,
+  lock: {
+    screen: LockPage,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
 })
 
 export default createAppContainer(switchNavigator)
