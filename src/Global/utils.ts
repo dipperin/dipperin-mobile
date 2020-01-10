@@ -41,6 +41,24 @@ export const formatNumber = (num: number, w: number) => {
 export const getIsTxFromMe = (myAddress: string, fromAddress: string) => {
   return myAddress === fromAddress
 }
+
+export const isToTransferUtl = (url:string) =>  {
+  return url.match('dp://send')
+}
+
+export const getParamsFromLinkUrl = (key:string, url: string): undefined | string => {
+  try {
+
+      const query = url.split('?')[1]
+      if(!query) return
+      const paramsString = query.split('&').map(item => item.split('=')).find(item => item[0]===key)
+      if(paramsString && paramsString[1]) {
+          return paramsString[1]
+      }
+  }catch(_) {
+  }
+}
+
 export const createCallMethod = (funcName: string, inputsType: string[], callParams: string[]): string => {
   if (inputsType.length !== callParams.length) {
     throw new Error('The params do not match requirements.')
