@@ -17,6 +17,7 @@ import {
 import QRCode from 'react-native-qrcode-svg';
 import {withTranslation, WithTranslation} from 'react-i18next';
 import {I18nTransactionType} from 'I18n/config';
+import {Icon} from 'Components/Icon';
 
 import {styles} from './config';
 import {observer, inject} from 'mobx-react';
@@ -57,8 +58,11 @@ class Receive extends React.Component<Props> {
                 {this.props.account!.activeAccount!.address ||
                   '0x0000351f283c318f43da159048Ded9542c20f1DFe89C'}
               </Text>
-              <Button style={styles.copy} onPress={this.copyToClickboard}>
-              </Button>
+              <TouchableOpacity
+                style={styles.copy}
+                onPress={this.copyToClickboard}>
+                <Icon name={'icon|openEye'} size={20} color={'#67686E'} />
+              </TouchableOpacity>
             </View>
           </View>
 
