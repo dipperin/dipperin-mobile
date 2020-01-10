@@ -1,5 +1,10 @@
 const enResource = {
   dipperin: {
+    tabName:{
+      me:'Me',
+      discovery:'Discovery',
+      wallet:'Wallet'
+    },
     userProtocol: 'User agreement',
     start: {
       create: 'Create wallet',
@@ -147,6 +152,11 @@ export type I18nTransactionType = typeof enResource.dipperin.transaction;
 
 const zhResource: typeof enResource = {
   dipperin: {
+    tabName:{
+      me:'我的',
+      discovery:'发现',
+      wallet:'钱包'
+    },
     userProtocol: '用户协议',
     start: {
       create: '创建钱包',

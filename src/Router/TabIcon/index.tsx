@@ -4,12 +4,12 @@ import { Tabs } from "Global/constants"
 
 
 
-import WalletIcon from 'Assets/TabIcon/me-icon.png'
-import WalletIconActive from 'Assets/TabIcon/me-icon-active.png'
-import DiscoveryIcon from 'Assets/TabIcon/me-icon.png'
-import DiscoveryIconActive from 'Assets/TabIcon/me-icon-active.png'
-import meIcon from 'Assets/TabIcon/me-icon.png'
-import meIconActive from 'Assets/TabIcon/me-icon-active.png'
+import WalletIcon from 'Assets/TabIcon/wallet.png'
+import WalletIconActive from 'Assets/TabIcon/walletActive.png'
+import DiscoveryIcon from 'Assets/TabIcon/find.png'
+import DiscoveryIconActive from 'Assets/TabIcon/findActive.png'
+import meIcon from 'Assets/TabIcon/me.png'
+import meIconActive from 'Assets/TabIcon/meActive.png'
 
 const IconImg = {
   [Tabs.WALLET]: WalletIcon,
