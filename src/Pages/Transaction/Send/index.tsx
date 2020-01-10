@@ -7,6 +7,7 @@ import {
   Slider,
   EmitterSubscription,
   Keyboard,
+  Clipboard,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
@@ -19,20 +20,24 @@ import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
 import TransactionStore from 'Store/transaction';
 import WalletStore from 'Store/wallet';
-import {fromUnitToDip} from 'Global/utils';
-import AccountStore from 'Store/account'
+import {fromUnitToDip, sleep} from 'Global/utils';
+import AccountStore from 'Store/account';
+import {Utils} from '@dipperin/dipperin.js';
+import ContractStore from 'Store/contract';
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
   labels: I18nTransactionType;
   transaction?: TransactionStore;
   wallet?: WalletStore;
-  account?: AccountStore
+  account?: AccountStore;
+  contract?: ContractStore;
 }
 
-@inject('transaction', 'wallet','account')
+@inject('transaction', 'wallet', 'account', 'contract')
 @observer
 class Send extends React.Component<Props> {
+  @observable addressOrShortWord = '';
   @observable toAddress: string = '';
   @observable sendAmount: string = '';
   @observable extraData: string = '';
@@ -51,10 +56,16 @@ class Send extends React.Component<Props> {
       this.keyboardDidHide,
     );
   }
+  componentDidMount() {
+    if (this.props.navigation.getParam('address')) {
+      this.handleChangeToAddress(this.props.navigation.getParam('address'));
+    } else {
+      this.getAddressFromClickboard();
+    }
+  }
 
   @computed get txFee() {
     return fromUnitToDip((10 ** Number(this.txFeeLevel) / 10) * 10 ** 7);
-    // return '1'
   }
 
   @action
@@ -69,6 +80,9 @@ class Send extends React.Component<Props> {
 
   @action handleChangeToAddress = (text: string) => {
     this.toAddress = text;
+  };
+  @action handleChangeAddressOrShortword = (text: string) => {
+    this.addressOrShortWord = text;
   };
   @action handleChangeSendAmount = (amountString: string) => {
     if (this.validateEnteringAmount(amountString)) {
@@ -97,6 +111,38 @@ class Send extends React.Component<Props> {
     return true;
   }
 
+  verifyAddressOrShortword = async () => {
+    if (this.addressOrShortWord === '') {
+      Toast.info('地址/口令不能为空');
+      return false;
+    }
+    if (Utils.isAddress(this.addressOrShortWord)) {
+      this.handleChangeToAddress(this.addressOrShortWord);
+      return true;
+    } else {
+      try {
+        const res = await this.props.contract!.queryAddressByShordword(
+          this.addressOrShortWord,
+        );
+        if (typeof res === 'string') {
+          this.handleChangeToAddress(res);
+          return true;
+        } else {
+          Toast.info('地址不合法或口令不存在');
+          return false;
+        }
+      } catch (e) {
+        Toast.info('地址不合法或口令不存在');
+        return false;
+      }
+    }
+  };
+
+  getAddressFromClickboard = async () => {
+    const word = await Clipboard.getString();
+    this.handleChangeAddressOrShortword(word);
+  };
+
   sendTransaction = async () => {
     // to get really to address
     // 1. verify address
@@ -107,7 +153,7 @@ class Send extends React.Component<Props> {
         this.toAddress,
         this.sendAmount,
         this.extraData,
-        '21000',
+        '10000000',
         '1',
       );
       if (res.success) {
@@ -130,8 +176,8 @@ class Send extends React.Component<Props> {
 
   handleConfirmTransaction = async (psw: string) => {
     Modal.hide();
+    await sleep(100);
     Toast.loading();
-    // await sleep(1000);
     // Toast.hide();
     if (!this.props.wallet!.unlockWallet(psw)) {
       Toast.hide();
@@ -180,7 +226,7 @@ class Send extends React.Component<Props> {
         <TextInput
           style={styles.toAddressInput}
           value={this.toAddress}
-          onChangeText={this.handleChangeToAddress}
+          onChangeText={this.handleChangeAddressOrShortword}
           placeholder={labels.enterAddressOrWord}
         />
       </TouchableOpacity>
@@ -193,10 +239,9 @@ class Send extends React.Component<Props> {
       <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
         <View style={styles.sendAmountBar}>
           <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
-          <Text
-            style={
-              styles.balanceText
-            }>{`${labels.balance}: ${this.props.account!.activeAccount!.balance} DIP`}</Text>
+          <Text style={styles.balanceText}>{`${labels.balance}: ${
+            this.props.account!.activeAccount!.balance
+          } DIP`}</Text>
         </View>
         <TextInput
           style={styles.sendAmountInput}

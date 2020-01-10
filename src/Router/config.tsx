@@ -169,22 +169,22 @@ export const walletStack = createStackNavigator({
     screen: Send,
     navigationOptions: props => ({
       title: i18n.t('dipperin:transaction.transaction'),
+      ...headerBackConfig,
       headerRight: (
         <CustomIcon
           onPress={() => {
-            props.navigation.navigate('accountDetail');
+            props.navigation.navigate('ScanScreen');
           }}>
           <Icon name={'icon|saoma'} size={20} color="##393B42" />
         </CustomIcon>
       ),
-      ...headerBackConfig,
     }),
   },
   TransactionDetail: {
     screen: TransactionDetail,
     navigationOptions: () => ({
-      title: '交易记录',
       ...headerBackConfig,
+      title: '交易记录',
     }),
   },
   receive: {
@@ -210,7 +210,7 @@ export const walletStack = createStackNavigator({
   },
   shortword: {
     screen: Shortword,
-    navigationOptions: () => ({
+    navigationOptions: props => ({
       title: i18n.t('dipperin:transaction.shortWordReceive'),
       ...headerBackConfig,
     }),
