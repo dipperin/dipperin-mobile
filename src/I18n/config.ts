@@ -1,11 +1,9 @@
-
-
 const enResource = {
   dipperin: {
     userProtocol: 'User agreement',
     start: {
       create: 'Create wallet',
-      import: 'Import wallet'
+      import: 'Import wallet',
     },
     discovery: {
       title: 'discovery',
@@ -16,7 +14,7 @@ const enResource = {
         contractsAdress: 'Contracts Adress',
         contractsName: 'Contracts name',
         over: 'over(DIP)',
-        transactionsNumber: 'Transaction number'
+        transactionsNumber: 'Transaction number',
       },
       apps: {
         users: 'users',
@@ -29,7 +27,7 @@ const enResource = {
         holdings: 'holdings',
         account: 'account address',
         over: 'over(DIP)',
-      }
+      },
     },
     import: {
       title: '助记词导入',
@@ -38,8 +36,8 @@ const enResource = {
       repeatPasswordPlh: '请重复密码',
       passwordTip: '密码提示信息(可不填)',
       agreeLabel: '我已仔细阅读并同意',
-      agree: "《用户协议》",
-      btnText: '导入钱包'
+      agree: '《用户协议》',
+      btnText: '导入钱包',
     },
     create: {
       title: '创建钱包',
@@ -48,8 +46,8 @@ const enResource = {
       repeatPasswordPlh: '请重复密码',
       passwordTip: '密码提示信息(可不填)',
       agreeLabel: '我已仔细阅读并同意',
-      agree: "《用户协议》",
-      btnText: '创建钱包'
+      agree: '《用户协议》',
+      btnText: '创建钱包',
     },
     createStep1: {
       title: '钱包助记词',
@@ -57,19 +55,21 @@ const enResource = {
       item1: '• 助记词由12或24个单词组成，请抄写并保管在安全的地方。',
       item2: '• 100%由您掌管，一经丢失，无法找回。',
       item3: '• 请在创建钱包时，务必完成助记词备份。',
-      btnText: '去备份'
+      btnText: '去备份',
     },
     createStep2: {
       title: '备份助记词',
-      intro: '助记词用于恢复钱包或重置钱包密码，将它按顺序准确的抄写在纸上或保存在安全的电子设备内，并存放在只有你知道的地方。',
+      intro:
+        '助记词用于恢复钱包或重置钱包密码，将它按顺序准确的抄写在纸上或保存在安全的电子设备内，并存放在只有你知道的地方。',
       menmonic: '助记词',
-      btnText: '去备份'
+      btnText: '去备份',
     },
     createStep3: {
       title: '确认助记词',
-      intro: '为了确保您已将助记词正确抄写，备份保存，请按照对应的顺序点击助记词。',
+      intro:
+        '为了确保您已将助记词正确抄写，备份保存，请按照对应的顺序点击助记词。',
       menmonic: '助记词',
-      btnText: '完成'
+      btnText: '完成',
     },
     me: {
       personalCenter: 'Personal center',
@@ -104,17 +104,19 @@ const enResource = {
     },
     transaction: {
       transaction: 'Transaction',
-      toAddress: 'To',
+      toAddress: 'Receiver’s Address',
       enterAddressOrWord: 'Please enter address/Shortword',
+      balance: 'Balance',
       sendAmount: 'Amount',
       enterAmount: 'Please enter amount',
       remark: 'Remark',
+      enterRemark: 'Please enter remark',
       optional: 'Optional',
       txFee: 'Fee',
       send: 'Send',
-      low: 'low',
-      middle: 'middium',
-      high: 'high',
+      low: 'slow',
+      middle: 'middle',
+      high: 'fast',
       receive: 'Receive',
       shortWordReceive: 'Shortword Receive',
       Shortword: 'Short Word',
@@ -123,17 +125,24 @@ const enResource = {
       remarkOptional: 'Remard(Optional)',
       ehterRemark: 'Please enter remark',
       sendShortword: 'Send Remark',
+      enterPassword: 'Password',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      passwordHit: 'Password Hint',
+      passwordError: 'Wrong Password!',
+      sendSuccess: 'Send Success!',
+      sendFailure: 'Send Failure',
     },
   },
 };
 
-export type I18StartType = typeof enResource.dipperin.start
-export type I18ImportType = typeof enResource.dipperin.import
-export type I18CreateType = typeof enResource.dipperin.create
-export type I18CreateStep1Type = typeof enResource.dipperin.createStep1
-export type I18CreateStep2Type = typeof enResource.dipperin.createStep2
-export type I18CreateStep3Type = typeof enResource.dipperin.createStep3
-export type I18nMeType = typeof enResource.dipperin.me
+export type I18StartType = typeof enResource.dipperin.start;
+export type I18ImportType = typeof enResource.dipperin.import;
+export type I18CreateType = typeof enResource.dipperin.create;
+export type I18CreateStep1Type = typeof enResource.dipperin.createStep1;
+export type I18CreateStep2Type = typeof enResource.dipperin.createStep2;
+export type I18CreateStep3Type = typeof enResource.dipperin.createStep3;
+export type I18nMeType = typeof enResource.dipperin.me;
 export type I18nTransactionType = typeof enResource.dipperin.transaction;
 
 const zhResource: typeof enResource = {
@@ -141,7 +150,7 @@ const zhResource: typeof enResource = {
     userProtocol: '用户协议',
     start: {
       create: '创建钱包',
-      import: '导入钱包'
+      import: '导入钱包',
     },
     discovery: {
       title: '发现',
@@ -152,7 +161,7 @@ const zhResource: typeof enResource = {
         contractsAdress: '合约地址',
         contractsName: '合约名称',
         over: '余额(DIP)',
-        transactionsNumber: '交易额'
+        transactionsNumber: '交易额',
       },
       apps: {
         users: '用户',
@@ -165,7 +174,7 @@ const zhResource: typeof enResource = {
         holdings: '持有量',
         account: '账户地址',
         over: '余额(DIP)',
-      }
+      },
     },
     import: {
       title: '助记词导入',
@@ -174,8 +183,8 @@ const zhResource: typeof enResource = {
       repeatPasswordPlh: '请重复密码',
       passwordTip: '密码提示信息(可不填)',
       agreeLabel: '我已仔细阅读并同意',
-      agree: "《用户协议》",
-      btnText: '导入钱包'
+      agree: '《用户协议》',
+      btnText: '导入钱包',
     },
     create: {
       title: '创建钱包',
@@ -184,8 +193,8 @@ const zhResource: typeof enResource = {
       repeatPasswordPlh: '请重复密码',
       passwordTip: '密码提示信息(可不填)',
       agreeLabel: '我已仔细阅读并同意',
-      agree: "《用户协议》",
-      btnText: '创建钱包'
+      agree: '《用户协议》',
+      btnText: '创建钱包',
     },
     createStep1: {
       title: '钱包助记词',
@@ -193,19 +202,21 @@ const zhResource: typeof enResource = {
       item1: '• 助记词由12或24个单词组成，请抄写并保管在安全的地方。',
       item2: '• 100%由您掌管，一经丢失，无法找回。',
       item3: '• 请在创建钱包时，务必完成助记词备份。',
-      btnText: '去备份'
+      btnText: '去备份',
     },
     createStep2: {
       title: '备份助记词',
-      intro: '助记词用于恢复钱包或重置钱包密码，将它按顺序准确的抄写在纸上或保存在安全的电子设备内，并存放在只有你知道的地方。',
+      intro:
+        '助记词用于恢复钱包或重置钱包密码，将它按顺序准确的抄写在纸上或保存在安全的电子设备内，并存放在只有你知道的地方。',
       menmonic: '助记词',
-      btnText: '去备份'
+      btnText: '去备份',
     },
     createStep3: {
       title: '确认助记词',
-      intro: '为了确保您已将助记词正确抄写，备份保存，请按照对应的顺序点击助记词。',
+      intro:
+        '为了确保您已将助记词正确抄写，备份保存，请按照对应的顺序点击助记词。',
       menmonic: '助记词',
-      btnText: '完成'
+      btnText: '完成',
     },
     me: {
       personalCenter: '个人中心',
@@ -238,18 +249,20 @@ const zhResource: typeof enResource = {
       versionUpdate: '版本更新',
     },
     transaction: {
-      transaction: '交易',
-      toAddress: '发送地址',
-      enterAddressOrWord: '请输入地址或口令',
+      transaction: '转账',
+      toAddress: '收款方',
+      enterAddressOrWord: '接受地址/口令名称',
       sendAmount: '发送金额',
-      enterAmount: '输入金额',
+      balance: '余额',
+      enterAmount: '输入转账金额',
       remark: '备注',
       optional: '选填',
+      enterRemark: '输入备注',
       txFee: '交易费',
       send: '发送',
-      low: '低',
+      low: '慢',
       middle: '中',
-      high: '高',
+      high: '快',
       receive: '收款',
       shortWordReceive: '口令收款',
       Shortword: '口令',
@@ -258,11 +271,18 @@ const zhResource: typeof enResource = {
       remarkOptional: '备注(选填)',
       ehterRemark: '输入备注',
       sendShortword: '发送口令',
+      enterPassword: '输入密码',
+      cancel: '取消',
+      confirm: '确认',
+      passwordHit: '密码提示信息',
+      passwordError: '密码错误',
+      sendSuccess: '发送成功',
+      sendFailure: '发送失败',
     },
   },
 };
 
 export const resource = {
   en: enResource,
-  zh: zhResource
-}
+  zh: zhResource,
+};

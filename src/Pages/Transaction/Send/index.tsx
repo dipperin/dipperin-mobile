@@ -2,123 +2,65 @@ import React from 'react';
 import {
   View,
   Text,
-  Button,
   TextInput,
-  StyleSheet,
-  Platform,
   TouchableOpacity,
   Slider,
+  EmitterSubscription,
+  Keyboard,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {
-  NavigationStackScreenProps,
-  NavigationStackOptions,
-} from 'react-navigation-stack';
-import {observer} from 'mobx-react';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {observer, inject} from 'mobx-react';
 import {observable, action} from 'mobx';
 import {withTranslation, WithTranslation} from 'react-i18next';
 import {I18nTransactionType} from 'I18n/config';
-
-const styles = StyleSheet.create({
-  mainWrapper: {
-    // backgroundColor: '#fafbfc',
-    backgroundColor: '#aaa',
-    flex: 1,
-  },
-  wrapper: {
-    flex: Platform.OS === 'android' ? 0 : 1,
-  },
-  toAddressWrapper: {
-    backgroundColor: '#fff',
-    marginTop: 20,
-  },
-  toAddressLabel: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    fontSize: 30,
-  },
-  toAddressInput: {
-    alignSelf: 'center',
-    width: '95%',
-    overflow: 'hidden',
-    fontSize: 18,
-  },
-  sendAmountWrapper: {
-    backgroundColor: '#fff',
-    marginTop: 20,
-  },
-  sendAmountBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  sendAmountInput: {
-    alignSelf: 'center',
-    width: '95%',
-    overflow: 'hidden',
-    fontSize: 18,
-  },
-  ExtraDataWrapper: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    paddingLeft: 15,
-  },
-  txFeeWrapper: {
-    backgroundColor: '#fff',
-    marginTop: 20,
-  },
-  txFeeBar: {
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  txFeeBottomBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 30,
-    height: 50,
-    borderRadius: 25,
-  },
-  btnSend: {
-    height: 30,
-    // borderRadius: 15,
-  },
-});
+import {styles} from './config';
+import Toast from 'Components/Toast';
+import Modal from 'Components/Modal';
+import EnterPassword from './EnterPassword';
+import TransactionStore from 'Store/transaction';
+import WalletStore from 'Store/wallet';
+import {sleep} from 'Global/utils';
 
 interface Props {
-  navigation: NavigationStackScreenProps['navigation']
+  navigation: NavigationStackScreenProps['navigation'];
   labels: I18nTransactionType;
+  transaction?: TransactionStore;
+  wallet?: WalletStore;
 }
 
+@inject('transaction', 'wallet')
 @observer
 class Send extends React.Component<Props> {
-
-
-  validateEnteringAmount(amountString: string) {
-    const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
-    return reg.test(amountString);
-  }
-
-  validateExtraData(text: string) {
-    if (text.length > 200) {
-      return false;
-    }
-    // --- add new rule here
-    return true;
-  }
-
   @observable toAddress: string = '';
   @observable accountBalance: number = 0;
   @observable sendAmount: string = '';
   @observable extraData: string = '';
+  @observable txFeeLevel: number = 1;
+  @observable keyboardShow: boolean = false;
+  keyboardDidShowListener: EmitterSubscription;
+  keyboardDidHideListener: EmitterSubscription;
+  constructor(props: Props) {
+    super(props);
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
+  }
+
+  @action
+  keyboardDidShow = () => {
+    this.keyboardShow = true;
+  };
+
+  @action
+  keyboardDidHide = () => {
+    this.keyboardShow = false;
+  };
 
   @action handleChangeToAddress = (text: string) => {
     this.toAddress = text;
@@ -133,90 +75,204 @@ class Send extends React.Component<Props> {
       this.extraData = text;
     }
   };
+  @action handleChangeTxfee = (num: number) => {
+    this.txFeeLevel = num;
+  };
+
+  validateEnteringAmount(amountString: string) {
+    const reg = new RegExp('^[0-9]*(.[0-9]{0,18})?$');
+    return reg.test(amountString);
+  }
+
+  validateExtraData(text: string) {
+    if (text.length > 200) {
+      return false;
+    }
+    // --- add new rule here
+    return true;
+  }
+
+  sendTransaction = async () => {
+    try {
+      const res = await this.props.transaction!.confirmTransaction(
+        this.toAddress,
+        this.sendAmount,
+        this.extraData,
+        '21000',
+        '1',
+      );
+      if (res.success) {
+        console.warn('success');
+        return Promise.resolve();
+      } else {
+        console.warn(res.info);
+        return Promise.reject();
+      }
+    } catch (e) {
+      return Promise.reject();
+    }
+  };
 
   handleSend = () => {
-    console.warn(this.toAddress);
+    Modal.password(this.handleConfirmTransaction);
+    // this.setPasswordModal(true);
+    // this.sendTransaction();
   };
+
+  handleConfirmTransaction = async (psw: string) => {
+    Modal.hide();
+    Toast.loading();
+    await sleep(1000);
+    Toast.hide();
+    if (!this.props.wallet!.checkPassword(psw)) {
+      Toast.hide();
+      Toast.info(this.props.labels.passwordError);
+      return;
+    }
+
+    try {
+      await this.sendTransaction();
+      Toast.hide();
+      Toast.success(this.props.labels.sendSuccess);
+      return;
+    } catch (e) {
+      Toast.hide();
+      Toast.info(this.props.labels.sendFailure);
+    }
+  };
+
   render() {
-    const {labels} = this.props
     return (
       <View style={styles.mainWrapper}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.wrapper}
-          style={styles.mainWrapper}
-          testID={'first-incoming-transaction-screen'}
+          style={styles.contentWrapper}
           resetScrollToCoords={{x: 0, y: 0}}>
-          <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
-            <View style={styles.toAddressLabel}>
-              <Text>{labels.toAddress}</Text>
-            </View>
-            <TextInput
-              style={styles.toAddressInput}
-              value={this.toAddress}
-              onChangeText={this.handleChangeToAddress}
-              placeholder={labels.enterAddressOrWord}
-            />
-          </TouchableOpacity>
+          {this.renderAddressBox()}
 
-          <TouchableOpacity
-            style={styles.sendAmountWrapper}
-            activeOpacity={0.8}>
-            <View style={styles.sendAmountBar}>
-              <Text>{labels.sendAmount}</Text>
-              <Text>{`${this.accountBalance} DIP`}</Text>
-            </View>
-            <TextInput
-              style={styles.sendAmountInput}
-              value={this.sendAmount}
-              onChangeText={this.handleChangeSendAmount}
-              placeholder={labels.enterAmount}
-              keyboardType="numeric"
-            />
-          </TouchableOpacity>
+          {this.renderAmountBox()}
 
-          <TouchableOpacity style={styles.ExtraDataWrapper} activeOpacity={0.8}>
-            <Text style={{height: '100%', lineHeight: 50, fontSize: 18}}>
-              {labels.remark}
-            </Text>
-            <TextInput
-              style={styles.sendAmountInput}
-              value={this.extraData}
-              onChangeText={this.handleChangeExtraData}
-              placeholder={labels.optional}
-            />
-          </TouchableOpacity>
+          {this.renderExtraDataBox()}
 
-          <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
-            <View style={styles.txFeeBar}>
-              <Text>{labels.txFee}</Text>
-              <Text>1.060494606 DIP ≈ $ 0.63</Text>
-            </View>
-            <Slider minimumValue={1} maximumValue={3} step={1} />
-            <View style={styles.txFeeBottomBar}>
-              <Text>{labels.low}}</Text>
-              <Text>{labels.middle}</Text>
-              <Text>{labels.high}</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.btnWrapper}
-            onPress={this.handleSend}
-            activeOpacity={0.8}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 400,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: '#149bd5',
-              }}>
-              <Text style={{color: '#fff', fontSize: 17}}>{labels.send}</Text>
-            </View>
-          </TouchableOpacity>
+          {this.renderTxFeeBox()}
         </KeyboardAwareScrollView>
+        {!this.keyboardShow && this.renderBtnBox()}
       </View>
+    );
+  }
+
+  renderAddressBox() {
+    const {labels} = this.props;
+    return (
+      <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
+        <View style={styles.toAddressLabel}>
+          <Text style={styles.toAddressText}>{labels.toAddress}</Text>
+        </View>
+        <TextInput
+          style={styles.toAddressInput}
+          value={this.toAddress}
+          onChangeText={this.handleChangeToAddress}
+          placeholder={labels.enterAddressOrWord}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  renderAmountBox() {
+    const {labels} = this.props;
+    return (
+      <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
+        <View style={styles.sendAmountBar}>
+          <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
+          <Text
+            style={
+              styles.balanceText
+            }>{`${labels.balance}: ${this.accountBalance} DIP`}</Text>
+        </View>
+        <TextInput
+          style={styles.sendAmountInput}
+          value={this.sendAmount}
+          onChangeText={this.handleChangeSendAmount}
+          placeholder={labels.enterAmount}
+          keyboardType="numeric"
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  renderExtraDataBox() {
+    const {labels} = this.props;
+    return (
+      <TouchableOpacity style={styles.extraDataWrapper} activeOpacity={0.8}>
+        <View style={styles.extraDataBar}>
+          <Text style={styles.extraDataLabel}>
+            {labels.remark}({labels.optional})
+          </Text>
+        </View>
+        <TextInput
+          style={styles.extraDataInput}
+          value={this.extraData}
+          onChangeText={this.handleChangeExtraData}
+          placeholder={labels.enterRemark}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  renderTxFeeBox() {
+    const {labels} = this.props;
+    return (
+      <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
+        <View style={styles.txFeeBar}>
+          <Text style={styles.txFeeLabel}>{labels.txFee}</Text>
+          <Text style={styles.txFeeText}>0.000000000000021 DIP</Text>
+        </View>
+        <Slider
+          minimumValue={1}
+          maximumValue={3}
+          step={1}
+          onValueChange={this.handleChangeTxfee}
+        />
+        <View style={styles.txFeeBottomBar}>
+          <Text
+            style={
+              this.txFeeLevel >= 1
+                ? styles.activeFeeLevel
+                : styles.defalutFeeLevel
+            }>
+            {labels.low}
+          </Text>
+          <Text
+            style={
+              this.txFeeLevel >= 2
+                ? styles.activeFeeLevel
+                : styles.defalutFeeLevel
+            }>
+            {labels.middle}
+          </Text>
+          <Text
+            style={
+              this.txFeeLevel >= 3
+                ? styles.activeFeeLevel
+                : styles.defalutFeeLevel
+            }>
+            {labels.high}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+  renderBtnBox() {
+    const {labels} = this.props;
+    return (
+      <TouchableOpacity
+        style={styles.btnWrapper}
+        onPress={this.handleSend}
+        activeOpacity={0.8}>
+        <View style={styles.btnView}>
+          <Text style={styles.btnText}>{labels.send}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
