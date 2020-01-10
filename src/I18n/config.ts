@@ -13,22 +13,22 @@ const enResource = {
       tab2: 'Smart Contracts',
       tab3: 'Rich List',
       contracts: {
-        contractsAdress: 'Contracts Adress',
-        contractsName: 'Contracts name',
-        over: 'over(DIP)',
-        transactionsNumber: 'Transaction number'
+        address: 'Address',
+        name: 'Name',
+        txCount: 'TxCount',
+        value: 'Value',
       },
       apps: {
-        users: 'users',
-        transactionsNumber: 'transactions number',
-        transactionsValue: 'Transaction value',
-        over: 'over(DIP)',
+        accounts: 'Accounts',
+        txCount: 'TxCount',
+        value: 'Value',
+        moreDapp: 'Stay tuned for more DApps'
       },
       fortune: {
-        sort: 'sort',
-        holdings: 'holdings',
-        account: 'account address',
-        over: 'over(DIP)',
+        ranking: 'Ranking',
+        holdings: 'Holdings',
+        address: 'Address',
+        balance: 'Balance',
       }
     },
     import: {
@@ -149,22 +149,22 @@ const zhResource: typeof enResource = {
       tab2: '合约排行',
       tab3: '富豪榜',
       contracts: {
-        contractsAdress: '合约地址',
-        contractsName: '合约名称',
-        over: '余额(DIP)',
-        transactionsNumber: '交易额'
+        address: '合约地址',
+        name: '合约名称',
+        txCount: '余额(DIP)',
+        value: '交易数',
       },
       apps: {
-        users: '用户',
-        transactionsNumber: '交易',
-        transactionsValue: 'Transaction value',
-        over: '余额(DIP)',
+        accounts: '用户',
+        txCount: '交易数',
+        value: '交易额',
+        moreDapp: '更多DApp敬请期待'
       },
       fortune: {
-        sort: '排序',
+        ranking: '排序',
         holdings: '持有量',
-        account: '账户地址',
-        over: '余额(DIP)',
+        address: '账户地址',
+        balance: '余额(DIP)',
       }
     },
     import: {
