@@ -35,3 +35,22 @@ export const formatNumber = (num: number, w: number) => {
     maximumFractionDigits: w
   })
 }
+
+
+export const isToTransferUtl = (url:string) =>  {
+  return url.match('dp://send')
+}
+
+export const getParamsFromLinkUrl = (key:string, url: string): undefined | string => {
+  try {
+
+      const query = url.split('?')[1]
+      if(!query) return
+      const paramsString = query.split('&').map(item => item.split('=')).find(item => item[0]===key)
+      if(paramsString && paramsString[1]) {
+          return paramsString[1]
+      }
+  }catch(_) {
+  }
+
+}
