@@ -33,6 +33,7 @@ const homeStack = createStackNavigator({
 })
 
 const switchNavigator = createSwitchNavigator({
+  // wallet: walletTabs,
   splash: Splash,
   wallet: homeStack,
   init: initWalletStack,

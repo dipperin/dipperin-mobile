@@ -22,7 +22,6 @@ class Me extends React.Component<Props> {
       </View>
     )
   }
-
   renderItems = (): JSX.Element[] => {
     return config.MeListItems(this.props.labels).map((item: MeItemProps, index: number): JSX.Element => {
       const _styles = index === 0 ? [styles.item, styles.firstItem] : styles.item

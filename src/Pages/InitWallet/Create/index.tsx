@@ -1,33 +1,32 @@
 import React from 'react'
-import { inject, observer } from 'mobx-react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, Keyboard, EmitterSubscription, StatusBar } from 'react-native'
+import { observable, action } from 'mobx'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Keyboard, EmitterSubscription, StatusBar } from 'react-native'
+import { inject, observer } from 'mobx-react'
+import { WithTranslation, withTranslation } from 'react-i18next'
 import { NavigationScreenProp } from 'react-navigation'
-import { withTranslation, WithTranslation } from 'react-i18next'
-import BIP39 from 'bip39'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
 import Toast from 'Components/Toast'
-import { sleep } from 'Global/utils'
 import { setStorage } from 'Db'
-import { STORAGE_KEYS } from 'Global/constants'
 
-import { I18ImportType } from 'I18n/config'
+import { I18CreateType } from 'I18n/config'
 import WalletStore from 'Store/wallet'
-import { observable, action } from 'mobx';
+
+import WalletIcon from 'Assets/create-wallet.png'
+import { STORAGE_KEYS } from 'Global/constants';
 
 interface Props {
-  wallet?: WalletStore
-  labels: I18ImportType
+  wallet?: WalletStore,
+  labels: I18CreateType,
   navigation: NavigationScreenProp<any>
 }
 
 @inject('wallet')
 @observer
-class Import extends React.Component<Props> {
+class Create extends React.Component<Props> {
   @observable keyboardShow: boolean = false
-  @observable mnemonic: string = ''
   @observable password: string = ''
   @observable repeatPassword: string = ''
   @observable passwordTip: string = ''
@@ -63,15 +62,10 @@ class Import extends React.Component<Props> {
   }
 
 
-  handleImport = async () => {
-    if (!(this.mnemonic && this.password && this.repeatPassword && this.agreeSelect)) return
-    const mnemonic = this.mnemonic.trim()
-    const password = this.password.trim()
-    const repeatPassword = this.repeatPassword.trim()
-    if (!BIP39.validateMnemonic(mnemonic)) {
-      Toast.info('Mnemonic not available!')
-      return
-    }
+  handleCreate = async () => {
+    if (!(this.password && this.repeatPassword && this.agreeSelect)) return
+    const password = this.password
+    const repeatPassword = this.repeatPassword
 
     if (password.length < 8) {
       Toast.info('Password not available!')
@@ -82,19 +76,12 @@ class Import extends React.Component<Props> {
       Toast.info('Two passwords do not match!')
       return
     }
-    Toast.loading()
-    await sleep(100)
-    const err = await this.props.wallet!.create(password, mnemonic)
-    Toast.hide()
+
+    const err = await this.props.wallet!.create(password)
     if (!err) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
-      this.props.navigation.navigate('wallet')
+      this.props.navigation.navigate('createStep1')
     }
-  }
-
-  @action
-  handleChangeMnemonic = (text: string) => {
-    this.mnemonic = text
   }
 
   @action
@@ -128,20 +115,15 @@ class Import extends React.Component<Props> {
 
   render() {
     const { labels } = this.props
-    const disabled = !(this.mnemonic && this.password && this.repeatPassword && this.agreeSelect)
+    const disabled = !(this.password && this.repeatPassword && this.agreeSelect)
     return (
       <View style={styles.wrap}>
         <StatusBar backgroundColor='#fff' />
-        <KeyboardAwareScrollView style={styles.scollWrap}>
-          <TextInput
-            onChangeText={this.handleChangeMnemonic}
-            style={[styles.input, styles.mnemonic]}
-            value={this.mnemonic}
-            multiline
-            numberOfLines={4}
-            placeholder={labels.mnemonicPlh}
-            placeholderTextColor='#C6C6C6'
-          />
+        <KeyboardAwareScrollView style={styles.scrollWrap}>
+          <View style={styles.iconWrap}>
+            <Image style={styles.walletIcon} source={WalletIcon} resizeMode='contain' />
+          </View>
+          <Text style={styles.title}>{labels.title}</Text>
           <View style={styles.withEyeWrap}>
             <TextInput
               secureTextEntry={this.securePassword}
@@ -154,7 +136,6 @@ class Import extends React.Component<Props> {
             <Eye isEyeOpen={!this.securePassword} onPress={this.handleChangeEye} />
           </View>
           <View style={styles.inputWrap}>
-
             <TextInput
               secureTextEntry={this.securePassword}
               onChangeText={this.handleChangeRepeatPasword}
@@ -183,51 +164,54 @@ class Import extends React.Component<Props> {
               <Text style={styles.agreeText}>
               {labels.agreeLabel}
               </Text>
-              <TouchableOpacity onPress={this.showAgree} activeOpacity={0.7}>
+              <TouchableOpacity onPress={this.showAgree}>
                 <Text style={styles.agree}>{labels.agree}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </KeyboardAwareScrollView>
-        {!this.keyboardShow &&
-          <View style={styles.btnWrap}>
-            <TouchableOpacity style={[styles.btn, disabled && styles.diabledBtn]} onPress={this.handleImport} activeOpacity={disabled ? 1 :0.7}>
-              <Text style={styles.btnText}>{labels.btnText}</Text>
-            </TouchableOpacity>
-          </View>
-        }
-
+        {!this.keyboardShow && <View style={styles.btnWrap}>
+          <TouchableOpacity style={[styles.btn, disabled && styles.diabledBtn]} onPress={this.handleCreate} activeOpacity={disabled ? 1 :0.7}>
+            <Text style={styles.btnText}>{labels.btnText}</Text>
+          </TouchableOpacity>
+        </View>}
       </View>
     )
   }
+
 }
 
-
-const ImportWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+const CreateWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
   const { t, navigation } = props
-  const labels = t('dipperin:import') as I18ImportType
-  return <Import labels={labels} navigation={navigation} />
+  const labels = t('dipperin:create') as I18CreateType
+  return <Create labels={labels} navigation={navigation} />
 
 }
 
-export default withTranslation()(ImportWrap)
+export default withTranslation()(CreateWrap)
 
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
-  scollWrap: {
+  scrollWrap: {
     padding: 23,
   },
-  mnemonic: {
-    marginBottom: 24,
-    padding: 12.5,
-    height: 117,
-    borderWidth: 1,
-    borderColor: '#E3E6EB',
-    textAlignVertical: 'top',
-    borderRadius: 5
+  iconWrap: {
+    alignItems: 'center'
+  },
+  walletIcon: {
+    marginBottom: 10,
+    width: 78,
+    height: 78
+  },
+  title: {
+    marginBottom: 32,
+    fontSize: 18,
+    color: '#393B42',
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   withEyeWrap: {
     flexDirection: 'row',
@@ -269,8 +253,8 @@ const styles = StyleSheet.create({
     color: '#1C77BC'
   },
   btnWrap: {
+    paddingHorizontal: 23,
     height: 103,
-    paddingHorizontal: 23
   },
   btn: {
     marginHorizontal: 16.5,
