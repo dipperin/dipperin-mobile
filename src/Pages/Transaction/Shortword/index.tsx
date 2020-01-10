@@ -10,18 +10,17 @@ import {
   Keyboard,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {
-  NavigationStackScreenProps,
-} from 'react-navigation-stack';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {observer, inject} from 'mobx-react';
-import {observable, action} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import {withTranslation, WithTranslation} from 'react-i18next';
+import {Utils} from '@dipperin/dipperin.js';
 import {I18nTransactionType} from 'I18n/config';
 import TransactionStore from 'Store/transaction';
 import {styles} from './config';
 import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
-import {sleep} from 'Global/utils';
+import {fromUnitToDip} from 'Global/utils';
 import WalletStore from 'Store/wallet';
 import ContractStore from 'Store/contract';
 
@@ -53,6 +52,10 @@ class Shortword extends React.Component<Props> {
     );
   }
 
+  @computed get txFee(): string {
+    return fromUnitToDip((10 ** Number(this.txFeeLevel) / 10) * 10 ** 7);
+  }
+
   @action
   keyboardDidShow = () => {
     this.keyboardShow = true;
@@ -64,6 +67,7 @@ class Shortword extends React.Component<Props> {
   };
 
   @action handleChangeShortword = (text: string) => {
+    // limit short word in 20 letters
     this.shortword = text;
   };
 
@@ -100,7 +104,7 @@ class Shortword extends React.Component<Props> {
     Toast.loading();
     // await sleep(1000);
     // Toast.hide();
-    if (!this.props.wallet!.checkPassword(psw)) {
+    if (!this.props.wallet!.unlockWallet(psw)) {
       Toast.hide();
       Toast.info(this.props.labels.passwordError);
       return;
@@ -158,7 +162,7 @@ class Shortword extends React.Component<Props> {
       <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
         <View style={styles.txFeeBar}>
           <Text style={styles.txFeeLabel}>{labels.txFee}</Text>
-          <Text style={styles.txFeeText}>0.000000000000021 DIP</Text>
+          <Text style={styles.txFeeText}>{`${this.txFee} DIP`}</Text>
         </View>
         <Slider
           minimumValue={1}

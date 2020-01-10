@@ -11,7 +11,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 import {observer, inject} from 'mobx-react';
-import {observable, action} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import {withTranslation, WithTranslation} from 'react-i18next';
 import {I18nTransactionType} from 'I18n/config';
 import {styles} from './config';
@@ -19,20 +19,21 @@ import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
 import TransactionStore from 'Store/transaction';
 import WalletStore from 'Store/wallet';
-import {sleep} from 'Global/utils';
+import {fromUnitToDip} from 'Global/utils';
+import AccountStore from 'Store/account'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
   labels: I18nTransactionType;
   transaction?: TransactionStore;
   wallet?: WalletStore;
+  account?: AccountStore
 }
 
-@inject('transaction', 'wallet')
+@inject('transaction', 'wallet','account')
 @observer
 class Send extends React.Component<Props> {
   @observable toAddress: string = '';
-  @observable accountBalance: number = 0;
   @observable sendAmount: string = '';
   @observable extraData: string = '';
   @observable txFeeLevel: number = 1;
@@ -49,6 +50,11 @@ class Send extends React.Component<Props> {
       'keyboardDidHide',
       this.keyboardDidHide,
     );
+  }
+
+  @computed get txFee() {
+    return fromUnitToDip((10 ** Number(this.txFeeLevel) / 10) * 10 ** 7);
+    // return '1'
   }
 
   @action
@@ -92,6 +98,10 @@ class Send extends React.Component<Props> {
   }
 
   sendTransaction = async () => {
+    // to get really to address
+    // 1. verify address
+    // 2. check if registered shortword
+    // 3. throw error or send tx
     try {
       const res = await this.props.transaction!.confirmTransaction(
         this.toAddress,
@@ -121,9 +131,9 @@ class Send extends React.Component<Props> {
   handleConfirmTransaction = async (psw: string) => {
     Modal.hide();
     Toast.loading();
-    await sleep(1000);
-    Toast.hide();
-    if (!this.props.wallet!.checkPassword(psw)) {
+    // await sleep(1000);
+    // Toast.hide();
+    if (!this.props.wallet!.unlockWallet(psw)) {
       Toast.hide();
       Toast.info(this.props.labels.passwordError);
       return;
@@ -186,7 +196,7 @@ class Send extends React.Component<Props> {
           <Text
             style={
               styles.balanceText
-            }>{`${labels.balance}: ${this.accountBalance} DIP`}</Text>
+            }>{`${labels.balance}: ${this.props.account!.activeAccount!.balance} DIP`}</Text>
         </View>
         <TextInput
           style={styles.sendAmountInput}
@@ -224,7 +234,7 @@ class Send extends React.Component<Props> {
       <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
         <View style={styles.txFeeBar}>
           <Text style={styles.txFeeLabel}>{labels.txFee}</Text>
-          <Text style={styles.txFeeText}>0.000000000000021 DIP</Text>
+          <Text style={styles.txFeeText}>{this.txFee} DIP</Text>
         </View>
         <Slider
           minimumValue={1}
