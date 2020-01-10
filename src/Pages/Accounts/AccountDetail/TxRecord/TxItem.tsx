@@ -1,33 +1,49 @@
-import { View, Text, StyleSheet, Image } from "react-native"
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import React from "react"
+import { NavigationScreenProp,withNavigation } from "react-navigation"
 
 import TransactionModel from "Models/transaction"
-import Award from "Assets/award.png"
+import Collection from "Assets/collection.png"
+
 
 interface Props {
     transaction: TransactionModel
+    navigation: NavigationScreenProp<any>
 }
+class TxItem extends React.Component<Props>{
+    goDetail = () => {
+        const { transaction } = this.props
+        this.props.navigation.navigate('TransactionDetail', { transaction })
+    }
 
-const TxItem = (props: Props) => {
-    const { transaction: { from, value, timestamp } } = props
-    return (
-        <View style={styles.txItem}>
-            <View style={styles.left}>
-                <Image source={Award} style={styles.icon} />
-                <View>
-                    <Text >类型</Text>
-                    <Text style={styles.txt}>from:{from}</Text>
+    render() {
+        const { transaction: { from, value, timestamp } } = this.props
+
+        return (
+            <TouchableOpacity
+                onPress={this.goDetail}
+            >
+                <View style={styles.txItem}>
+                    <View style={styles.left}>
+                        <Image source={Collection} style={styles.icon} />
+                        <View>
+                            <Text >类型</Text>
+                            <Text style={styles.txt}>from:{from}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.right}>
+                        <Text style={styles.dip}>{value} DIP</Text>
+                        <Text style={styles.txt}>{timestamp}</Text>
+                    </View>
                 </View>
-            </View>
-            <View style={styles.right}>
-                <Text style={styles.dip}>{value} DIP</Text>
-                <Text style={styles.txt}>{timestamp}</Text>
-            </View>
-        </View>
-    )
+            </TouchableOpacity>
+
+        )
+    }
 }
 
-export default TxItem
+
+export default withNavigation(TxItem)
 
 const styles = StyleSheet.create({
     txItem: {
