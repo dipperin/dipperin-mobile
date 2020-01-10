@@ -8,44 +8,17 @@ import TransactionStore from 'Store/transaction'
 import AccountModel from "Models/account"
 import TransactionModel from "Models/transaction"
 
-import { getSentTransactions, getReceivedTransactions, getFailedTransactions } from "../config"
+import { getPendingAndFailedTransactions, getFailedTransactions } from "../config"
 
 interface Props {
     transaction: TransactionStore
     activeAccount: AccountModel
 }
-const nonce = '1'
-const value = '1'
-const from = '0xaaa'
-const to = '0x11111'
-const extraData = 'aaaa'
-const timeLock = 1
-const status = 'pending'
-const hashLock = ''
-const transactionHash = '0x111112'
-const fee = '1'
-const timestamp = 111
 
-const mockTx = {
-  nonce,
-  value,
-  from,
-  to,
-  extraData,
-  timeLock,
-  status,
-  hashLock,
-  transactionHash,
-  fee,
-  timestamp
-}
-const tx = new TransactionModel(mockTx)
 
 const TxRecord = (props: Props) => {
-
     const { transactions } = props.transaction!
     const { address } = props.activeAccount!
-    const txs=[tx,tx,tx,tx,tx,tx,tx,tx]
     return (
         <View style={styles.tabsBox}>
             <Tabs
@@ -55,16 +28,22 @@ const TxRecord = (props: Props) => {
                 tabBarUnderlineStyle={styles.bottomLine}
             >
                 <View style={styles.tabContent}>
-                    <TxList transactions={txs} />
+                    <TxList
+                        transactionsFromLocal={getPendingAndFailedTransactions(transactions)}
+                        activeAccountaddress={address}
+                    />
                 </View>
                 <View style={styles.tabContent}>
-                    <TxList transactions={getSentTransactions(transactions, address)} />
+                    <TxList activeAccountaddress={address} />
                 </View>
                 <View style={styles.tabContent}>
-                    <TxList transactions={getReceivedTransactions(transactions, address)} />
+                    <TxList activeAccountaddress={address} />
                 </View>
                 <View style={styles.tabContent}>
-                    <TxList transactions={getFailedTransactions(transactions)} />
+                    <TxList
+                        transactionsFromLocal={getFailedTransactions(transactions)}
+                        activeAccountaddress={address}
+                    />
                 </View>
             </Tabs>
         </View>

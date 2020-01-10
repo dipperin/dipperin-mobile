@@ -1,4 +1,5 @@
-export const host = 'http://172.16.5.120:8886'
+const host= "http://venus.dipperin.io"
+// export const host = 'http://172.16.5.120:8886'
 export const baseUrl = '/api/v1'
 
 export const fetchRequest = async (url: string = '', method: string = 'GET', body?: object) => {
@@ -6,10 +7,10 @@ export const fetchRequest = async (url: string = '', method: string = 'GET', bod
     const _reqUrl = `${host}${baseUrl}${url}`
     const res: any = await Promise.race([fetch(_reqUrl, {
       method: method,
+      body: body ? JSON.stringify(body) : '',
       headers:{
         'Content-Type': 'application/json',
       },
-      body: body ? JSON.stringify(body) : ''
     }), new Promise((resolve, reject) => {
         setTimeout(() => {
           reject('timeout')

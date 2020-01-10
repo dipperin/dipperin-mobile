@@ -27,7 +27,6 @@ const homeStack = createStackNavigator({
 })
 
 const switchNavigator = createSwitchNavigator({
-  // wallet: walletTabs,
   splash: Splash,
   home: walletTabs,
   init: initWalletStack,

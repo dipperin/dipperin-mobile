@@ -3,6 +3,7 @@ import { inject, observer } from "mobx-react"
 import { View, Text, StyleSheet } from "react-native"
 import LinearGradient from 'react-native-linear-gradient'
 import Eye from "Components/Eye"
+import { formatNumber } from "Global/utils"
 
 
 interface Props {
@@ -23,13 +24,12 @@ class AssetsInfo extends React.Component<Props>{
             >
                 <Text style={styles.title}>{"总资产"}</Text>
                 <View style={styles.dipBox}>
-                    {isEyeOpen ? <Text style={styles.num}>{assets} DIP</Text> : <Text style={styles.num}>*******</Text>}
+                    {isEyeOpen ? <Text style={styles.num}>{formatNumber(assets,6)} DIP</Text> : <Text style={styles.num}>*******</Text>}
                     <Eye isEyeOpen={isEyeOpen} onPress={setIsEyeOpen} />
                 </View>
             </LinearGradient>
         )
     }
-
 }
 
 export default AssetsInfo
