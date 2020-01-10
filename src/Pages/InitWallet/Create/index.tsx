@@ -66,14 +66,15 @@ class Create extends React.Component<Props> {
     if (!(this.password && this.repeatPassword && this.agreeSelect)) return
     const password = this.password
     const repeatPassword = this.repeatPassword
+    const { labels } = this.props
 
     if (password.length < 8) {
-      Toast.info('Password not available!')
+      Toast.info(labels.info.passwordNotAvailable)
       return
     }
 
     if (password !== repeatPassword) {
-      Toast.info('Two passwords do not match!')
+      Toast.info(labels.info.repeatPasswordErr)
       return
     }
 
