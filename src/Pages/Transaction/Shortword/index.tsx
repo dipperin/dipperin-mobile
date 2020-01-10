@@ -2,10 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
-  Button,
   TextInput,
-  StyleSheet,
-  Platform,
   TouchableOpacity,
   Slider,
   StatusBar,
@@ -15,7 +12,6 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   NavigationStackScreenProps,
-  NavigationStackOptions,
 } from 'react-navigation-stack';
 import {observer, inject} from 'mobx-react';
 import {observable, action} from 'mobx';
@@ -27,15 +23,17 @@ import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
 import {sleep} from 'Global/utils';
 import WalletStore from 'Store/wallet';
+import ContractStore from 'Store/contract';
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
   labels: I18nTransactionType;
   transaction?: TransactionStore;
   wallet?: WalletStore;
+  contract?: ContractStore;
 }
 
-@inject('transaction', 'wallet')
+@inject('transaction', 'wallet', 'contract')
 @observer
 class Shortword extends React.Component<Props> {
   @observable shortword: string = '';
@@ -73,14 +71,11 @@ class Shortword extends React.Component<Props> {
     this.txFeeLevel = num;
   };
 
-  sendTransaction = async () => {
+  register = async () => {
     try {
-      const res = await this.props.transaction!.confirmTransaction(
+      const res = await this.props.contract!.registerShortword(
         this.shortword,
-        '0',
-        '',
-        '21000',
-        '1',
+        this.txFeeLevel,
       );
       if (res.success) {
         console.warn('success');
@@ -103,8 +98,8 @@ class Shortword extends React.Component<Props> {
   handleConfirmTransaction = async (psw: string) => {
     Modal.hide();
     Toast.loading();
-    await sleep(1000);
-    Toast.hide();
+    // await sleep(1000);
+    // Toast.hide();
     if (!this.props.wallet!.checkPassword(psw)) {
       Toast.hide();
       Toast.info(this.props.labels.passwordError);
@@ -112,7 +107,7 @@ class Shortword extends React.Component<Props> {
     }
 
     try {
-      await this.sendTransaction();
+      await this.register();
       Toast.hide();
       Toast.success(this.props.labels.sendSuccess);
       return;
