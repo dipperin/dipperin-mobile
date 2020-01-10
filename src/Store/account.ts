@@ -111,6 +111,7 @@ export default class AccountStore {
     this.changeActiveAccount(newAccount.id)
     this.updateAccountsBalance(newAccount.id)
     this.updateAccountsNonce(newAccount.id)
+    console.log(this.accounts, 'accountssssss')
   }
   /**
    * Update account

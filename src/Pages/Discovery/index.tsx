@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar } from 'react-native'
 import i18n from 'I18n'
 import Apps from './Apps'
 import Contacts from './Contracts'
 import Fortune from './Fortune'
+import { styles } from './config'
 
 interface State {
   activeIndex: number
@@ -58,52 +59,11 @@ class Discovery extends React.Component<any, State> {
       </SafeAreaView>
     )
   }
-  // tabs change
   tabsChange = (index: number) => {
     this.setState({
       activeIndex: index
     })
   }
 }
-const styles = StyleSheet.create({
-  wrap: {
-    backgroundColor: '#0B0E19',
-    paddingVertical: 9,
-    height: '100%'
-  },
-  flexBlock: {
-    flexDirection:'row',
-    justifyContent: 'space-around'
-  },
-  tabs: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  item: {
-    minWidth: 94,
-    textAlign:'center', 
-    fontSize: 15,
-    color: '#ffffff',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderColor: '#1C77BC',
-    borderWidth: 1
-  },
-  item0: {
-    borderTopLeftRadius: 38,
-    borderBottomLeftRadius: 38
-  },
-  item1: {
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
-  },
-  item2: {
-    borderTopRightRadius: 38,
-    borderBottomRightRadius: 38
-  },
-  activeItem: {
-    backgroundColor: '#1C77BC'
-  }
-})
 
 export default Discovery

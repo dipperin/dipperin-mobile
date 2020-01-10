@@ -229,8 +229,8 @@ export default class WalletStore {
 
   changePassword(newPassword: string): string | undefined {
     try {
-      if (!this._hdAccount) {
-        return 'Account does not exist!'
+      if (!this._currentWallet) {
+        return 'Wallet does not exist!'
       }
       // Try to parse mnemonic to seed, if fail, return error
       // save encrypt seed, an then clear password and mnemonic
