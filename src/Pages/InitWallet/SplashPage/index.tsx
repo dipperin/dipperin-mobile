@@ -1,7 +1,7 @@
 import React from 'react'
 import { reaction } from 'mobx'
 import { inject, observer } from 'mobx-react'
-import { View } from 'react-native'
+import { View, AppState } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationScreenProp } from 'react-navigation'
 import SystomStore from 'Store/System'
@@ -32,10 +32,21 @@ class Splash extends React.Component<Props> {
     if(!loading) {
       SplashScreen.hide() // hide splash page
       const { isHaveWallet } = this.props.wallet!
-      // this.props.navigation.navigate(isHaveWallet ? 'wallet' : 'lock')
+      this.props.navigation.navigate(isHaveWallet ? 'lock' : 'start')
+      // this.props.navigation.navigate('lock')
+    }
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange)
+  }
+
+  handleAppStateChange = (status: string) => {
+    if(status === 'active') {
       this.props.navigation.navigate('lock')
     }
   }
+
   render() {
     return (
       <View />

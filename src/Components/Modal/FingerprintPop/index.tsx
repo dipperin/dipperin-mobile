@@ -4,40 +4,54 @@ import { View, TouchableOpacity, Text, Image, StyleSheet, Alert } from 'react-na
 import i18n from 'I18n';
 import FINGERPRINT from 'Assets/fingerprint.png'
 import { observer } from 'mobx-react';
-import { observable, reaction } from 'mobx';
+import { observable, reaction, action } from 'mobx';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
+import Toast from 'Components/Toast';
+
+const FINGERPRINT_AVAILABLE = 'Fingerprint'
 
 interface Props extends PopWrapperPropsInterface {
   fingerprintSuccessCb: () => void
+  fingerprintFailCb: () => void
 }
 
+@observer
 @PopWrapper
 @observer
 class FingerprintPop extends React.Component<Props> {
-  @observable contentText: string = '请录入指纹登录'
-
+  @observable contentText: string = i18n.t('dipperin:start.pleaseEnterFingerprint')
+  curTimes: number = 0
   componentDidMount() {
-    reaction(() => this.props.visible, (visible: boolean) => {
-      console.log('visible:', visible)
-      visible && FingerprintScanner
-      .authenticate({ onAttempt: this.handleAuthenticationAttempted })
-      .then((res: any) => {
-        Alert.alert('success: ' + res)
-      })
-      .catch((error: any) => {
-        Alert.alert('fail: ' + error.message)
-      })
-    })
+    this.startFingerprint()
   }
 
-  // static getDerivedStateFromProps(props: Props) {
-  //   return null
-  // }
+  startFingerprint = async () => {
+    try {
+      const availabelResult = await FingerprintScanner.isSensorAvailable()
+      if (availabelResult === FINGERPRINT_AVAILABLE) {
+        const res: any = await FingerprintScanner.authenticate({ onAttempt: this.handleAuthenticationAttempted })
+        if (res) {
+          this.props.fingerprintSuccessCb()
+        }
+      }
+    } catch (error) {
+      this.changeContentText(error.message)
+    }
+
+  }
 
   handleAuthenticationAttempted = (error: any) => {
-    Alert.alert('error: ' + error.message)
+    this.curTimes++;
+    this.changeContentText(error.message)
+    if(this.curTimes >= 3) {
+      FingerprintScanner.release()
+      this.props.fingerprintFailCb()
+    } 
   }
 
+  componentWillUnmount() {
+    FingerprintScanner.release()
+  }
 
   render() {
     const { onCancel } = this.props
@@ -52,10 +66,14 @@ class FingerprintPop extends React.Component<Props> {
           style={styles.cancelBtn}
           onPress={onCancel}
         >
-          <Text style={styles.cancelBtnText}>{i18n.t('dipperin:cancel')}</Text>
+          <Text style={styles.cancelBtnText}>{i18n.t('dipperin:start.cancel')}</Text>
         </TouchableOpacity>
       </View>
     )
+  }
+
+  @action changeContentText = (_value: string) => {
+    this.contentText = _value
   }
 }
 
@@ -77,6 +95,7 @@ export const styles = StyleSheet.create({
   curStatusText: {
     color: '#1C77BC',
     fontSize: 15,
+    textAlign: 'center'
   },
   fingerprintImg: {
     marginBottom: 6,

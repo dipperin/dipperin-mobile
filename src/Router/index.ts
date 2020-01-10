@@ -23,20 +23,20 @@ const walletTabs = createBottomTabNavigator({
 )
 
 const homeStack = createStackNavigator({
-  lock: {
-    screen: LockPage,
-    navigationOptions: () => ({
-      header: null
-    })
-  },
   tabs: walletTabs
 })
 
 const switchNavigator = createSwitchNavigator({
   // wallet: walletTabs,
   splash: Splash,
-  wallet: homeStack,
+  home: walletTabs,
   init: initWalletStack,
+  lock: {
+    screen: LockPage,
+    navigationOptions: () => ({
+      header: null
+    })
+  },
 })
 
 export default createAppContainer(switchNavigator)
