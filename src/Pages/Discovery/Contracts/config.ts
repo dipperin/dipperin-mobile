@@ -17,7 +17,7 @@ export const styles  = StyleSheet.create({
     borderRadius: 8,
     height: 44,
   },
-  adress: {
+  address: {
     flex: 1.5,
     textAlign:'center',
     color: '#ffffff'
@@ -27,12 +27,12 @@ export const styles  = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff'
   },
-  over: {
+  txcount: {
     flex:2,
     textAlign: 'center',
     color: '#ffffff'
   },
-  holdings: {
+  value: {
     flex:1,
     textAlign: 'center',
     color: '#ffffff'

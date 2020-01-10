@@ -75,9 +75,10 @@ class LockPage extends React.Component<Props> {
 
   enterPassword = async (password: string) => {
     console.log('输入密码')
-    Modal.hide()
-    Toast.loading()
-    if (!this.props.wallet!.checkPassword(password)) {
+    Modal.hide();
+    Toast.loading();
+    if (!this.props.wallet!.unlockWallet(password)) {
+      Toast.hide();
       Toast.info(this.props.language.passwordError);
       return;
     }

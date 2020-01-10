@@ -43,7 +43,8 @@ class Splash extends React.Component<Props> {
 
   handleAppStateChange = (status: string) => {
     if(status === 'active') {
-      this.props.navigation.navigate('lock')
+      const { loading } = this.props.system!
+      this.checkLoading(loading)
     }
   }
 
