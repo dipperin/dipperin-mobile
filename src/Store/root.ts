@@ -26,7 +26,7 @@ class Root {
     this.account = new Account(this)
     this.transaction = new Transaction(this)
     this.contract = new Contract(this)
-    this.system = new System()
+    this.system = new System(this)
     this.discovery = new Discovery()
     this.init()
   }

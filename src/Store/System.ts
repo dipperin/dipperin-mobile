@@ -1,10 +1,12 @@
 import { observable, action } from "mobx";
 import { VENUS } from "Global/constants";
-import { getStorage, setStorage } from "Db"
-import i18n from "I18n";
+import { getStorage, setStorage, resetDB } from "Db"
+import i18n from "I18n"
+import RootStore from './root'
 
 
 class System {
+  private _store: RootStore
   @observable loading: boolean = true // loading data from storage
   @observable curLanguage: string = '' // Current Language
   @observable fingerUnLock: boolean = false // Fingerprint unlock
@@ -12,9 +14,9 @@ class System {
   @observable curSystemNodeAddr: string = VENUS // 当前节点地址
 
   @observable isEyeOpen: boolean = true
-  constructor() {
+  constructor(root: RootStore) {
     this.init()
-
+    this._store = root
   }
 
   @action
@@ -53,6 +55,13 @@ class System {
   @action setIsEyeOpen=(val:boolean)=>{
     this.isEyeOpen = val
     setStorage('isEyeOpen',val)
+  }
+
+  resetWallet = () => {
+    this._store.wallet.clear()
+    this._store.account.clear()
+    this._store.transaction.clear()
+    resetDB()
   }
 }
 

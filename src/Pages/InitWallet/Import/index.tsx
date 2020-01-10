@@ -68,18 +68,20 @@ class Import extends React.Component<Props> {
     const mnemonic = this.mnemonic.trim()
     const password = this.password.trim()
     const repeatPassword = this.repeatPassword.trim()
+    const { labels } = this.props
+
     if (!BIP39.validateMnemonic(mnemonic)) {
-      Toast.info('Mnemonic not available!')
+      Toast.info(labels.info.mnemonicNotAvailable)
       return
     }
 
     if (password.length < 8) {
-      Toast.info('Password not available!')
+      Toast.info(labels.info.passwordNotAvailable)
       return
     }
 
     if (password !== repeatPassword) {
-      Toast.info('Two passwords do not match!')
+      Toast.info(labels.info.repeatPasswordErr)
       return
     }
     Toast.loading()

@@ -5,16 +5,19 @@ import {
   styles
 } from './config'
 import { NavigationScreenProp } from 'react-navigation'
-import { observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import { observable, action } from 'mobx'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import { I18nMeType } from 'I18n/config'
+import SystemStore from 'Store/System'
 
 interface Props {
+  system?: SystemStore
   navigation: NavigationScreenProp<any>
   label: I18nMeType
 }
 
+@inject('system')
 @observer
 class ChangePassword extends React.Component<Props> {
   @observable oldPassword: string = ''
@@ -78,11 +81,17 @@ class ChangePassword extends React.Component<Props> {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.forgetPassword}
+          // onPress={this.resetWallet}
         >
           <Text style={styles.forgetPasswordText}>{label.forgetPassword}</Text>
         </TouchableOpacity>
       </View>
     )
+  }
+
+  resetWallet = () => {
+    this.props.system!.resetWallet()
+    this.props.navigation.navigate('start')
   }
 
   goBack = () => {
