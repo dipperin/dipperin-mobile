@@ -75,7 +75,7 @@ class TxList extends React.Component<Props>{
             <FlatList
                 refreshing={false}
                 onRefresh={this.refresh}
-                keyExtractor={(item: TransactionModel, index: number) => item.from}
+                keyExtractor={(item: TransactionModel, index: number) => item.from+index}
                 onEndReached={this.getMoreTransaction}
                 onEndReachedThreshold={0.1}
                 data={this.transactionsFromNode}

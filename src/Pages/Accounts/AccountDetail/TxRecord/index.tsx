@@ -19,6 +19,7 @@ interface Props {
 const TxRecord = (props: Props) => {
     const { transactions } = props.transaction!
     const { address } = props.activeAccount!
+    console.log("localTransactions",transactions)
     return (
         <View style={styles.tabsBox}>
             <Tabs

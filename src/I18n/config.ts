@@ -153,6 +153,9 @@ const enResource = {
       sendSuccess: 'Send Success!',
       sendFailure: 'Send Failure',
     },
+    account:{
+      total:'Total'
+    }
   },
 };
 
@@ -164,6 +167,7 @@ export type I18CreateStep2Type = typeof enResource.dipperin.createStep2;
 export type I18CreateStep3Type = typeof enResource.dipperin.createStep3;
 export type I18nMeType = typeof enResource.dipperin.me;
 export type I18nTransactionType = typeof enResource.dipperin.transaction;
+export type I18nAccountType  = typeof enResource.dipperin.account;
 
 const zhResource: typeof enResource = {
   dipperin: {
@@ -319,6 +323,9 @@ const zhResource: typeof enResource = {
       sendSuccess: '发送成功',
       sendFailure: '发送失败',
     },
+    account:{
+      total:'总资产'
+    }
   },
 };
 
