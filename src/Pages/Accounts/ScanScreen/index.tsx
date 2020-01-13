@@ -4,6 +4,8 @@ import { RNCamera } from "react-native-camera"
 import React from "react"
 import { NavigationScreenProp } from "react-navigation"
 import _ from "lodash"
+import { Utils } from "@dipperin/dipperin.js"
+import Toast from 'Components/Toast';
 
 interface Props {
     navigation: NavigationScreenProp<any>
@@ -30,7 +32,11 @@ class ScanScreen extends React.Component<Props> {
     //  scan the qrcode
     onBarCodeRead = (result: any) => {
         const { data } = result;
-        this.props.navigation.navigate('send',{address:data})
+        if (!Utils.isAddress(data)) {
+            Toast.info('wrong address')
+            return 
+          }
+        this.props.navigation.navigate('send', { address: data })
     };
     //get the camera
     @action
@@ -38,7 +44,7 @@ class ScanScreen extends React.Component<Props> {
         this.camera = ref
     }
     // debonce code Read
-    debonceOnCodeRead=_.debounce(this.onBarCodeRead,250)
+    debonceOnCodeRead = _.debounce(this.onBarCodeRead, 4000)
 
     render() {
         return (

@@ -178,9 +178,11 @@ class Send extends React.Component<Props> {
         return Promise.resolve();
       } else {
         console.warn(res.info);
+        Toast.info('返回失败: '+ res.info)
         return Promise.reject();
       }
     } catch (e) {
+      Toast.info('确认交易失败: '+ e.message)
       return Promise.reject();
     }
   };
@@ -192,8 +194,7 @@ class Send extends React.Component<Props> {
   };
 
   handleConfirmTransaction = async (psw: string) => {
-    Modal.hide();
-    await sleep(500);
+    await Modal.hide();
     Toast.loading();
     await sleep(500);
     Toast.hide();

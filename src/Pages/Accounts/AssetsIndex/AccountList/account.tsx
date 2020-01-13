@@ -4,6 +4,8 @@ import AccountModel from "Models/account"
 import { withNavigation, NavigationScreenProp } from "react-navigation"
 import { observer } from "mobx-react"
 import { formatNumber } from "Global/utils"
+import { I18nAccountType } from 'I18n/config'
+
 import AcountIcon from "Assets/account.png"
 
 interface Props {
@@ -11,6 +13,7 @@ interface Props {
     isEyeOpen:boolean
     changeActiveAccount:(id:string)=>void
     navigation: NavigationScreenProp<any>
+    labels:I18nAccountType
 
 
 }
@@ -23,8 +26,8 @@ class AccountItem extends React.Component<Props>{
         this.props.navigation.navigate("accountDetail")
     }
     render() {
-        const { account:{name, balance, id},isEyeOpen } = this.props        
-        const showName = name ? name : `account ${id}`
+        const { account:{name, balance, id},isEyeOpen,labels } = this.props        
+        const showName = name ? name : `${labels.accountName} ${id}`
         return (
             <TouchableOpacity
                 onPress={this.goDetail}

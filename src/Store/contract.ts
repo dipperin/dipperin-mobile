@@ -7,9 +7,14 @@ import {
   CONTRACT_ADDRESS,
 } from 'Global/constants';
 import {createCallMethod} from 'Global/utils';
+import {observable, action} from 'mobx';
 
 class ContractStore {
   _relay: RootStore;
+  @observable shortwordMap: Map<string, string> = new Map();
+  @action insertShortword = (addr: string, shortword: string) => {
+    this.shortwordMap.set(addr, shortword);
+  };
 
   constructor(root: RootStore) {
     this._relay = root;
@@ -59,7 +64,7 @@ class ContractStore {
       const callData = createCallMethod(
         QUERY_PASSWORD_BY_ADDR,
         METHOD_INPUTS[QUERY_PASSWORD_BY_ADDR],
-        [address.toLowerCase()],
+        [address],
       );
       const tx = this._relay.transaction.getSignedTransactionData(
         CONTRACT_ADDRESS,
@@ -72,9 +77,14 @@ class ContractStore {
         tx.signedTransactionData as string,
         0,
       );
-      return result;
+      if (typeof result === 'string') {
+        this.insertShortword(address, result);
+        return result;
+      } else {
+        return '';
+      }
     } catch (error) {
-      throw error;
+      return '';
     }
   };
 }
