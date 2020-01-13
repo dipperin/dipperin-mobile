@@ -2,17 +2,12 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
   StatusBar,
   TouchableOpacity,
   Clipboard,
 } from 'react-native';
-import {Button} from '@ant-design/react-native';
 import {
   NavigationStackScreenProps,
-  NavigationStackOptions,
-  HeaderBackButtonProps,
 } from 'react-navigation-stack';
 import QRCode from 'react-native-qrcode-svg';
 import {withTranslation, WithTranslation} from 'react-i18next';
@@ -44,12 +39,13 @@ class Receive extends React.Component<Props> {
   };
 
   render() {
+    const {labels} = this.props;
     return (
       <View style={styles.mainWrapper}>
         <StatusBar backgroundColor="#1C77BC" barStyle="light-content" />
         <View style={styles.mainContent}>
           <View style={styles.contentTitleWrapper}>
-            <Text style={styles.contentTitle}>收款码</Text>
+            <Text style={styles.contentTitle}>{labels.qrCode}</Text>
           </View>
 
           <View style={styles.addressWrapper}>
@@ -61,7 +57,7 @@ class Receive extends React.Component<Props> {
               <TouchableOpacity
                 style={styles.copy}
                 onPress={this.copyToClickboard}>
-                <Icon name={'icon|openEye'} size={20} color={'#67686E'} />
+                <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
               </TouchableOpacity>
             </View>
           </View>
@@ -89,7 +85,9 @@ class Receive extends React.Component<Props> {
               borderRadius: 22,
               backgroundColor: '#4992c9',
             }}>
-            <Text style={{color: '#fff', fontSize: 17}}>口令收款</Text>
+            <Text style={{color: '#fff', fontSize: 17}}>
+              {labels.shortWordReceive}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
