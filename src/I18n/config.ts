@@ -123,7 +123,51 @@ const enResource = {
       versionUpdate: 'Version update',
       passwordEmpty: 'Please fill in the password',
       oldPasswordError: 'The old password mistake',
-      diffPassword: 'Two password entries are inconsistent'
+      diffPassword: 'Two password entries are inconsistent',
+      FAQForgetPassowrdTitle: '忘记钱包密码怎么办？',
+      FAQForgetPassowrdDesc1: '如果您忘记了钱包密码，您可以使用备份的 私钥 / 助记词 /Keystore 重新导入钱包，导入过程中可以重置钱包密码。',
+      FAQForgetPassowrdDesc2: '操作步骤',
+      FAQForgetPassowrdDesc3: '我 - 设置 - 忘记密码',
+      FAQToggleNodeTitle: '如何切换公链节点？',
+      FAQToggleNodeDesc1: '如果你的钱包突然无法成功转账，大多数情况是因为连接的节点出现了网络或其他问题，此时只需要换一个其它节点即可。',
+      FAQToggleNodeDesc2: '操作步骤',
+      FAQToggleNodeDesc3: '我 – 设置 – 节点设置 – 选择对应的节点',
+      FAQMnemonicWordTitle: '为什么要备份助记词？',
+      FAQMnemonicWordDesc1: '在选择钱包备份方式时，有三种可选：助记词、Keystore 或者明文私钥。',
+      FAQMnemonicWordDesc2: '推荐备份助记词，这里有几点原因：',
+      FAQMnemonicWordDesc3: `
+      1.Keystore 虽然是加密后的私钥，但是不方便抄写，容易抄错。而且用户往往会认为 Keystore 安全而通过网络传输或者存储，这种使用方式会导致 Keystore 泄露，极大增加资产被盗的风险。\n
+      2.明文私钥的安全等级和助记词相同，都是未经加密的字符串。但是明文私钥不便抄写保存，一旦抄写错误，就很难改正和找回。
+      `,
+      FAQMnemonicWordDesc4: '在使用助记词时务必注意以下几点：',
+      FAQMnemonicWordDesc5: `
+      1.助记词一旦丢失就无法找回，所以在创建钱包之后，务必立刻备份助记词，以免出现设备不可用而导致资产丢失的情况\n
+      2.助记词是未经任何加密措施保护的私钥，一旦有人得到了你的助记词，就等同于掌控了你的钱包。妥善保管助记词，一是做好网络隔绝措施，二是做好防丢措施\n
+      3.备份助记词时，尽量采用物理介质备份，比如手抄在一张纸上。\n
+      4.确保备份的助记词准确，建议通过交叉验证来确保助记词是正确的。
+      `,
+      FAQWalletLossTitle: '钱包被盗怎么办？',
+      FAQWalletLossDesc1: 'Dipperin 是去中心化钱包，不存储用户的钱包私钥，也不保管用户的资产。如果钱包中的资产被盗，你应该：',
+      FAQWalletLossDesc2: `
+      1.意识到钱包私钥已经泄露，立即更换钱包，并做好钱包备份\n
+      2.将自己钱包的资产迅速转移至新钱包\n
+      3.排查自己可能泄露私钥的情况
+      `,
+      FAQTransferAccountsFailTitle: '转账不成功怎么办?',
+      FAQTransferAccountsFailDesc1: `1. 交易状态未发送：`,
+      FAQTransferAccountsFailDesc2: '可能因为转账请求未被区块链接收，请您耐心等待',
+      FAQTransferAccountsFailDesc3: '2. 交易状态等待确认：',
+      FAQTransferAccountsFailDesc4: `可能因矿工费设置较低造成，请您耐心等待`,
+      FAQTransferAccountsFailDesc5: '3. 交易状态失败：',
+      FAQTransferAccountsFailDesc6: `
+      1> gas不足或者是只能合约的问题，如果您无法确认具体原因，请与我们联系\n
+      2> 交易重复，发起了两笔相同的转账，其中矿工费低的被取消, 请查看转账记录，根据需求决定是否发起新的转账
+      `,
+      FAQNotArriveAccountTitle: '转账成功但对方没收到怎么办？',
+      FAQNotArriveAccountDesc1: `
+      1.检查是否收款地址填写错误\n
+      2.收币方网络不稳定，联系刷新对方资产页
+      `,
     },
     transaction: {
       transaction: 'Transaction',
@@ -293,7 +337,52 @@ const zhResource: typeof enResource = {
       versionUpdate: '版本更新',
       passwordEmpty: '请填写密码',
       oldPasswordError: '旧密码错误',
-      diffPassword: '两次输入的密码不一致'
+      diffPassword: '两次输入的密码不一致',
+      FAQForgetPassowrdTitle: '忘记钱包密码怎么办？',
+      FAQForgetPassowrdDesc1: '如果您忘记了钱包密码，您可以使用备份的 私钥 / 助记词 /Keystore 重新导入钱包，导入过程中可以重置钱包密码。',
+      FAQForgetPassowrdDesc2: '操作步骤',
+      FAQForgetPassowrdDesc3: '我 - 设置 - 忘记密码',
+      FAQToggleNodeTitle: '如何切换公链节点？',
+      FAQToggleNodeDesc1: '如果你的钱包突然无法成功转账，大多数情况是因为连接的节点出现了网络或其他问题，此时只需要换一个其它节点即可。',
+      FAQToggleNodeDesc2: '操作步骤',
+      FAQToggleNodeDesc3: '我 – 设置 – 节点设置 – 选择对应的节点',
+      FAQMnemonicWordTitle: '为什么要备份助记词？',
+      FAQMnemonicWordDesc1: '在选择钱包备份方式时，有三种可选：助记词、Keystore 或者明文私钥。',
+      FAQMnemonicWordDesc2: '推荐备份助记词，这里有几点原因：',
+      FAQMnemonicWordDesc3: `
+      1.Keystore 虽然是加密后的私钥，但是不方便抄写，容易抄错。而且用户往往会认为 Keystore 安全而通过网络传输或者存储，这种使用方式会导致 Keystore 泄露，极大增加资产被盗的风险。\n
+      2.明文私钥的安全等级和助记词相同，都是未经加密的字符串。但是明文私钥不便抄写保存，一旦抄写错误，就很难改正和找回。
+      `,
+      FAQMnemonicWordDesc4: '在使用助记词时务必注意以下几点：',
+      FAQMnemonicWordDesc5: `
+      1.助记词一旦丢失就无法找回，所以在创建钱包之后，务必立刻备份助记词，以免出现设备不可用而导致资产丢失的情况\n
+      2.助记词是未经任何加密措施保护的私钥，一旦有人得到了你的助记词，就等同于掌控了你的钱包。妥善保管助记词，一是做好网络隔绝措施，二是做好防丢措施\n
+      3.备份助记词时，尽量采用物理介质备份，比如手抄在一张纸上。\n
+      4.确保备份的助记词准确，建议通过交叉验证来确保助记词是正确的。
+      `,
+      FAQWalletLossTitle: '钱包被盗怎么办？',
+      FAQWalletLossDesc1: 'Dipperin 是去中心化钱包，不存储用户的钱包私钥，也不保管用户的资产。如果钱包中的资产被盗，你应该：',
+      FAQWalletLossDesc2: `
+      1.意识到钱包私钥已经泄露，立即更换钱包，并做好钱包备份\n
+      2.将自己钱包的资产迅速转移至新钱包\n
+      3.排查自己可能泄露私钥的情况
+      `,
+      FAQTransferAccountsFailTitle: '转账不成功怎么办?',
+      FAQTransferAccountsFailDesc1: `1. 交易状态未发送：`,
+      FAQTransferAccountsFailDesc2: '可能因为转账请求未被区块链接收，请您耐心等待',
+      FAQTransferAccountsFailDesc3: '2. 交易状态等待确认：',
+      FAQTransferAccountsFailDesc4: `可能因矿工费设置较低造成，请您耐心等待`,
+      FAQTransferAccountsFailDesc5: '3. 交易状态失败：',
+      FAQTransferAccountsFailDesc6: `
+      1> gas不足或者是只能合约的问题，如果您无法确认具体原因，请与我们联系\n
+      2> 交易重复，发起了两笔相同的转账，其中矿工费低的被取消, 请查看转账记录，根据需求决定是否发起新的转账
+      `,
+      FAQNotArriveAccountTitle: '转账成功但对方没收到怎么办？',
+      FAQNotArriveAccountDesc1: `
+      1.检查是否收款地址填写错误\n
+      2.收币方网络不稳定，联系刷新对方资产页
+      `,
+
     },
     transaction: {
       transaction: '转账',
