@@ -50,7 +50,7 @@ class ContractStore {
       );
       return result;
     } catch (error) {
-      throw error;
+      return '';
     }
   };
 

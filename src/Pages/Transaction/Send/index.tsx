@@ -145,7 +145,10 @@ class Send extends React.Component<Props> {
 
   getAddressFromClickboard = async () => {
     const word = await Clipboard.getString();
-    this.handleChangeAddressOrShortword(word);
+    const account = await this.props.contract!.queryAddressByShordword(word);
+    if (account && this.addressOrShortWord === '') {
+      this.handleChangeAddressOrShortword(word);
+    }
   };
 
   sendTransaction = async () => {
@@ -153,6 +156,10 @@ class Send extends React.Component<Props> {
     // 1. verify address
     // 2. check if registered shortword
     // 3. throw error or send tx
+    const ifVerifyAddress = await this.verifyAddressOrShortword();
+    if (!ifVerifyAddress) {
+      return;
+    }
     try {
       const res = await this.props.transaction!.confirmTransaction(
         this.toAddress,
@@ -181,9 +188,10 @@ class Send extends React.Component<Props> {
 
   handleConfirmTransaction = async (psw: string) => {
     Modal.hide();
-    await sleep(100);
+    await sleep(500);
     Toast.loading();
-    // Toast.hide();
+    await sleep(500);
+    Toast.hide();
     if (!this.props.wallet!.unlockWallet(psw)) {
       Toast.hide();
       Toast.info(this.props.labels.passwordError);
