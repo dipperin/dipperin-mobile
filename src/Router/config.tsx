@@ -157,7 +157,7 @@ export const walletStack = createStackNavigator({
           onPress={() => {
             props.navigation.navigate('ScanScreen');
           }}>
-          <Icon name={'icon|saoma'} size={20} color="##393B42" />
+          <Icon name={'icon|saoma'} size={20} color="#393B42" />
         </CustomIcon>
       ),
     }),

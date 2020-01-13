@@ -3,7 +3,6 @@ import { inject, observer } from "mobx-react"
 import { View, StatusBar, Platform } from 'react-native'
 import { NavigationEvents } from "react-navigation"
 
-import i18n from 'I18n'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nAccountType } from 'I18n/config'
 
@@ -37,15 +36,25 @@ class Assets extends React.Component<Props>{
     const { isEyeOpen, setIsEyeOpen } = this.props.system!
     const { labels } = this.props
     const assets = this.getAllAssets()
-    console.log("accounts",accounts)
+    console.log("accounts", accounts)
     return (
       <View style={{ flex: 1 }}>
         <NavigationEvents
           onDidFocus={this.didFocus}
           onDidBlur={this.didBlur}
         />
-        <AssetsInfo setIsEyeOpen={setIsEyeOpen} isEyeOpen={isEyeOpen} assets={assets} labels={labels} />
-        <AccountList accounts={accounts} isEyeOpen={isEyeOpen} changeActiveAccount={changeActiveAccount} />
+        <AssetsInfo
+          setIsEyeOpen={setIsEyeOpen}
+          isEyeOpen={isEyeOpen}
+          assets={assets}
+          labels={labels}
+        />
+        <AccountList
+          accounts={accounts}
+          isEyeOpen={isEyeOpen}
+          changeActiveAccount={changeActiveAccount}
+          labels={labels}
+        />
       </View>
 
     )

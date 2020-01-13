@@ -6,20 +6,20 @@ import TxList from "./TxList"
 
 import TransactionStore from 'Store/transaction'
 import AccountModel from "Models/account"
-import TransactionModel from "Models/transaction"
 
 import { getPendingAndFailedTransactions, getFailedTransactions } from "../config"
+import { I18nAccountType } from 'I18n/config'
 
 interface Props {
     transaction: TransactionStore
     activeAccount: AccountModel
+    labels: I18nAccountType
 }
 
 
 const TxRecord = (props: Props) => {
-    const { transactions } = props.transaction!
+    const { transactions, } = props.transaction!
     const { address } = props.activeAccount!
-    console.log("localTransactions",transactions)
     return (
         <View style={styles.tabsBox}>
             <Tabs
@@ -32,18 +32,26 @@ const TxRecord = (props: Props) => {
                     <TxList
                         transactionsFromLocal={getPendingAndFailedTransactions(transactions)}
                         activeAccountaddress={address}
+                        labels={props.labels}
                     />
                 </View>
                 <View style={styles.tabContent}>
-                    <TxList activeAccountaddress={address} />
+                    <TxList
+                        activeAccountaddress={address}
+                        labels={props.labels}
+                    />
                 </View>
                 <View style={styles.tabContent}>
-                    <TxList activeAccountaddress={address} />
+                    <TxList
+                        activeAccountaddress={address}
+                        labels={props.labels}
+                    />
                 </View>
                 <View style={styles.tabContent}>
                     <TxList
                         transactionsFromLocal={getFailedTransactions(transactions)}
                         activeAccountaddress={address}
+                        labels={props.labels}
                     />
                 </View>
             </Tabs>

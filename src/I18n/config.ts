@@ -154,7 +154,20 @@ const enResource = {
       sendFailure: 'Send Failure',
     },
     account:{
-      total:'Total'
+      total:'Total',
+      assets:'Assets',
+      accountName:'account',
+      all:'All',
+      sent:'Transfered',
+      received:'Received',
+      failed:'Failed',
+      value:'Value',
+      timeStamp:'TimeStamps',
+      nonce:'Nonce',
+      extraData:'Extra Data',
+      from:'From',
+      to:'To',
+      hash:'Hash'
     }
   },
 };
@@ -324,7 +337,21 @@ const zhResource: typeof enResource = {
       sendFailure: '发送失败',
     },
     account:{
-      total:'总资产'
+      total:'总资产',
+      assets:'资产',
+      accountName:'账户',
+      all:'全部',
+      sent:'发送',
+      received:'接收',
+      failed:'失败',
+      value:'交易额',
+      timeStamp:'时间',
+      nonce:'Nonce',
+      extraData:'备注',
+      from:'发送地址',
+      To:'接收地址',
+      hash:'Hash'
+      
     }
   },
 };
