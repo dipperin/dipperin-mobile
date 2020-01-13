@@ -145,6 +145,11 @@ class Send extends React.Component<Props> {
 
   getAddressFromClickboard = async () => {
     const word = await Clipboard.getString();
+    if(Utils.isAddress(word)) {
+      this.handleChangeAddressOrShortword(word);
+      return 
+    }
+
     const account = await this.props.contract!.queryAddressByShordword(word);
     if (account && this.addressOrShortWord === '') {
       this.handleChangeAddressOrShortword(word);
@@ -192,12 +197,11 @@ class Send extends React.Component<Props> {
     Toast.loading();
     await sleep(500);
     Toast.hide();
-    if (!this.props.wallet!.unlockWallet(psw)) {
+    if (!this.props.wallet!.checkPassword(psw)) {
       Toast.hide();
       Toast.info(this.props.labels.passwordError);
       return;
     }
-
     try {
       await this.sendTransaction();
       Toast.hide();
@@ -297,6 +301,7 @@ class Send extends React.Component<Props> {
         <Slider
           minimumValue={1}
           maximumValue={3}
+          minimumTrackTintColor="#0099cb"
           step={1}
           onValueChange={this.handleChangeTxfee}
         />
