@@ -121,6 +121,9 @@ const enResource = {
       forgetPassword: 'Forgot password?',
       walletProduction: 'The wallet products',
       versionUpdate: 'Version update',
+      passwordEmpty: 'Please fill in the password',
+      oldPasswordError: 'The old password mistake',
+      diffPassword: 'Two password entries are inconsistent'
     },
     transaction: {
       transaction: 'Transaction',
@@ -287,6 +290,9 @@ const zhResource: typeof enResource = {
       forgetPassword: '忘记密码?',
       walletProduction: '钱包产品',
       versionUpdate: '版本更新',
+      passwordEmpty: '请填写密码',
+      oldPasswordError: '旧密码错误',
+      diffPassword: '两次输入的密码不一致'
     },
     transaction: {
       transaction: '转账',

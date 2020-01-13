@@ -9,7 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
 import Toast from 'Components/Toast'
-import { sleep } from 'Global/utils'
+import { sleep, encryptionPassword } from 'Global/utils'
 import { setStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
 
@@ -90,6 +90,8 @@ class Import extends React.Component<Props> {
     Toast.hide()
     if (!err) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
+      console.log(encryptionPassword(password), '加密后的数据')
+      setStorage(STORAGE_KEYS.PASSWORD, encryptionPassword(password))
       this.props.navigation.navigate('wallet')
     }
   }

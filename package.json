@@ -17,6 +17,8 @@
     "@react-native-community/async-storage": "^1.7.1",
     "@react-native-community/viewpager": "^3.3.0",
     "@tradle/react-native-http": "^2.0.1",
+    "@types/aes-js": "^3.1.0",
+    "aes-js": "^3.1.2",
     "assert": "^2.0.0",
     "asyncstorage-down": "^4.2.0",
     "bignumber.js": "^9.0.0",
