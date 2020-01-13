@@ -1,8 +1,9 @@
 import { View, Text, Image, StyleSheet } from "react-native"
-import React, { Fragment } from "react"
+import React from "react"
 import AccountModel from 'Models/account'
 import Accountlogo from "Assets/accountLogo.png"
 import Eye from "Components/Eye"
+import { I18nAccountType } from 'I18n/config'
 
 import { formatNumber } from "Global/utils"
 
@@ -10,16 +11,17 @@ interface Props {
     account: AccountModel | undefined
     isEyeOpen: boolean
     setIsEyeOpen: (val: boolean) => void
+    labels:I18nAccountType
 
 }
 
 const AccountInfo = (props: Props) => {
-    const { isEyeOpen, setIsEyeOpen, account } = props
+    const { isEyeOpen, setIsEyeOpen, account ,labels} = props
     return (
         <View style={styles.infoBox}>
             <Image source={Accountlogo} style={styles.accountLogo} />
             <View style={styles.nameBox}>
-                <Text style={styles.name}>{account?.name}</Text>
+                <Text style={styles.name}>{account?.name? account?.name : `${labels.accountName} ${account?.id}`}</Text>
                 <Eye
                     isEyeOpen={isEyeOpen}
                     onPress={setIsEyeOpen}

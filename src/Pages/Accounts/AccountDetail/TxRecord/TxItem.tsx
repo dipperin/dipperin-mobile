@@ -3,6 +3,7 @@ import React from "react"
 import { NavigationScreenProp, withNavigation } from "react-navigation"
 import moment from "moment"
 import { getIsTxFromMe } from "Global/utils"
+import { I18nAccountType } from 'I18n/config'
 
 import TransactionModel from "Models/transaction"
 import Collection from "Assets/collection.png"
@@ -13,15 +14,17 @@ interface Props {
     activeAccountaddress: string
     transaction: TransactionModel
     navigation: NavigationScreenProp<any>
+    labels: I18nAccountType
 }
 class TxItem extends React.Component<Props>{
     goDetail = () => {
-        const { transaction } = this.props
-        this.props.navigation.navigate('TransactionDetail', { transaction })
+        const { activeAccountaddress, transaction } = this.props
+        const isFromMe = getIsTxFromMe(activeAccountaddress, transaction.from)
+        this.props.navigation.navigate('TransactionDetail', { transaction, isFromMe })
     }
 
     render() {
-        const { activeAccountaddress, transaction: { from, value, timestamp } } = this.props
+        const { activeAccountaddress, labels, transaction: { from, value, timestamp } } = this.props
         const showTime = timestamp ? moment(Math.floor(timestamp / 1000000)).format('YYYY/MM/DD') : ''
         const isFromMe = getIsTxFromMe(activeAccountaddress, from)
         return (
@@ -32,8 +35,8 @@ class TxItem extends React.Component<Props>{
                     <View style={styles.left}>
                         <Image source={isFromMe ? Transfer : Collection} style={styles.icon} />
                         <View>
-                            <Text >{isFromMe ? '转账' : '收款'}</Text>
-                            <Text style={styles.txt} numberOfLines={1} ellipsizeMode={'tail'}>{isFromMe?'To':'From'}: {from}</Text>
+                            <Text >{isFromMe ? labels.sent : labels.received}</Text>
+                            <Text style={styles.txt} numberOfLines={1} ellipsizeMode={'tail'}>{isFromMe ? labels.to : labels.from}: {from}</Text>
                         </View>
                     </View>
                     <View style={styles.right}>
