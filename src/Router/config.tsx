@@ -8,6 +8,7 @@ import {defaultTabBarOptions} from './utils';
 import CustomBack from './CustomBack';
 import CustomIcon from './CustomIcon';
 import {Icon} from 'Components/Icon';
+import ShareIcon from './Share';
 
 // about wallet
 import Start from 'Pages/InitWallet/Start';
@@ -123,29 +124,47 @@ export const initWalletStack = createStackNavigator({
 export const walletStack = createStackNavigator({
   Assets: {
     screen: Assets,
-    navigationOptions: (props) => ({
+    navigationOptions: props => ({
       headerLeft: <View />,
-      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('AddAccount') }}><Icon name={'icon|tianjia'} size={25} color="#fff" /></CustomIcon>,
-      headerStyle: { ...commonHeaderStyle, backgroundColor: '#275DA5' },
-      headerTitleStyle: { ...defaultHeaderTitleStyle, color: "#fff" },
-      title: 'Wallet'
-    })
+      headerRight: (
+        <CustomIcon
+          onPress={() => {
+            props.navigation.navigate('AddAccount');
+          }}>
+          <Icon name={'icon|tianjia'} size={25} color="#fff" />
+        </CustomIcon>
+      ),
+      headerStyle: {...commonHeaderStyle, backgroundColor: '#275DA5'},
+      headerTitleStyle: {...defaultHeaderTitleStyle, color: '#fff'},
+      title: 'Wallet',
+    }),
   },
   AddAccount: {
     screen: AddAccount,
-    navigationOptions: (props) => ({
+    navigationOptions: props => ({
       ...headerBackConfig,
       title: 'Add Account',
-      headerRight: <CustomIcon onPress={props.navigation.getParam('addAccount')}><Text>确定</Text></CustomIcon>
-    })
+      headerRight: (
+        <CustomIcon onPress={props.navigation.getParam('addAccount')}>
+          <Text>确定</Text>
+        </CustomIcon>
+      ),
+    }),
   },
   accountDetail: {
     screen: AccountDetail,
-    navigationOptions: (props) => ({
+    navigationOptions: props => ({
       ...headerBackConfig,
-      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('ScanScreen') }}><Icon name={'icon|saoma'} size={20} color="#393B42" /></CustomIcon>,
-      title: 'Dip'
-    })
+      headerRight: (
+        <CustomIcon
+          onPress={() => {
+            props.navigation.navigate('ScanScreen');
+          }}>
+          <Icon name={'icon|saoma'} size={20} color="#393B42" />
+        </CustomIcon>
+      ),
+      title: 'Dip',
+    }),
   },
   send: {
     screen: Send,
@@ -188,6 +207,7 @@ export const walletStack = createStackNavigator({
         fontSize: 18,
         fontWeight: 'bold',
       },
+      headerRight: <ShareIcon />,
     }),
   },
   shortword: {
@@ -200,9 +220,9 @@ export const walletStack = createStackNavigator({
   ScanScreen: {
     screen: ScanScreen,
     navigationOptions: () => ({
-      header: null
-    })
-  }
+      header: null,
+    }),
+  },
 });
 
 export const discoveryStack = createStackNavigator({
@@ -297,19 +317,16 @@ export const meStack = createStackNavigator(
   },
 );
 
-
-
 // hide tab
-export const hideTab = ({ navigation }: any) => {
+export const hideTab = ({navigation}: any) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
     return {
       tabBarVisible,
     };
-  };
-}
+  }
+};
 meStack.navigationOptions = hideTab;
 discoveryStack.navigationOptions = hideTab;
 walletStack.navigationOptions = hideTab;
-

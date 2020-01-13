@@ -61,7 +61,7 @@ class Receive extends React.Component<Props> {
               <TouchableOpacity
                 style={styles.copy}
                 onPress={this.copyToClickboard}>
-                <Icon name={'icon|openEye'} size={20} color={'#67686E'} />
+                <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
               </TouchableOpacity>
             </View>
           </View>
