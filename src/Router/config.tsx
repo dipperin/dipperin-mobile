@@ -262,7 +262,8 @@ export const meStack = createStackNavigator(
     changePassword: {
       screen: ChangePassword,
       navigationOptions: () => ({
-        header: null,
+        ...headerBackConfig,
+        title: '修改密码',
       }),
     },
     toggleLanguage: {
@@ -282,13 +283,6 @@ export const meStack = createStackNavigator(
     aboutUs: {
       screen: AboutUs,
       navigationOptions: () => ({...headerBackConfigNoBorder}),
-    },
-    functionIntr: {
-      screen: FunctionIntr,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: '功能介绍',
-      }),
     },
     userProtocol: {
       screen: UserProtocol,

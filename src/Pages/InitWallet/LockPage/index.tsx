@@ -4,14 +4,17 @@ import FINGERPRINT from 'Assets/fingerprint.png';
 import {styles} from './config';
 import {NavigationScreenProp} from 'react-navigation';
 // There are differences between IOS and Android
-import FingerprintPop from 'Components/Modal/FingerprintPop';
-import {observer, inject} from 'mobx-react';
-import {observable, action} from 'mobx';
-import {WithTranslation, withTranslation} from 'react-i18next';
-import {I18StartType} from 'I18n/config';
-import Modal from 'Components/Modal';
-import Toast from 'Components/Toast';
-import WalletStore from 'Store/wallet';
+import FingerprintPop from 'Components/Modal/FingerprintPop'
+import { observer, inject } from 'mobx-react'
+import { observable, action } from 'mobx'
+import { WithTranslation, withTranslation } from 'react-i18next'
+import { I18StartType } from 'I18n/config'
+import Modal from 'Components/Modal'
+import Toast from 'Components/Toast'
+import WalletStore from 'Store/wallet'
+import { getStorage } from 'Db'
+import { STORAGE_KEYS } from 'Global/constants'
+import { decryptionPassword } from 'Global/utils'
 
 interface Props {
   navigation: NavigationScreenProp<any>;
@@ -22,12 +25,8 @@ interface Props {
 @inject('wallet')
 @observer
 class LockPage extends React.Component<Props> {
-  componentDidMount() {
-    Modal.FingerprintPopShow(
-      this.fingerprintSuccessCb,
-      this.fingerprintFailCb,
-      this.hideFingerPop,
-    );
+  async componentDidMount() {
+    Modal.FingerprintPopShow(this.fingerprintSuccessCb, this.fingerprintFailCb, this.hideFingerPop)
   }
 
   render() {
@@ -71,11 +70,20 @@ class LockPage extends React.Component<Props> {
 
   // TODO Fingerprint success
   fingerprintSuccessCb = async () => {
-    console.log('指纹认证成功');
-    await Modal.hide();
-    // TODO
-    this.props.navigation.navigate('wallet');
-  };
+    await Modal.hide()
+    Toast.loading()
+    const enciryptionPassword: string = await getStorage(STORAGE_KEYS.PASSWORD) as any as string
+    const _password = decryptionPassword(enciryptionPassword)
+    const unlock = this.props.wallet!.unlockWallet(_password)
+
+    if (!unlock) {
+      Toast.info(this.props.language.passwordError)
+      return
+    }
+
+    this.props.navigation.navigate('wallet')
+    Toast.hide()
+  }
 
   // TODO Fingerprint fail
   fingerprintFailCb = () => {
@@ -83,7 +91,6 @@ class LockPage extends React.Component<Props> {
   };
 
   enterPassword = async (password: string) => {
-    console.log('输入密码');
     await Modal.hide();
     Toast.loading();
     if (!this.props.wallet!.unlockWallet(password)) {
@@ -91,6 +98,7 @@ class LockPage extends React.Component<Props> {
       Toast.info(this.props.language.passwordError);
       return;
     }
+    
     // TODO
     this.props.navigation.navigate('wallet');
   };

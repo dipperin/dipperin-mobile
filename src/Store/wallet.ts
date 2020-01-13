@@ -1,8 +1,8 @@
-import BIP39 from 'bip39';
-import {noop} from 'lodash';
-import {observable, reaction, computed, action, runInAction} from 'mobx';
-import {Accounts, AccountObject} from '@dipperin/dipperin.js';
-import {getRandom} from 'Global/utils';
+import BIP39 from 'bip39'
+import { noop } from 'lodash'
+import { observable, reaction, computed, action, runInAction } from 'mobx'
+import { Accounts, AccountObject } from '@dipperin/dipperin.js'
+import { getRandom, encryptionPassword } from 'Global/utils'
 // import settings from '@/utils/settings'
 import {
   getWallet,
@@ -237,15 +237,17 @@ export default class WalletStore {
     }
   }
 
-  changePassword(newPassword: string): string | undefined {
+  @action changePassword(newPassword: string): string | undefined {
     try {
       if (!this._currentWallet) {
         return 'Wallet does not exist!';
       }
       // Try to parse mnemonic to seed, if fail, return error
       // save encrypt seed, an then clear password and mnemonic
-      const encryptSeed = this._hdAccount!.encrypt(newPassword);
-      const {walletId, activeAccountId} = this._currentWallet!;
+      const encryptPassword = encryptionPassword(newPassword)
+      setStorage(STORAGE_KEYS.PASSWORD, encryptPassword)
+      const encryptSeed = this._hdAccount!.encrypt(newPassword)
+      const { walletId, activeAccountId } = this._currentWallet!
       const walletObj: WalletObj = {
         walletId,
         activeAccountId,
