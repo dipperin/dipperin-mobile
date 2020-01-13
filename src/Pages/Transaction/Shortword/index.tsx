@@ -23,6 +23,7 @@ import Modal from 'Components/Modal';
 import {fromUnitToDip} from 'Global/utils';
 import WalletStore from 'Store/wallet';
 import ContractStore from 'Store/contract';
+import {sleep} from 'Global/utils'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
@@ -100,9 +101,9 @@ class Shortword extends React.Component<Props> {
   };
 
   handleConfirmTransaction = async (psw: string) => {
-    Modal.hide();
+    await Modal.hide();
     Toast.loading();
-    // await sleep(1000);
+    await sleep(500);
     // Toast.hide();
     if (!this.props.wallet!.unlockWallet(psw)) {
       Toast.hide();

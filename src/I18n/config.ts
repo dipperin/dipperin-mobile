@@ -121,6 +121,9 @@ const enResource = {
       forgetPassword: 'Forgot password?',
       walletProduction: 'The wallet products',
       versionUpdate: 'Version update',
+      passwordEmpty: 'Please fill in the password',
+      oldPasswordError: 'The old password mistake',
+      diffPassword: 'Two password entries are inconsistent'
     },
     transaction: {
       transaction: 'Transaction',
@@ -139,6 +142,7 @@ const enResource = {
       high: 'fast',
       receive: 'Receive',
       shortWordReceive: 'Shortword Receive',
+      qrCode: 'QR Code',
       shortword: 'Short Word',
       enterRegisterShortword: 'Please enter your Short Word',
       enterReceiveAmount: 'Please enter amount',
@@ -304,6 +308,9 @@ const zhResource: typeof enResource = {
       forgetPassword: '忘记密码?',
       walletProduction: '钱包产品',
       versionUpdate: '版本更新',
+      passwordEmpty: '请填写密码',
+      oldPasswordError: '旧密码错误',
+      diffPassword: '两次输入的密码不一致'
     },
     transaction: {
       transaction: '转账',
@@ -323,6 +330,7 @@ const zhResource: typeof enResource = {
       receive: '收款',
       shortWordReceive: '口令收款',
       shortword: '口令名称',
+      qrCode: '收款码',
       enterRegisterShortword: '请输入注册口令',
       enterReceiveAmount: '请输入收款金额',
       remarkOptional: '备注(选填)',

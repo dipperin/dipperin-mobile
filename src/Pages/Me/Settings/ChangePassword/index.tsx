@@ -10,14 +10,17 @@ import { observable, action } from 'mobx'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import { I18nMeType } from 'I18n/config'
 import SystemStore from 'Store/System'
-
+import WalletStore from 'Store/wallet'
+import Toast from 'Components/Toast'
+import { passwordCheck } from './utils'
 interface Props {
   system?: SystemStore
   navigation: NavigationScreenProp<any>
   label: I18nMeType
+  wallet?: WalletStore
 }
 
-@inject('system')
+@inject('system', 'wallet')
 @observer
 class ChangePassword extends React.Component<Props> {
   @observable oldPassword: string = ''
@@ -47,6 +50,7 @@ class ChangePassword extends React.Component<Props> {
               secureTextEntry={true}
               placeholder={label.pleaseEnterNewPsd}
               autoCompleteType="password"
+              maxLength={24}
               style={styles.input}
               value={this.newPassword}
               onChangeText={this.inputNewPassword}
@@ -59,6 +63,7 @@ class ChangePassword extends React.Component<Props> {
               secureTextEntry={true}
               placeholder={label.pleaseConfirmNewPsd}
               autoCompleteType="password"
+              maxLength={24}
               style={styles.input}
               value={this.confrimPassword}
               onChangeText={this.inputConfirmPassword}
@@ -81,7 +86,7 @@ class ChangePassword extends React.Component<Props> {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.forgetPassword}
-          // onPress={this.resetWallet}
+        // onPress={this.resetWallet}
         >
           <Text style={styles.forgetPasswordText}>{label.forgetPassword}</Text>
         </TouchableOpacity>
@@ -98,9 +103,29 @@ class ChangePassword extends React.Component<Props> {
     this.props.navigation.goBack()
   }
 
-  // TODO
-  changePassword = () => {
+  changePassword = async () => {
+    Toast.loading()
+    const { label } = this.props
+    const oldPassword = this.oldPassword.trim()
+    const newPassword = this.newPassword.trim()
 
+    // Test the new password format
+    const toasInfo = passwordCheck(this.oldPassword, this.newPassword, this.confrimPassword, label)
+    if (toasInfo) {
+      Toast.info(toasInfo)
+      return
+    }
+    
+    // Check the old password
+    const checkPasswordSuccess = this.props.wallet!.unlockWallet(oldPassword)
+    if (!checkPasswordSuccess) {
+      Toast.info(label.oldPasswordError)
+      return
+    }
+
+    // Change password
+    await this.props.wallet?.changePassword(newPassword)
+    // Toast.hide()
   }
 
   @action inputOldPassword = (_value: string) => {

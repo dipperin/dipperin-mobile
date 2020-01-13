@@ -1,8 +1,43 @@
 import { randomBytes } from 'react-native-randombytes'
 import { BigNumber } from 'bignumber.js'
 import { typeStringToBytes, helper } from '@dipperin/dipperin.js'
-import {Utils} from '@dipperin/dipperin.js'
+import { Utils } from '@dipperin/dipperin.js'
+import aesjs from 'aes-js'
 
+/**
+ * Cipher encryption
+ * @param password Plaintext
+ * @returns string ciphertext
+ */
+export const encryptionPassword = (password: string) => {
+  let key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    29, 30, 31, 32]
+
+  // Convert passord to bytes
+  let textBytes = aesjs.utils.utf8.toBytes(password);
+  // The counter is optional, and if omitted will begin at 1
+  let aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(6));
+  let encryptionBytes = aesCtr.encrypt(textBytes);
+  return aesjs.utils.hex.fromBytes(encryptionBytes)
+}
+
+/**
+ * CipherText decryption
+ * @param cipherPasswprd ciphertext
+ * @returns string Plaintext
+ */
+export const decryptionPassword = (cipherPasswprd: string) => {
+  let key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    29, 30, 31, 32]
+
+  // convert it back to bytes
+  let encryptedBytes = aesjs.utils.hex.toBytes(cipherPasswprd);
+  let aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(6))
+  let decryptionBytes = aesCtr.decrypt(encryptedBytes);
+  return aesjs.utils.utf8.fromBytes(decryptionBytes)
+}
 
 export const getNowTimestamp = (): number => {
   return new Date().valueOf()
@@ -42,20 +77,20 @@ export const getIsTxFromMe = (myAddress: string, fromAddress: string) => {
   return myAddress === fromAddress
 }
 
-export const isToTransferUtl = (url:string) =>  {
+export const isToTransferUtl = (url: string) => {
   return url.match('dp://send')
 }
 
-export const getParamsFromLinkUrl = (key:string, url: string): undefined | string => {
+export const getParamsFromLinkUrl = (key: string, url: string): undefined | string => {
   try {
 
-      const query = url.split('?')[1]
-      if(!query) return
-      const paramsString = query.split('&').map(item => item.split('=')).find(item => item[0]===key)
-      if(paramsString && paramsString[1]) {
-          return paramsString[1]
-      }
-  }catch(_) {
+    const query = url.split('?')[1]
+    if (!query) return
+    const paramsString = query.split('&').map(item => item.split('=')).find(item => item[0] === key)
+    if (paramsString && paramsString[1]) {
+      return paramsString[1]
+    }
+  } catch (_) {
   }
 }
 
