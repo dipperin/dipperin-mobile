@@ -15,18 +15,24 @@ import WalletStore from 'Store/wallet'
 import { getStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
 import { decryptionPassword } from 'Global/utils'
+import System from 'Store/System';
 
 interface Props {
   navigation: NavigationScreenProp<any>;
   language: I18StartType;
   wallet?: WalletStore;
+  system?: System
 }
 
-@inject('wallet')
+@inject('wallet', 'system')
 @observer
 class LockPage extends React.Component<Props> {
-  async componentDidMount() {
-    Modal.FingerprintPopShow(this.fingerprintSuccessCb, this.fingerprintFailCb, this.hideFingerPop)
+  @observable fingerprintHintText: string = this.props.language.fingerprintUnlock
+
+  componentDidMount() {
+    const { fingerUnLockStatus } = this.props.system!
+    fingerUnLockStatus && this.showFingerprintUnlock()
+    !fingerUnLockStatus && this.togglePasswordLogin()
   }
 
   render() {
@@ -52,23 +58,23 @@ class LockPage extends React.Component<Props> {
   }
 
   togglePasswordLogin = () => {
-    // TODO Route to password login page
+    // Show password unlock page
     Modal.password(this.enterPassword);
   };
 
   showFingerprintUnlock = () => {
-    Modal.FingerprintPopShow(
-      this.fingerprintSuccessCb,
-      this.fingerprintFailCb,
-      this.hideFingerPop,
-    );
+    Modal.FingerprintPopShow({
+      fingerprintSuccessCb: this.fingerprintSuccessCb,
+      fingerprintFailCb: this.fingerprintFailCb,
+      hide: this.FingerprintPopHide
+    });
   };
 
-  hideFingerPop = async () => {
+  FingerprintPopHide = async () => {
     await Modal.hide();
   };
 
-  // TODO Fingerprint success
+  // Fingerprint success
   fingerprintSuccessCb = async () => {
     await Modal.hide()
     Toast.loading()
@@ -81,15 +87,19 @@ class LockPage extends React.Component<Props> {
       return
     }
 
+    if(!this.props.system!.fingerUnLockStatus) {
+      this.props.system!.setFingerUnLock(true)
+    }
+
     this.props.navigation.navigate('wallet')
     Toast.hide()
   }
 
-  // TODO Fingerprint fail
+  // Fingerprint fail
   fingerprintFailCb = () => {
     Modal.password(this.enterPassword);
   };
-
+  
   enterPassword = async (password: string) => {
     await Modal.hide();
     Toast.loading();
@@ -99,7 +109,6 @@ class LockPage extends React.Component<Props> {
       return;
     }
     
-    // TODO
     this.props.navigation.navigate('wallet');
   };
 }

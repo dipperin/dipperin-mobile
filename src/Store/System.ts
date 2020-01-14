@@ -1,16 +1,17 @@
-import { observable, action } from "mobx";
-import { VENUS } from "Global/constants";
+import { observable, action, computed } from "mobx";
+import { VENUS, STORAGE_KEYS } from "Global/constants";
 import { getStorage, setStorage, resetDB } from "Db"
 import i18n from "I18n"
 import RootStore from './root'
+import i18next from "i18next";
 
 
 class System {
   private _store: RootStore
   @observable loading: boolean = true // loading data from storage
-  @observable curLanguage: string = '' // Current Language
-  @observable fingerUnLock: boolean = false // Fingerprint unlock
-  @observable fingerPay: boolean =  false // Fingerprint payment
+  @observable curLanguage: string = i18next.language // Current Language
+  @observable private _fingerUnLock: boolean = false // Fingerprint unlock
+  @observable private _fingerPay: boolean =  false // Fingerprint payment
   @observable curSystemNodeAddr: string = VENUS // 当前节点地址
 
   @observable isEyeOpen: boolean = true
@@ -21,7 +22,9 @@ class System {
 
   @action
   async init() {
-    this.curLanguage = await getStorage('Language')
+    this.curLanguage = await getStorage('Language') || i18next.language
+    this._fingerUnLock = await getStorage(STORAGE_KEYS.FINGERPRINT_UNLOCK)
+    this._fingerPay = await getStorage(STORAGE_KEYS.FINGERPRINT_PAY)
     i18n.changeLanguage(this.curLanguage)
     const res = await getStorage('isEyeOpen')
     if (typeof res === 'boolean') {
@@ -29,7 +32,14 @@ class System {
     }else{
       this.isEyeOpen = true
     }
+  }
 
+  @computed get fingerUnLockStatus() {
+    return this._fingerUnLock
+  }
+
+  @computed get fingerPayStatus() {
+    return this._fingerPay
   }
 
   @action
@@ -39,12 +49,14 @@ class System {
 
   @action 
   public setFingerUnLock = (value: boolean) => {
-    this.fingerUnLock = value
+    this._fingerUnLock = value
+    setStorage(STORAGE_KEYS.FINGERPRINT_UNLOCK, value)
   }
 
   @action 
   public setFingerPay = (value: boolean) => {
-    this.fingerPay = value
+    this._fingerPay = value
+    setStorage(STORAGE_KEYS.FINGERPRINT_PAY, value)
   }
 
   @action 

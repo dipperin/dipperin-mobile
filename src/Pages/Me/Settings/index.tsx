@@ -12,13 +12,13 @@ import { List } from '@ant-design/react-native'
 import { inject, observer } from 'mobx-react'
 import System from 'Store/System'
 import { AntdListItemPropsType } from 'Global/inteface'
+import Modal from 'Components/Modal'
 
 const Item = List.Item
 
 interface Props {
   navigation: NavigationScreenProp<any>
   system: System
-  
 }
 
 @inject('system')
@@ -63,6 +63,7 @@ class Settings extends React.Component<Props> {
   }
 
   handleListMainChange = (key: string, value: boolean) => {
+    Modal.hide()
     if (key === FINGER_UNLOCK) {
       this.props.system.setFingerUnLock(value)
       return

@@ -5,6 +5,8 @@ import { StyleSheet } from "react-native"
 import { AntdListItemPropsType } from 'Global/inteface'
 import { VENUS } from 'Global/constants'
 import i18n from 'I18n'
+import Modal from 'Components/Modal'
+import Toast from 'Components/Toast'
 
 
 export const FINGER_UNLOCK = 'fingerUnLock'
@@ -22,8 +24,19 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
     title: i18n.t('dipperin:me.fingerUnlock'),
     extra: (
       <Switch
-        checked={system.fingerUnLock}
-        onChange={(_value) => options.extraOnChange && options.extraOnChange(FINGER_UNLOCK, _value)}
+        checked={system.fingerUnLockStatus}
+        onChange={(_value) => {
+          if(!_value) {
+            options.extraOnChange && options.extraOnChange(FINGER_UNLOCK, _value);
+            return
+          }
+
+          Modal.FingerprintPopShow({
+            fingerprintSuccessCb: () => options.extraOnChange && options.extraOnChange(FINGER_UNLOCK, _value),
+            fingerprintFailCb: () => Toast.info(i18n.t('dipperin:start.checkFingerprintFail')),
+            hide: () => Modal.hide()
+          })
+        }}
       />
     )
   },
@@ -31,8 +44,26 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
     title: i18n.t('dipperin:me.fingerPay'),
     extra: (
       <Switch
-        checked={system.fingerPay}
-        onChange={(_value) => options.extraOnChange && options.extraOnChange(FINGER_PAY, _value)}
+        checked={(()=>{
+          const result = system.fingerUnLockStatus ? system.fingerPayStatus : false
+          options.extraOnChange && options.extraOnChange(FINGER_PAY, result)
+          return result
+        })()}
+        disabled={!system.fingerUnLockStatus}
+        onChange={(_value) => {
+          const _switch = !system.fingerUnLockStatus ? false : _value
+
+          if(!_value) {
+            options.extraOnChange && options.extraOnChange(FINGER_PAY, _value);
+            return
+          }
+
+          Modal.FingerprintPopShow({
+            fingerprintSuccessCb: () => options.extraOnChange && options.extraOnChange(FINGER_PAY, _switch),
+            fingerprintFailCb: () => Toast.info(i18n.t('dipperin:start.checkFingerprintFail')),
+            hide: () => Modal.hide()
+          })
+        }}
       />
     )
   },

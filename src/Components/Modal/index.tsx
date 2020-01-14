@@ -5,6 +5,12 @@ import EnterPassword from './EnterPassword';
 import FingerprintPop from './FingerprintPop';
 import {sleep} from 'Global/utils';
 
+interface FingerprintPopOptionsType {
+  fingerprintSuccessCb: () => void,
+  fingerprintFailCb: () => void,
+  hide: () => void
+}
+
 class Modal {
   static hide = async () => {
     RootView.setView();
@@ -17,18 +23,14 @@ class Modal {
     );
   }
 
-  static FingerprintPopShow(
-    fingerprintSuccessCb: () => void,
-    fingerprintFailCb: () => void,
-    hide: () => void,
-  ) {
+  static FingerprintPopShow(options: FingerprintPopOptionsType) {
     RootView.setView(
       <FingerprintPop
         visible={true}
         isConfirm={false}
-        onCancel={hide}
-        fingerprintFailCb={fingerprintFailCb}
-        fingerprintSuccessCb={fingerprintSuccessCb}
+        onCancel={options.hide}
+        fingerprintFailCb={options.fingerprintFailCb}
+        fingerprintSuccessCb={options.fingerprintSuccessCb}
       />,
     );
   }
