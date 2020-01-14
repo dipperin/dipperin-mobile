@@ -1,6 +1,7 @@
 import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { NavigationScreenProp } from "react-navigation"
+import moment from "moment"
 
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
@@ -26,7 +27,7 @@ class TransactionDetail extends React.Component<Props>{
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.timeStamp}:</Text>
-                    <Text style={styles.itemValue}>{timestamp}</Text>
+                    <Text style={styles.itemValue}>{moment(timestamp/1000000).format('YYYY/MM/DD HH:MM:SS')}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.nonce}:</Text>
