@@ -204,6 +204,9 @@ const enResource = {
       passwordError: 'Wrong Password!',
       sendSuccess: 'Send Success!',
       sendFailure: 'Send Failure',
+      emptyShortword: 'Shortword could not be empty',
+      registeredShortword: 'Shortword has been registered',
+      registeredAddr: 'The Account has registered'
     },
     account:{
       total:'Total',
@@ -440,6 +443,10 @@ const zhResource: typeof enResource = {
       passwordError: '密码错误',
       sendSuccess: '发送成功',
       sendFailure: '发送失败',
+      emptyShortword: '口令不能为空',
+      registeredShortword: '口令已被注册',
+      registeredAddr: '该账户已注册过口令'
+
     },
     account:{
       total:'总资产',

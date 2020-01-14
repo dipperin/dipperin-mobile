@@ -24,7 +24,7 @@ import {fromUnitToDip} from 'Global/utils';
 import WalletStore from 'Store/wallet';
 import ContractStore from 'Store/contract';
 import AccountStore from 'Store/account';
-import {sleep} from 'Global/utils';
+import {sleep, Result} from 'Global/utils';
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
@@ -91,41 +91,40 @@ class Shortword extends React.Component<Props> {
     return true;
   };
 
-  register = async () => {
+  register = async (): Promise<Result<void>> => {
     try {
       const res = await this.props.contract!.registerShortword(
         this.shortword,
         this.txFeeLevel,
       );
       if (res.success) {
-        console.warn('success');
-        return Promise.resolve();
+        return {success: true, result: undefined};
       } else {
-        console.warn(res.info);
-        return Promise.reject();
+        return {success: false, error: new Error()};
       }
     } catch (e) {
-      return Promise.reject();
+      return {success: true, result: undefined};
     }
   };
 
   verifyShortword = async () => {
+    const {labels} = this.props;
     if (this.shortword === '') {
-      Toast.info('口令不能为空');
+      Toast.info(labels.emptyShortword);
       return false;
     }
     const res = await this.props.contract!.queryAddressByShordword(
       this.shortword,
     );
     if (res !== '') {
-      Toast.info('口令已被注册');
+      Toast.info(labels.registeredShortword);
       return false;
     }
     const sw = await this.props.contract!.queryShortwordByAddr(
       this.props.account!.activeAccount!.address,
     );
     if (sw !== '') {
-      Toast.info('该账户已注册过口令');
+      Toast.info(labels.registeredAddr);
       return false;
     }
     return true;
@@ -144,7 +143,7 @@ class Shortword extends React.Component<Props> {
   handleConfirmTransaction = async (psw: string) => {
     await Modal.hide();
     Toast.loading();
-    await sleep(500);
+    await sleep(300);
     // Toast.hide();
     if (!this.props.wallet!.unlockWallet(psw)) {
       Toast.hide();
@@ -152,13 +151,11 @@ class Shortword extends React.Component<Props> {
       return;
     }
 
-    try {
-      await this.register();
-      Toast.hide();
+    const result = await this.register();
+    Toast.hide();
+    if (result.success) {
       Toast.success(this.props.labels.sendSuccess);
-      return;
-    } catch (e) {
-      Toast.hide();
+    } else {
       Toast.info(this.props.labels.sendFailure);
     }
   };
