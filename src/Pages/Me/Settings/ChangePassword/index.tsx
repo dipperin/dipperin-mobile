@@ -124,7 +124,7 @@ class ChangePassword extends React.Component<Props> {
     }
 
     // Change password
-    await this.props.wallet?.changePassword(newPassword)
+    await this.props.wallet!.changePassword(newPassword)
     // Toast.hide()
   }
 

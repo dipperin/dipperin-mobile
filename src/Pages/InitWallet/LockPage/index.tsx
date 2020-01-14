@@ -74,7 +74,7 @@ class LockPage extends React.Component<Props> {
     Toast.loading()
     const enciryptionPassword: string = await getStorage(STORAGE_KEYS.PASSWORD) as any as string
     const _password = decryptionPassword(enciryptionPassword)
-    const unlock = this.props.wallet!.unlockWallet(_password)
+    const unlock = await this.props.wallet!.unlockWallet(_password)
 
     if (!unlock) {
       Toast.info(this.props.language.passwordError)
@@ -93,13 +93,13 @@ class LockPage extends React.Component<Props> {
   enterPassword = async (password: string) => {
     await Modal.hide();
     Toast.loading();
-    if (!this.props.wallet!.unlockWallet(password)) {
+    const unlock = await this.props.wallet!.unlockWallet(password)
+    if (!unlock) {
       Toast.hide();
       Toast.info(this.props.language.passwordError);
       return;
     }
-    
-    // TODO
+    Toast.hide();
     this.props.navigation.navigate('wallet');
   };
 }
