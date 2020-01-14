@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: 68,
+        paddingHorizontal:10
     },
     left: {
         flexDirection: 'row',

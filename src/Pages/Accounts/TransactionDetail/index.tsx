@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     itemValue: {
         color: '#3C3E42',
         fontSize: 15,
-        maxWidth: 300
+        maxWidth: 280
     }
 
 })

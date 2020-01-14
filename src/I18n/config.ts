@@ -357,7 +357,7 @@ const zhResource: typeof enResource = {
       nonce:'Nonce',
       extraData:'备注',
       from:'发送地址',
-      To:'接收地址',
+      to:'接收地址',
       hash:'Hash'
       
     }
