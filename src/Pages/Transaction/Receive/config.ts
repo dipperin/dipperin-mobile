@@ -12,8 +12,9 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     width: 339,
-    height: 417,
-  },
+    // height: 417,
+    paddingBottom: 40,
+    },
   contentTitleWrapper: {
     backgroundColor: '#F1F2F3',
     justifyContent: 'center',
@@ -29,15 +30,17 @@ export const styles = StyleSheet.create({
     fontSize: 15,
   },
   qrcodeWrapper: {
-    marginTop: 20,
-    // height: 220,
-    width: 220,
+    marginTop: 10,
+    height: 250,
+    width: 250,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f2f5f6',
   },
   addressWrapper: {
     marginTop: 5,
     alignItems: 'center',
+    paddingBottom: 10,
   },
   addressContent: {
     borderRadius: 10,
@@ -45,14 +48,35 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 20,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   address: {
     width: 230,
+    textAlign: 'center',
   },
   copy: {
     position: 'absolute',
     right: 0,
     top: 30,
+    width: 20,
+  },
+  ShortWordWrapper: {
+    marginTop: 5,
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  ShortWordContent: {
+    borderRadius: 10,
+    width: 300,
+    flexDirection: 'row',
+    paddingTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  copyShortWord: {
+    position: 'absolute',
+    right: 0,
+    top: 20,
     width: 20,
   },
   btnWrapper: {

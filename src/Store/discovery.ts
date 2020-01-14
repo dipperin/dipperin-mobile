@@ -7,49 +7,79 @@ import {
   appsRes,
   fortuneRes,
   AppParams,
-  FortuneParams
+  FortuneParams,
+  ContractParams,
+  ContractRes,
+  fortuneInterface
 } from 'Global/inteface'
 
 
 export default class discoveryStore {
-  @observable appsList: appsRes = {
-    total_page: 1,
-    total_count: 0,
-    app_data: []
-  }
-  @observable appResource: appsResourceInterface[] = []
+
+  @observable appsListTotalPage: number = 0
+  @observable appsListCurPage: number = 1
+  @observable appsListPerPage: number = 10
+  @observable appsList: appsInterface[] | [] = []
+  @observable appResource: appsResourceInterface[] | [] = []
+
+  @observable contractsListTotalPage: number = 0
+  @observable contractsListCurPage: number = 1
+  @observable contractsListPerPage: number = 1
   @observable contractsList:contractInterface[] = []
-  @observable fortuneList: fortuneRes = {
-    total_count: 0,
-    account_list: []
-  }
+
+  @observable fortuneListTotalPage: number = 0
+  @observable fortuneListCurPage: number = 1
+  @observable fortuneListPerPage: number = 1
+  @observable fortuneList: fortuneInterface[] | [] = []
+
   @observable totalBlocks: number = 0
 
-  @action
-  updateAppsList = (res: any) => {
-    this.appsList = res.data
+  @action updateAppsList = (res: appsRes) => {
     this.appResource = res.app
+    this.appsListTotalPage = res.data.total_count
+    if(this.appsListCurPage === 1) {
+      this.appsList = res.data.app_data
+    }else{
+      this.appsList = [...this.appsList, ... res.data.app_data]
+    }
   }
-  @action
-  updateFortuneList = (data: fortuneRes) => {
-    this.fortuneList = data
+  @action updateFortuneList = (data: fortuneRes) => {
+    this.fortuneListTotalPage = data.total_count
+    if(this.fortuneListCurPage === 1) {
+      this.fortuneList = data.account_list
+    }else{
+      this.fortuneList = [...this.fortuneList, ... data.account_list]
+    }
   }
-  @action
-  updateBlockHeight = (data:number) => {
+  @action updateBlockHeight = (data:number) => {
     this.totalBlocks = data
+  }
+  @action updateContractsList = (res:ContractRes) => {
+    this.contractsListTotalPage = res.data.total_count
+    if(this.appsListCurPage === 1) {
+      this.contractsList = res.data.contract_data
+    }else{
+      this.contractsList = [...this.contractsList, ... res.data.contract_data]
+    }
   }
   @action getAppsList = async(params: AppParams) => {
     const res = await api.getAppsList(params)
-    this.updateAppsList(res)
+    this.appsListCurPage = params.page
+    if(res) {
+      this.updateAppsList(res)
+    }
   }
-  @action getContractList = async() => {
-    this.contractsList = []
+  @action getContractList = async(params:ContractParams) => {
+    const res = await api.getContactsList(params)
+    this.contractsListCurPage = params.page
+    if(res) {
+      this.updateContractsList(res)
+    }
   }
   @action getFortuneList = async(params: FortuneParams) => {
     const res = await api.getFortuneList(params)
-    if(res) {
-      this.updateFortuneList(res)
-    }
+    this.fortuneListCurPage = params.page
+    res && this.updateFortuneList(res)
   }
   @action getBlockHeight = async() => {
     const res = await api.getBlockHeight()

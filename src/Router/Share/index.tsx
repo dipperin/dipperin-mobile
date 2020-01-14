@@ -39,7 +39,7 @@ class ShareIcon extends React.Component<Props> {
   render() {
     return (
       <TouchableOpacity onPress={this.handlePress} style={{paddingRight: 20}}>
-        <Icon name={'fontAwesome|share'} size={20} color={'#ffffff'} />
+        <Icon name={'icon|fenxiang'} size={20} color={'#ffffff'} />
       </TouchableOpacity>
     );
   }

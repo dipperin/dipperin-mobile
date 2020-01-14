@@ -20,7 +20,7 @@ import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
 import TransactionStore from 'Store/transaction';
 import WalletStore from 'Store/wallet';
-import {fromUnitToDip, sleep} from 'Global/utils';
+import {fromUnitToDip, sleep, verifyBalance} from 'Global/utils';
 import AccountStore from 'Store/account';
 import {Utils} from '@dipperin/dipperin.js';
 import ContractStore from 'Store/contract';
@@ -87,7 +87,9 @@ class Send extends React.Component<Props> {
     this.toAddress = text;
   };
   @action handleChangeAddressOrShortword = (text: string) => {
-    this.addressOrShortWord = text;
+    if (this.validateEnteringArressOrShortword(text)) {
+      this.addressOrShortWord = text;
+    }
   };
   @action handleChangeSendAmount = (amountString: string) => {
     if (this.validateEnteringAmount(amountString)) {
@@ -101,6 +103,24 @@ class Send extends React.Component<Props> {
   };
   @action handleChangeTxfee = (num: number) => {
     this.txFeeLevel = num;
+  };
+
+  validateEnteringAddress = (addr: string) => {
+    return /^(0x)?(0000|0014)[0-9a-fA-F]{0,40}$/.test(addr);
+  };
+
+  validateEnteringShortword = (word: string) => {
+    const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$');
+    if (!reg.test(word)) {
+      return false;
+    }
+    return true;
+  };
+
+  validateEnteringArressOrShortword = (text: string) => {
+    return (
+      this.validateEnteringAddress(text) || this.validateEnteringShortword(text)
+    );
   };
 
   validateEnteringAmount(amountString: string) {
@@ -129,7 +149,7 @@ class Send extends React.Component<Props> {
         const res = await this.props.contract!.queryAddressByShordword(
           this.addressOrShortWord,
         );
-        if (typeof res === 'string') {
+        if (typeof res === 'string' && Utils.isAddress(res)) {
           this.handleChangeToAddress(res);
           return true;
         } else {
@@ -143,11 +163,33 @@ class Send extends React.Component<Props> {
     }
   };
 
+  verifyAmount = () => {
+    if (this.sendAmount === '') {
+      Toast.info('发送金额不得为空');
+      return false;
+    }
+    return true;
+  };
+
+  verifyBalance = () => {
+    if (
+      !verifyBalance(
+        this.sendAmount,
+        this.txFee,
+        this.props.account!.activeAccount!.balance,
+      )
+    ) {
+      Toast.info('余额不足');
+      return false;
+    }
+    return true;
+  };
+
   getAddressFromClickboard = async () => {
     const word = await Clipboard.getString();
-    if(Utils.isAddress(word)) {
+    if (Utils.isAddress(word)) {
       this.handleChangeAddressOrShortword(word);
-      return 
+      return;
     }
 
     const account = await this.props.contract!.queryAddressByShordword(word);
@@ -161,10 +203,6 @@ class Send extends React.Component<Props> {
     // 1. verify address
     // 2. check if registered shortword
     // 3. throw error or send tx
-    const ifVerifyAddress = await this.verifyAddressOrShortword();
-    if (!ifVerifyAddress) {
-      return;
-    }
     try {
       const res = await this.props.transaction!.confirmTransaction(
         this.toAddress,
@@ -178,14 +216,26 @@ class Send extends React.Component<Props> {
         return Promise.resolve();
       } else {
         console.warn(res.info);
+        Toast.info('返回失败: ' + res.info);
         return Promise.reject();
       }
     } catch (e) {
+      Toast.info('确认交易失败: ' + e.message);
       return Promise.reject();
     }
   };
 
-  handleSend = () => {
+  handleSend = async () => {
+    const ifVerifyAddress = await this.verifyAddressOrShortword();
+    if (!ifVerifyAddress) {
+      return;
+    }
+    if (!this.verifyAmount()) {
+      return;
+    }
+    if (!this.verifyBalance()) {
+      return;
+    }
     Modal.password(this.handleConfirmTransaction);
     // this.setPasswordModal(true);
     // this.sendTransaction();

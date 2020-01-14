@@ -4,11 +4,14 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { List } from '@ant-design/react-native'
 import { styles, dataSource, ListItemPropsType } from './config'
 import { NavigationScreenProp } from 'react-navigation'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { I18nMeType } from 'I18n/config'
 
 const Item = List.Item
 
 
 interface Props {
+  label: I18nMeType
   navigation: NavigationScreenProp<any>
 }
 
@@ -26,8 +29,8 @@ class HelpCenter extends React.Component<Props> {
   }
 
   renderItems = (): JSX.Element[] => {
-    return dataSource.map((item: ListItemPropsType, index: number): JSX.Element => {
-      return ( 
+    return dataSource(this.props.label).map((item: ListItemPropsType, index: number): JSX.Element => {
+      return (
         <Item key={index} arrow="horizontal" onPress={() => this.goDetail(item)}>
           <Text style={styles.itemText}>{item.title}</Text>
         </Item>
@@ -36,8 +39,14 @@ class HelpCenter extends React.Component<Props> {
   }
 
   goDetail = (item: ListItemPropsType) => {
-    this.props.navigation.navigate('helpCenterDetail', {id: item.id})
+    this.props.navigation.navigate('helpCenterDetail', { id: item.id })
   }
 }
 
-export default HelpCenter
+const HelpCenterWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+  const { t, navigation } = props
+  const labels = t('dipperin:me') as I18nMeType
+  return <HelpCenter label={labels} navigation={navigation} />
+}
+
+export default withTranslation()(HelpCenterWrap)

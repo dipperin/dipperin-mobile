@@ -245,6 +245,7 @@ export default class WalletStore {
       // Try to parse mnemonic to seed, if fail, return error
       // save encrypt seed, an then clear password and mnemonic
       const encryptPassword = encryptionPassword(newPassword)
+      console.log(encryptPassword, '修改密码加密后的数据')
       setStorage(STORAGE_KEYS.PASSWORD, encryptPassword)
       const encryptSeed = this._hdAccount!.encrypt(newPassword)
       const { walletId, activeAccountId } = this._currentWallet!

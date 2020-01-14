@@ -6,11 +6,11 @@ export interface AntdListItemPropsType extends ListItemProps{
 }
 
 export interface contractInterface {
-  adress: string
-  name: string
-  over: string
-  holdings: string
-  value: string
+  address: string
+  contract_name: string
+  dip_balance: string
+  tx_count: number
+  token_money_total: string
 }
 
 export interface appsInterface {
@@ -35,11 +35,14 @@ export interface appsResourceInterface {
 
 }
 export interface appsRes {
-  total_page: number
-  total_count: number
-  app_data: appsInterface[]
+  success: boolean
+  app: appsResourceInterface[]
+  data: {
+    app_data: appsInterface[]
+    total_count: number
+    total_pages: number
+  }
 }
-
 
 export interface fortuneInterface {
   sort: number
@@ -57,4 +60,21 @@ export interface fortuneRes {
 export interface FortuneParams {
   page: number
   per_page: number
+}
+
+export interface ContractParams {
+  page: number
+  per_page: number
+  asc_and_desc: string
+  order_by: string
+}
+
+export interface ContractRes {
+  success: boolean,
+  data: {
+    contract_data: contractInterface[],
+    total_count: number
+    total_pages: number
+  },
+  info: string
 }
