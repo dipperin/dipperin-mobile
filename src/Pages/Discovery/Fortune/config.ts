@@ -4,6 +4,7 @@ export const styles  = StyleSheet.create({
   wrap: {
     width: '100%',
     padding: 24,
+    marginBottom: 50
   },
   tHeader: {
     backgroundColor: '#1C77BC',

@@ -70,7 +70,8 @@ class LockPage extends React.Component<Props> {
 
   // TODO Fingerprint fail
   fingerprintFailCb = () => {
-    Modal.password(this.enterPassword)
+    // Modal.password(this.enterPassword)
+    this.props.navigation.navigate('wallet')
   }
 
   enterPassword = async (password: string) => {
