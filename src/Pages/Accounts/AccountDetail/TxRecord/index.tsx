@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     tabsBox: {
         flex: 1,
         backgroundColor: "#fff",
-        paddingHorizontal: 10
     },
     bottomLine: {
         backgroundColor: "#1C77BC"

@@ -6,9 +6,12 @@ import { NavigationScreenProp } from "react-navigation"
 import _ from "lodash"
 import { Utils } from "@dipperin/dipperin.js"
 import Toast from 'Components/Toast';
+import { I18nAccountType } from 'I18n/config'
+import { WithTranslation, withTranslation } from 'react-i18next'
 
 interface Props {
     navigation: NavigationScreenProp<any>
+    labels: I18nAccountType
 }
 
 
@@ -34,8 +37,8 @@ class ScanScreen extends React.Component<Props> {
         const { data } = result;
         if (!Utils.isAddress(data)) {
             Toast.info('wrong address')
-            return 
-          }
+            return
+        }
         this.props.navigation.navigate('send', { address: data })
     };
     //get the camera
@@ -44,9 +47,10 @@ class ScanScreen extends React.Component<Props> {
         this.camera = ref
     }
     // debonce code Read
-    debonceOnCodeRead = _.debounce(this.onBarCodeRead, 4000)
+    debonceOnCodeRead = _.debounce(this.onBarCodeRead, 500)
 
     render() {
+        const { labels } = this.props
         return (
             <View style={styles.container}>
                 <RNCamera
@@ -58,10 +62,10 @@ class ScanScreen extends React.Component<Props> {
                     flashMode={RNCamera.Constants.FlashMode.on}
                     onBarCodeRead={this.debonceOnCodeRead}
                     androidCameraPermissionOptions={{
-                        title: 'Permission to use camera',
-                        message: 'We need your permission to use your camera',
-                        buttonPositive: 'Ok',
-                        buttonNegative: 'Cancel',
+                        title: labels.caremaTitle,
+                        message: labels.caremaMessage,
+                        buttonPositive: labels.buttonPositive,
+                        buttonNegative: labels.buttonNegative,
                     }}
                 >
                     <View style={styles.rectangleContainer}>
@@ -69,7 +73,7 @@ class ScanScreen extends React.Component<Props> {
                         <Animated.View style={[
                             styles.border,
                             { transform: [{ translateY: this.moveAnim }] }]} />
-                        <Text style={styles.rectangleText}>将二维码放入框内，即可自动扫描</Text>
+                        <Text style={styles.rectangleText}>{labels.codeTip}</Text>
                     </View>
                 </RNCamera>
             </View>
@@ -77,7 +81,14 @@ class ScanScreen extends React.Component<Props> {
     }
 }
 
-export default ScanScreen;
+
+const ScanScreenWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+    const { t, navigation } = props
+    const labels = t('dipperin:account') as I18nAccountType
+    return <ScanScreen labels={labels} navigation={navigation} />
+}
+
+export default withTranslation()(ScanScreenWrap)
 
 const styles = StyleSheet.create({
     container: {

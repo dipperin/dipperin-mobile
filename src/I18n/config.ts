@@ -212,6 +212,7 @@ const enResource = {
       total:'Total',
       assets:'Assets',
       accountName:'account',
+      accountNamePlaceholder:'please input acount name',
       all:'All',
       sent:'Transfered',
       received:'Received',
@@ -222,7 +223,14 @@ const enResource = {
       extraData:'Extra Data',
       from:'From',
       to:'To',
-      hash:'Hash'
+      hash:'Hash',
+      caremaTitle: 'Permission to use camera',
+      caremaMessage: 'We need your permission to use your camera',
+      buttonPositive: 'Ok',
+      buttonNegative: 'Cancel',
+      codeTip:'Please focus the QR code'
+
+
     }
   },
 };
@@ -452,6 +460,7 @@ const zhResource: typeof enResource = {
       total:'总资产',
       assets:'资产',
       accountName:'账户',
+      accountNamePlaceholder:'请输入账户名称',
       all:'全部',
       sent:'发送',
       received:'接收',
@@ -462,7 +471,12 @@ const zhResource: typeof enResource = {
       extraData:'备注',
       from:'发送地址',
       to:'接收地址',
-      hash:'Hash'
+      hash:'Hash',
+      caremaTitle: '相机使用权限',
+      caremaMessage: '我们需要您的相机使用权限',
+      buttonPositive: '确定',
+      buttonNegative: '取消',
+      codeTip:'将二维码放入框内，即可自动扫描'
       
     }
   },
