@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, SafeAreaView, StatusBar } from 'react-native'
 import i18n from 'I18n'
+import { withTranslation } from 'react-i18next'
 import Apps from './Apps'
 import Contacts from './Contracts'
 import Fortune from './Fortune'
@@ -20,9 +21,12 @@ class Discovery extends React.Component<any, State> {
   _navListener: any
   componentDidMount() {
       this._navListener = this.props.navigation.addListener('didFocus', () => {
-        StatusBar.setBackgroundColor('#0B0E19');
+        StatusBar.setBackgroundColor('#0B0E19')
+        StatusBar.setBarStyle('light-content')
+        this.setState({
+          activeIndex: 0
+        })
       });
-  
   }
   componentWillUnmount() {
     this._navListener.remove();
@@ -66,4 +70,4 @@ class Discovery extends React.Component<any, State> {
   }
 }
 
-export default Discovery
+export default withTranslation()(Discovery)

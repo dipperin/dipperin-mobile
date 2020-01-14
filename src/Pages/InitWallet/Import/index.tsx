@@ -90,7 +90,6 @@ class Import extends React.Component<Props> {
     Toast.hide()
     if (!err) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
-      console.log(encryptionPassword(password), '加密后的数据')
       setStorage(STORAGE_KEYS.PASSWORD, encryptionPassword(password))
       this.props.navigation.navigate('wallet')
     }

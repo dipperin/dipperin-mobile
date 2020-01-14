@@ -106,3 +106,8 @@ export const fromUnitToDip = (num: number) => {
   const bn = new BigNumber(num)
   return Utils.fromUnit(bn.valueOf())
 }
+
+export const verifyBalance = (amount: string, fee: string, balance: string) => {
+  const bn1 = new BigNumber(amount)
+  return bn1.plus(new BigNumber(fee)).isLessThan(new BigNumber(balance))
+}

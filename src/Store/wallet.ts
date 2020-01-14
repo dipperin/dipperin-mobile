@@ -1,6 +1,5 @@
 import BIP39 from 'bip39'
-import { noop } from 'lodash'
-import { observable, reaction, computed, action, runInAction } from 'mobx'
+import { observable, reaction, computed, action } from 'mobx'
 import { Accounts, AccountObject } from '@dipperin/dipperin.js'
 import { getRandom, encryptionPassword } from 'Global/utils'
 // import settings from '@/utils/settings'
@@ -15,7 +14,7 @@ import {
 } from 'Db';
 
 import RootStore from './root';
-import WalletModel, {WalletObj} from 'Models/wallet';
+import WalletModel, { WalletObj } from 'Models/wallet';
 import {
   STORAGE_KEYS,
   DEFAULT_ERR_TIMES,
@@ -23,6 +22,7 @@ import {
   LOCKTIMES,
   FIRST_ACCOUNT_ID,
 } from 'Global/constants';
+import Encryptor from 'Global/encryptor';
 export default class WalletStore {
   private _store: RootStore;
   private _mnemonic?: string; // Mnemonic
@@ -113,6 +113,21 @@ export default class WalletStore {
     }
   }
 
+  @action
+  setCurrentWallet(wallet: WalletModel) {
+    this._currentWallet = wallet
+  }
+
+  @action
+  setMnemonic(mnemonic: string) {
+    this._mnemonic = mnemonic
+  }
+
+  @action
+  setHdAccount(account: AccountObject | undefined) {
+    this._hdAccount = account
+  }
+
   // get isConnecting() {
   //   return this._isConnecting
   // }
@@ -146,16 +161,12 @@ export default class WalletStore {
    * Unlock wallet
    * @param password
    */
-  @action
-  unlockWallet(password: string): boolean {
-    const startTime = Date.now();
-    const account = this.getHdAccount(password);
+  async unlockWallet(password: string): Promise<boolean> {
+    const account = await this.getHdAccount(password);
     if (account) {
-      this._hdAccount = account;
-      console.log('unlock use:', Date.now() - startTime);
+      this.setHdAccount(account)
       return true;
     }
-    console.log('unlock use:', Date.now() - startTime);
     return false;
   }
 
@@ -163,28 +174,10 @@ export default class WalletStore {
    * Check Password
    * @param password
    */
-  checkPassword(password: string): boolean {
-    const account = this.getHdAccount(password);
+  async checkPassword(password: string): Promise<boolean> {
+    const account = await this.getHdAccount(password);
     return account ? true : false;
   }
-
-  /**
-   * Get current block data
-   */
-  // async getCurrentBlock() { // TODO move to chain data
-  //   const res = await this._store.dipperin.dr.getCurrentBlock()
-  //   if (res) {
-  //     const blockInfo = {
-  //       ...res.header,
-  //       transactions: res.body.transactions ? res.body.transactions.length : 0
-  //     }
-  //     runInAction(() => {
-  //       this._blockInfo = blockInfo
-  //     })
-  //   } else {
-  //     console.error(`can't get block info`)
-  //   }
-  // }
 
   /**
    * Create a new Wallet
@@ -228,16 +221,14 @@ export default class WalletStore {
       return false;
     }
     try {
-      runInAction(() => {
-        this._currentWallet = new WalletModel(walletObj);
-      });
+      this.setCurrentWallet(new WalletModel(walletObj))
       return true;
     } catch (err) {
       return false;
     }
   }
 
-  @action changePassword(newPassword: string): string | undefined {
+  async changePassword(newPassword: string): Promise<string | undefined> {
     try {
       if (!this._currentWallet) {
         return 'Wallet does not exist!';
@@ -245,9 +236,8 @@ export default class WalletStore {
       // Try to parse mnemonic to seed, if fail, return error
       // save encrypt seed, an then clear password and mnemonic
       const encryptPassword = encryptionPassword(newPassword)
-      console.log(encryptPassword, '修改密码加密后的数据')
       setStorage(STORAGE_KEYS.PASSWORD, encryptPassword)
-      const encryptSeed = this._hdAccount!.encrypt(newPassword)
+      const encryptSeed = await Encryptor.encrypt(newPassword, this._hdAccount!.seed)
       const { walletId, activeAccountId } = this._currentWallet!
       const walletObj: WalletObj = {
         walletId,
@@ -256,7 +246,7 @@ export default class WalletStore {
         unlockErrTimes: DEFAULT_ERR_TIMES,
         lockTime: DEFAULT_LOCK_TIME,
       };
-      this._currentWallet = new WalletModel(walletObj);
+      this.setCurrentWallet(new WalletModel(walletObj))
       this.saveWallet(); // save wallet in storage
     } catch (err) {
       console.log(err);
@@ -273,15 +263,6 @@ export default class WalletStore {
   }
 
   /**
-   * Start the loop update
-   */
-  // startUpdate() { // TODO move to chain data
-  //   this.getCurrentBlock()
-
-  //   this._store.timer.on('get-current-block', this.getCurrentBlock.bind(this), 10000)
-  // }
-
-  /**
    * Save wallet to db and save wallet id to setting
    */
   private saveWallet(): void {
@@ -294,18 +275,17 @@ export default class WalletStore {
    * Create Destroy mnemonic
    * @param password
    */
-  @action
   private async createDestroyMnemonic(
     password: string,
   ): Promise<() => Promise<undefined | string>> {
     const random = await getRandom(16);
     const mnemonic = BIP39.entropyToMnemonic(random.toString('hex'));
-    this._mnemonic = mnemonic;
+    this.setMnemonic(mnemonic)
     return async () => {
       try {
         // Destroy mnemonic and init the wallet
         await this.initWallet(password, mnemonic);
-        this._mnemonic = '';
+        this.setMnemonic('')
       } catch (err) {
         console.log(err);
         return err;
@@ -318,7 +298,6 @@ export default class WalletStore {
    * @param password
    * @param mnemonic
    */
-  @action
   private initWallet = async (
     password: string,
     mnemonic: string,
@@ -329,7 +308,7 @@ export default class WalletStore {
     const seed = `0x${BIP39.mnemonicToSeedHex(mnemonic)}`;
     const hdAccount = Accounts.create(seed);
     // save encrypt seed, an then clear password and mnemonic
-    const encryptSeed = hdAccount.encrypt(password);
+    const encryptSeed = await Encryptor.encrypt(password, seed);
     const walletObj: WalletObj = {
       walletId,
       activeAccountId: FIRST_ACCOUNT_ID,
@@ -337,8 +316,8 @@ export default class WalletStore {
       unlockErrTimes: DEFAULT_ERR_TIMES,
       lockTime: DEFAULT_LOCK_TIME,
     };
-    this._currentWallet = new WalletModel(walletObj);
-    this._hdAccount = hdAccount;
+    this.setCurrentWallet(new WalletModel(walletObj))
+    this.setHdAccount(hdAccount)
     this.saveWallet(); // save wallet in storage
     // init account
     await this._store.account.initAccount();
@@ -364,18 +343,15 @@ export default class WalletStore {
    * unlock wallet / check password
    * get hd account
    */
-  @action
-  private getHdAccount(password: string): undefined | AccountObject {
+  private async getHdAccount(password: string): Promise<undefined | AccountObject> {
     if (!this._currentWallet || !this._currentWallet.encryptSeed) {
       return;
     }
 
     try {
       const startTime = Date.now();
-      const account = Accounts.decrypt(
-        this._currentWallet.encryptSeed,
-        password,
-      );
+      const seed = await Encryptor.decrypt(password, this._currentWallet.encryptSeed)
+      const account = Accounts.create(seed);
       this._currentWallet.unlockErrTimes = DEFAULT_ERR_TIMES;
       console.log('decrypt use:', Date.now() - startTime);
       return account;

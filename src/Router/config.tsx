@@ -190,9 +190,24 @@ export const walletStack = createStackNavigator({
   },
   receive: {
     screen: Receive,
-    navigationOptions: () => ({
+    navigationOptions: props => ({
       title: i18n.t('dipperin:transaction.receive'),
-      ...commonHeaderBack,
+      headerLeft: (
+        <View
+          style={{
+            paddingLeft: 12,
+            width: 60,
+            flex: 1,
+            justifyContent: 'center',
+          }}>
+          <CustomIcon
+            onPress={() => {
+              props.navigation.goBack();
+            }}>
+            <Icon name={'icon|fanhui'} size={25} color="#fff" />
+          </CustomIcon>
+        </View>
+      ),
       headerStyle: {
         ...commonHeaderStyle,
         borderBottomColor: '#1C77BC',

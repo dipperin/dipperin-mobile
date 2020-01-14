@@ -20,7 +20,7 @@ const enResource = {
       passwordError: 'Wrong Password!'
     },
     discovery: {
-      title: 'discovery',
+      title: 'Discovery',
       tab1: 'Hot DApp',
       tab2: 'Smart Contracts',
       tab3: 'Rich List',
@@ -28,7 +28,7 @@ const enResource = {
         address: 'Address',
         name: 'Name',
         txCount: 'TxCount',
-        value: 'Value',
+        balance: 'Balance',
       },
       apps: {
         accounts: 'Accounts',
@@ -263,8 +263,8 @@ const zhResource: typeof enResource = {
       contracts: {
         address: '合约地址',
         name: '合约名称',
-        txCount: '余额(DIP)',
-        value: '交易数',
+        balance: '余额(DIP)',
+        txCount: '交易数',
       },
       apps: {
         accounts: '用户',
