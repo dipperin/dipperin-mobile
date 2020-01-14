@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     fontSize: 10.5
   },
   more: {
+    width:'100%',
     paddingTop: 30,
     color: '#ffffff',
     fontSize: 20,

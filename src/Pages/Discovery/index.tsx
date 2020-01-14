@@ -12,24 +12,24 @@ interface State {
 }
 
 class Discovery extends React.Component<any, State> {
+  _navListener: any
   constructor (props:any) {
     super(props)
     this.state = {
       activeIndex: 0
     }
   }
-  _navListener: any
   componentDidMount() {
       this._navListener = this.props.navigation.addListener('didFocus', () => {
         StatusBar.setBackgroundColor('#0B0E19')
         StatusBar.setBarStyle('light-content')
-        this.setState({
-          activeIndex: 0
-        })
       });
   }
   componentWillUnmount() {
     this._navListener.remove();
+    this.setState({
+      activeIndex: 0
+    })
   }
   render() {
     const { activeIndex } = this.state
