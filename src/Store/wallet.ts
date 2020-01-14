@@ -353,15 +353,15 @@ export default class WalletStore {
     }
 
     try {
-      const startTime = Date.now()
       const seed = await Encryptor.decrypt(
         password,
         this._currentWallet.encryptSeed,
       )
-      const account = Accounts.create(seed)
-      this._currentWallet.unlockErrTimes = DEFAULT_ERR_TIMES
-      console.log('decrypt use:', Date.now() - startTime)
-      return account
+      if(seed) {
+        const account = Accounts.create(seed)
+        this._currentWallet.unlockErrTimes = DEFAULT_ERR_TIMES
+        return account
+      }
     } catch (_) {
       const preErrTimes = this._currentWallet.unlockErrTimes
       let errTimes = preErrTimes ? preErrTimes : DEFAULT_ERR_TIMES
