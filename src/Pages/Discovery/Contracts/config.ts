@@ -28,12 +28,12 @@ export const styles  = StyleSheet.create({
     color: '#ffffff'
   },
   txcount: {
-    flex:2,
+    flex:1,
     textAlign: 'center',
     color: '#ffffff'
   },
-  value: {
-    flex:1,
+  balance: {
+    flex:2,
     textAlign: 'center',
     color: '#ffffff'
   }

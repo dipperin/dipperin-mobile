@@ -1,40 +1,25 @@
 import React from 'react'
 import { View, Text, Image, FlatList } from 'react-native'
 import { inject, observer } from 'mobx-react'
+import { WithTranslation, withTranslation } from 'react-i18next'
 import i18n from 'I18n'
 import DiscoveryStore from 'Store/discovery'
 import { appsInterface, appsResourceInterface } from 'Global/inteface'
 import { styles } from './config'
 import { host } from 'Server/http'
 
-interface AppsProps {
+interface AppsProps extends  WithTranslation {
   discovery?: DiscoveryStore
-}
-interface State {
-  page: number
-  per_page: number
-  order_by: string
-  as_and_desc: string
 }
 @inject('discovery')
 @observer
 
-class Apps extends React.Component<AppsProps, State> {
-  constructor(props:AppsProps){
-    super(props)
-    this.state ={
-      page: 1,
-      per_page: 10,
-      order_by: 'balance',
-      as_and_desc: 'asc'
-    }
-  }
+class Apps extends React.Component<AppsProps> {
   componentDidMount(){
     this.getAppsList()
   }
 
-  getAppsList = async () => {
-    const { page, per_page, as_and_desc, order_by } = this.state
+  getAppsList = async (page: number = 1, per_page: number = 10, as_and_desc: string = 'asc', order_by: string = 'balance') => {
     const initParams = {
       page,
       per_page,
@@ -49,8 +34,8 @@ class Apps extends React.Component<AppsProps, State> {
     return (
       <View style={styles.wrap}>
         <FlatList
-          data={appsList.app_data!}
-          renderItem={({item}) => this.renderItem(item,appResource)}
+          data={appsList}
+          renderItem={({item}) => this.renderItem(item, appResource)}
           ListFooterComponent={() => <View style={styles.more}><Text>{i18n.t('dipperin:discovery.apps.moreDapp')}</Text></View>}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.2}
@@ -59,12 +44,12 @@ class Apps extends React.Component<AppsProps, State> {
     )
   }
   onEndReached = () => {
-    const {appsList} = this.props.discovery!
-    const { page } = this.state
-    if(page < appsList.total_page!){
-      this.setState({
-        page: page +1
-      },() => this.getAppsList())
+    const {appsListTotalPage, appsListCurPage , appsListPerPage} = this.props.discovery!
+    const curPage = appsListCurPage
+    const perPage = appsListPerPage
+    const totalPage = appsListTotalPage
+    if(curPage < totalPage){
+      this.getAppsList( curPage + 1, perPage )
     }
   }
   renderItem = (item:appsInterface, appResource:appsResourceInterface[]) => {
@@ -99,4 +84,4 @@ class Apps extends React.Component<AppsProps, State> {
 }
 
 
-export default Apps
+export default withTranslation()(Apps)
