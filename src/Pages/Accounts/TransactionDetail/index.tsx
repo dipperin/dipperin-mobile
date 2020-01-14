@@ -1,47 +1,51 @@
 import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { NavigationScreenProp } from "react-navigation"
-import TransactionModel from "Models/transaction"
+
+import { I18nAccountType } from 'I18n/config'
+import { WithTranslation, withTranslation } from 'react-i18next'
 interface Props {
-    detail: TransactionModel
     navigation: NavigationScreenProp<any>
+    labels: I18nAccountType
 }
 
 class TransactionDetail extends React.Component<Props>{
 
     render() {
         const transaction = this.props.navigation.getParam('transaction')
+        const isFromMe = this.props.navigation.getParam('isFromMe')
         const { value, timestamp, from, to, transactionHash, extraData, nonce } = transaction
+        const { labels } = this.props
         return (
             <View style={styles.detailContainer}>
                 <View style={styles.greySpace} />
-                <Text style={styles.title}>转账</Text>
+                <Text style={styles.title}>{isFromMe ? labels.sent : labels.received}</Text>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>交易额:</Text>
+                    <Text style={styles.itemLabel}>{labels.value}:</Text>
                     <Text style={styles.itemValue}>{value}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>时间:</Text>
+                    <Text style={styles.itemLabel}>{labels.timeStamp}:</Text>
                     <Text style={styles.itemValue}>{timestamp}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Nonce:</Text>
+                    <Text style={styles.itemLabel}>{labels.nonce}:</Text>
                     <Text style={styles.itemValue}>{nonce}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>备注:</Text>
+                    <Text style={styles.itemLabel}>{labels.extraData}:</Text>
                     <Text style={styles.itemValue}>{extraData}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>发送方:</Text>
+                    <Text style={styles.itemLabel}>{labels.from}:</Text>
                     <Text style={styles.itemValue}>{from}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>接收方:</Text>
+                    <Text style={styles.itemLabel}>{labels.to}:</Text>
                     <Text style={styles.itemValue}>{to}</Text>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Hash:</Text>
+                    <Text style={styles.itemLabel}>{labels.hash}:</Text>
                     <Text style={styles.itemValue} numberOfLines={3}>{transactionHash}</Text>
                 </View>
             </View>
@@ -50,7 +54,14 @@ class TransactionDetail extends React.Component<Props>{
 
 }
 
-export default TransactionDetail
+const TransactionDetailWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+    const { t, navigation } = props
+    const labels = t('dipperin:account') as I18nAccountType
+    return <TransactionDetail labels={labels} navigation={navigation} />
+
+}
+
+export default withTranslation()(TransactionDetailWrap)
 
 const styles = StyleSheet.create({
     detailContainer: {

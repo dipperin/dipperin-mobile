@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
   },
   address: {
     width: 230,
+    textAlign: 'center',
   },
   copy: {
     position: 'absolute',

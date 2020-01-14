@@ -8,6 +8,7 @@ import {defaultTabBarOptions} from './utils';
 import CustomBack from './CustomBack';
 import CustomIcon from './CustomIcon';
 import {Icon} from 'Components/Icon';
+import ShareIcon from './Share';
 
 // about wallet
 import Start from 'Pages/InitWallet/Start';
@@ -123,29 +124,47 @@ export const initWalletStack = createStackNavigator({
 export const walletStack = createStackNavigator({
   Assets: {
     screen: Assets,
-    navigationOptions: (props) => ({
+    navigationOptions: props => ({
       headerLeft: <View />,
-      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('AddAccount') }}><Icon name={'icon|tianjia'} size={25} color="#fff" /></CustomIcon>,
-      headerStyle: { ...commonHeaderStyle, backgroundColor: '#275DA5' },
-      headerTitleStyle: { ...defaultHeaderTitleStyle, color: "#fff" },
-      title: 'Wallet'
-    })
+      headerRight: (
+        <CustomIcon
+          onPress={() => {
+            props.navigation.navigate('AddAccount');
+          }}>
+          <Icon name={'icon|tianjia'} size={25} color="#fff" />
+        </CustomIcon>
+      ),
+      headerStyle: {...commonHeaderStyle, backgroundColor: '#275DA5'},
+      headerTitleStyle: {...defaultHeaderTitleStyle, color: '#fff'},
+      title: 'Wallet',
+    }),
   },
   AddAccount: {
     screen: AddAccount,
-    navigationOptions: (props) => ({
+    navigationOptions: props => ({
       ...headerBackConfig,
       title: 'Add Account',
-      headerRight: <CustomIcon onPress={props.navigation.getParam('addAccount')}><Text>确定</Text></CustomIcon>
-    })
+      headerRight: (
+        <CustomIcon onPress={props.navigation.getParam('addAccount')}>
+          <Text>确定</Text>
+        </CustomIcon>
+      ),
+    }),
   },
   accountDetail: {
     screen: AccountDetail,
-    navigationOptions: (props) => ({
+    navigationOptions: props => ({
       ...headerBackConfig,
-      headerRight: <CustomIcon onPress={() => { props.navigation.navigate('ScanScreen') }}><Icon name={'icon|saoma'} size={20} color="#393B42" /></CustomIcon>,
-      title: 'Dip'
-    })
+      headerRight: (
+        <CustomIcon
+          onPress={() => {
+            props.navigation.navigate('ScanScreen');
+          }}>
+          <Icon name={'icon|saoma'} size={20} color="#393B42" />
+        </CustomIcon>
+      ),
+      title: 'Dip',
+    }),
   },
   send: {
     screen: Send,
@@ -157,7 +176,7 @@ export const walletStack = createStackNavigator({
           onPress={() => {
             props.navigation.navigate('ScanScreen');
           }}>
-          <Icon name={'icon|saoma'} size={20} color="##393B42" />
+          <Icon name={'icon|saoma'} size={20} color="#393B42" />
         </CustomIcon>
       ),
     }),
@@ -188,6 +207,7 @@ export const walletStack = createStackNavigator({
         fontSize: 18,
         fontWeight: 'bold',
       },
+      headerRight: <ShareIcon />,
     }),
   },
   shortword: {
@@ -200,9 +220,9 @@ export const walletStack = createStackNavigator({
   ScanScreen: {
     screen: ScanScreen,
     navigationOptions: () => ({
-      header: null
-    })
-  }
+      header: null,
+    }),
+  },
 });
 
 export const discoveryStack = createStackNavigator({
@@ -236,58 +256,52 @@ export const meStack = createStackNavigator(
       screen: Settings,
       navigationOptions: () => ({
         ...headerBackConfig,
-        title: '设置',
+        title: i18n.t('dipperin:me.setting'),
       }),
     },
     changePassword: {
       screen: ChangePassword,
       navigationOptions: () => ({
-        header: null,
+        ...headerBackConfig,
+        title: i18n.t('dipperin:me.changePassword'),
       }),
     },
     toggleLanguage: {
       screen: ToggleLanguage,
       navigationOptions: () => ({
         ...headerBackConfig,
-        title: '语言切换',
+        title: i18n.t('dipperin:me.language'),
       }),
     },
     nodeChoose: {
       screen: NodeChoose,
       navigationOptions: () => ({
         ...headerBackConfig,
-        title: '节点选择',
+        title: i18n.t('dipperin:me.nodeChoose'),
       }),
     },
     aboutUs: {
       screen: AboutUs,
       navigationOptions: () => ({...headerBackConfigNoBorder}),
     },
-    functionIntr: {
-      screen: FunctionIntr,
-      navigationOptions: () => ({
-        ...headerBackConfig,
-        title: '功能介绍',
-      }),
-    },
     userProtocol: {
       screen: UserProtocol,
       navigationOptions: () => ({
         ...headerBackConfig,
-        title: '用户协议',
+        title: i18n.t('dipperin:userProtocol'),
       }),
     },
     helpCenter: {
       screen: HelpCenter,
       navigationOptions: () => ({
         ...headerBackConfig,
-        title: '帮助中心',
+        title: i18n.t('dipperin:me.helpCenter'),
       }),
     },
     helpCenterDetail: {
       screen: HelpCenterDetail,
       navigationOptions: () => ({
-        title: '帮助中心详情',
+        title: i18n.t('dipperin:me.helpCenterDetails'),
         ...headerBackConfig,
       }),
     },
@@ -297,19 +311,16 @@ export const meStack = createStackNavigator(
   },
 );
 
-
-
 // hide tab
-export const hideTab = ({ navigation }: any) => {
+export const hideTab = ({navigation}: any) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
     return {
       tabBarVisible,
     };
-  };
-}
+  }
+};
 meStack.navigationOptions = hideTab;
 discoveryStack.navigationOptions = hideTab;
 walletStack.navigationOptions = hideTab;
-
