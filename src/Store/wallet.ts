@@ -1,5 +1,5 @@
 import BIP39 from 'bip39'
-import { observable, reaction, computed, action, runInAction, set } from 'mobx'
+import { observable, reaction, computed, action } from 'mobx'
 import { Accounts, AccountObject } from '@dipperin/dipperin.js'
 import { getRandom, encryptionPassword } from 'Global/utils'
 // import settings from '@/utils/settings'
@@ -162,14 +162,11 @@ export default class WalletStore {
    * @param password
    */
   async unlockWallet(password: string): Promise<boolean> {
-    const startTime = Date.now();
     const account = await this.getHdAccount(password);
     if (account) {
       this.setHdAccount(account)
-      console.log('unlock use:', Date.now() - startTime);
       return true;
     }
-    console.log('unlock use:', Date.now() - startTime);
     return false;
   }
 
@@ -264,15 +261,6 @@ export default class WalletStore {
   clear() {
     this._currentWallet = undefined;
   }
-
-  /**
-   * Start the loop update
-   */
-  // startUpdate() { // TODO move to chain data
-  //   this.getCurrentBlock()
-
-  //   this._store.timer.on('get-current-block', this.getCurrentBlock.bind(this), 10000)
-  // }
 
   /**
    * Save wallet to db and save wallet id to setting
