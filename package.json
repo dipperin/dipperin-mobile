@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "rn-nodeify --install fs,http,buffer,vm,crypto,stream --hack",
-    "build-android-dev": "cd android && ./gradlew assembleRelease"
+    "build-android-dev": "cd android && ./gradlew app:assembleRelease"
   },
   "dependencies": {
     "@ant-design/icons-react-native": "^1.0.2",
