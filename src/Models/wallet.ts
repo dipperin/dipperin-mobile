@@ -1,6 +1,5 @@
 import { observable, action, computed } from 'mobx'
-import { EncryptResult } from '@dipperin/dipperin.js'
-
+import { EncryptedData } from 'Global/encryptor'
 export default class WalletModel {
   @observable
   private _walletId: number = 0
@@ -14,7 +13,7 @@ export default class WalletModel {
   @observable
   private _lockTime: string = ''
   @observable
-  private _encryptSeed?: EncryptResult // Seed encrypt json
+  private _encryptSeed?: EncryptedData // encrypted seed
 
   constructor(walletObj: WalletObj) {
     this.init(walletObj)
@@ -52,7 +51,7 @@ export default class WalletModel {
   }
 
   @computed
-  get encryptSeed(): EncryptResult | undefined {
+  get encryptSeed(): EncryptedData | undefined {
     return this._encryptSeed
   }
 
@@ -96,7 +95,7 @@ export default class WalletModel {
 export interface WalletObj {
   walletId: number
   activeAccountId: string
-  encryptSeed?: EncryptResult
+  encryptSeed?: EncryptedData
   unlockErrTimes: number
   lockTime: string
 }
