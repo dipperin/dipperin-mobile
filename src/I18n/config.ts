@@ -225,9 +225,9 @@ const enResource = {
       caremaMessage: 'We need your permission to use your camera',
       buttonPositive: 'Ok',
       buttonNegative: 'Cancel',
-      codeTip:'Please focus the QR code'
-
-
+      codeTip:'Please focus the QR code',
+      send:'Transfer',
+      receive:'Receive'
     }
   },
 };
@@ -469,7 +469,9 @@ const zhResource: typeof enResource = {
       caremaMessage: '我们需要您的相机使用权限',
       buttonPositive: '确定',
       buttonNegative: '取消',
-      codeTip:'将二维码放入框内，即可自动扫描'
+      codeTip:'将二维码放入框内，即可自动扫描',
+      send:'转账',
+      receive:'收款'
       
     }
   },

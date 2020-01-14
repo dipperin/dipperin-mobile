@@ -30,6 +30,8 @@ const TxRecord = (props: Props) => {
             >
                 <View style={styles.tabContent}>
                     <TxList
+                        key={1}
+                        keyIndex={'all'}
                         transactionsFromLocal={getPendingAndFailedTransactions(transactions)}
                         activeAccountaddress={address}
                         labels={props.labels}
@@ -37,18 +39,24 @@ const TxRecord = (props: Props) => {
                 </View>
                 <View style={styles.tabContent}>
                     <TxList
+                        key={2}
+                        keyIndex={'sent'}
                         activeAccountaddress={address}
                         labels={props.labels}
                     />
                 </View>
                 <View style={styles.tabContent}>
                     <TxList
+                        key={3}
+                        keyIndex={'received'}
                         activeAccountaddress={address}
                         labels={props.labels}
                     />
                 </View>
                 <View style={styles.tabContent}>
                     <TxList
+                        key={4}
+                        keyIndex={'failed'}
                         transactionsFromLocal={getFailedTransactions(transactions)}
                         activeAccountaddress={address}
                         labels={props.labels}

@@ -19,35 +19,35 @@ interface Props {
     account?: AccountStore
     system?: SystemStore
     navigation: NavigationScreenProp<any>
-    labels:I18nAccountType
+    labels: I18nAccountType
 }
 
 @inject('account', 'system', 'transaction')
 @observer
 class AccountDetail extends React.Component<Props> {
-    navigate=(routeName:string)=>()=>{
+    navigate = (routeName: string) => () => {
         this.props.navigation.navigate(routeName)
     }
     render() {
         const { activeAccount } = this.props.account!
         const { isEyeOpen, setIsEyeOpen } = this.props.system!
+        const { labels } = this.props
         return (
             <View style={{ flex: 1, backgroundColor: "#FAFBFC" }}>
-                <AccountInfo 
-                account={activeAccount}
-                 isEyeOpen={isEyeOpen}
-                  setIsEyeOpen={setIsEyeOpen}
-                  labels={this.props.labels}
-                   />
-                <TxRecord 
-                transaction={this.props.transaction!}
-                 activeAccount={activeAccount!} 
-                 labels={this.props.labels}
-                 
-                 />
+                <AccountInfo
+                    account={activeAccount}
+                    isEyeOpen={isEyeOpen}
+                    setIsEyeOpen={setIsEyeOpen}
+                    labels={this.props.labels}
+                />
+                <TxRecord
+                    transaction={this.props.transaction!}
+                    activeAccount={activeAccount!}
+                    labels={this.props.labels}
+                />
                 <View style={styles.btnBox}>
-                    <Button style={styles.transfterBtn} type={'primary'} onPress={this.navigate('send')}>转账</Button>
-                    <Button style={styles.collectionBtn} type={'primary'} onPress={this.navigate('receive')}>收款</Button>
+                    <Button style={styles.transfterBtn} type={'primary'} onPress={this.navigate('send')}>{labels.send}</Button>
+                    <Button style={styles.collectionBtn} type={'primary'} onPress={this.navigate('receive')}>{labels.receive}</Button>
                 </View>
             </View>
         )
@@ -57,8 +57,8 @@ const AccountDetailWrap = (props: WithTranslation & { navigation: NavigationScre
     const { t, navigation } = props
     const labels = t('dipperin:account') as I18nAccountType
     return <AccountDetail labels={labels} navigation={navigation} />
-  
-  }
+
+}
 
 export default withTranslation()(AccountDetailWrap)
 
