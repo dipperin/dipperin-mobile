@@ -1,44 +1,27 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { View, Text } from 'react-native'
+import { observable } from 'mobx'
 import { FlatList } from 'react-native-gesture-handler'
 import i18n from 'I18n'
+import { withTranslation, WithTranslation } from 'react-i18next'
 import DiscoveryStore from 'Store/discovery'
 import { fortuneInterface } from 'Global/inteface'
 import { styles } from './config'
 import { formatEllipsis } from '../config'
 import { balancePercent } from 'Global/utils'
 
-interface FortuneProps {
+interface FortuneProps extends WithTranslation {
   discovery ?: DiscoveryStore
 }
-interface State {
-  page: number
-  per_page:number
-}
+
 @inject('discovery')
 @observer
-class Fortune extends React.Component<FortuneProps, State> {
-  constructor (props:FortuneProps) {
-    super(props)
-    this.state = {
-      page: 1,
-      per_page: 10,
-    }
-  }
+class Fortune extends React.Component<FortuneProps> {
+
   componentDidMount () {
-    const { getBlockHeight } = this.props.discovery!
-    getBlockHeight()
-    this.getFortuneList()
-  }
-  getFortuneList = () => {
-    const { getFortuneList } = this.props.discovery!
-    const { page, per_page } = this.state
-    const params = {
-      page,
-      per_page
-    }
-    getFortuneList(params)
+    this.props.discovery!.getBlockHeight()
+    this.getFortuneList(1, 10)
   }
   render() {
     const { fortuneList, totalBlocks } = this.props.discovery!
@@ -51,7 +34,7 @@ class Fortune extends React.Component<FortuneProps, State> {
           <Text style={styles.holdings}>{i18n.t('dipperin:discovery.fortune.holdings')}</Text>
         </View>
         <FlatList 
-          data={fortuneList.account_list}
+          data={fortuneList}
           renderItem={({item, index}) => this.renderItem(item, index, totalBlocks)}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.2}
@@ -69,17 +52,20 @@ class Fortune extends React.Component<FortuneProps, State> {
       </View>
     )
   }
+  getFortuneList = (page: number, per_page: number) => {
+    const params = { page, per_page }
+    this.props.discovery!.getFortuneList(params)
+  }
   onEndReached = () => {
-    const {fortuneList: {total_count}} = this.props.discovery!
-    const { page, per_page } = this.state
-    const totalPage = total_count % per_page === 0 ? total_count / per_page : Math.ceil(total_count / per_page)
-    if(page < totalPage){
-      this.setState({
-        page: page +1
-      },() => this.getFortuneList())
+    const {fortuneListPerPage, fortuneListCurPage, fortuneListTotalPage} = this.props.discovery!
+    const curPage = fortuneListCurPage
+    const perPage = fortuneListPerPage
+    const totalPage = fortuneListTotalPage % fortuneListPerPage === 0 ? fortuneListTotalPage / fortuneListPerPage : Math.ceil(fortuneListTotalPage / fortuneListPerPage)
+    if(curPage < totalPage){
+      this.getFortuneList( curPage + 1, perPage )
     }
   }
 }
 
 
-export default Fortune
+export default withTranslation()(Fortune)

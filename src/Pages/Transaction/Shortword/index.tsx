@@ -23,7 +23,8 @@ import Modal from 'Components/Modal';
 import {fromUnitToDip} from 'Global/utils';
 import WalletStore from 'Store/wallet';
 import ContractStore from 'Store/contract';
-import {sleep} from 'Global/utils'
+import AccountStore from 'Store/account';
+import {sleep} from 'Global/utils';
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation'];
@@ -31,9 +32,10 @@ interface Props {
   transaction?: TransactionStore;
   wallet?: WalletStore;
   contract?: ContractStore;
+  account?: AccountStore;
 }
 
-@inject('transaction', 'wallet', 'contract')
+@inject('transaction', 'wallet', 'contract', 'account')
 @observer
 class Shortword extends React.Component<Props> {
   @observable shortword: string = '';
@@ -69,11 +71,24 @@ class Shortword extends React.Component<Props> {
 
   @action handleChangeShortword = (text: string) => {
     // limit short word in 20 letters
-    this.shortword = text;
+    if (this.validateShortword(text)) {
+      this.shortword = text;
+    }
   };
 
   @action handleChangeTxfee = (num: number) => {
     this.txFeeLevel = num;
+  };
+
+  validateShortword = (text: string) => {
+    const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$');
+    if (!reg.test(text)) {
+      return false;
+    }
+    if (text.length > 20) {
+      return false;
+    }
+    return true;
   };
 
   register = async () => {
@@ -94,7 +109,33 @@ class Shortword extends React.Component<Props> {
     }
   };
 
-  handleSend = () => {
+  verifyShortword = async () => {
+    if (this.shortword === '') {
+      Toast.info('口令不能为空');
+      return false;
+    }
+    const res = await this.props.contract!.queryAddressByShordword(
+      this.shortword,
+    );
+    if (res !== '') {
+      Toast.info('口令已被注册');
+      return false;
+    }
+    const sw = await this.props.contract!.queryShortwordByAddr(
+      this.props.account!.activeAccount!.address,
+    );
+    if (sw !== '') {
+      Toast.info('该账户已注册过口令');
+      return false;
+    }
+    return true;
+  };
+
+  handleSend = async () => {
+    const ifVerifiedShortword = await this.verifyShortword();
+    if (!ifVerifiedShortword) {
+      return;
+    }
     Modal.password(this.handleConfirmTransaction);
     // this.setPasswordModal(true);
     // this.sendTransaction();

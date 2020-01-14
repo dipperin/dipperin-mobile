@@ -33,6 +33,11 @@ class Receive extends React.Component<Props> {
       const addr = this.props.account!.activeAccount!.address;
       this.queryShortword(addr);
     }
+    this.props.navigation.setParams({
+      shareMsg: `address: ${this.props.account!.activeAccount!.address};${
+        this.shortword ? 'short word:' + this.shortword : ''
+      }`,
+    });
   }
 
   queryShortword = async (addr: string) => {
@@ -65,7 +70,7 @@ class Receive extends React.Component<Props> {
 
           {this.renderQRCodeDisplay()}
 
-          {this.shortword && this.renderShortwordDisplay()}
+          {!!this.shortword && this.renderShortwordDisplay()}
         </View>
 
         {!this.shortword && this.renderToShortwordRegister()}
@@ -97,11 +102,17 @@ class Receive extends React.Component<Props> {
   }
 
   renderShortwordDisplay() {
+    const {labels} = this.props;
     return (
-      <View style={styles.addressWrapper}>
-        <View style={styles.addressContent}>
-          <Text style={styles.address}>{this.shortword}</Text>
-          <TouchableOpacity style={styles.copy} onPress={this.copyShortwordToClickboard}>
+      <View style={styles.ShortWordWrapper}>
+        <View style={styles.ShortWordContent}>
+          <Text
+            style={
+              styles.address
+            }>{`${labels.shortword}: ${this.shortword}`}</Text>
+          <TouchableOpacity
+            style={styles.copyShortWord}
+            onPress={this.copyShortwordToClickboard}>
             <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
           </TouchableOpacity>
         </View>
@@ -115,6 +126,7 @@ class Receive extends React.Component<Props> {
         <QRCode
           value={this.props.account!.activeAccount!.address || ''}
           size={200}
+          backgroundColor={'#f2f5f6'}
         />
       </View>
     );
