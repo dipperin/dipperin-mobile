@@ -33,6 +33,11 @@ class Receive extends React.Component<Props> {
       const addr = this.props.account!.activeAccount!.address;
       this.queryShortword(addr);
     }
+    this.props.navigation.setParams({
+      shareMsg: `address: ${this.props.account!.activeAccount!.address};${
+        this.shortword ? 'short word:' + this.shortword : ''
+      }`,
+    });
   }
 
   queryShortword = async (addr: string) => {
