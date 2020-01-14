@@ -44,7 +44,7 @@ class ScanScreen extends React.Component<Props> {
         this.camera = ref
     }
     // debonce code Read
-    debonceOnCodeRead = _.debounce(this.onBarCodeRead, 4000)
+    debonceOnCodeRead = _.debounce(this.onBarCodeRead, 500)
 
     render() {
         return (
