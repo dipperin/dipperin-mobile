@@ -64,11 +64,12 @@ export const styles = StyleSheet.create({
   forgetPassword: {
     alignSelf: 'center',
     justifyContent: 'center',
+    padding: 6,
     height: 34,
-    
+    marginBottom: 20,
   },
   forgetPasswordText: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#767F86',
   }
 })

@@ -13,6 +13,7 @@ import SystemStore from 'Store/System'
 import WalletStore from 'Store/wallet'
 import Toast from 'Components/Toast'
 import { passwordCheck } from './utils'
+import ResetWalletPop from './ResetWalletPop'
 interface Props {
   system?: SystemStore
   navigation: NavigationScreenProp<any>
@@ -26,6 +27,7 @@ class ChangePassword extends React.Component<Props> {
   @observable oldPassword: string = ''
   @observable newPassword: string = ''
   @observable confrimPassword: string = ''
+  @observable isShowResetWalletPop = false
 
   render() {
     const { label } = this.props
@@ -86,10 +88,18 @@ class ChangePassword extends React.Component<Props> {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.forgetPassword}
-        // onPress={this.resetWallet}
+          onPress={this.showResetWalletPop}
         >
           <Text style={styles.forgetPasswordText}>{label.forgetPassword}</Text>
         </TouchableOpacity>
+
+        <ResetWalletPop 
+          language={label}
+          visible={this.isShowResetWalletPop}
+          confrimText={label.resetWallet}
+          onCancel={this.hideResetWalletPop} 
+          onConfirm={this.resetWallet}
+        />
       </View>
     )
   }
@@ -115,7 +125,7 @@ class ChangePassword extends React.Component<Props> {
       Toast.info(toasInfo)
       return
     }
-    
+
     // Check the old password
     const checkPasswordSuccess = this.props.wallet!.unlockWallet(oldPassword)
     if (!checkPasswordSuccess) {
@@ -126,6 +136,14 @@ class ChangePassword extends React.Component<Props> {
     // Change password
     await this.props.wallet!.changePassword(newPassword)
     // Toast.hide()
+  }
+
+  @action showResetWalletPop = () => {
+    this.isShowResetWalletPop = true
+  }
+
+  @action hideResetWalletPop = () => {
+    this.isShowResetWalletPop = false
   }
 
   @action inputOldPassword = (_value: string) => {
