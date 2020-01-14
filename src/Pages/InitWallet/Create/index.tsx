@@ -10,6 +10,7 @@ import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
 import Toast from 'Components/Toast'
 import { setStorage } from 'Db'
+import { encryptionPassword } from 'Global/utils'
 
 import { I18CreateType } from 'I18n/config'
 import WalletStore from 'Store/wallet'
@@ -81,6 +82,7 @@ class Create extends React.Component<Props> {
     const err = await this.props.wallet!.create(password)
     if (!err) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
+      setStorage(STORAGE_KEYS.PASSWORD, encryptionPassword(password))
       this.props.navigation.navigate('createStep1')
     }
   }

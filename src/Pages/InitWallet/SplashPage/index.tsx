@@ -33,7 +33,6 @@ class Splash extends React.Component<Props> {
       SplashScreen.hide() // hide splash page
       const { isHaveWallet } = this.props.wallet!
       this.props.navigation.navigate(isHaveWallet ? 'lock' : 'start')
-      // this.props.navigation.navigate('wallet')
     }
   }
 

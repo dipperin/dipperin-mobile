@@ -11,8 +11,10 @@ const enResource = {
       import: 'Import wallet',
       cancel: 'Cancel',
       confirm: 'Confirm',
+      checkFingerprintFail: 'Fingerprint authentication failed',
       clickAndFingerprintUnlock: 'Click to unlock fingerprint',
       passwordUnlock: 'Password unlock',
+      fingerprintUnlock: 'Fingerprint unlock',
       pleaseEnterFingerprint: 'Please input fingerprint for verification',
       hintFingerprintDisabled: 'Please check whether the system fingerprint verification is on',
       passwordError: 'Wrong Password!'
@@ -118,7 +120,9 @@ const enResource = {
       psdLimit:
         'Password length is 8-24, is composed of Numbers, letters, symbols, letters are case sensitive',
       confrimChange: 'Confirm the change',
-      forgetPassword: 'Forgot password?',
+      resetWallet: 'Reset wallet',
+      forgetPassword: 'Forgot password',
+      forgetPasswordPopContent: 'Forget the password can be reset by importing mnemonics, which will not affect the use of your wallet. Please keep your mnemonics properly!',
       walletProduction: 'The wallet products',
       versionUpdate: 'Version update',
       passwordEmpty: 'Please fill in the password',
@@ -243,8 +247,10 @@ const zhResource: typeof enResource = {
       import: '导入钱包',
       cancel: '取消',
       confirm: '确认',
+      checkFingerprintFail: '指纹认证失败',
       clickAndFingerprintUnlock: '点击进行指纹解锁',
       passwordUnlock: '密码解锁',
+      fingerprintUnlock: '指纹解锁',
       pleaseEnterFingerprint: '请录入指纹验证',
       hintFingerprintDisabled: '请检查系统指纹认证是否开启',
       passwordError: '密码错误!'
@@ -349,7 +355,9 @@ const zhResource: typeof enResource = {
       pleaseConfirmNewPsd: '请确认新密码',
       psdLimit: '密码长度为8-24位，由数字、字母、符号组成，字母区分大小写',
       confrimChange: '确认修改',
-      forgetPassword: '忘记密码?',
+      resetWallet: '重置钱包',
+      forgetPassword: '忘记密码',
+      forgetPasswordPopContent: '忘记密码可以通过导入助记词重新设置，不会影响您的钱包使用，请妥善保管您的助记词！',
       walletProduction: '钱包产品',
       versionUpdate: '版本更新',
       passwordEmpty: '请填写密码',
@@ -446,7 +454,7 @@ const zhResource: typeof enResource = {
       nonce:'Nonce',
       extraData:'备注',
       from:'发送地址',
-      To:'接收地址',
+      to:'接收地址',
       hash:'Hash'
       
     }
