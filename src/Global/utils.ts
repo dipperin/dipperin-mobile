@@ -109,5 +109,5 @@ export const fromUnitToDip = (num: number) => {
 
 export const verifyBalance = (amount: string, fee: string, balance: string) => {
   const bn1 = new BigNumber(amount)
-  return bn1.plus(new BigNumber(fee)).isLessThan(new BigNumber(balance))
+  return bn1.plus(new BigNumber(fee)).isLessThanOrEqualTo(new BigNumber(balance))
 }
