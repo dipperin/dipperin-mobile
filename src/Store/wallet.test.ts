@@ -111,7 +111,7 @@ describe('walletStore, import wallet', () => {
 
   it('create, without mnemonic', () => {
     wallet.create('12345678')
-    wallet.destroyMnemonic()
+    wallet.destroyMnemonic!()
     expect(wallet.isHaveWallet).toBe(true)
     expect(wallet.isUnlock).toBe(true)
   })

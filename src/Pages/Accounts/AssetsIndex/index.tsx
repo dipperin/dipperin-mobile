@@ -36,7 +36,6 @@ class Assets extends React.Component<Props>{
     const { isEyeOpen, setIsEyeOpen } = this.props.system!
     const { labels } = this.props
     const assets = this.getAllAssets()
-    console.log("accounts", accounts)
     return (
       <View style={{ flex: 1 }}>
         <NavigationEvents

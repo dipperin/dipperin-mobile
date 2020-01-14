@@ -20,7 +20,7 @@ import RootStore from 'Store/root'
 import NavigationService from 'Router/navigationService'
 import { isToTransferUtl } from 'Global/utils'
 import { getParamsFromLinkUrl } from 'Global/utils'
-import navigationService from 'Router/navigationService';
+import navigationService from 'Router/navigationService'
 
 // Configure mobx
 configure({

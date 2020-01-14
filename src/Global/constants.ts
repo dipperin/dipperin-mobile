@@ -56,13 +56,14 @@ export enum STORAGE_KEYS {
   WALLET_ID = 'walletId',
   NET = 'net',
   PASSWORD_TIP = 'passwordTip',
-  PASSWORD = 'password'
+  PASSWORD = 'password',
+  FINGERPRINT_UNLOCK = 'fingerprintUnlock',
+  FINGERPRINT_PAY = 'fingerprintPay'
 }
 
 /**
  * Wallet
  */
-
 export const DEFAULT_ERR_TIMES = 0
 export const DEFAULT_LOCK_TIME = ''
 export const LOCKTIMES = 8 // wrong password times
