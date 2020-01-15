@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
 import React from "react"
+import { observer } from "mobx-react"
 import { NavigationScreenProp, withNavigation } from "react-navigation"
 import moment from "moment"
-import { getIsTxFromMe } from "Global/utils"
+import { getIsTxFromMe ,formatNumber} from "Global/utils"
 import { I18nAccountType } from 'I18n/config'
 
 import TransactionModel from "Models/transaction"
@@ -16,17 +17,18 @@ interface Props {
     navigation: NavigationScreenProp<any>
     labels: I18nAccountType
 }
+@observer 
 class TxItem extends React.Component<Props>{
     goDetail = () => {
         const { activeAccountaddress, transaction } = this.props
         const isFromMe = getIsTxFromMe(activeAccountaddress, transaction.from)
         this.props.navigation.navigate('TransactionDetail', { transaction, isFromMe })
     }
-
     render() {
         const { activeAccountaddress, labels, transaction: { from, value, timestamp } } = this.props
         const showTime = timestamp ? moment(Math.floor(timestamp / 1000000)).format('YYYY/MM/DD') : ''
         const isFromMe = getIsTxFromMe(activeAccountaddress, from)
+        const showValue = formatNumber(Number(value),6)
         return (
             <TouchableOpacity
                 onPress={this.goDetail}
@@ -40,7 +42,7 @@ class TxItem extends React.Component<Props>{
                         </View>
                     </View>
                     <View style={styles.right}>
-                        <Text style={styles.dip}>{value} DIP</Text>
+                        <Text style={styles.dip}>{showValue} DIP</Text>
                         <Text style={styles.txt}>{showTime}</Text>
                     </View>
                 </View>

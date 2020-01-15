@@ -2,6 +2,7 @@ import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { NavigationScreenProp } from "react-navigation"
 import moment from "moment"
+import { Utils } from "@dipperin/dipperin.js"
 
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
@@ -35,7 +36,7 @@ class TransactionDetail extends React.Component<Props>{
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.extraData}:</Text>
-                    <Text style={styles.itemValue}>{extraData}</Text>
+                    <Text style={styles.itemValue}>{Utils.hexToUtf8(extraData)}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.from}:</Text>
