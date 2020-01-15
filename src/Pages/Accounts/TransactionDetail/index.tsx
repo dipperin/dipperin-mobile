@@ -12,12 +12,19 @@ interface Props {
 }
 
 class TransactionDetail extends React.Component<Props>{
-
+    getShowTime=(timestamp: number)=>{
+        if(`${timestamp}`.length>16){
+            return  moment(timestamp/1000000).format('YYYY/MM/DD HH:MM:SS A+UTC')
+        }else{
+            return moment(timestamp).format('YYYY/MM/DD HH:MM:SS A+UTC')
+        }
+    }
     render() {
         const transaction = this.props.navigation.getParam('transaction')
         const isFromMe = this.props.navigation.getParam('isFromMe')
         const { value, timestamp, from, to, transactionHash, extraData, nonce } = transaction
         const { labels } = this.props
+        const showExtraData = Utils.isHex(extraData)?Utils.hexToUtf8(extraData):extraData
         return (
             <View style={styles.detailContainer}>
                 <View style={styles.greySpace} />
@@ -28,7 +35,7 @@ class TransactionDetail extends React.Component<Props>{
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.timeStamp}:</Text>
-                    <Text style={styles.itemValue}>{moment(timestamp/1000000).format('YYYY/MM/DD HH:MM:SS')}</Text>
+                    <Text style={styles.itemValue}>{this.getShowTime(timestamp)}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.nonce}:</Text>
@@ -36,7 +43,7 @@ class TransactionDetail extends React.Component<Props>{
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.extraData}:</Text>
-                    <Text style={styles.itemValue}>{Utils.hexToUtf8(extraData)}</Text>
+                    <Text style={styles.itemValue}>{showExtraData}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.from}:</Text>
@@ -92,7 +99,7 @@ const styles = StyleSheet.create({
     itemValue: {
         color: '#3C3E42',
         fontSize: 15,
-        maxWidth: 280
+        maxWidth: 260
     }
 
 })

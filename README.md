@@ -1,7 +1,13 @@
 # Dipperin Wallet
 
-## open from url
+## Linking open
 
-```html
-<a href="dp//send?address=0x0000F5dE65e7C9d50634048f1f212b436eb76fcCf420&amount=100">
+```js
+// address: receive address
+// amount: send amount
+// scheme: your app scheme
+Linking.openURL(`dp://sendcb?address=${address}&amount=${amount}&scheme=${scheme}`)
+
+// callback url
+`${scheme}://sendcb?success=${success}`
 ```
