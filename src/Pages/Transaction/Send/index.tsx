@@ -261,7 +261,7 @@ class Send extends React.Component<Props> {
         index: 1,
         actions: [
           NavigationActions.navigate({ routeName: 'Assets' }),
-          NavigationActions.navigate({ routeName: 'accountDetail' })
+          NavigationActions.navigate({ routeName: 'accountDetail' }),
         ],
       });
       this.props.navigation.dispatch(resetAction);
@@ -275,11 +275,11 @@ class Send extends React.Component<Props> {
   linkingAppCallBack = (success: boolean) => {
     const { getParam } = this.props.navigation
     const type = getParam('type')
-    if (type !== 'send') return
+    if (type !== 'send') {return}
     const scheme = getParam('scheme')
-    if(scheme) {
+    if (scheme) {
       Linking.canOpenURL(`${scheme}://`).then(res => {
-        if(res) {
+        if (res) {
           Linking.openURL(`${scheme}://sendcb?success=${success}`)
         }
       })

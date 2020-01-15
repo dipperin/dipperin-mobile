@@ -8,7 +8,7 @@ import {
   DEFAULT_HASH_LOCK,
   TRANSACTION_STATUS_FAIL,
   TRANSACTION_STATUS_SUCCESS,
-  CHAIN_ID_DIC
+  CHAIN_ID_DIC,
 } from 'Global/constants'
 import { Utils } from '@dipperin/dipperin.js'
 
@@ -30,7 +30,12 @@ class TransactionStore {
 
   @computed
   get transactions(): TransactionModel[] {
-    return (this._transactionsMap.get(this._store.account.activeAccount!.address) || []).slice().reverse()
+    return (
+      this._transactionsMap.get(this._store.account.activeAccount!.address) ||
+      []
+    )
+      .slice()
+      .reverse()
   }
 
   @computed
@@ -39,7 +44,11 @@ class TransactionStore {
   }
 
   startUpdate() {
-    this._store.timer.on('update_transactions', this.updateTransactionType.bind(this), 5000)
+    this._store.timer.on(
+      'update_transactions',
+      this.updateTransactionType.bind(this),
+      5000,
+    )
   }
 
   updateTransactionType() {
@@ -48,20 +57,33 @@ class TransactionStore {
         .filter(tx => !tx.isSuccess && !tx.isOverLongTime(getNowTimestamp()))
         .forEach(tx => {
           const txs = transactions
-          this._store.dipperin!.dr
-            .getTransaction(tx.transactionHash!)
+          this._store
+            .dipperin!.dr.getTransaction(tx.transactionHash!)
             .then(res => {
               if (!res.transaction) {
-                if (tx.isOverTime(getNowTimestamp()) || this.haveSameNonceSuccessTx(tx, txs)) {
+                if (
+                  tx.isOverTime(getNowTimestamp()) ||
+                  this.haveSameNonceSuccessTx(tx, txs)
+                ) {
                   tx.setFail()
-                  updateTx(tx.transactionHash!, { ...tx,status: TRANSACTION_STATUS_FAIL }, this._store.chainData.currentNet)
+                  updateTx(
+                    tx.transactionHash!,
+                    { ...tx, status: TRANSACTION_STATUS_FAIL },
+                    this._store.chainData.currentNet,
+                  )
                   // updata account nonce when transition failed
-                  this._store.account.updateAccountsNonce(this._store.account.activeAccount!.id)
+                  this._store.account.updateAccountsNonce(
+                    this._store.account.activeAccount!.id,
+                  )
                 }
                 return
               } else {
                 tx.setSuccess()
-                updateTx(tx.transactionHash!, { ...tx,status: TRANSACTION_STATUS_SUCCESS }, this._store.chainData.currentNet)
+                updateTx(
+                  tx.transactionHash!,
+                  { ...tx, status: TRANSACTION_STATUS_SUCCESS },
+                  this._store.chainData.currentNet,
+                )
               }
             })
             .catch(err => console.error(err))
@@ -75,13 +97,15 @@ class TransactionStore {
       return new TransactionModel({
         ...tx,
         hashLock: '',
-        status: tx.status ? tx.status : TRANSACTION_STATUS_SUCCESS
+        status: tx.status ? tx.status : TRANSACTION_STATUS_SUCCESS,
       })
     })
 
     const preTxs = this._transactionsMap.get(address) || []
 
-    const newTxs = [...preTxs, ...mTxs].sort((tx1, tx2) => tx1.timestamp! - tx2.timestamp!)
+    const newTxs = [...preTxs, ...mTxs].sort(
+      (tx1, tx2) => tx1.timestamp! - tx2.timestamp!,
+    )
 
     this.transactionsMap.set(address, newTxs)
 
@@ -102,10 +126,18 @@ class TransactionStore {
     amount: string,
     memo: string,
     gas?: string,
-    gasPrice?: string
+    gasPrice?: string,
   ): TransactionModel {
-    const privateKey = this._store.wallet.getPrivateKeyByPath(this._store.account.activeAccount!.path)
-    const transaction = this.createNewTransaction(address, amount, memo, gas, gasPrice)
+    const privateKey = this._store.wallet.getPrivateKeyByPath(
+      this._store.account.activeAccount!.path,
+    )
+    const transaction = this.createNewTransaction(
+      address,
+      amount,
+      memo,
+      gas,
+      gasPrice,
+    )
     const net = this._store.chainData.currentNet
     const chainId = net in CHAIN_ID_DIC ? CHAIN_ID_DIC[net] : DEFAULT_CHAIN_ID
     transaction.signTranaction(privateKey, chainId)
@@ -114,7 +146,8 @@ class TransactionStore {
 
   getChainId = (): string => {
     const net = this._store.chainData.currentNet
-    const chainId: string = net in CHAIN_ID_DIC ? CHAIN_ID_DIC[net] : DEFAULT_CHAIN_ID
+    const chainId: string =
+      net in CHAIN_ID_DIC ? CHAIN_ID_DIC[net] : DEFAULT_CHAIN_ID
     return chainId
   }
 
@@ -123,20 +156,30 @@ class TransactionStore {
     amount: string,
     memo: string,
     gas?: string,
-    gasPrice?: string
+    gasPrice?: string,
   ): Promise<Result<string>> {
     try {
-      const transaction = this.getSignedTransactionData(address, amount, memo, gas, gasPrice)
+      const transaction = this.getSignedTransactionData(
+        address,
+        amount,
+        memo,
+        gas,
+        gasPrice,
+      )
       // const privateKey = this._store.wallet.getPrivateKeyByPath(this._store.account.activeAccount.path)
       // const transaction = this.createNewTransaction(address, amount, memo, gas, gasPrice)
       // transaction.signTranaction(privateKey, DEFAULT_CHAIN_ID)
-      const res = await this._store.dipperin!.dr.sendSignedTransaction(transaction.signedTransactionData!)
+      const res = await this._store.dipperin!.dr.sendSignedTransaction(
+        transaction.signedTransactionData!,
+      )
       // console.log(transaction.transactionHash)
       if (!isString(res)) {
         const errRes = res
         return {
           success: false,
-          error: new Error(errRes.error ? errRes.error.message : 'Something wrong!')
+          error: new Error(
+            errRes.error ? errRes.error.message : 'Something wrong!',
+          ),
         }
       }
       if (res === transaction.transactionHash) {
@@ -147,16 +190,16 @@ class TransactionStore {
         this._store.account.activeAccount!.plusNonce()
         return {
           success: true,
-          result: transaction.transactionHash
+          result: transaction.transactionHash,
         }
       } else {
         return {
           success: false,
-          error: new Error('Something wrong!')
+          error: new Error('Something wrong!'),
         }
       }
     } catch (error) {
-      return {success:false, error}
+      return { success: false, error }
     }
   }
 
@@ -165,30 +208,38 @@ class TransactionStore {
     amount: string,
     memo: string,
     gas?: string,
-    gasPrice?: string
+    gasPrice?: string,
   ): Promise<TxResponse> {
     // const privateKey = this._store.wallet.getPrivateKeyByPath(this._store.account.activeAccount.path)
-    const transaction = this.getSignedTransactionData(address, amount, memo, gas, gasPrice)
+    const transaction = this.getSignedTransactionData(
+      address,
+      amount,
+      memo,
+      gas,
+      gasPrice,
+    )
 
     try {
       // const transaction = this.createNewTransaction(address, amount, memo, gas, gasPrice)
       // transaction.signTranaction(privateKey, DEFAULT_CHAIN_ID)
-      const res = await this._store.dipperin!.dr.estimateGas(transaction.signedTransactionData!)
+      const res = await this._store.dipperin!.dr.estimateGas(
+        transaction.signedTransactionData!,
+      )
       console.log('estimate running', { res })
       return {
         success: true,
-        info: Number(res).toString()
+        info: Number(res).toString(),
       }
     } catch (err) {
       if (err instanceof Errors.NoEnoughBalanceError) {
         return {
           success: false,
-          info: err.message
+          info: err.message,
         }
       }
       return {
         success: false,
-        info: String(err)
+        info: String(err),
       }
     }
   }
@@ -196,8 +247,13 @@ class TransactionStore {
   async load() {
     await Promise.all(
       this._store.account.accounts.map(async account => {
-        const txs = await getTx(account.address, this._store.chainData.currentNet)
-        if(!txs) return
+        const txs = await getTx(
+          account.address,
+          this._store.chainData.currentNet,
+        )
+        if (!txs) {
+          return
+        }
         try {
           runInAction(() => {
             this._transactionsMap.set(
@@ -215,15 +271,15 @@ class TransactionStore {
                     timestamp: tx.timestamp,
                     to: tx.to,
                     transactionHash: tx.transactionHash,
-                    value: tx.value
-                  })
-              )
+                    value: tx.value,
+                  }),
+              ),
             )
           })
         } catch (err) {
           console.error(err)
         }
-      })
+      }),
     )
   }
 
@@ -242,7 +298,7 @@ class TransactionStore {
     amount: string,
     memo: string,
     gas?: string,
-    gasPrice?: string
+    gasPrice?: string,
   ): TransactionModel {
     const fromAccount = this._store.account.activeAccount
     const amountUnit = Utils.toUnit(amount)
@@ -252,7 +308,11 @@ class TransactionStore {
     const gasPriceUnit = gasPrice ? gasPrice : '1'
 
     const accountAmount = Utils.toUnit(fromAccount!.balance)
-    if (new BN(accountAmount).lt(new BN(amountUnit).plus(new BN(gasUnit).times(new BN(gasPriceUnit))))) {
+    if (
+      new BN(accountAmount).lt(
+        new BN(amountUnit).plus(new BN(gasUnit).times(new BN(gasPriceUnit))),
+      )
+    ) {
       throw new Errors.NoEnoughBalanceError()
     }
 
@@ -264,7 +324,7 @@ class TransactionStore {
       from: fromAccount!.address,
       to: address,
       gas: gasUnit,
-      gasPrice: gasPriceUnit
+      gasPrice: gasPriceUnit,
     })
   }
 
@@ -276,7 +336,7 @@ class TransactionStore {
     gas: string,
     gasPrice: string,
     nonce: string,
-    hashLock: string
+    hashLock: string,
   ) {
     return new TransactionModel({
       nonce,
@@ -286,14 +346,22 @@ class TransactionStore {
       value: valueUnit,
       gas,
       gasPrice,
-      hashLock
+      hashLock,
     })
   }
 
-  private haveSameNonceSuccessTx(tx: TransactionModel, txs: TransactionModel[]): boolean {
+  private haveSameNonceSuccessTx(
+    tx: TransactionModel,
+    txs: TransactionModel[],
+  ): boolean {
     return txs
       .filter(t => t.isSuccess)
-      .some(t => t.from === tx.from && t.nonce === tx.nonce && t.transactionHash !== tx.transactionHash)
+      .some(
+        t =>
+          t.from === tx.from &&
+          t.nonce === tx.nonce &&
+          t.transactionHash !== tx.transactionHash,
+      )
   }
 }
 
