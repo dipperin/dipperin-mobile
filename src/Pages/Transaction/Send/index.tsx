@@ -138,8 +138,9 @@ class Send extends React.Component<Props> {
   }
 
   verifyAddressOrShortword = async () => {
+    const {labels} = this.props
     if (this.addressOrShortWord === '') {
-      Toast.info('地址/口令不能为空');
+      Toast.info(labels.emptyAddrOrShortword);
       return false;
     }
     if (Utils.isAddress(this.addressOrShortWord)) {
@@ -154,11 +155,11 @@ class Send extends React.Component<Props> {
           this.handleChangeToAddress(res);
           return true;
         } else {
-          Toast.info('地址不合法或口令不存在');
+          Toast.info(labels.invalidAddrOrUnregiteredShortword);
           return false;
         }
       } catch (e) {
-        Toast.info('地址不合法或口令不存在');
+        Toast.info(labels.invalidAddrOrUnregiteredShortword);
         return false;
       }
     }
@@ -166,7 +167,7 @@ class Send extends React.Component<Props> {
 
   verifyAmount = () => {
     if (this.sendAmount === '') {
-      Toast.info('发送金额不得为空');
+      Toast.info(this.props.labels.emptySendAmount);
       return false;
     }
     return true;
@@ -180,7 +181,7 @@ class Send extends React.Component<Props> {
         this.props.account!.activeAccount!.balance,
       )
     ) {
-      Toast.info('余额不足');
+      Toast.info(this.props.labels.noEnoughBalance);
       return false;
     }
     return true;
@@ -217,11 +218,11 @@ class Send extends React.Component<Props> {
         return Promise.resolve();
       } else {
         console.warn(res.info);
-        Toast.info('返回失败: ' + res.info);
+        Toast.info(this.props.labels.returnError + res.info);
         return Promise.reject();
       }
     } catch (e) {
-      Toast.info('确认交易失败: ' + e.message);
+      Toast.info(this.props.labels.confirmTxError + e.message);
       return Promise.reject();
     }
   };
