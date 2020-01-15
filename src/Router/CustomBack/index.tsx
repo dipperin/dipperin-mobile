@@ -5,6 +5,7 @@ import BACK_GRAY_IMG from "Assets/back.png"
 interface Props {
     navigation: any
     imageSource?: any
+    content?: React.ReactNode
 }
 export class CustomBack extends React.Component<Props>{
     handleCustomBack = () => {
@@ -20,7 +21,8 @@ export class CustomBack extends React.Component<Props>{
                     flex: 1,
                     justifyContent: 'center',
                 }}>
-                    <Image source={imageSource ? imageSource : BACK_GRAY_IMG} style={{ width: 10, height: 16 }} />
+                    {!this.props.content &&<Image source={imageSource ? imageSource : BACK_GRAY_IMG} style={{ width: 10, height: 16 }} />}
+                    {this.props.content}
                 </View>
             </TouchableOpacity>
         )

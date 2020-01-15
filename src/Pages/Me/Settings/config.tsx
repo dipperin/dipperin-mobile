@@ -7,6 +7,7 @@ import { VENUS } from 'Global/constants'
 import i18n from 'I18n'
 import Modal from 'Components/Modal'
 import Toast from 'Components/Toast'
+import ChainData from 'Store/chainData'
 
 
 export const FINGER_UNLOCK = 'fingerUnLock'
@@ -74,7 +75,7 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
   },
 ]
 
-export const settingListItemsExt = (system: System, options: ListItemMainTypes):  AntdListItemPropsType[] => [
+export const settingListItemsExt = (system: System, chainData: ChainData, options: ListItemMainTypes):  AntdListItemPropsType[] => [
   {
     title: i18n.t('dipperin:me.language'),
     extra: system.curLanguage === 'en' ? i18n.t('dipperin:me.English') : i18n.t('dipperin:me.simplifiedChinese'),
@@ -83,7 +84,7 @@ export const settingListItemsExt = (system: System, options: ListItemMainTypes):
   },
   {
     title: i18n.t('dipperin:me.nodeChoose'),
-    extra: system.curSystemNodeAddr === VENUS 
+    extra: chainData.currentNet === VENUS 
       ? i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.venus') 
       : i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.mercury'),
     arrow: 'horizontal',

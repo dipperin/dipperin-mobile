@@ -18,7 +18,7 @@ import Router from 'Router'
 import i18n from 'I18n'
 import RootStore from 'Store/root'
 import NavigationService from 'Router/navigationService'
-import { isToTransferUtl } from 'Global/utils'
+import { isToTransferUrl } from 'Global/utils'
 import { getParamsFromLinkUrl } from 'Global/utils'
 import navigationService from 'Router/navigationService'
 
@@ -51,13 +51,14 @@ const App = () => {
 
   const linkNavigate = (url: string) => {
     try {
-      if (!isToTransferUtl(url)) {
+      if (!isToTransferUrl(url)) {
         return
       }
       const address = getParamsFromLinkUrl('address', url)
-      // const amount = getParamsFromLinkUrl('amount', url)
+      const amount = getParamsFromLinkUrl('amount', url)
+      const scheme = getParamsFromLinkUrl('scheme', url)
       if (address) {
-        navigationService.navigate('send', { address })
+        navigationService.navigate('lock', { address, amount, scheme, type: 'send' })
       }
     } catch (_) {
 
