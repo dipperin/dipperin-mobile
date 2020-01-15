@@ -1,13 +1,13 @@
 import React from 'react';
 import i18n from 'I18n';
-import {View, StyleProp, TextStyle, Text} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {defaultTabBarOptions} from './utils';
+import { View, StyleProp, TextStyle, Text } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { defaultTabBarOptions } from './utils';
 
 // Components
 import CustomBack from './CustomBack';
 import CustomIcon from './CustomIcon';
-import {Icon} from 'Components/Icon';
+import { Icon } from 'Components/Icon';
 import ShareIcon from './Share';
 
 // about wallet
@@ -134,9 +134,9 @@ export const walletStack = createStackNavigator({
           <Icon name={'icon|tianjia'} size={25} color="#fff" />
         </CustomIcon>
       ),
-      headerStyle: {...commonHeaderStyle, backgroundColor: '#275DA5'},
-      headerTitleStyle: {...defaultHeaderTitleStyle, color: '#fff'},
-      title: 'Wallet',
+      headerStyle: { ...commonHeaderStyle, backgroundColor: '#275DA5' },
+      headerTitleStyle: { ...defaultHeaderTitleStyle, color: '#fff' },
+      title: i18n.t('dipperin:account.wallet'),
     }),
   },
   AddAccount: {
@@ -146,7 +146,7 @@ export const walletStack = createStackNavigator({
       title: 'Add Account',
       headerRight: (
         <CustomIcon onPress={props.navigation.getParam('addAccount')}>
-          <Text>确定</Text>
+          <Text>{i18n.t('dipperin:account.buttonPositive')}</Text>
         </CustomIcon>
       ),
     }),
@@ -163,7 +163,7 @@ export const walletStack = createStackNavigator({
           <Icon name={'icon|saoma'} size={20} color="#393B42" />
         </CustomIcon>
       ),
-      title: 'Dip',
+      title: 'DIP',
     }),
   },
   send: {
@@ -185,7 +185,7 @@ export const walletStack = createStackNavigator({
     screen: TransactionDetail,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '交易记录',
+      title: i18n.t('dipperin:account.record'),
     }),
   },
   receive: {
@@ -297,7 +297,7 @@ export const meStack = createStackNavigator(
     },
     aboutUs: {
       screen: AboutUs,
-      navigationOptions: () => ({...headerBackConfigNoBorder}),
+      navigationOptions: () => ({ ...headerBackConfigNoBorder }),
     },
     userProtocol: {
       screen: UserProtocol,
@@ -327,7 +327,7 @@ export const meStack = createStackNavigator(
 );
 
 // hide tab
-export const hideTab = ({navigation}: any) => {
+export const hideTab = ({ navigation }: any) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
