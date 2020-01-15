@@ -374,6 +374,7 @@ const zhResource: typeof enResource = {
       confrimPassword: '确认密码',
       pleaseEnterOldPsd: '请输入旧密码',
       pleaseEnterNewPsd: '请输入新密码',
+      pleaseConfirmNewPsd: '请确认新密码',
       psdLimit: '密码长度为8-24位，由数字、字母、符号组成，字母区分大小写',
       confrimChange: '确认修改',
       resetWallet: '重置钱包',
