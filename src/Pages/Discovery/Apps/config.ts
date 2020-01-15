@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     width:'100%',
     paddingTop: 30,
     color: '#ffffff',
-    fontSize: 20,
+    fontSize: 10,
     textAlign: 'center'
   }
 })

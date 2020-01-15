@@ -36,7 +36,7 @@ class Apps extends React.Component<AppsProps> {
         <FlatList
           data={appsList}
           renderItem={({item}) => this.renderItem(item, appResource)}
-          ListFooterComponent={() => <View style={styles.more}><Text>{i18n.t('dipperin:discovery.apps.moreDapp')}</Text></View>}
+          ListFooterComponent={() => <View><Text style={styles.more}>{i18n.t('dipperin:discovery.apps.moreDapp')}</Text></View>}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.2}
         />

@@ -27,9 +27,6 @@ class Discovery extends React.Component<any, State> {
   }
   componentWillUnmount() {
     this._navListener.remove();
-    this.setState({
-      activeIndex: 0
-    })
   }
   render() {
     const { activeIndex } = this.state
