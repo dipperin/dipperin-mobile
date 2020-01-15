@@ -77,7 +77,7 @@ export const getIsTxFromMe = (myAddress: string, fromAddress: string) => {
   return myAddress === fromAddress
 }
 
-export const isToTransferUtl = (url: string) => {
+export const isToTransferUrl = (url: string) => {
   return url.match('dp://send')
 }
 
@@ -109,5 +109,17 @@ export const fromUnitToDip = (num: number) => {
 
 export const verifyBalance = (amount: string, fee: string, balance: string) => {
   const bn1 = new BigNumber(amount)
-  return bn1.plus(new BigNumber(fee)).isLessThan(new BigNumber(balance))
+  return bn1.plus(new BigNumber(fee)).isLessThanOrEqualTo(new BigNumber(balance))
 }
+
+export interface Success<T> {
+  success: true;
+  result: T;
+}
+
+export interface Faliure {
+  success: false;
+  error: Error;
+}
+
+export type Result<T> = Success<T> | Faliure;

@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
         marginRight: 8
     },
     txt: {
+        maxWidth:160,
         fontSize: 16,
         color:'#393B42'
     }

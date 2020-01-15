@@ -5,9 +5,8 @@ import { StyleSheet } from "react-native"
 import { AntdListItemPropsType } from 'Global/inteface'
 import { VENUS } from 'Global/constants'
 import i18n from 'I18n'
-import Modal from 'Components/Modal'
-import Toast from 'Components/Toast'
-
+import { Modal, Toast } from 'Components/PopupWindow'
+import ChainData from 'Store/chainData'
 
 export const FINGER_UNLOCK = 'fingerUnLock'
 export const FINGER_PAY = 'fingerPay'
@@ -24,14 +23,16 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
     title: i18n.t('dipperin:me.fingerUnlock'),
     extra: (
       <Switch
-        checked={system.fingerUnLockStatus}
+        checked={system.isFingerUnLock}
         onChange={(_value) => {
-          if(!_value) {
+          if (!_value) {
             options.extraOnChange && options.extraOnChange(FINGER_UNLOCK, _value);
             return
           }
 
           Modal.FingerprintPopShow({
+            successHint: i18n.t('dipperin:me.openUnlockFunction')
+          },{
             fingerprintSuccessCb: () => options.extraOnChange && options.extraOnChange(FINGER_UNLOCK, _value),
             fingerprintFailCb: () => Toast.info(i18n.t('dipperin:start.checkFingerprintFail')),
             hide: () => Modal.hide()
@@ -44,21 +45,23 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
     title: i18n.t('dipperin:me.fingerPay'),
     extra: (
       <Switch
-        checked={(()=>{
-          const result = system.fingerUnLockStatus ? system.fingerPayStatus : false
+        checked={(() => {
+          const result = system.isFingerUnLock ? system.isFingerPay : false
           options.extraOnChange && options.extraOnChange(FINGER_PAY, result)
           return result
         })()}
-        disabled={!system.fingerUnLockStatus}
+        disabled={!system.isFingerUnLock}
         onChange={(_value) => {
-          const _switch = !system.fingerUnLockStatus ? false : _value
+          const _switch = !system.isFingerUnLock ? false : _value
 
-          if(!_value) {
+          if (!_value) {
             options.extraOnChange && options.extraOnChange(FINGER_PAY, _value);
             return
           }
 
           Modal.FingerprintPopShow({
+            successHint: i18n.t('dipperin:me.openFingerprintPayFunction')
+          },{
             fingerprintSuccessCb: () => options.extraOnChange && options.extraOnChange(FINGER_PAY, _switch),
             fingerprintFailCb: () => Toast.info(i18n.t('dipperin:start.checkFingerprintFail')),
             hide: () => Modal.hide()
@@ -74,7 +77,7 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
   },
 ]
 
-export const settingListItemsExt = (system: System, options: ListItemMainTypes):  AntdListItemPropsType[] => [
+export const settingListItemsExt = (system: System, chainData: ChainData, options: ListItemMainTypes): AntdListItemPropsType[] => [
   {
     title: i18n.t('dipperin:me.language'),
     extra: system.curLanguage === 'en' ? i18n.t('dipperin:me.English') : i18n.t('dipperin:me.simplifiedChinese'),
@@ -83,11 +86,11 @@ export const settingListItemsExt = (system: System, options: ListItemMainTypes):
   },
   {
     title: i18n.t('dipperin:me.nodeChoose'),
-    extra: system.curSystemNodeAddr === VENUS 
-      ? i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.venus') 
+    extra: chainData.currentNet === VENUS
+      ? i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.venus')
       : i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.mercury'),
     arrow: 'horizontal',
-    onPress: () => options.onChangeItem &&  options.onChangeItem(NODE_CHECKED)
+    onPress: () => options.onChangeItem && options.onChangeItem(NODE_CHECKED)
   }
 ]
 

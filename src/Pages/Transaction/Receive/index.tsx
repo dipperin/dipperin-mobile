@@ -1,63 +1,69 @@
-import React from 'react';
-import {View, Text, StatusBar, TouchableOpacity, Clipboard} from 'react-native';
-import {NavigationStackScreenProps} from 'react-navigation-stack';
-import QRCode from 'react-native-qrcode-svg';
-import {withTranslation, WithTranslation} from 'react-i18next';
-import {I18nTransactionType} from 'I18n/config';
-import {Icon} from 'Components/Icon';
+import React from 'react'
+import {
+  View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
+  Clipboard,
+} from 'react-native'
+import { NavigationStackScreenProps } from 'react-navigation-stack'
+import QRCode from 'react-native-qrcode-svg'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { I18nTransactionType } from 'I18n/config'
+import { Icon } from 'Components/Icon'
 
-import {styles} from './config';
-import {observer, inject} from 'mobx-react';
-import AccountStore from 'Store/account';
-import ContractStore from 'Store/contract';
-import {computed} from 'mobx';
+import { styles } from './config'
+import { observer, inject } from 'mobx-react'
+import AccountStore from 'Store/account'
+import ContractStore from 'Store/contract'
+import { computed } from 'mobx'
 
 interface Props {
-  navigation: NavigationStackScreenProps['navigation'];
-  labels: I18nTransactionType;
-  account?: AccountStore;
-  contract?: ContractStore;
+  navigation: NavigationStackScreenProps['navigation']
+  labels: I18nTransactionType
+  account?: AccountStore
+  contract?: ContractStore
 }
 
 @inject('account', 'contract')
 @observer
 class Receive extends React.Component<Props> {
   @computed get shortword() {
-    const addr = this.props.account!.activeAccount!.address;
-    const sw = this.props.contract!.shortwordMap.get(addr);
-    return sw || '';
+    const addr = this.props.account!.activeAccount!.address
+    const sw = this.props.contract!.shortwordMap.get(addr)
+    return sw || ''
   }
 
   componentDidMount() {
     if (this.shortword === '') {
-      const addr = this.props.account!.activeAccount!.address;
-      this.queryShortword(addr);
+      const addr = this.props.account!.activeAccount!.address
+      this.queryShortword(addr)
     }
     this.props.navigation.setParams({
       shareMsg: `address: ${this.props.account!.activeAccount!.address};${
         this.shortword ? 'short word:' + this.shortword : ''
       }`,
-    });
+    })
   }
 
   queryShortword = async (addr: string) => {
-    const res = await this.props.contract!.queryShortwordByAddr(addr);
-    console.log(res);
-  };
+    const res = await this.props.contract!.queryShortwordByAddr(addr)
+    console.log(res)
+  }
   handleClose = () => {
-    this.props.navigation.goBack();
-  };
+    this.props.navigation.goBack()
+  }
   turnToShortword = () => {
-    this.props.navigation.navigate('shortword');
-  };
+    this.props.navigation.navigate('shortword')
+  }
 
   copyToClickboard = () => {
-    Clipboard.setString(this.props.account!.activeAccount!.address);
-  };
+    Clipboard.setString(this.props.account!.activeAccount!.address)
+  }
 
   copyShortwordToClickboard = () => {
-    Clipboard.setString(this.shortword);
-  };
+    Clipboard.setString(this.shortword)
+  }
 
   render() {
     return (
@@ -75,15 +81,15 @@ class Receive extends React.Component<Props> {
 
         {!this.shortword && this.renderToShortwordRegister()}
       </View>
-    );
+    )
   }
   renderContentHeader() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <View style={styles.contentTitleWrapper}>
         <Text style={styles.contentTitle}>{labels.qrCode}</Text>
       </View>
-    );
+    )
   }
 
   renderAddressDisplay() {
@@ -98,11 +104,11 @@ class Receive extends React.Component<Props> {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    )
   }
 
   renderShortwordDisplay() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <View style={styles.ShortWordWrapper}>
         <View style={styles.ShortWordContent}>
@@ -117,7 +123,7 @@ class Receive extends React.Component<Props> {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    )
   }
 
   renderQRCodeDisplay() {
@@ -129,11 +135,11 @@ class Receive extends React.Component<Props> {
           backgroundColor={'#f2f5f6'}
         />
       </View>
-    );
+    )
   }
 
   renderToShortwordRegister() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <TouchableOpacity
         style={styles.btnWrapper}
@@ -148,23 +154,23 @@ class Receive extends React.Component<Props> {
             borderRadius: 22,
             backgroundColor: '#4992c9',
           }}>
-          <Text style={{color: '#fff', fontSize: 17}}>
+          <Text style={{ color: '#fff', fontSize: 17 }}>
             {labels.shortWordReceive}
           </Text>
         </View>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
 const Wrapped = (
   props: WithTranslation & {
-    navigation: NavigationStackScreenProps['navigation'];
+    navigation: NavigationStackScreenProps['navigation']
   },
 ) => {
-  const {t, navigation} = props;
-  const labels = t('dipperin:transaction') as I18nTransactionType;
-  return <Receive labels={labels} navigation={navigation} />;
-};
+  const { t, navigation } = props
+  const labels = t('dipperin:transaction') as I18nTransactionType
+  return <Receive labels={labels} navigation={navigation} />
+}
 
-export default withTranslation()(Wrapped);
+export default withTranslation()(Wrapped)

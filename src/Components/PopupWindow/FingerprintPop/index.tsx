@@ -1,27 +1,37 @@
 import React from 'react';
-import PopWrapper, { PopWrapperPropsInterface } from 'Components/PopWrapper';
-import { View, TouchableOpacity, Text, Image, StyleSheet, Alert } from 'react-native';
+import { View, TouchableOpacity, Text, Image, StyleSheet, Dimensions, Modal } from 'react-native';
 import i18n from 'I18n';
 import FINGERPRINT from 'Assets/fingerprint.png'
 import { observer } from 'mobx-react';
-import { observable, reaction, action } from 'mobx';
+import { observable, action } from 'mobx';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
-import Toast from 'Components/Toast';
+
+const client = Dimensions.get('window')
 
 const FINGERPRINT_AVAILABLE = 'Fingerprint'
 
-interface Props extends PopWrapperPropsInterface {
+interface Props {
+  startHint?: string
+  proccessHint?: string
+  successHint?: string
   fingerprintSuccessCb: () => void
   fingerprintFailCb: () => void
+  onCancel: () => void
 }
 
 @observer
-@PopWrapper
-@observer
 class FingerprintPop extends React.Component<Props> {
-  @observable contentText: string = i18n.t('dipperin:start.pleaseEnterFingerprint')
+  @observable contentText: string = ''
   curTimes: number = 0
+
+  static defaultProps = { 
+    startHint: i18n.t('dipperin:start.pleaseEnterFingerprint'),
+    proccessHint: i18n.t('dipperin:start.proccessAuthFingerprint'),
+    successHint: i18n.t('dipperin:start.successAuthFingerprint')
+  }
+
   componentDidMount() {
+    this.changeContentText(this.props.startHint!)
     this.startFingerprint()
   }
 
@@ -31,22 +41,22 @@ class FingerprintPop extends React.Component<Props> {
       if (availabelResult === FINGERPRINT_AVAILABLE) {
         const res: any = await FingerprintScanner.authenticate({ onAttempt: this.handleAuthenticationAttempted })
         if (res) {
+          this.changeContentText(this.props.successHint!)
           this.props.fingerprintSuccessCb()
         }
       }
     } catch (error) {
       this.changeContentText(error.message)
     }
-
   }
 
   handleAuthenticationAttempted = (error: any) => {
     this.curTimes++;
     this.changeContentText(error.message)
-    if(this.curTimes >= 3) {
+    if (this.curTimes >= 3) {
       FingerprintScanner.release()
       this.props.fingerprintFailCb()
-    } 
+    }
   }
 
   componentWillUnmount() {
@@ -56,19 +66,29 @@ class FingerprintPop extends React.Component<Props> {
   render() {
     const { onCancel } = this.props
     return (
-      <View style={styles.box}>
-        <View style={styles.content}>
-          <Image style={styles.fingerprintImg} source={FINGERPRINT} />
-          <Text style={styles.curStatusText}>{this.contentText}</Text>
-        </View>
+      <Modal
+        animationType={'fade'}
+        transparent={true}
+        visible={true}
+      >
+        <View style={styles.popWrapper}>
+          <View style={styles.mask}>
+            <View style={styles.box}>
+              <View style={styles.content}>
+                <Image style={styles.fingerprintImg} source={FINGERPRINT} />
+                <Text style={styles.curStatusText}>{this.contentText}</Text>
+              </View>
 
-        <TouchableOpacity
-          style={styles.cancelBtn}
-          onPress={onCancel}
-        >
-          <Text style={styles.cancelBtnText}>{i18n.t('dipperin:start.cancel')}</Text>
-        </TouchableOpacity>
-      </View>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                onPress={onCancel}
+              >
+                <Text style={styles.cancelBtnText}>{i18n.t('dipperin:start.cancel')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     )
   }
 
@@ -80,6 +100,21 @@ class FingerprintPop extends React.Component<Props> {
 export default FingerprintPop
 
 export const styles = StyleSheet.create({
+  popWrapper: {
+    width: client.width,
+    height: "100%",
+    backgroundColor: 'rgba(52,52,52,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  mask: {
+    backgroundColor: '#fff',
+    width: client.width * 0.86,
+    borderRadius: 8,
+    overflow: "hidden"
+  },
+
   box: {
     padding: 20,
     minHeight: 140,

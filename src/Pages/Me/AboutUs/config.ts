@@ -1,52 +1,46 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const client = Dimensions.get('window')
 
 export const styles = StyleSheet.create({
   box: {
     flex: 1,
+    justifyContent: 'space-between'
   },
 
   topWrap: {
-    padding: 20,
-    justifyContent: 'center',
+    marginTop: client.height * 0.16,
     alignItems: 'center',
   },
   logoWrap: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 70,
-    height: 70,
-    backgroundColor: '#f2f2f2',
     borderRadius: 8,
   },
   logo: {
-    width: 32,
-    height: 38
+    width: 64,
+    height: 64,
+    resizeMode: 'contain'
   },
   appMsg: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   appName: {
-    marginTop: 10,
-    marginBottom: 6,
-    fontSize: 20,
-    color: '#666',
+    marginTop: 35,
+    marginBottom: 12,
+    fontSize: 24,
+    color: '#393B42',
   },
   appVersion: {
-    fontSize: 14,
-    color: '#999'
+    fontSize: 15,
+    color: '#393B42'
   },
 
-  listWrap: {
-    
+  userProtocolTouch: {
+    alignSelf: 'center',
+    marginBottom: 24,
+    padding: 6
   },
-
-  listItem: {
-    lineHeight: 58,
-    fontSize: 14, 
-    color: '#515151'
-  },
-  updateVersion: {
-    color: '#cc0000'
+  userProtocolText: {
+    fontSize: 13,
+    color: '#4F6A7F'
   }
 })

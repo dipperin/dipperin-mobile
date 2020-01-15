@@ -1,7 +1,10 @@
 import React from 'react'
 import { View, Text, SafeAreaView, StatusBar } from 'react-native'
+import { NavigationEvents } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 import i18n from 'I18n'
-import { withTranslation } from 'react-i18next'
+import { I18nDiscoveryType } from 'I18n/config'
+import { WithTranslation, withTranslation } from 'react-i18next'
 import Apps from './Apps'
 import Contacts from './Contracts'
 import Fortune from './Fortune'
@@ -9,6 +12,10 @@ import { styles } from './config'
 
 interface State {
   activeIndex: number
+}
+interface Props {
+  navigation: NavigationStackScreenProps['navigation']
+  labels:I18nDiscoveryType
 }
 
 class Discovery extends React.Component<any, State> {
@@ -28,34 +35,40 @@ class Discovery extends React.Component<any, State> {
   componentWillUnmount() {
     this._navListener.remove();
   }
+  didFocus = () => {
+    this.props.navigation.setParams({ title: i18n.t('dipperin:discovery.title') })
+  }
   render() {
     const { activeIndex } = this.state
     return (
       <SafeAreaView style={{ backgroundColor: '#0B0E19' }}>
+        <NavigationEvents
+          onDidFocus={this.didFocus}
+        />
         <View style={styles.wrap}>
           <View style={styles.tabs}>
             <Text
               onPress={() => this.tabsChange(0)}
-              style={activeIndex === 0 ? {...styles.item0, ... styles.activeItem, ...styles.item}: {...styles.item, ...styles.item0} }
+              style={activeIndex === 0 ? { ...styles.item0, ...styles.activeItem, ...styles.item } : { ...styles.item, ...styles.item0 }}
             >
               {i18n.t('dipperin:discovery.tab1')}
             </Text>
             <Text
               onPress={() => this.tabsChange(1)}
-              style={activeIndex === 1 ? {...styles.item1, ... styles.activeItem, ...styles.item}: {...styles.item,...styles.item1} }
+              style={activeIndex === 1 ? { ...styles.item1, ...styles.activeItem, ...styles.item } : { ...styles.item, ...styles.item1 }}
             >
               {i18n.t('dipperin:discovery.tab2')}
             </Text>
             <Text
               onPress={() => this.tabsChange(2)}
-              style={activeIndex === 2 ? {...styles.item2, ... styles.activeItem, ...styles.item}: {...styles.item, ...styles.item2} }
+              style={activeIndex === 2 ? { ...styles.item2, ...styles.activeItem, ...styles.item } : { ...styles.item, ...styles.item2 }}
             >
               {i18n.t('dipperin:discovery.tab3')}
             </Text>
           </View>
-          { activeIndex === 0 &&  <Apps /> }
-          { activeIndex === 1 &&  <Contacts /> }
-          { activeIndex === 2 &&  <Fortune /> }
+          {activeIndex === 0 && <Apps />}
+          {activeIndex === 1 && <Contacts />}
+          {activeIndex === 2 && <Fortune />}
         </View>
       </SafeAreaView>
     )
@@ -67,4 +80,12 @@ class Discovery extends React.Component<any, State> {
   }
 }
 
-export default withTranslation()(Discovery)
+
+const AccountDetailWrap = (props: WithTranslation & { navigation: NavigationStackScreenProps['navigation'] }) => {
+  const { t, navigation } = props
+  const labels = t('dipperin:discovery') as I18nDiscoveryType
+  return <Discovery labels={labels} navigation={navigation} />
+
+}
+
+export default withTranslation()(AccountDetailWrap)

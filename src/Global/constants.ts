@@ -101,6 +101,7 @@ export const CONTRACT_ADDRESS = '0x0014a4A3397aEFB57B0Db4b146E5f767411C0f445482'
 export const REGISTER_PASSWORD = 'registerPassword'
 export const QUERY_PASSWORD_BY_ADDR = 'queryPasswordByAddr'
 export const QUERY_ADDR_BY_PASSWORD = 'queryAddrByPassword'
+export const DEFAULT_GASLIMIT = '10000000'
 
 export const METHOD_INPUTS = {
   [REGISTER_PASSWORD]: ['string'],

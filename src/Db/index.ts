@@ -89,20 +89,6 @@ export const removeAccount = async (id: number) => {
     }
 }
 
-export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[]> => {
-    try {
-        let res = await storage.getAllDataForKey(TRANSACTION_DB)
-        return res.filter(item => {
-            return (item.from === address && item.net === net)
-                || (item.to === address && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
-                || (item.address === address.toLocaleLowerCase() && item.net === net)
-                || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
-        })
-    } catch (_) {
-        return []
-
-    }
-}
 
 
 export const getContractTx = async (
@@ -117,6 +103,21 @@ export const getContractTx = async (
         })
     } catch (_) {
         return null
+    }
+}
+export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[]> => {
+    try {
+        let res = await storage.getAllDataForKey(TRANSACTION_DB)
+        console.log("localtransaction",res)
+        return res.filter(item => {
+            return (item.from === address && item.net === net)
+                || (item.to === address && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
+                || (item.address === address.toLocaleLowerCase() && item.net === net)
+                || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
+        })
+    } catch (_) {
+        return []
+
     }
 }
 
@@ -140,7 +141,7 @@ export const updateTx = async (txHash: string, updateObj: any, net: string = DEF
         await storage.save({
             key: TRANSACTION_DB,
             id: txHash + net,
-            data: updateObj
+            data: {...updateObj,net}
         })
     } catch (_) {
 

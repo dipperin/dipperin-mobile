@@ -13,7 +13,7 @@ import {
 import { Utils } from '@dipperin/dipperin.js'
 
 import TransactionModel, { TransactionInterface } from 'Models/transaction'
-import { getNowTimestamp } from 'Global/utils'
+import { getNowTimestamp, Result } from 'Global/utils'
 import Errors from 'Global/errors'
 import RootStore from './root'
 
@@ -54,14 +54,14 @@ class TransactionStore {
               if (!res.transaction) {
                 if (tx.isOverTime(getNowTimestamp()) || this.haveSameNonceSuccessTx(tx, txs)) {
                   tx.setFail()
-                  updateTx(tx.transactionHash!, { status: TRANSACTION_STATUS_FAIL }, this._store.chainData.currentNet)
+                  updateTx(tx.transactionHash!, { ...tx,status: TRANSACTION_STATUS_FAIL }, this._store.chainData.currentNet)
                   // updata account nonce when transition failed
                   this._store.account.updateAccountsNonce(this._store.account.activeAccount!.id)
                 }
                 return
               } else {
                 tx.setSuccess()
-                updateTx(tx.transactionHash!, { status: TRANSACTION_STATUS_SUCCESS }, this._store.chainData.currentNet)
+                updateTx(tx.transactionHash!, { ...tx,status: TRANSACTION_STATUS_SUCCESS }, this._store.chainData.currentNet)
               }
             })
             .catch(err => console.error(err))
@@ -124,7 +124,7 @@ class TransactionStore {
     memo: string,
     gas?: string,
     gasPrice?: string
-  ): Promise<TxResponse> {
+  ): Promise<Result<string>> {
     try {
       const transaction = this.getSignedTransactionData(address, amount, memo, gas, gasPrice)
       // const privateKey = this._store.wallet.getPrivateKeyByPath(this._store.account.activeAccount.path)
@@ -136,7 +136,7 @@ class TransactionStore {
         const errRes = res
         return {
           success: false,
-          info: errRes.error ? errRes.error.message : 'Something wrong!'
+          error: new Error(errRes.error ? errRes.error.message : 'Something wrong!')
         }
       }
       if (res === transaction.transactionHash) {
@@ -147,26 +147,16 @@ class TransactionStore {
         this._store.account.activeAccount!.plusNonce()
         return {
           success: true,
-          info: transaction.transactionHash
+          result: transaction.transactionHash
         }
       } else {
         return {
           success: false,
-          info: 'Something wrong!'
+          error: new Error('Something wrong!')
         }
       }
-    } catch (err) {
-      console.log(String(err))
-      if (err instanceof Errors.NoEnoughBalanceError) {
-        return {
-          success: false,
-          info: err.message
-        }
-      }
-      return {
-        success: false,
-        info: String(err)
-      }
+    } catch (error) {
+      return {success:false, error}
     }
   }
 

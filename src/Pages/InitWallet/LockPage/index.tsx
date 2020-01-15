@@ -1,16 +1,15 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import FINGERPRINT from 'Assets/fingerprint.png';
-import {styles} from './config';
-import {NavigationScreenProp} from 'react-navigation';
+import { styles } from './config';
+import { NavigationScreenProp } from 'react-navigation';
 // There are differences between IOS and Android
-import FingerprintPop from 'Components/Modal/FingerprintPop'
+import FingerprintPop from 'Components/PopupWindow/FingerprintPop'
 import { observer, inject } from 'mobx-react'
 import { observable, action } from 'mobx'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import { I18StartType } from 'I18n/config'
-import Modal from 'Components/Modal'
-import Toast from 'Components/Toast'
+import { Toast, Modal } from 'Components/PopupWindow'
 import WalletStore from 'Store/wallet'
 import { getStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
@@ -30,13 +29,16 @@ class LockPage extends React.Component<Props> {
   @observable fingerprintHintText: string = this.props.language.fingerprintUnlock
 
   componentDidMount() {
-    const { fingerUnLockStatus } = this.props.system!
-    fingerUnLockStatus && this.showFingerprintUnlock()
-    !fingerUnLockStatus && this.togglePasswordLogin()
+    const { isFingerUnLock } = this.props.system!
+    if (isFingerUnLock) {
+      this.showFingerprintUnlock()
+      return
+    }
+    this.togglePasswordLogin()
   }
 
   render() {
-    const {language} = this.props;
+    const { language } = this.props;
     return (
       <View style={styles.box}>
         <View style={styles.content}>
@@ -59,11 +61,13 @@ class LockPage extends React.Component<Props> {
 
   togglePasswordLogin = () => {
     // Show password unlock page
-    Modal.password(this.enterPassword);
+    Modal.enterPassword(this.enterPassword, {hasCancel: this.props.system?.isFingerUnLock});
   };
 
   showFingerprintUnlock = () => {
     Modal.FingerprintPopShow({
+      successHint: this.props.language.unlocking
+    }, {
       fingerprintSuccessCb: this.fingerprintSuccessCb,
       fingerprintFailCb: this.fingerprintFailCb,
       hide: this.FingerprintPopHide
@@ -71,35 +75,32 @@ class LockPage extends React.Component<Props> {
   };
 
   FingerprintPopHide = async () => {
-    await Modal.hide();
+    Modal.hide();
   };
 
   // Fingerprint success
   fingerprintSuccessCb = async () => {
-    await Modal.hide()
-    Toast.loading()
     const enciryptionPassword: string = await getStorage(STORAGE_KEYS.PASSWORD) as any as string
     const _password = decryptionPassword(enciryptionPassword)
     const unlock = await this.props.wallet!.unlockWallet(_password)
 
     if (!unlock) {
+      Modal.hide()
       Toast.info(this.props.language.passwordError)
       return
     }
 
-    if(!this.props.system!.fingerUnLockStatus) {
+    if (!this.props.system!.isFingerUnLock) {
       this.props.system!.setFingerUnLock(true)
     }
-
-    this.props.navigation.navigate('wallet')
-    Toast.hide()
+    this.navigationRedirect()
   }
 
   // Fingerprint fail
   fingerprintFailCb = () => {
-    Modal.password(this.enterPassword);
+    this.togglePasswordLogin()
   };
-  
+
   enterPassword = async (password: string) => {
     await Modal.hide();
     Toast.loading();
@@ -109,16 +110,31 @@ class LockPage extends React.Component<Props> {
       Toast.info(this.props.language.passwordError);
       return;
     }
-    
+
     Toast.hide();
-    this.props.navigation.navigate('wallet');
+    this.navigationRedirect()
   };
+
+  navigationRedirect = () => {
+    const { getParam } = this.props.navigation
+    const type = getParam('type')
+    const address = getParam('address')
+    const amount = getParam('amount')
+    const scheme = getParam('scheme')
+    if(type === 'send') {
+      this.props.navigation.navigate('send', { type, address, amount, scheme })
+      return
+    }
+
+    Modal.hide()
+    this.props.navigation.navigate('wallet')
+  }
 }
 
 const LockPageWrap = (
-  props: WithTranslation & {navigation: NavigationScreenProp<any>},
+  props: WithTranslation & { navigation: NavigationScreenProp<any> },
 ) => {
-  const {t, navigation} = props;
+  const { t, navigation } = props;
   const label = t('dipperin:start') as I18StartType;
   return <LockPage language={label} navigation={navigation} />;
 };

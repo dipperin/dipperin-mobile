@@ -25,12 +25,8 @@ const dencryptWithKey = (encryptedData: EncryptedData, key: string) => Aes.decry
 
 export default class Encryptor {
     static encrypt = async (password: string, data: any) => {
-        try {
-            const key = await generateKey(password, salt, cost, length)
-            return await encryptWithKey(JSON.stringify(data),key)
-        } catch(err) {
-            console.log(err) 
-        }
+        const key = await generateKey(password, salt, cost, length)
+        return await encryptWithKey(JSON.stringify(data),key)
     }
 
     static decrypt = async (password: string, decrypedData: EncryptedData) => {

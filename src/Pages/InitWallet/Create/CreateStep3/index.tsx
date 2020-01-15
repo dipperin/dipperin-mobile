@@ -6,7 +6,7 @@ import { withTranslation, WithTranslation } from 'react-i18next'
 import { shuffle } from 'lodash'
 
 import WalletStore from 'Store/wallet'
-import Toast from 'Components/Toast'
+import { Toast } from 'Components/PopupWindow'
 import { sleep } from 'Global/utils'
 
 import { I18CreateStep3Type } from 'I18n/config'
@@ -48,63 +48,63 @@ const CreateStep3 = inject('wallet')(({ labels, navigation, wallet }: Props) => 
   const handleRemoveWords = (word: string) => () => {
     setSelectedWords(selectedWords.filter(item => item !== word))
     shuffleWordsState.forEach(item => {
-      if(item.word === word) {
+      if (item.word === word) {
         item.selected = false
-      } 
+      }
     })
     setShuffleWordsState([...shuffleWordsState])
   }
 
 
   const handNext = async () => {
-    if( selectedWords.join(' ') !== mnemonic) return
-    const {destroyMnemonic} = wallet!
-    if(destroyMnemonic) {
+    if (selectedWords.join(' ') !== mnemonic) return
+    const { destroyMnemonic } = wallet!
+    if (destroyMnemonic) {
       Toast.loading()
       await sleep(100)
       const err = await destroyMnemonic()
       Toast.hide()
-      if(!err) {
+      if (!err) {
         navigation.navigate('wallet')
       }
     }
   }
   const disabled = selectedWords.join(' ') !== mnemonic
   return (
-      <ScrollView style={styles.wrap}>
-        <View>
-          <View style={styles.iconWrap}>
-            <Image style={styles.icon} source={VerifyMnemonic} resizeMode='contain' />
-          </View>
-          <Text style={styles.title}>{labels.title}</Text>
-          <Text style={styles.intro}>{labels.intro}</Text>
-          <Text style={styles.label}>{labels.menmonic}</Text>
-          <View style={styles.mnemonic}>
-            {
-              selectedWords.map((word, index) => {
-                return (
-                  <TouchableOpacity key={index} style={styles.mnemonicSelected} onPress={handleRemoveWords(word)}>
-                    <Text style={styles.mnemonicWrodText}>{word}</Text>
-                  </TouchableOpacity>
-                )
-              })
-            }
-          </View>
-          <View style={styles.optionsWrap}>
-            {shuffleWordsState.map((item, index) => {
+    <ScrollView style={styles.wrap}>
+      <View>
+        <View style={styles.iconWrap}>
+          <Image style={styles.icon} source={VerifyMnemonic} resizeMode='contain' />
+        </View>
+        <Text style={styles.title}>{labels.title}</Text>
+        <Text style={styles.intro}>{labels.intro}</Text>
+        <Text style={styles.label}>{labels.menmonic}</Text>
+        <View style={styles.mnemonic}>
+          {
+            selectedWords.map((word, index) => {
               return (
-                <TouchableOpacity key={index} style={[styles.option, item.selected && styles.selectedWords]} onPress={handleSelectWrods(item)}>
-                  <Text style={[styles.optionText, item.selected && styles.selectedText]}>{item.word}</Text>
+                <TouchableOpacity key={index} style={styles.mnemonicSelected} onPress={handleRemoveWords(word)}>
+                  <Text style={styles.mnemonicWrodText}>{word}</Text>
                 </TouchableOpacity>
               )
-            })}
-          </View>
+            })
+          }
         </View>
-        <View style={styles.btnWrap}>
-          <TouchableOpacity style={[styles.btn, disabled && styles.disabled]} onPress={handNext} activeOpacity={disabled ? 1 :0.7}>
-            <Text style={styles.btnText}>{labels.btnText}</Text>
-          </TouchableOpacity>
+        <View style={styles.optionsWrap}>
+          {shuffleWordsState.map((item, index) => {
+            return (
+              <TouchableOpacity key={index} style={[styles.option, item.selected && styles.selectedWords]} onPress={handleSelectWrods(item)}>
+                <Text style={[styles.optionText, item.selected && styles.selectedText]}>{item.word}</Text>
+              </TouchableOpacity>
+            )
+          })}
         </View>
+      </View>
+      <View style={styles.btnWrap}>
+        <TouchableOpacity style={[styles.btn, disabled && styles.disabled]} onPress={handNext} activeOpacity={disabled ? 1 : 0.7}>
+          <Text style={styles.btnText}>{labels.btnText}</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   )
 })

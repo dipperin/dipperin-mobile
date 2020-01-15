@@ -1,59 +1,59 @@
-import React from 'react';
-import i18n from 'I18n';
-import {View, StyleProp, TextStyle, Text} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {defaultTabBarOptions} from './utils';
+import React from 'react'
+import i18n from 'I18n'
+import { View, StyleProp, TextStyle, Text } from 'react-native'
+import { createStackNavigator } from 'react-navigation-stack'
+import { defaultTabBarOptions } from './utils'
 
 // Components
-import CustomBack from './CustomBack';
-import CustomIcon from './CustomIcon';
-import {Icon} from 'Components/Icon';
-import ShareIcon from './Share';
+import CustomBack from './CustomBack'
+import CustomIcon from './CustomIcon'
+import { Icon } from 'Components/Icon'
+import ShareIcon from './Share'
 
 // about wallet
-import Start from 'Pages/InitWallet/Start';
-import Import from 'Pages/InitWallet/Import';
-import Create from 'Pages/InitWallet/Create';
-import CreateStep1 from 'Pages/InitWallet/Create/CreateStep1';
-import CreateStep2 from 'Pages/InitWallet/Create/CreateStep2';
-import CreateStep3 from 'Pages/InitWallet/Create/CreateStep3';
+import Start from 'Pages/InitWallet/Start'
+import Import from 'Pages/InitWallet/Import'
+import Create from 'Pages/InitWallet/Create'
+import CreateStep1 from 'Pages/InitWallet/Create/CreateStep1'
+import CreateStep2 from 'Pages/InitWallet/Create/CreateStep2'
+import CreateStep3 from 'Pages/InitWallet/Create/CreateStep3'
 
 //about acount
-import Assets from 'Pages/Accounts/AssetsIndex';
-import AddAccount from 'Pages/Accounts/AddAccount';
-import AccountDetail from 'Pages/Accounts/AccountDetail';
-import TransactionDetail from 'Pages/Accounts/TransactionDetail';
-import ScanScreen from 'Pages/Accounts/ScanScreen';
-import Send from 'Pages/Transaction/Send';
-import Receive from 'Pages/Transaction/Receive';
-import Shortword from 'Pages/Transaction/Shortword';
+import Assets from 'Pages/Accounts/AssetsIndex'
+import AddAccount from 'Pages/Accounts/AddAccount'
+import AccountDetail from 'Pages/Accounts/AccountDetail'
+import TransactionDetail from 'Pages/Accounts/TransactionDetail'
+import ScanScreen from 'Pages/Accounts/ScanScreen'
+import Send from 'Pages/Transaction/Send'
+import Receive from 'Pages/Transaction/Receive'
+import Shortword from 'Pages/Transaction/Shortword'
 
 // discovery
-import Discovery from 'Pages/Discovery';
+import Discovery from 'Pages/Discovery'
 
 //setting
-import Me from 'Pages/Me';
-import Settings from 'Pages/Me/Settings';
-import AboutUs from 'Pages/Me/AboutUs';
-import HelpCenter from 'Pages/Me/HelpCenter';
-import ChangePassword from 'Pages/Me/Settings/ChangePassword';
-import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage';
-import NodeChoose from 'Pages/Me/Settings/NodeChoose';
+import Me from 'Pages/Me'
+import Settings from 'Pages/Me/Settings'
+import AboutUs from 'Pages/Me/AboutUs'
+import HelpCenter from 'Pages/Me/HelpCenter'
+import ChangePassword from 'Pages/Me/Settings/ChangePassword'
+import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
+import NodeChoose from 'Pages/Me/Settings/NodeChoose'
 
-import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail';
-import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr';
-import UserProtocol from 'Pages/Me/AboutUs/UserProtocol';
+import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail'
+import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr'
+import UserProtocol from 'Pages/Me/AboutUs/UserProtocol'
 
 export const commonHeaderStyle = {
   shadowOpacity: 0,
   elevation: 0,
   borderBottomWidth: 0,
-};
+}
 
 const commonHeaderBack = {
   headerLeft: <CustomBack />,
   headerRight: <View />,
-};
+}
 
 // default headerTitle style
 const defaultHeaderTitleStyle: StyleProp<TextStyle> = {
@@ -63,7 +63,7 @@ const defaultHeaderTitleStyle: StyleProp<TextStyle> = {
   color: '#333',
   fontSize: 18,
   fontWeight: 'bold',
-};
+}
 
 const headerBackConfig = {
   ...commonHeaderBack,
@@ -73,13 +73,13 @@ const headerBackConfig = {
     borderBottomWidth: 1,
   },
   headerTitleStyle: defaultHeaderTitleStyle,
-};
+}
 
 const headerBackConfigNoBorder = {
   ...commonHeaderBack,
   headerStyle: commonHeaderStyle,
   headerTitleStyle: defaultHeaderTitleStyle,
-};
+}
 
 export const initWalletStack = createStackNavigator({
   start: {
@@ -119,7 +119,7 @@ export const initWalletStack = createStackNavigator({
       ...headerBackConfig,
     }),
   },
-});
+})
 
 export const walletStack = createStackNavigator({
   Assets: {
@@ -129,24 +129,24 @@ export const walletStack = createStackNavigator({
       headerRight: (
         <CustomIcon
           onPress={() => {
-            props.navigation.navigate('AddAccount');
+            props.navigation.navigate('AddAccount')
           }}>
           <Icon name={'icon|tianjia'} size={25} color="#fff" />
         </CustomIcon>
       ),
-      headerStyle: {...commonHeaderStyle, backgroundColor: '#275DA5'},
-      headerTitleStyle: {...defaultHeaderTitleStyle, color: '#fff'},
-      title: 'Wallet',
+      headerStyle: { ...commonHeaderStyle, backgroundColor: '#275DA5' },
+      headerTitleStyle: { ...defaultHeaderTitleStyle, color: '#fff' },
+      title: props.navigation.getParam('title'),
     }),
   },
   AddAccount: {
     screen: AddAccount,
     navigationOptions: props => ({
       ...headerBackConfig,
-      title: 'Add Account',
+      title: i18n.t('dipperin:account.addAcount'),
       headerRight: (
         <CustomIcon onPress={props.navigation.getParam('addAccount')}>
-          <Text>确定</Text>
+          <Text style={{color:"#1C77BC"}}>{i18n.t('dipperin:account.buttonPositive')}</Text>
         </CustomIcon>
       ),
     }),
@@ -158,12 +158,12 @@ export const walletStack = createStackNavigator({
       headerRight: (
         <CustomIcon
           onPress={() => {
-            props.navigation.navigate('ScanScreen');
+            props.navigation.navigate('ScanScreen')
           }}>
           <Icon name={'icon|saoma'} size={20} color="#393B42" />
         </CustomIcon>
       ),
-      title: 'Dip',
+      title: props.navigation.getParam('title'),
     }),
   },
   send: {
@@ -174,7 +174,7 @@ export const walletStack = createStackNavigator({
       headerRight: (
         <CustomIcon
           onPress={() => {
-            props.navigation.navigate('ScanScreen');
+            props.navigation.navigate('ScanScreen')
           }}>
           <Icon name={'icon|saoma'} size={20} color="#393B42" />
         </CustomIcon>
@@ -185,7 +185,7 @@ export const walletStack = createStackNavigator({
     screen: TransactionDetail,
     navigationOptions: () => ({
       ...headerBackConfig,
-      title: '交易记录',
+      title: i18n.t('dipperin:account.record'),
     }),
   },
   receive: {
@@ -193,20 +193,9 @@ export const walletStack = createStackNavigator({
     navigationOptions: props => ({
       title: i18n.t('dipperin:transaction.receive'),
       headerLeft: (
-        <View
-          style={{
-            paddingLeft: 12,
-            width: 60,
-            flex: 1,
-            justifyContent: 'center',
-          }}>
-          <CustomIcon
-            onPress={() => {
-              props.navigation.goBack();
-            }}>
-            <Icon name={'icon|fanhui'} size={25} color="#fff" />
-          </CustomIcon>
-        </View>
+        <CustomBack
+          content={<Icon name={'icon|fanhui'} size={25} color="#fff" />}
+        />
       ),
       headerStyle: {
         ...commonHeaderStyle,
@@ -238,7 +227,7 @@ export const walletStack = createStackNavigator({
       header: null,
     }),
   },
-});
+})
 
 export const discoveryStack = createStackNavigator({
   discovery: {
@@ -257,7 +246,7 @@ export const discoveryStack = createStackNavigator({
       },
     }),
   },
-});
+})
 
 export const meStack = createStackNavigator(
   {
@@ -297,7 +286,7 @@ export const meStack = createStackNavigator(
     },
     aboutUs: {
       screen: AboutUs,
-      navigationOptions: () => ({...headerBackConfigNoBorder}),
+      navigationOptions: () => ({ ...headerBackConfigNoBorder }),
     },
     userProtocol: {
       screen: UserProtocol,
@@ -324,18 +313,18 @@ export const meStack = createStackNavigator(
   {
     navigationOptions: defaultTabBarOptions,
   },
-);
+)
 
 // hide tab
-export const hideTab = ({navigation}: any) => {
-  let tabBarVisible = true;
+export const hideTab = ({ navigation }: any) => {
+  let tabBarVisible = true
   if (navigation.state.index > 0) {
-    tabBarVisible = false;
+    tabBarVisible = false
     return {
       tabBarVisible,
-    };
+    }
   }
-};
-meStack.navigationOptions = hideTab;
-discoveryStack.navigationOptions = hideTab;
-walletStack.navigationOptions = hideTab;
+}
+meStack.navigationOptions = hideTab
+discoveryStack.navigationOptions = hideTab
+walletStack.navigationOptions = hideTab

@@ -11,9 +11,11 @@ import { WithTranslation, withTranslation } from 'react-i18next'
 import { I18nMeType } from 'I18n/config'
 import SystemStore from 'Store/System'
 import WalletStore from 'Store/wallet'
-import Toast from 'Components/Toast'
+import { Toast } from 'Components/PopupWindow'
 import { passwordCheck } from './utils'
 import ResetWalletPop from './ResetWalletPop'
+import { setStorage } from 'Db'
+import { STORAGE_KEYS } from 'Global/constants'
 interface Props {
   system?: SystemStore
   navigation: NavigationScreenProp<any>
@@ -27,6 +29,7 @@ class ChangePassword extends React.Component<Props> {
   @observable oldPassword: string = ''
   @observable newPassword: string = ''
   @observable confrimPassword: string = ''
+  @observable passwordTip: string = ''
   @observable isShowResetWalletPop = false
 
   render() {
@@ -72,6 +75,17 @@ class ChangePassword extends React.Component<Props> {
             />
           </View>
 
+          <View style={styles.inputItem}>
+            <Text style={styles.inputItemLabel}>{label.confrimPassword}</Text>
+            <TextInput
+              placeholder={label.passwordTipMsg}
+              autoCompleteType="off"
+              style={styles.input}
+              value={this.passwordTip}
+              onChangeText={this.inputPasswordTip}
+            />
+          </View>
+
           <Text style={styles.psdHint}>{label.psdLimit}</Text>
 
           <View style={styles.btnBox}>
@@ -93,11 +107,11 @@ class ChangePassword extends React.Component<Props> {
           <Text style={styles.forgetPasswordText}>{label.forgetPassword}</Text>
         </TouchableOpacity>
 
-        <ResetWalletPop 
+        <ResetWalletPop
           language={label}
           visible={this.isShowResetWalletPop}
           confrimText={label.resetWallet}
-          onCancel={this.hideResetWalletPop} 
+          onCancel={this.hideResetWalletPop}
           onConfirm={this.resetWallet}
         />
       </View>
@@ -134,8 +148,12 @@ class ChangePassword extends React.Component<Props> {
     }
 
     // Change password
-    await this.props.wallet!.changePassword(newPassword)
-    // Toast.hide()
+    const res = await this.props.wallet!.changePassword(newPassword) || ''
+    if (!res) {
+      setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip)
+      this.props.navigation.navigate('setting')
+    }
+    Toast.info(res)
   }
 
   @action showResetWalletPop = () => {
@@ -144,6 +162,10 @@ class ChangePassword extends React.Component<Props> {
 
   @action hideResetWalletPop = () => {
     this.isShowResetWalletPop = false
+  }
+
+  @action inputPasswordTip = (_value: string) => {
+    this.passwordTip = _value
   }
 
   @action inputOldPassword = (_value: string) => {

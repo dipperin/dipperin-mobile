@@ -12,7 +12,7 @@ class System {
   @observable curLanguage: string = i18next.language // Current Language
   @observable private _fingerUnLock: boolean = false // Fingerprint unlock
   @observable private _fingerPay: boolean =  false // Fingerprint payment
-  @observable curSystemNodeAddr: string = VENUS // 当前节点地址
+  @observable curSystemNodeAddr: string = VENUS // current node
 
   @observable isEyeOpen: boolean = true
   constructor(root: RootStore) {
@@ -34,11 +34,11 @@ class System {
     }
   }
 
-  @computed get fingerUnLockStatus() {
+  @computed get isFingerUnLock() {
     return this._fingerUnLock
   }
 
-  @computed get fingerPayStatus() {
+  @computed get isFingerPay() {
     return this._fingerPay
   }
 

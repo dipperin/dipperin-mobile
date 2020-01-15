@@ -12,20 +12,22 @@ import { List } from '@ant-design/react-native'
 import { inject, observer } from 'mobx-react'
 import System from 'Store/System'
 import { AntdListItemPropsType } from 'Global/inteface'
-import Modal from 'Components/Modal'
+import { Modal } from 'Components/PopupWindow'
+import ChainData from 'Store/chainData'
 
 const Item = List.Item
 
 interface Props {
   navigation: NavigationScreenProp<any>
   system: System
+  chainData: ChainData
 }
 
-@inject('system')
+@inject('system', 'chainData')
 @observer
 class Settings extends React.Component<Props> {
   render() {
-    const { system } = this.props
+    const { system, chainData } = this.props
     const mainOptions = {
       extraOnChange: this.handleListMainChange,
       onChangeItem: this.goToChangePassword
@@ -40,7 +42,7 @@ class Settings extends React.Component<Props> {
             {this.renderItem(settingListItemsMain(system, mainOptions))}
           </List>
           <List renderHeader={<View style={{ marginBottom: 10 }} />}>
-            {this.renderItem(settingListItemsExt(system, extOptions))}
+            {this.renderItem(settingListItemsExt(system, chainData, extOptions))}
           </List>
         </ScrollView>
       </View>
