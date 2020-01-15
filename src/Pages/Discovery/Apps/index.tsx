@@ -13,7 +13,6 @@ interface AppsProps extends  WithTranslation {
 }
 @inject('discovery')
 @observer
-
 class Apps extends React.Component<AppsProps> {
   componentDidMount(){
     this.getAppsList()

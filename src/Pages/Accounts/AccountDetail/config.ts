@@ -6,29 +6,11 @@ import Transfer from "Assets/transfer.png"
 import TransactionModel from "Models/transaction"
 import { TRANSACTION_STATUS_FAIL, TRANSACTION_STATUS_PENDING ,TRANSACTION_STATUS_SUCCESS} from "Global/constants"
 
-export const TabsConfig = [
-    { title: i18n.t('dipperin:account.all')},
-    { title: i18n.t('dipperin:account.sent') },
-    { title: i18n.t('dipperin:account.received') },
-    { title: i18n.t('dipperin:account.failed') },
-];
-
 export const TxIconConfig = {
     collection: Collection,
     transfer: Transfer,
 }
 
-// export const getSentTransactions = (transactions: TransactionModel[], address: string) => {
-//     return transactions.filter(item => {
-//         return item.from === address
-//     })
-// }
-
-// export const getReceivedTransactions = (transactions: TransactionModel[], address: string) => {
-//     return transactions.filter(item => {
-//         return item.to === address
-//     })
-// }
 
 export const getFailedTransactions = (transactions: TransactionModel[]) => {
     return transactions.filter(item => {
