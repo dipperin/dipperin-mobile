@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
+import { observer } from "mobx-react"
 import React from "react"
 import { Tabs } from "@ant-design/react-native"
 import { TabsConfig } from "../config"
@@ -16,56 +17,57 @@ interface Props {
     labels: I18nAccountType
 }
 
+@observer
+class TxRecord extends React.Component<Props>{
 
-const TxRecord = (props: Props) => {
-    const { transactions, } = props.transaction!
-    const { address } = props.activeAccount!
-    return (
-        <View style={styles.tabsBox}>
-            <Tabs
-                tabs={TabsConfig}
-                tabBarInactiveTextColor={"#5F6064"}
-                tabBarActiveTextColor={"#1C77BC"}
-                tabBarUnderlineStyle={styles.bottomLine}
-            >
-                <View style={styles.tabContent}>
-                    <TxList
-                        key={1}
-                        keyIndex={'all'}
-                        transactionsFromLocal={getPendingAndFailedTransactions(transactions)}
-                        activeAccountaddress={address}
-                        labels={props.labels}
-                    />
-                </View>
-                <View style={styles.tabContent}>
-                    <TxList
-                        key={2}
-                        keyIndex={'sent'}
-                        activeAccountaddress={address}
-                        labels={props.labels}
-                    />
-                </View>
-                <View style={styles.tabContent}>
-                    <TxList
-                        key={3}
-                        keyIndex={'received'}
-                        activeAccountaddress={address}
-                        labels={props.labels}
-                    />
-                </View>
-                <View style={styles.tabContent}>
-                    <TxList
-                        key={4}
-                        keyIndex={'failed'}
-                        transactionsFromLocal={getFailedTransactions(transactions)}
-                        activeAccountaddress={address}
-                        labels={props.labels}
-                    />
-                </View>
-            </Tabs>
-        </View>
-    )
+    render() {
+        const { labels } = this.props
+        const { transactions } = this.props.transaction!
+        const { address } = this.props.activeAccount!
+        return (
+            <View style={styles.tabsBox}>
+                <Tabs
+                    tabs={TabsConfig}
+                    tabBarInactiveTextColor={"#5F6064"}
+                    tabBarActiveTextColor={"#1C77BC"}
+                    tabBarUnderlineStyle={styles.bottomLine}
+                >
+                    <View style={styles.tabContent}>
+                        <TxList
+                            keyIndex={'all'}
+                            transactionsFromLocal={getPendingAndFailedTransactions(transactions)}
+                            activeAccountaddress={address}
+                            labels={labels}
+                        />
+                    </View>
+                    <View style={styles.tabContent}>
+                        <TxList
+                            keyIndex={'sent'}
+                            activeAccountaddress={address}
+                            labels={labels}
+                        />
+                    </View>
+                    <View style={styles.tabContent}>
+                        <TxList
+                            keyIndex={'received'}
+                            activeAccountaddress={address}
+                            labels={labels}
+                        />
+                    </View>
+                    <View style={styles.tabContent}>
+                        <TxList
+                            keyIndex={'failed'}
+                            transactionsFromLocal={getFailedTransactions(transactions)}
+                            activeAccountaddress={address}
+                            labels={labels}
+                        />
+                    </View>
+                </Tabs>
+            </View>
+        )
+    }
 }
+
 
 export default TxRecord
 

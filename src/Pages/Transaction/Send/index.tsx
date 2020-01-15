@@ -9,6 +9,7 @@ import {
   Keyboard,
   Clipboard,
 } from 'react-native'
+import { NavigationActions, StackActions } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
 import { observer, inject } from 'mobx-react'
@@ -253,8 +254,15 @@ class Send extends React.Component<Props> {
     const res = await this.sendTransaction()
     Toast.hide()
     if (res.success) {
-      this.turnBack(2000)
       Toast.success(this.props.labels.sendSuccess)
+      const resetAction = StackActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Assets' }),
+          NavigationActions.navigate({ routeName: 'accountDetail' })
+        ],
+      });
+      this.props.navigation.dispatch(resetAction);
     } else {
       Toast.info(this.props.labels.sendFailure)
     }
@@ -305,7 +313,7 @@ class Send extends React.Component<Props> {
           <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
           <Text style={styles.balanceText}>{`${labels.balance}: ${
             this.props.account!.activeAccount!.balance
-          } DIP`}</Text>
+            } DIP`}</Text>
         </View>
         <TextInput
           style={styles.sendAmountInput}

@@ -5,6 +5,7 @@ import TxRecord from "./TxRecord"
 import AccountInfo from "./AccountInfo"
 import { Button } from "@ant-design/react-native"
 import { NavigationScreenProp } from "react-navigation"
+import { NavigationStackScreenProps} from "react-navigation-stack"
 
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
@@ -18,7 +19,7 @@ interface Props {
     transaction?: TransactionStore
     account?: AccountStore
     system?: SystemStore
-    navigation: NavigationScreenProp<any>
+    navigation: NavigationStackScreenProps['navigation']
     labels: I18nAccountType
 }
 
