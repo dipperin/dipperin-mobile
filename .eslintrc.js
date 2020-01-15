@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   rules: {
-    "prettier.semi": false
-  }
-};
+    'prettier/prettier': ['off'],
+    semi: ['off'],
+  },
+}
