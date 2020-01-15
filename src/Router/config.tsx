@@ -136,17 +136,17 @@ export const walletStack = createStackNavigator({
       ),
       headerStyle: { ...commonHeaderStyle, backgroundColor: '#275DA5' },
       headerTitleStyle: { ...defaultHeaderTitleStyle, color: '#fff' },
-      title: i18n.t('dipperin:account.wallet'),
+      title: props.navigation.getParam('title'),
     }),
   },
   AddAccount: {
     screen: AddAccount,
     navigationOptions: props => ({
       ...headerBackConfig,
-      title: 'Add Account',
+      title: i18n.t('dipperin:account.addAcount'),
       headerRight: (
         <CustomIcon onPress={props.navigation.getParam('addAccount')}>
-          <Text>{i18n.t('dipperin:account.buttonPositive')}</Text>
+          <Text style={{color:"#1C77BC"}}>{i18n.t('dipperin:account.buttonPositive')}</Text>
         </CustomIcon>
       ),
     }),
@@ -163,7 +163,7 @@ export const walletStack = createStackNavigator({
           <Icon name={'icon|saoma'} size={20} color="#393B42" />
         </CustomIcon>
       ),
-      title: 'DIP',
+      title: props.navigation.getParam('title'),
     }),
   },
   send: {

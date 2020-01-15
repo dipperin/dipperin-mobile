@@ -242,6 +242,7 @@ const enResource = {
       send:'Transfer',
       receive:'Receive',
       record:'Transaction Detail',
+      addAcount:'Add Account'
     }
   },
 };
@@ -255,6 +256,7 @@ export type I18CreateStep3Type = typeof enResource.dipperin.createStep3;
 export type I18nMeType = typeof enResource.dipperin.me;
 export type I18nTransactionType = typeof enResource.dipperin.transaction;
 export type I18nAccountType  = typeof enResource.dipperin.account;
+export type I18nDiscoveryType = typeof enResource.dipperin.discovery;
 
 const zhResource: typeof enResource = {
   dipperin: {
@@ -500,6 +502,7 @@ const zhResource: typeof enResource = {
       send:'转账',
       receive:'收款',
       record:'交易详情',
+      addAcount:'创建账户'
     }
   },
 };

@@ -21,13 +21,13 @@ const AccountInfo = (props: Props) => {
         <View style={styles.infoBox}>
             <Image source={Accountlogo} style={styles.accountLogo} />
             <View style={styles.nameBox}>
-                <Text style={styles.name}>{account?.name? account?.name : `${labels.accountName} ${account?.id}`}</Text>
+                <Text style={styles.dip}>{isEyeOpen ? `${formatNumber(Number(account?.balance), 6)} DIP` : '*******'}</Text>
                 <Eye
                     isEyeOpen={isEyeOpen}
                     onPress={setIsEyeOpen}
                 />
             </View>
-            <Text style={styles.dip}>{isEyeOpen ? `${formatNumber(Number(account?.balance), 6)} DIP` : '*******'}</Text>
+
         </View>
     )
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     infoBox: {
         backgroundColor: "#fff",
         alignItems: 'center',
-        height: 155,
+        height: 110,
         marginBottom: 10,
     },
     accountLogo: {
@@ -50,16 +50,13 @@ const styles = StyleSheet.create({
     nameBox: {
         marginTop: 8,
         flexDirection: 'row',
-    },
-    name: {
-        marginLeft: 30,
-        marginRight: 12,
-        color: "#393B42",
-        fontSize: 16,
+        alignItems:'center',
     },
     dip: {
-        marginTop: 8,
+        marginLeft:20,
+        marginRight:10,
         fontSize: 22,
-        color: "#393B42"
+        color: "#393B42",
+
     }
 })
