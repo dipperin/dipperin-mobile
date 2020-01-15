@@ -4,7 +4,7 @@ import { inject, observer } from "mobx-react"
 import TxRecord from "./TxRecord"
 import AccountInfo from "./AccountInfo"
 import { Button } from "@ant-design/react-native"
-import { NavigationScreenProp } from "react-navigation"
+import { NavigationEvents } from "react-navigation"
 import { NavigationStackScreenProps} from "react-navigation-stack"
 
 import { I18nAccountType } from 'I18n/config'
@@ -29,12 +29,20 @@ class AccountDetail extends React.Component<Props> {
     navigate = (routeName: string) => () => {
         this.props.navigation.navigate(routeName)
     }
+    didFocus=()=>{
+        const { activeAccount } = this.props.account!
+        const title = activeAccount?.name? activeAccount?.name : `${this.props.labels.accountName} ${activeAccount?.id}`
+        this.props.navigation.setParams({title:title})
+    }
     render() {
         const { activeAccount } = this.props.account!
         const { isEyeOpen, setIsEyeOpen } = this.props.system!
         const { labels } = this.props
         return (
             <View style={{ flex: 1, backgroundColor: "#FAFBFC" }}>
+                <NavigationEvents 
+                    onDidFocus={this.didFocus}
+                />
                 <AccountInfo
                     account={activeAccount}
                     isEyeOpen={isEyeOpen}
@@ -54,7 +62,7 @@ class AccountDetail extends React.Component<Props> {
         )
     }
 }
-const AccountDetailWrap = (props: WithTranslation & { navigation: NavigationScreenProp<any> }) => {
+const AccountDetailWrap = (props: WithTranslation & { navigation: NavigationStackScreenProps['navigation'] }) => {
     const { t, navigation } = props
     const labels = t('dipperin:account') as I18nAccountType
     return <AccountDetail labels={labels} navigation={navigation} />

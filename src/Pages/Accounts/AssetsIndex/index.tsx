@@ -2,6 +2,7 @@ import React from 'react'
 import { inject, observer } from "mobx-react"
 import { View, StatusBar, Platform } from 'react-native'
 import { NavigationEvents } from "react-navigation"
+import { NavigationStackScreenProps } from "react-navigation-stack"
 
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nAccountType } from 'I18n/config'
@@ -16,11 +17,13 @@ interface Props {
   account?: AccountStore
   system?: SystemStore
   labels: I18nAccountType
+  navigation:NavigationStackScreenProps['navigation']
 }
 @inject('account', 'system')
 @observer
 class Assets extends React.Component<Props>{
   didFocus = () => {
+    this.props.navigation.setParams({title: this.props.labels.wallet})
     Platform.OS === 'android' && StatusBar.setBackgroundColor('#275DA5')
   }
   didBlur = () => {
@@ -59,10 +62,12 @@ class Assets extends React.Component<Props>{
     )
   }
 }
-const AssetsWrap = (props: WithTranslation) => {
-  const { t } = props
+const AssetsWrap = (props: WithTranslation& {
+  navigation: NavigationStackScreenProps['navigation'];
+}) => {
+  const { t ,navigation} = props
   const labels = t('dipperin:account') as I18nAccountType
-  return <Assets labels={labels} />
+  return <Assets labels={labels} navigation={navigation} />
 }
 
 export default withTranslation()(AssetsWrap)

@@ -24,6 +24,7 @@ class TxRecord extends React.Component<Props>{
         const { labels } = this.props
         const { transactions } = this.props.transaction!
         const { address } = this.props.activeAccount!
+        console.log("localtassss",transactions)
         return (
             <View style={styles.tabsBox}>
                 <Tabs
