@@ -2,7 +2,7 @@ import { FlatList } from "react-native"
 import React from "react"
 import { observer } from "mobx-react"
 import { action, observable, runInAction } from "mobx"
-import Toast from "Components/Toast"
+import { Toast } from "Components/PopupWindow"
 
 import TransactionModel from "Models/transaction"
 import { getTxList } from "Server"

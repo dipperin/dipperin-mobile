@@ -3,7 +3,7 @@ import { withNavigation } from 'react-navigation'
 import { Icon } from 'Components/Icon'
 import { TouchableOpacity, Share } from 'react-native'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
-import Toast from 'Components/Toast'
+import { Toast } from 'Components/PopupWindow'
 import CustomIcon from 'Router/CustomIcon'
 
 interface Props {

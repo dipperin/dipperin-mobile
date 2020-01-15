@@ -34,11 +34,11 @@ class System {
     }
   }
 
-  @computed get fingerUnLockStatus() {
+  @computed get isFingerUnLock() {
     return this._fingerUnLock
   }
 
-  @computed get fingerPayStatus() {
+  @computed get isFingerPay() {
     return this._fingerPay
   }
 

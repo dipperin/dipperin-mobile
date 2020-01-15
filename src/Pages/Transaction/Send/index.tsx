@@ -18,8 +18,7 @@ import { observable, action, computed } from 'mobx'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nTransactionType } from 'I18n/config'
 import { styles } from './config'
-import Toast from 'Components/Toast'
-import Modal from 'Components/Modal'
+import {Toast, Modal} from 'Components/PopupWindow'
 import TransactionStore from 'Store/transaction'
 import WalletStore from 'Store/wallet'
 import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils'
@@ -238,7 +237,7 @@ class Send extends React.Component<Props> {
     if (!this.verifyBalance()) {
       return
     }
-    Modal.password(this.handleConfirmTransaction)
+    Modal.enterPassword(this.handleConfirmTransaction)
   }
 
   handleConfirmTransaction = async (psw: string) => {

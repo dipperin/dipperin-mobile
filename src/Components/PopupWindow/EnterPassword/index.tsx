@@ -1,16 +1,17 @@
 import React from 'react';
-import {Text, View, TextInput, StatusBar} from 'react-native';
-import {action, observable} from 'mobx';
-import {observer} from 'mobx-react';
-import {Button, Modal, Provider} from '@ant-design/react-native';
+import { Text, View, TextInput, StatusBar } from 'react-native';
+import { action, observable } from 'mobx';
+import { observer } from 'mobx-react';
+import { Button, Modal, Provider } from '@ant-design/react-native';
 
-import {I18nTransactionType} from 'I18n/config';
+import { I18nTransactionType } from 'I18n/config';
 import i18n from 'I18n';
-import {getStorage} from 'Db';
-import {STORAGE_KEYS} from 'Global/constants';
-import {styles} from './config';
+import { getStorage } from 'Db';
+import { STORAGE_KEYS } from 'Global/constants';
+import { styles } from './config';
 
 interface Props {
+  hasCancel?: boolean
   onClose: () => void;
   onConfirm: (password: string) => Promise<void>;
 }
@@ -21,6 +22,10 @@ const labels = i18n.t('dipperin:transaction') as I18nTransactionType;
 class EnterPassword extends React.Component<Props> {
   @observable password: string = '';
   @observable passwordHint: string = '';
+
+  static defaultProps = {
+    hasCancel: true
+  }
   componentDidMount() {
     this.getPasswordHint();
   }
@@ -57,11 +62,11 @@ class EnterPassword extends React.Component<Props> {
         <Modal
           title={labels.enterPassword}
           transparent
-          onClose={this.props.onClose}
+          // onClose={this.props.onClose}
           maskClosable
           visible={true}
-          style={{width: 308}}>
-          <View style={{paddingVertical: 20, width: 308}}>
+          style={{ width: 308 }}>
+          <View style={{ paddingVertical: 20, width: 308 }}>
             <TextInput
               style={styles.passwordInput}
               value={this.password}
@@ -77,12 +82,17 @@ class EnterPassword extends React.Component<Props> {
             </View>
           </View>
           <View style={styles.btnBox}>
-            <Button
-              style={styles.cancelBtn}
-              type={'primary'}
-              onPress={this.props.onClose}>
-              {labels.cancel}
-            </Button>
+            {
+              this.props.hasCancel && (
+                <Button
+                  style={styles.cancelBtn}
+                  type={'primary'}
+                  onPress={this.props.onClose}>
+                  {labels.cancel}
+                </Button>
+              )
+            }
+
             <Button
               style={styles.confirmBtn}
               type={'primary'}
