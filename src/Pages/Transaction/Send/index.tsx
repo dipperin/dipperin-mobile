@@ -124,7 +124,7 @@ class Send extends React.Component<Props> {
   };
 
   validateEnteringAmount(amountString: string) {
-    const reg = new RegExp('^[0-9]*(\.[0-9]{0,18})?$');
+    const reg = new RegExp('^[0-9]*([\.][0-9]{0,18})?$');
     return reg.test(amountString);
   }
 
