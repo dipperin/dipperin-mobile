@@ -215,6 +215,7 @@ const enResource = {
       confirmTxError: 'Confirm Transaction Error:',
     },
     account:{
+      wallet:'Wallet',
       total:'Total',
       assets:'Assets',
       accountName:'account',
@@ -232,11 +233,12 @@ const enResource = {
       hash:'Hash',
       caremaTitle: 'Permission to use camera',
       caremaMessage: 'We need your permission to use your camera',
-      buttonPositive: 'Ok',
+      buttonPositive: 'Confirm',
       buttonNegative: 'Cancel',
       codeTip:'Please focus the QR code',
       send:'Transfer',
-      receive:'Receive'
+      receive:'Receive',
+      record:'Transaction Detail',
     }
   },
 };
@@ -468,6 +470,7 @@ const zhResource: typeof enResource = {
       confirmTxError: '确认交易失败',
     },
     account:{
+      wallet:'钱包',
       total:'总资产',
       assets:'资产',
       accountName:'账户',
@@ -490,6 +493,7 @@ const zhResource: typeof enResource = {
       codeTip:'将二维码放入框内，即可自动扫描',
       send:'转账',
       receive:'收款',
+      record:'交易详情',
     }
   },
 };
