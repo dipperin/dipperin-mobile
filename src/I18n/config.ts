@@ -459,8 +459,13 @@ const zhResource: typeof enResource = {
       sendFailure: '发送失败',
       emptyShortword: '口令不能为空',
       registeredShortword: '口令已被注册',
-      registeredAddr: '该账户已注册过口令'
-
+      registeredAddr: '该账户已注册过口令',
+      emptyAddrOrShortword: '地址/口令不能为空',
+      invalidAddrOrUnregiteredShortword: '地址不合法或口令不存在',
+      emptySendAmount: '发送金额不得为空',
+      noEnoughBalance: '余额不足',
+      returnError: '返回失败',
+      confirmTxError: '确认交易失败',
     },
     account:{
       total:'总资产',
@@ -485,12 +490,6 @@ const zhResource: typeof enResource = {
       codeTip:'将二维码放入框内，即可自动扫描',
       send:'转账',
       receive:'收款',
-      emptyAddrOrShortword: '地址/口令不能为空',
-      invalidAddrOrUnregiteredShortword: '地址不合法或口令不存在',
-      emptySendAmount: '发送金额不得为空',
-      noEnoughBalance: '余额不足',
-      returnError: '返回失败',
-      confirmTxError: '确认交易失败',
     }
   },
 };
