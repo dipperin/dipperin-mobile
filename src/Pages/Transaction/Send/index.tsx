@@ -9,20 +9,21 @@ import {
   Keyboard,
   Clipboard,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {NavigationStackScreenProps} from 'react-navigation-stack';
-import {observer, inject} from 'mobx-react';
-import {observable, action, computed} from 'mobx';
-import {withTranslation, WithTranslation} from 'react-i18next';
-import {I18nTransactionType} from 'I18n/config';
-import {styles} from './config';
+import { NavigationActions, StackActions } from 'react-navigation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { observer, inject } from 'mobx-react';
+import { observable, action, computed } from 'mobx';
+import { withTranslation, WithTranslation } from 'react-i18next';
+import { I18nTransactionType } from 'I18n/config';
+import { styles } from './config';
 import Toast from 'Components/Toast';
 import Modal from 'Components/Modal';
 import TransactionStore from 'Store/transaction';
 import WalletStore from 'Store/wallet';
-import {fromUnitToDip, sleep, verifyBalance} from 'Global/utils';
+import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils';
 import AccountStore from 'Store/account';
-import {Utils} from '@dipperin/dipperin.js';
+import { Utils } from '@dipperin/dipperin.js';
 import ContractStore from 'Store/contract';
 
 interface Props {
@@ -255,6 +256,15 @@ class Send extends React.Component<Props> {
       await this.sendTransaction();
       Toast.hide();
       Toast.success(this.props.labels.sendSuccess);
+      const resetAction = StackActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Assets' }),
+          NavigationActions.navigate({ routeName: 'accountDetail' })
+        ],
+      });
+      this.props.navigation.dispatch(resetAction);
+
       return;
     } catch (e) {
       Toast.hide();
@@ -268,7 +278,7 @@ class Send extends React.Component<Props> {
         <KeyboardAwareScrollView
           contentContainerStyle={styles.wrapper}
           style={styles.contentWrapper}
-          resetScrollToCoords={{x: 0, y: 0}}>
+          resetScrollToCoords={{ x: 0, y: 0 }}>
           {this.renderAddressBox()}
 
           {this.renderAmountBox()}
@@ -283,7 +293,7 @@ class Send extends React.Component<Props> {
   }
 
   renderAddressBox() {
-    const {labels} = this.props;
+    const { labels } = this.props;
     return (
       <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
         <View style={styles.toAddressLabel}>
@@ -300,14 +310,14 @@ class Send extends React.Component<Props> {
   }
 
   renderAmountBox() {
-    const {labels} = this.props;
+    const { labels } = this.props;
     return (
       <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
         <View style={styles.sendAmountBar}>
           <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
           <Text style={styles.balanceText}>{`${labels.balance}: ${
             this.props.account!.activeAccount!.balance
-          } DIP`}</Text>
+            } DIP`}</Text>
         </View>
         <TextInput
           style={styles.sendAmountInput}
@@ -321,7 +331,7 @@ class Send extends React.Component<Props> {
   }
 
   renderExtraDataBox() {
-    const {labels} = this.props;
+    const { labels } = this.props;
     return (
       <TouchableOpacity style={styles.extraDataWrapper} activeOpacity={0.8}>
         <View style={styles.extraDataBar}>
@@ -340,7 +350,7 @@ class Send extends React.Component<Props> {
   }
 
   renderTxFeeBox() {
-    const {labels} = this.props;
+    const { labels } = this.props;
     return (
       <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
         <View style={styles.txFeeBar}>
@@ -384,7 +394,7 @@ class Send extends React.Component<Props> {
     );
   }
   renderBtnBox() {
-    const {labels} = this.props;
+    const { labels } = this.props;
     return (
       <TouchableOpacity
         style={styles.btnWrapper}
@@ -403,7 +413,7 @@ const Wrapped = (
     navigation: NavigationStackScreenProps['navigation'];
   },
 ) => {
-  const {t, navigation} = props;
+  const { t, navigation } = props;
   const labels = t('dipperin:transaction') as I18nTransactionType;
   return <Send labels={labels} navigation={navigation} />;
 };

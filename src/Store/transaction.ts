@@ -54,14 +54,14 @@ class TransactionStore {
               if (!res.transaction) {
                 if (tx.isOverTime(getNowTimestamp()) || this.haveSameNonceSuccessTx(tx, txs)) {
                   tx.setFail()
-                  updateTx(tx.transactionHash!, { status: TRANSACTION_STATUS_FAIL }, this._store.chainData.currentNet)
+                  updateTx(tx.transactionHash!, { ...tx,status: TRANSACTION_STATUS_FAIL }, this._store.chainData.currentNet)
                   // updata account nonce when transition failed
                   this._store.account.updateAccountsNonce(this._store.account.activeAccount!.id)
                 }
                 return
               } else {
                 tx.setSuccess()
-                updateTx(tx.transactionHash!, { status: TRANSACTION_STATUS_SUCCESS }, this._store.chainData.currentNet)
+                updateTx(tx.transactionHash!, { ...tx,status: TRANSACTION_STATUS_SUCCESS }, this._store.chainData.currentNet)
               }
             })
             .catch(err => console.error(err))
