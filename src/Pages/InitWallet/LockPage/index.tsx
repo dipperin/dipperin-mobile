@@ -90,9 +90,8 @@ class LockPage extends React.Component<Props> {
     if(!this.props.system!.fingerUnLockStatus) {
       this.props.system!.setFingerUnLock(true)
     }
-
-    this.props.navigation.navigate('wallet')
     Toast.hide()
+    this.navigationRedirect()
   }
 
   // Fingerprint fail
@@ -111,8 +110,21 @@ class LockPage extends React.Component<Props> {
     }
     
     Toast.hide();
-    this.props.navigation.navigate('wallet');
+    this.navigationRedirect()
   };
+
+  navigationRedirect = () => {
+    const { getParam } = this.props.navigation
+    const type = getParam('type')
+    const address = getParam('address')
+    const amount = getParam('amount')
+    const scheme = getParam('scheme')
+    if(type === 'send') {
+      this.props.navigation.navigate('send', { type, address, amount, scheme })
+      return
+    }
+    this.props.navigation.navigate('wallet') 
+  }
 }
 
 const LockPageWrap = (

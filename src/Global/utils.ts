@@ -77,7 +77,7 @@ export const getIsTxFromMe = (myAddress: string, fromAddress: string) => {
   return myAddress === fromAddress
 }
 
-export const isToTransferUtl = (url: string) => {
+export const isToTransferUrl = (url: string) => {
   return url.match('dp://send')
 }
 

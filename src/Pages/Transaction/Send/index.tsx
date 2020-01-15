@@ -8,6 +8,7 @@ import {
   EmitterSubscription,
   Keyboard,
   Clipboard,
+  Linking,
 } from 'react-native'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -255,6 +256,7 @@ class Send extends React.Component<Props> {
     Toast.hide()
     if (res.success) {
       Toast.success(this.props.labels.sendSuccess)
+      this.linkingAppCallBack(true)
       const resetAction = StackActions.reset({
         index: 1,
         actions: [
@@ -265,6 +267,22 @@ class Send extends React.Component<Props> {
       this.props.navigation.dispatch(resetAction);
     } else {
       Toast.info(this.props.labels.sendFailure)
+      this.linkingAppCallBack(false)
+    }
+  }
+
+  // Linking open app callback
+  linkingAppCallBack = (success: boolean) => {
+    const { getParam } = this.props.navigation
+    const type = getParam('type')
+    if (type !== 'send') return
+    const scheme = getParam('scheme')
+    if(scheme) {
+      Linking.canOpenURL(`${scheme}://`).then(res => {
+        if(res) {
+          Linking.openURL(`${scheme}://sendcb?success=${success}`)
+        }
+      })
     }
   }
 
