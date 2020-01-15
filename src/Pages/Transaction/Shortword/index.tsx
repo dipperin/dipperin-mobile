@@ -91,19 +91,20 @@ class Shortword extends React.Component<Props> {
     return true
   }
 
+  turnBack = async (timelimit: number = 0) => {
+    await sleep(timelimit)
+    this.props.navigation.goBack()
+  }
+
   register = async (): Promise<Result<void>> => {
-    try {
-      const res = await this.props.contract!.registerShortword(
-        this.shortword,
-        this.txFeeLevel,
-      )
-      if (res.success) {
-        return { success: true, result: undefined }
-      } else {
-        return { success: false, error: new Error() }
-      }
-    } catch (e) {
+    const res = await this.props.contract!.registerShortword(
+      this.shortword,
+      this.txFeeLevel,
+    )
+    if (res.success) {
       return { success: true, result: undefined }
+    } else {
+      return { success: false, error: new Error() }
     }
   }
 
@@ -137,16 +138,14 @@ class Shortword extends React.Component<Props> {
       return
     }
     Modal.password(this.handleConfirmTransaction)
-    // this.setPasswordModal(true);
-    // this.sendTransaction();
   }
 
   handleConfirmTransaction = async (psw: string) => {
     await Modal.hide()
     Toast.loading()
     await sleep(300)
-    // Toast.hide();
-    if (!this.props.wallet!.unlockWallet(psw)) {
+
+    if (!this.props.wallet!.checkPassword(psw)) {
       Toast.hide()
       Toast.info(this.props.labels.passwordError)
       return
@@ -155,6 +154,7 @@ class Shortword extends React.Component<Props> {
     const result = await this.register()
     Toast.hide()
     if (result.success) {
+      this.turnBack(2000)
       Toast.success(this.props.labels.sendSuccess)
     } else {
       Toast.info(this.props.labels.sendFailure)

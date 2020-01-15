@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   View,
   Text,
@@ -8,169 +8,169 @@ import {
   EmitterSubscription,
   Keyboard,
   Clipboard,
-} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {NavigationStackScreenProps} from 'react-navigation-stack';
-import {observer, inject} from 'mobx-react';
-import {observable, action, computed} from 'mobx';
-import {withTranslation, WithTranslation} from 'react-i18next';
-import {I18nTransactionType} from 'I18n/config';
-import {styles} from './config';
-import Toast from 'Components/Toast';
-import Modal from 'Components/Modal';
-import TransactionStore from 'Store/transaction';
-import WalletStore from 'Store/wallet';
-import {fromUnitToDip, sleep, verifyBalance} from 'Global/utils';
-import AccountStore from 'Store/account';
-import {Utils} from '@dipperin/dipperin.js';
-import ContractStore from 'Store/contract';
+} from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { NavigationStackScreenProps } from 'react-navigation-stack'
+import { observer, inject } from 'mobx-react'
+import { observable, action, computed } from 'mobx'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { I18nTransactionType } from 'I18n/config'
+import { styles } from './config'
+import Toast from 'Components/Toast'
+import Modal from 'Components/Modal'
+import TransactionStore from 'Store/transaction'
+import WalletStore from 'Store/wallet'
+import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils'
+import AccountStore from 'Store/account'
+import { Utils } from '@dipperin/dipperin.js'
+import ContractStore from 'Store/contract'
 
 interface Props {
-  navigation: NavigationStackScreenProps['navigation'];
-  labels: I18nTransactionType;
-  transaction?: TransactionStore;
-  wallet?: WalletStore;
-  account?: AccountStore;
-  contract?: ContractStore;
+  navigation: NavigationStackScreenProps['navigation']
+  labels: I18nTransactionType
+  transaction?: TransactionStore
+  wallet?: WalletStore
+  account?: AccountStore
+  contract?: ContractStore
 }
 
 @inject('transaction', 'wallet', 'account', 'contract')
 @observer
 class Send extends React.Component<Props> {
-  @observable addressOrShortWord = '';
-  @observable toAddress: string = '';
-  @observable sendAmount: string = '';
-  @observable extraData: string = '';
-  @observable txFeeLevel: number = 1;
-  @observable keyboardShow: boolean = false;
-  keyboardDidShowListener: EmitterSubscription;
-  keyboardDidHideListener: EmitterSubscription;
+  @observable addressOrShortWord = ''
+  @observable toAddress: string = ''
+  @observable sendAmount: string = ''
+  @observable extraData: string = ''
+  @observable txFeeLevel: number = 1
+  @observable keyboardShow: boolean = false
+  keyboardDidShowListener: EmitterSubscription
+  keyboardDidHideListener: EmitterSubscription
   constructor(props: Props) {
-    super(props);
+    super(props)
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       this.keyboardDidShow,
-    );
+    )
     this.keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       this.keyboardDidHide,
-    );
+    )
   }
   componentDidMount() {
     if (this.props.navigation.getParam('address')) {
       this.handleChangeAddressOrShortword(
         this.props.navigation.getParam('address'),
-      );
+      )
     } else {
-      this.getAddressFromClickboard();
+      this.getAddressFromClickboard()
     }
     if (this.props.navigation.getParam('amount')) {
-      this.handleChangeSendAmount(this.props.navigation.getParam('amount'));
+      this.handleChangeSendAmount(this.props.navigation.getParam('amount'))
     }
   }
 
   @computed get txFee() {
-    return fromUnitToDip((10 ** Number(this.txFeeLevel) / 10) * 10 ** 7);
+    return fromUnitToDip((10 ** Number(this.txFeeLevel) / 10) * 10 ** 7)
   }
 
   @action
   keyboardDidShow = () => {
-    this.keyboardShow = true;
-  };
+    this.keyboardShow = true
+  }
 
   @action
   keyboardDidHide = () => {
-    this.keyboardShow = false;
-  };
+    this.keyboardShow = false
+  }
 
   @action handleChangeToAddress = (text: string) => {
-    this.toAddress = text;
-  };
+    this.toAddress = text
+  }
   @action handleChangeAddressOrShortword = (text: string) => {
     if (this.validateEnteringArressOrShortword(text)) {
-      this.addressOrShortWord = text;
+      this.addressOrShortWord = text
     }
-  };
+  }
   @action handleChangeSendAmount = (amountString: string) => {
     if (this.validateEnteringAmount(amountString)) {
-      this.sendAmount = amountString;
+      this.sendAmount = amountString
     }
-  };
+  }
   @action handleChangeExtraData = (text: string) => {
     if (this.validateExtraData(text)) {
-      this.extraData = text;
+      this.extraData = text
     }
-  };
+  }
   @action handleChangeTxfee = (num: number) => {
-    this.txFeeLevel = num;
-  };
+    this.txFeeLevel = num
+  }
 
   validateEnteringAddress = (addr: string) => {
-    return /^(0x)?(0000|0014)[0-9a-fA-F]{0,40}$/.test(addr);
-  };
+    return /^(0x)?(0000|0014)[0-9a-fA-F]{0,40}$/.test(addr)
+  }
 
   validateEnteringShortword = (word: string) => {
-    const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$');
+    const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$')
     if (!reg.test(word)) {
-      return false;
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
   validateEnteringArressOrShortword = (text: string) => {
     return (
       this.validateEnteringAddress(text) || this.validateEnteringShortword(text)
-    );
-  };
+    )
+  }
 
   validateEnteringAmount(amountString: string) {
-    const reg = new RegExp('^[0-9]*([\.][0-9]{0,18})?$');
-    return reg.test(amountString);
+    const reg = new RegExp('^[0-9]*([.][0-9]{0,18})?$')
+    return reg.test(amountString)
   }
 
   validateExtraData(text: string) {
     if (text.length > 200) {
-      return false;
+      return false
     }
     // --- add new rule here
-    return true;
+    return true
   }
 
   verifyAddressOrShortword = async () => {
-    const {labels} = this.props
+    const { labels } = this.props
     if (this.addressOrShortWord === '') {
-      Toast.info(labels.emptyAddrOrShortword);
-      return false;
+      Toast.info(labels.emptyAddrOrShortword)
+      return false
     }
     if (Utils.isAddress(this.addressOrShortWord)) {
-      this.handleChangeToAddress(this.addressOrShortWord);
-      return true;
+      this.handleChangeToAddress(this.addressOrShortWord)
+      return true
     } else {
       try {
         const res = await this.props.contract!.queryAddressByShordword(
           this.addressOrShortWord,
-        );
+        )
         if (typeof res === 'string' && Utils.isAddress(res)) {
-          this.handleChangeToAddress(res);
-          return true;
+          this.handleChangeToAddress(res)
+          return true
         } else {
-          Toast.info(labels.invalidAddrOrUnregiteredShortword);
-          return false;
+          Toast.info(labels.invalidAddrOrUnregiteredShortword)
+          return false
         }
       } catch (e) {
-        Toast.info(labels.invalidAddrOrUnregiteredShortword);
-        return false;
+        Toast.info(labels.invalidAddrOrUnregiteredShortword)
+        return false
       }
     }
-  };
+  }
 
   verifyAmount = () => {
     if (this.sendAmount === '') {
-      Toast.info(this.props.labels.emptySendAmount);
-      return false;
+      Toast.info(this.props.labels.emptySendAmount)
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
   verifyBalance = () => {
     if (
@@ -180,88 +180,85 @@ class Send extends React.Component<Props> {
         this.props.account!.activeAccount!.balance,
       )
     ) {
-      Toast.info(this.props.labels.noEnoughBalance);
-      return false;
+      Toast.info(this.props.labels.noEnoughBalance)
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
   getAddressFromClickboard = async () => {
-    const word = await Clipboard.getString();
+    const word = await Clipboard.getString()
     if (Utils.isAddress(word)) {
-      this.handleChangeAddressOrShortword(word);
-      return;
+      this.handleChangeAddressOrShortword(word)
+      return
     }
 
-    const account = await this.props.contract!.queryAddressByShordword(word);
+    const account = await this.props.contract!.queryAddressByShordword(word)
     if (account && this.addressOrShortWord === '') {
-      this.handleChangeAddressOrShortword(word);
+      this.handleChangeAddressOrShortword(word)
     }
-  };
+  }
 
   sendTransaction = async () => {
     // to get really to address
     // 1. verify address
     // 2. check if registered shortword
     // 3. throw error or send tx
-    try {
-      const res = await this.props.transaction!.confirmTransaction(
-        this.toAddress,
-        this.sendAmount,
-        this.extraData,
-        '10000000',
-        '1',
-      );
-      if (res.success) {
-        console.warn('success');
-        return Promise.resolve();
-      } else {
-        console.warn(res.info);
-        Toast.info(this.props.labels.returnError + res.info);
-        return Promise.reject();
-      }
-    } catch (e) {
-      Toast.info(this.props.labels.confirmTxError + e.message);
-      return Promise.reject();
+    const res = await this.props.transaction!.confirmTransaction(
+      this.toAddress,
+      this.sendAmount,
+      this.extraData,
+      '10000000',
+      '1',
+    )
+    if (res.success) {
+      return res
+    } else {
+      console.warn(res.error.message)
+      Toast.info(this.props.labels.returnError + res.error.message)
+      return res
     }
-  };
+  }
+
+  turnBack = async (timelimit: number = 0) => {
+    await sleep(timelimit)
+    this.props.navigation.goBack()
+  }
 
   handleSend = async () => {
-    const ifVerifyAddress = await this.verifyAddressOrShortword();
+    const ifVerifyAddress = await this.verifyAddressOrShortword()
     if (!ifVerifyAddress) {
-      return;
+      return
     }
     if (!this.verifyAmount()) {
-      return;
+      return
     }
     if (!this.verifyBalance()) {
-      return;
+      return
     }
-    Modal.password(this.handleConfirmTransaction);
-    // this.setPasswordModal(true);
-    // this.sendTransaction();
-  };
+    Modal.password(this.handleConfirmTransaction)
+  }
 
   handleConfirmTransaction = async (psw: string) => {
-    await Modal.hide();
-    Toast.loading();
-    await sleep(500);
-    Toast.hide();
+    await Modal.hide()
+    Toast.loading()
+    await sleep(500)
+
     if (!this.props.wallet!.checkPassword(psw)) {
-      Toast.hide();
-      Toast.info(this.props.labels.passwordError);
-      return;
+      Toast.hide()
+      Toast.info(this.props.labels.passwordError)
+      return
     }
-    try {
-      await this.sendTransaction();
-      Toast.hide();
-      Toast.success(this.props.labels.sendSuccess);
-      return;
-    } catch (e) {
-      Toast.hide();
-      Toast.info(this.props.labels.sendFailure);
+
+    const res = await this.sendTransaction()
+    Toast.hide()
+    if (res.success) {
+      this.turnBack(2000)
+      Toast.success(this.props.labels.sendSuccess)
+    } else {
+      Toast.info(this.props.labels.sendFailure)
     }
-  };
+  }
 
   render() {
     return (
@@ -269,7 +266,7 @@ class Send extends React.Component<Props> {
         <KeyboardAwareScrollView
           contentContainerStyle={styles.wrapper}
           style={styles.contentWrapper}
-          resetScrollToCoords={{x: 0, y: 0}}>
+          resetScrollToCoords={{ x: 0, y: 0 }}>
           {this.renderAddressBox()}
 
           {this.renderAmountBox()}
@@ -280,11 +277,11 @@ class Send extends React.Component<Props> {
         </KeyboardAwareScrollView>
         {!this.keyboardShow && this.renderBtnBox()}
       </View>
-    );
+    )
   }
 
   renderAddressBox() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
         <View style={styles.toAddressLabel}>
@@ -297,11 +294,11 @@ class Send extends React.Component<Props> {
           placeholder={labels.enterAddressOrWord}
         />
       </TouchableOpacity>
-    );
+    )
   }
 
   renderAmountBox() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
         <View style={styles.sendAmountBar}>
@@ -318,11 +315,11 @@ class Send extends React.Component<Props> {
           keyboardType="numeric"
         />
       </TouchableOpacity>
-    );
+    )
   }
 
   renderExtraDataBox() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <TouchableOpacity style={styles.extraDataWrapper} activeOpacity={0.8}>
         <View style={styles.extraDataBar}>
@@ -337,11 +334,11 @@ class Send extends React.Component<Props> {
           placeholder={labels.enterRemark}
         />
       </TouchableOpacity>
-    );
+    )
   }
 
   renderTxFeeBox() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
         <View style={styles.txFeeBar}>
@@ -382,10 +379,10 @@ class Send extends React.Component<Props> {
           </Text>
         </View>
       </TouchableOpacity>
-    );
+    )
   }
   renderBtnBox() {
-    const {labels} = this.props;
+    const { labels } = this.props
     return (
       <TouchableOpacity
         style={styles.btnWrapper}
@@ -395,18 +392,18 @@ class Send extends React.Component<Props> {
           <Text style={styles.btnText}>{labels.send}</Text>
         </View>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
 const Wrapped = (
   props: WithTranslation & {
-    navigation: NavigationStackScreenProps['navigation'];
+    navigation: NavigationStackScreenProps['navigation']
   },
 ) => {
-  const {t, navigation} = props;
-  const labels = t('dipperin:transaction') as I18nTransactionType;
-  return <Send labels={labels} navigation={navigation} />;
-};
+  const { t, navigation } = props
+  const labels = t('dipperin:transaction') as I18nTransactionType
+  return <Send labels={labels} navigation={navigation} />
+}
 
-export default withTranslation()(Wrapped);
+export default withTranslation()(Wrapped)
