@@ -5,7 +5,7 @@ import React from "react"
 import { NavigationScreenProp } from "react-navigation"
 import _ from "lodash"
 import { Utils } from "@dipperin/dipperin.js"
-import Toast from 'Components/Toast';
+import { Toast } from 'Components/PopupWindow'
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
 

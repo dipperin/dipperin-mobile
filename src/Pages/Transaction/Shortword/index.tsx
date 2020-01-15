@@ -18,8 +18,7 @@ import { Utils } from '@dipperin/dipperin.js'
 import { I18nTransactionType } from 'I18n/config'
 import TransactionStore from 'Store/transaction'
 import { styles } from './config'
-import Toast from 'Components/Toast'
-import Modal from 'Components/Modal'
+import { Toast, Modal } from 'Components/PopupWindow'
 import { fromUnitToDip } from 'Global/utils'
 import WalletStore from 'Store/wallet'
 import ContractStore from 'Store/contract'
@@ -137,7 +136,7 @@ class Shortword extends React.Component<Props> {
     if (!ifVerifiedShortword) {
       return
     }
-    Modal.password(this.handleConfirmTransaction)
+    Modal.enterPassword(this.handleConfirmTransaction)
   }
 
   handleConfirmTransaction = async (psw: string) => {

@@ -1,3 +1,7 @@
+/**
+ * author: xiongzilian
+ * create_date: 2019-06-26
+ */
 import React from 'react'
 import {
   StyleSheet,
@@ -32,6 +36,7 @@ class RootView extends React.Component<any> {
   }
 }
 
+// 注册组件
 const originRegister = AppRegistry.registerComponent;
 
 AppRegistry.registerComponent = (appKey, component) => {
@@ -58,6 +63,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     position: 'relative'
   },
+  // 蒙层设置
   rootView: {
     position: "absolute",
     left: 0,

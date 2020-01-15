@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
-import Toast from 'Components/Toast'
+import { Toast } from 'Components/PopupWindow'
 import { setStorage } from 'Db'
 import { encryptionPassword } from 'Global/utils'
 

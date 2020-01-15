@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import Eye from 'Components/Eye'
 import { Icon } from 'Components/Icon'
-import Toast from 'Components/Toast'
+import { Toast } from 'Components/PopupWindow'
 import { sleep, encryptionPassword } from 'Global/utils'
 import { setStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
@@ -184,7 +184,7 @@ class Import extends React.Component<Props> {
             </TouchableOpacity>
             <View style={styles.agreeTextWrap}>
               <Text style={styles.agreeText}>
-              {labels.agreeLabel}
+                {labels.agreeLabel}
               </Text>
               <TouchableOpacity onPress={this.showAgree} activeOpacity={0.7}>
                 <Text style={styles.agree}>{labels.agree}</Text>
@@ -194,7 +194,7 @@ class Import extends React.Component<Props> {
         </KeyboardAwareScrollView>
         {!this.keyboardShow &&
           <View style={styles.btnWrap}>
-            <TouchableOpacity style={[styles.btn, disabled && styles.diabledBtn]} onPress={this.handleImport} activeOpacity={disabled ? 1 :0.7}>
+            <TouchableOpacity style={[styles.btn, disabled && styles.diabledBtn]} onPress={this.handleImport} activeOpacity={disabled ? 1 : 0.7}>
               <Text style={styles.btnText}>{labels.btnText}</Text>
             </TouchableOpacity>
           </View>

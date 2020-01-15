@@ -12,7 +12,7 @@ import { List } from '@ant-design/react-native'
 import { inject, observer } from 'mobx-react'
 import System from 'Store/System'
 import { AntdListItemPropsType } from 'Global/inteface'
-import Modal from 'Components/Modal'
+import { Modal } from 'Components/PopupWindow'
 import ChainData from 'Store/chainData'
 
 const Item = List.Item
