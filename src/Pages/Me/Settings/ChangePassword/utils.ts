@@ -1,17 +1,20 @@
 import { I18nMeType } from "I18n/config";
 
 export const passwordCheck = (oldPassword: string, newPassword: string, confirmPassword: string, lange: I18nMeType) => {
-  if (!oldPassword || !newPassword || !confirmPassword) {
-    return lange.passwordEmpty
+  switch (true) {
+    case !oldPassword:
+      return lange.pleaseFill + lange.oldPassword
+    case !newPassword:
+      return lange.pleaseFill + lange.newPassword
+    case !confirmPassword:
+      return lange.pleaseFill + lange.confrimPassword
+    case newPassword.length < 8:
+    case newPassword.length > 24:
+      return lange.psdLimit
+    case newPassword !== confirmPassword:
+      return lange.diffPassword
+    default:
+      return ''
   }
-
-  if (newPassword.length < 8 || newPassword.length > 24) {
-    return lange.psdLimit
-  }
-
-  if (newPassword !== confirmPassword) {
-    return lange.diffPassword
-  }
-
-  return ''
 }
+

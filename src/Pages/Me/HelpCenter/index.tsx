@@ -17,10 +17,11 @@ interface Props {
 
 class HelpCenter extends React.Component<Props> {
   render() {
+    const { label } = this.props
     return (
       <View style={styles.box}>
         <ScrollView>
-          <List renderHeader={(<Text style={styles.subTitle}>常见问题</Text>)}>
+          <List renderHeader={(<Text style={styles.subTitle}>{label.commonProblems}</Text>)}>
             {this.renderItems()}
           </List>
         </ScrollView>
