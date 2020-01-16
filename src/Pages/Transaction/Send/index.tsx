@@ -311,7 +311,10 @@ class Send extends React.Component<Props> {
 
     const {isFingerPay} = this.props.system!
     if (isFingerPay) {
-      Modal.FingerprintPopShow({successHint: this.props.labels.proccessPay}, {
+      Modal.FingerprintPopShow({
+        successHint: this.props.labels.proccessPay,
+        startHint: this.props.labels.pleaseEnterFingerprint,
+      }, {
         fingerprintFailCb: this.handleFingerprintFailCb,
         fingerprintSuccessCb: this.handleFingerprintSuccessCb,
         hide: () => Modal.hide(),

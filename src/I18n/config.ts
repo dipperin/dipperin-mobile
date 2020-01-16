@@ -125,6 +125,7 @@ const enResource = {
       psdLimit:
         'Password length is 8-24, is composed of Numbers, letters, symbols, letters are case sensitive',
       confrimChange: 'Confirm the change',
+      cancel: 'Cancel',
       resetWallet: 'Reset wallet',
       forgetPassword: 'Forgot password',
       forgetPasswordPopContent: 'Forget the password can be reset by importing mnemonics, which will not affect the use of your wallet. Please keep your mnemonics properly!',
@@ -222,6 +223,7 @@ const enResource = {
       returnError: 'Return Error:',
       confirmTxError: 'Confirm Transaction Error:',
       proccessPay: 'In the payment',
+      pleaseEnterFingerprint: 'Verify that the fingerprint',
     },
     account:{
       wallet:'Wallet',
@@ -390,6 +392,7 @@ const zhResource: typeof enResource = {
       pleaseConfirmNewPsd: '请确认新密码',
       psdLimit: '密码长度为8-24位，由数字、字母、符号组成，字母区分大小写',
       confrimChange: '确认修改',
+      cancel: '取消',
       resetWallet: '重置钱包',
       forgetPassword: '忘记密码',
       forgetPasswordPopContent: '忘记密码可以通过导入助记词重新设置，不会影响您的钱包使用，请妥善保管您的助记词！',
@@ -488,6 +491,7 @@ const zhResource: typeof enResource = {
       returnError: '返回失败',
       confirmTxError: '确认交易失败',
       proccessPay: '正在支付',
+      pleaseEnterFingerprint: '请验证指纹',
     },
     account:{
       wallet:'钱包',

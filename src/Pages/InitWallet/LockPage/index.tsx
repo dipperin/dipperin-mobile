@@ -82,6 +82,7 @@ class LockPage extends React.Component<Props> {
 
   showFingerprintUnlock = () => {
     Modal.FingerprintPopShow({
+      startHint: this.props.language.pleaseEnterFingerprint,
       successHint: this.props.language.unlocking,
     }, {
       fingerprintSuccessCb: this.fingerprintSuccessCb,

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch } from '@ant-design/react-native'
-import System from "Store/System"
-import { StyleSheet } from "react-native"
+import System from 'Store/System'
+import { StyleSheet } from 'react-native'
 import { AntdListItemPropsType } from 'Global/inteface'
 import { VENUS } from 'Global/constants'
 import i18n from 'I18n'
@@ -31,15 +31,16 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
           }
 
           Modal.FingerprintPopShow({
-            successHint: i18n.t('dipperin:me.openUnlockFunction')
+            startHint: i18n.t('dipperin:start.pleaseEnterFingerprint'),
+            successHint: i18n.t('dipperin:me.openUnlockFunction'),
           },{
             fingerprintSuccessCb: () => options.extraOnChange && options.extraOnChange(FINGER_UNLOCK, _value),
             fingerprintFailCb: () => Toast.info(i18n.t('dipperin:start.checkFingerprintFail')),
-            hide: () => Modal.hide()
+            hide: () => Modal.hide(),
           })
         }}
       />
-    )
+    ),
   },
   {
     title: i18n.t('dipperin:me.fingerPay'),
@@ -60,20 +61,21 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
           }
 
           Modal.FingerprintPopShow({
-            successHint: i18n.t('dipperin:me.openFingerprintPayFunction')
+            startHint: i18n.t('dipperin:start.pleaseEnterFingerprint'),
+            successHint: i18n.t('dipperin:me.openFingerprintPayFunction'),
           },{
             fingerprintSuccessCb: () => options.extraOnChange && options.extraOnChange(FINGER_PAY, _switch),
             fingerprintFailCb: () => Toast.info(i18n.t('dipperin:start.checkFingerprintFail')),
-            hide: () => Modal.hide()
+            hide: () => Modal.hide(),
           })
         }}
       />
-    )
+    ),
   },
   {
     title: i18n.t('dipperin:me.changePassword'),
     arrow: 'horizontal',
-    onPress: () => options.onChangeItem && options.onChangeItem("modifyPassWord")
+    onPress: () => options.onChangeItem && options.onChangeItem('modifyPassWord'),
   },
 ]
 
@@ -82,7 +84,7 @@ export const settingListItemsExt = (system: System, chainData: ChainData, option
     title: i18n.t('dipperin:me.language'),
     extra: system.curLanguage === 'en' ? i18n.t('dipperin:me.English') : i18n.t('dipperin:me.simplifiedChinese'),
     arrow: 'horizontal',
-    onPress: () => options.onChangeItem && options.onChangeItem(LANGEUAGE)
+    onPress: () => options.onChangeItem && options.onChangeItem(LANGEUAGE),
   },
   {
     title: i18n.t('dipperin:me.nodeChoose'),
@@ -90,14 +92,14 @@ export const settingListItemsExt = (system: System, chainData: ChainData, option
       ? i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.venus')
       : i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.mercury'),
     arrow: 'horizontal',
-    onPress: () => options.onChangeItem && options.onChangeItem(NODE_CHECKED)
-  }
+    onPress: () => options.onChangeItem && options.onChangeItem(NODE_CHECKED),
+  },
 ]
 
 export const styles = StyleSheet.create({
   listItem: {
     lineHeight: 54,
     fontSize: 18,
-    color: '#333'
-  }
+    color: '#333',
+  },
 })
