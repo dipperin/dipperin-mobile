@@ -5,7 +5,7 @@ import { styles } from './config';
 import { NavigationScreenProp } from 'react-navigation';
 // There are differences between IOS and Android
 import { observer, inject } from 'mobx-react'
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import { I18StartType } from 'I18n/config'
 import { Toast, Modal } from 'Components/PopupWindow'
