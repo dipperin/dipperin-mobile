@@ -35,10 +35,8 @@ class Root {
     try {
       await this.chainData.init()
       this.dipperin = new Dipperin(this.chainData.currentNetHost) 
-      await this.wallet.load() 
-      await this.account.load()
+      await Promise.all([this.wallet.load(), this.account.load(), this.system.init()])
       await this.transaction.load()
-      await this.system.init()
       this.chainData.startUpdate()
       reaction(
         () => this.chainData.isConnect, // once connected, update trasction & account
