@@ -47,6 +47,7 @@ class Apps extends React.Component<AppsProps> {
     const curPage = appsListCurPage
     const perPage = appsListPerPage
     const totalPage = appsListTotalPage
+    if(totalPage === 1) return ;
     if(curPage < totalPage){
       this.getAppsList( curPage + 1, perPage )
     }

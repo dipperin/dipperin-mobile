@@ -39,12 +39,12 @@ class Contracts extends React.Component<ContractsProps> {
           <Text style={styles.balance}>{i18n.t('dipperin:discovery.contracts.balance')}</Text>
           <Text style={styles.txcount}>{i18n.t('dipperin:discovery.contracts.txCount')}</Text>
         </View>
-        <FlatList 
-          data={contractsList}
-          renderItem={({item}) => this.renderItem(item)}
-          onEndReachedThreshold={0.1}
-          onEndReached={this.onEndReached}
-        />
+          <FlatList 
+            data={contractsList}
+            renderItem={({item}) => this.renderItem(item)}
+            onEndReachedThreshold={0.2}
+            onEndReached={this.onEndReached}
+          />
       </View>
     )
   }
@@ -63,6 +63,7 @@ class Contracts extends React.Component<ContractsProps> {
     const curPage = contractsListCurPage
     const perPage = contractsListPerPage
     const totalPage = contractsListTotalPage
+    if(totalPage === 1) return ;
     if(curPage < totalPage){
       this.init( curPage + 1, perPage )
     }
