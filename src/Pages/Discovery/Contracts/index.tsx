@@ -31,7 +31,6 @@ class Contracts extends React.Component<ContractsProps> {
   }
   render() {
     const { contractsList } = this.props.discovery!
-    console.log(contractsList, 'list')
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>

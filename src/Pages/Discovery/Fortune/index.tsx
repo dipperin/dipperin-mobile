@@ -43,7 +43,6 @@ class Fortune extends React.Component<FortuneProps> {
     )
   }
   renderItem = (item:fortuneInterface, index:number, totalBlocks:number) => {
-    console.log(totalBlocks,'totalBlocks')
     return (
       <View style={styles.tRow}>
         <Text style={styles.ranking}>{index +1}</Text>
