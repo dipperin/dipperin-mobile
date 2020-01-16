@@ -24,12 +24,12 @@ export default class discoveryStore {
 
   @observable contractsListTotalPage: number = 0
   @observable contractsListCurPage: number = 1
-  @observable contractsListPerPage: number = 1
+  @observable contractsListPerPage: number = 10
   @observable contractsList:contractInterface[] = []
 
   @observable fortuneListTotalPage: number = 0
   @observable fortuneListCurPage: number = 1
-  @observable fortuneListPerPage: number = 1
+  @observable fortuneListPerPage: number = 10
   @observable fortuneList: fortuneInterface[] | [] = []
 
   @observable totalBlocks: number = 0
@@ -56,6 +56,7 @@ export default class discoveryStore {
   }
   @action updateContractsList = (res:ContractRes) => {
     this.contractsListTotalPage = res.data.total_count
+    this.contractsList = res.data.contract_data
     if(this.appsListCurPage === 1) {
       this.contractsList = res.data.contract_data
     }else{
