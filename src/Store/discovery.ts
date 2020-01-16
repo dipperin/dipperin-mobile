@@ -71,7 +71,6 @@ export default class discoveryStore {
     }
   }
   @action getContractList = async(params:ContractParams) => {
-    console.log(params)
     const res = await api.getContactsList(params)
     this.contractsListCurPage = params.page
     if(res) {
