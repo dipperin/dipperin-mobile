@@ -16,7 +16,7 @@ import { styles } from './config'
 import { observer, inject } from 'mobx-react'
 import AccountStore from 'Store/account'
 import ContractStore from 'Store/contract'
-import { computed } from 'mobx'
+import { computed, reaction } from 'mobx'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -39,9 +39,19 @@ class Receive extends React.Component<Props> {
       const addr = this.props.account!.activeAccount!.address
       this.queryShortword(addr)
     }
+    this.setShareContent(this.shortword)
+    reaction(
+      () => this.shortword,
+      (shortword: string) => {
+        this.setShareContent(shortword)
+      },
+    )
+  }
+
+  setShareContent = (shortword: string) => {
     this.props.navigation.setParams({
       shareMsg: `address: ${this.props.account!.activeAccount!.address};${
-        this.shortword ? 'short word:' + this.shortword : ''
+        shortword ? 'short word: ' + shortword : ''
       }`,
     })
   }
@@ -145,18 +155,8 @@ class Receive extends React.Component<Props> {
         style={styles.btnWrapper}
         activeOpacity={0.8}
         onPress={this.turnToShortword}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 308,
-            height: 44,
-            borderRadius: 22,
-            backgroundColor: '#4992c9',
-          }}>
-          <Text style={{ color: '#fff', fontSize: 17 }}>
-            {labels.shortWordReceive}
-          </Text>
+        <View style={styles.btnMain}>
+          <Text style={styles.btnText}>{labels.shortWordReceive}</Text>
         </View>
       </TouchableOpacity>
     )

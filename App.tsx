@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  StyleSheet,
-  StatusBar,
-} from 'react-native'
+import { StatusBar } from 'react-native'
 import { configure } from 'mobx'
 import { Provider } from 'mobx-react'
 import { I18nextProvider } from 'react-i18next'
@@ -15,7 +12,7 @@ import NavigationService from 'Router/navigationService'
 
 // Configure mobx
 configure({
-  enforceActions: 'observed'
+  enforceActions: 'observed',
 })
 
 const rootStore = new RootStore()

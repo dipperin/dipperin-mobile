@@ -41,7 +41,6 @@ import ToggleLanguage from 'Pages/Me/Settings/ToggleLanguage'
 import NodeChoose from 'Pages/Me/Settings/NodeChoose'
 
 import HelpCenterDetail from 'Pages/Me/HelpCenter/HelpCenterDetail'
-import FunctionIntr from 'Pages/Me/AboutUs/FunctionIntr'
 import UserProtocol from 'Pages/Me/AboutUs/UserProtocol'
 
 export const commonHeaderStyle = {
@@ -146,7 +145,7 @@ export const walletStack = createStackNavigator({
       title: i18n.t('dipperin:account.addAcount'),
       headerRight: (
         <CustomIcon onPress={props.navigation.getParam('addAccount')}>
-          <Text style={{color:"#1C77BC"}}>{i18n.t('dipperin:account.buttonPositive')}</Text>
+          <Text style={{color:'#1C77BC'}}>{i18n.t('dipperin:account.buttonPositive')}</Text>
         </CustomIcon>
       ),
     }),
@@ -190,7 +189,7 @@ export const walletStack = createStackNavigator({
   },
   receive: {
     screen: Receive,
-    navigationOptions: props => ({
+    navigationOptions: () => ({
       title: i18n.t('dipperin:transaction.receive'),
       headerLeft: (
         <CustomBack
@@ -216,7 +215,7 @@ export const walletStack = createStackNavigator({
   },
   shortword: {
     screen: Shortword,
-    navigationOptions: props => ({
+    navigationOptions: () => ({
       title: i18n.t('dipperin:transaction.shortWordReceive'),
       ...headerBackConfig,
     }),
