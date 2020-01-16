@@ -78,8 +78,8 @@ export const getIsTxFromMe = (myAddress: string, fromAddress: string) => {
   return myAddress === fromAddress
 }
 
-export const isToTransferUrl = (url: string) => {
-  return url.match('dp://send')
+export const isToTransferUrl = (url: string | null) => {
+  return url && url.match('dp://send')
 }
 
 export const getParamsFromLinkUrl = (key: string, url: string): undefined | string => {
