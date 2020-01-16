@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import { StyleSheet, Platform } from 'react-native'
 
 export const styles = StyleSheet.create({
   contentWrapper: {
@@ -27,6 +27,8 @@ export const styles = StyleSheet.create({
     // fontWeight: 'bold',
     borderWidth: 0,
   },
+  modal: { width: 308 },
+  mainContent: { paddingVertical: 20, width: 308 },
   confirmBtn: {
     width: 132,
     height: 38,
@@ -54,4 +56,4 @@ export const styles = StyleSheet.create({
     color: '#4F6A7F',
     fontSize: 10,
   },
-});
+})

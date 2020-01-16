@@ -10,7 +10,7 @@ import {
   Clipboard,
   Linking,
 } from 'react-native'
-import { NavigationActions, StackActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
 import { observer, inject } from 'mobx-react'
@@ -18,7 +18,7 @@ import { observable, action, computed } from 'mobx'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nTransactionType } from 'I18n/config'
 import { styles } from './config'
-import {Toast, Modal} from 'Components/PopupWindow'
+import { Toast, Modal } from 'Components/PopupWindow'
 import TransactionStore from 'Store/transaction'
 import WalletStore from 'Store/wallet'
 import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils'
@@ -227,21 +227,25 @@ class Send extends React.Component<Props> {
   }
 
   handleSend = async () => {
-    const ifVerifyAddress = await this.verifyAddressOrShortword()
-    if (!ifVerifyAddress) {
-      return
+    try {
+      const ifVerifyAddress = await this.verifyAddressOrShortword()
+      if (!ifVerifyAddress) {
+        return
+      }
+      if (!this.verifyAmount()) {
+        return
+      }
+      if (!this.verifyBalance()) {
+        return
+      }
+      Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
+    } catch (error) {
+      console.log(error)
     }
-    if (!this.verifyAmount()) {
-      return
-    }
-    if (!this.verifyBalance()) {
-      return
-    }
-    Modal.enterPassword(this.handleConfirmTransaction)
   }
 
-  handleConfirmTransaction = async (psw: string) => {
-    await Modal.hide()
+  handleConfirmTransaction = async (psw: string): Promise<void> => {
+    Modal.hide()
     Toast.loading()
     await sleep(500)
 
@@ -262,8 +266,8 @@ class Send extends React.Component<Props> {
           NavigationActions.navigate({ routeName: 'Assets' }),
           NavigationActions.navigate({ routeName: 'accountDetail' }),
         ],
-      });
-      this.props.navigation.dispatch(resetAction);
+      })
+      this.props.navigation.dispatch(resetAction)
     } else {
       Toast.info(this.props.labels.sendFailure)
       this.linkingAppCallBack(false)
@@ -274,7 +278,9 @@ class Send extends React.Component<Props> {
   linkingAppCallBack = (success: boolean) => {
     const { getParam } = this.props.navigation
     const type = getParam('type')
-    if (type !== 'send') {return}
+    if (type !== 'send') {
+      return
+    }
     const scheme = getParam('scheme')
     if (scheme) {
       Linking.canOpenURL(`${scheme}://`).then(res => {
@@ -330,7 +336,7 @@ class Send extends React.Component<Props> {
           <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
           <Text style={styles.balanceText}>{`${labels.balance}: ${
             this.props.account!.activeAccount!.balance
-            } DIP`}</Text>
+          } DIP`}</Text>
         </View>
         <TextInput
           style={styles.sendAmountInput}

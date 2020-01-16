@@ -135,7 +135,7 @@ class Shortword extends React.Component<Props> {
     if (!ifVerifiedShortword) {
       return
     }
-    Modal.enterPassword(this.handleConfirmTransaction)
+    Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
 
   handleConfirmTransaction = async (psw: string) => {
