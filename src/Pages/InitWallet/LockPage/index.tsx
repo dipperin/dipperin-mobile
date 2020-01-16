@@ -14,7 +14,7 @@ import { getStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
 import { decryptionPassword, Result } from 'Global/utils'
 import System from 'Store/System';
-// import EnterPassword from 'Components/PopupWindow/EnterPassword'
+import EnterPassword from 'Components/PopupWindow/EnterPassword'
 
 interface Props {
   navigation: NavigationScreenProp<any>;
@@ -57,7 +57,7 @@ class LockPage extends React.Component<Props> {
           <Text style={styles.btnText}>{language.passwordUnlock}</Text>
         </TouchableOpacity>
 
-        {/* {
+        {
           this.isShowPropEnterPassword && (
             <EnterPassword
               hasCancel={this.props.system?.isFingerUnLock}
@@ -65,7 +65,7 @@ class LockPage extends React.Component<Props> {
               onConfirm={this.enterPassword}
             />
           )
-        } */}
+        }
       </View>
     );
   }
