@@ -1,14 +1,14 @@
-import { View, StyleSheet } from "react-native"
-import { observer } from "mobx-react"
-import React from "react"
-import { Tabs } from "@ant-design/react-native"
+import { View, StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
+import React from 'react'
+import { Tabs } from '@ant-design/react-native'
 import i18n from 'I18n'
-import TxList from "./TxList"
+import TxList from './TxList'
 
 import TransactionStore from 'Store/transaction'
-import AccountModel from "Models/account"
+import AccountModel from 'Models/account'
 
-import { getPendingAndFailedTransactions, getFailedTransactions } from "../config"
+import { getPendingAndFailedTransactions, getFailedTransactions } from '../config'
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
 
@@ -35,8 +35,8 @@ class TxRecord extends React.Component<Props>{
             <View style={styles.tabsBox}>
                 <Tabs
                     tabs={TabsConfig}
-                    tabBarInactiveTextColor={"#5F6064"}
-                    tabBarActiveTextColor={"#1C77BC"}
+                    tabBarInactiveTextColor={'#5F6064'}
+                    tabBarActiveTextColor={'#1C77BC'}
                     tabBarUnderlineStyle={styles.bottomLine}
                 >
                     <View style={styles.tabContent}>
@@ -81,13 +81,13 @@ export default withTranslation()(TxRecord)
 const styles = StyleSheet.create({
     tabsBox: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
     },
     bottomLine: {
-        backgroundColor: "#1C77BC"
+        backgroundColor: '#1C77BC',
     },
     tabContent: {
         flex: 1,
-        backgroundColor: "#fff"
-    }
+        backgroundColor: '#fff',
+    },
 })

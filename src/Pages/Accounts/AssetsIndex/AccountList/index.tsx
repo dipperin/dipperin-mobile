@@ -1,7 +1,7 @@
-import React from "react"
-import { View, Text, ScrollView, StyleSheet } from "react-native"
-import AccountItem from "./account"
-import AccountModel from "Models/account"
+import React from 'react'
+import { View, Text, ScrollView, StyleSheet } from 'react-native'
+import AccountItem from './account'
+import AccountModel from 'Models/account'
 import { I18nAccountType } from 'I18n/config'
 interface Props {
     accounts: AccountModel[]
@@ -18,13 +18,13 @@ const AccountList = (props: Props) => {
             <ScrollView style={styles.list}>
                 {
                     accounts.map((item, index) => {
-                        return <AccountItem 
-                        account={item}
-                         key={index}
-                         isEyeOpen={isEyeOpen} 
-                         changeActiveAccount={changeActiveAccount} 
-                         labels={labels}
-                         />
+                        return <AccountItem
+                            account={item}
+                            key={index}
+                            isEyeOpen={isEyeOpen}
+                            changeActiveAccount={changeActiveAccount}
+                            labels={labels}
+                        />
                     })
                 }
                 <View style={styles.space} />
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         lineHeight: 50,
         paddingLeft: 10,
         fontSize: 16,
-        fontWeight: "bold",
-        color: '#09182C'
-    }
+        fontWeight: 'bold',
+        color: '#09182C',
+    },
 })

@@ -1,8 +1,9 @@
-import React from "react"
-import { View, Text, StyleSheet } from "react-native"
-import { NavigationScreenProp } from "react-navigation"
-import moment from "moment"
-import { Utils } from "@dipperin/dipperin.js"
+import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
+import moment from 'moment'
+import { Utils } from '@dipperin/dipperin.js'
+import { formatUTCTime } from 'Global/utils'
 
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
@@ -12,10 +13,10 @@ interface Props {
 }
 
 class TransactionDetail extends React.Component<Props>{
-    getShowTime=(timestamp: number)=>{
-        if(`${timestamp}`.length>16){
-            return  moment(timestamp/1000000).format('YYYY/MM/DD HH:MM:SS A+UTC')
-        }else{
+    getShowTime = (timestamp: number) => {
+        if (`${timestamp}`.length > 16) {
+            return formatUTCTime(timestamp + '')
+        } else {
             return moment(timestamp).format('YYYY/MM/DD HH:MM:SS A+UTC')
         }
     }
@@ -24,7 +25,7 @@ class TransactionDetail extends React.Component<Props>{
         const isFromMe = this.props.navigation.getParam('isFromMe')
         const { value, timestamp, from, to, transactionHash, extraData, nonce } = transaction
         const { labels } = this.props
-        const showExtraData = Utils.isHex(extraData)?Utils.hexToUtf8(extraData):extraData
+        const showExtraData = Utils.isHexStrict(extraData) ? Utils.hexToUtf8(extraData) : extraData
         return (
             <View style={styles.detailContainer}>
                 <View style={styles.greySpace} />
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     },
     greySpace: {
         height: 10,
-        backgroundColor: '#FAFBFC'
+        backgroundColor: '#FAFBFC',
     },
     title: {
         marginLeft: 20,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20,
-        minHeight: 45
+        minHeight: 45,
     },
     itemLabel: {
         color: '#3C3E42',
@@ -99,7 +100,6 @@ const styles = StyleSheet.create({
     itemValue: {
         color: '#3C3E42',
         fontSize: 15,
-        maxWidth: 260
-    }
-
+        maxWidth: 260,
+    },
 })
