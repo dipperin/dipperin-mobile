@@ -326,6 +326,7 @@ class Send extends React.Component<Props> {
 
   handleFingerprintFailCb = () => {
     Modal.hide()
+    Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
   handleFingerprintSuccessCb = async() => {
     const _password = await getStorage(STORAGE_KEYS.PASSWORD)

@@ -151,7 +151,6 @@ class ChangePassword extends React.Component<Props> {
     // Change password
     const res = await this.props.wallet!.changePassword(newPassword) || ''
     if (!res) {
-      console.log('执行')
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip)
       this.props.navigation.navigate('settings')
       Toast.hide()
