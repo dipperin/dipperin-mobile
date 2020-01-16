@@ -118,6 +118,13 @@ export const initWalletStack = createStackNavigator({
       ...headerBackConfig,
     }),
   },
+  initUserProtocol: {
+    screen: UserProtocol,
+    navigationOptions: () => ({
+      ...headerBackConfig,
+      title: i18n.t('dipperin:userProtocol'),
+    }),
+  },
 })
 
 export const walletStack = createStackNavigator({

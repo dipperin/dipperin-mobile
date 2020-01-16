@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   option: {
     marginBottom: 12,
-    width: 74,
+    width: '21.7%',
     height: 28,
     backgroundColor: '#1C77BC',
     borderRadius: 5,
