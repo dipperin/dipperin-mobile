@@ -158,6 +158,7 @@ class Shortword extends React.Component<Props> {
 
   handleFingerprintFailCb = () => {
     Modal.hide()
+    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
   }
 
   handleFingerprintSuccessCb = async() => {
