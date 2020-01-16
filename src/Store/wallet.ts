@@ -251,7 +251,7 @@ export default class WalletStore {
       this.setCurrentWallet(new WalletModel(walletObj))
       this.saveWallet() // save wallet in storage
     } catch (err) {
-      console.log(err)
+      console.log(err, '修改密码出现异常')
       return err
     }
   }
@@ -357,7 +357,7 @@ export default class WalletStore {
         password,
         this._currentWallet.encryptSeed,
       )
-      if(seed) {
+      if (seed) {
         const account = Accounts.create(seed)
         this._currentWallet.unlockErrTimes = DEFAULT_ERR_TIMES
         return account

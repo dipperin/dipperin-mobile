@@ -153,6 +153,7 @@ class ChangePassword extends React.Component<Props> {
     if (!res) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip)
       this.props.navigation.navigate('setting')
+      return
     }
     Toast.info(res)
   }
