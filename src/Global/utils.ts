@@ -3,6 +3,7 @@ import { BigNumber } from 'bignumber.js'
 import { typeStringToBytes, helper } from '@dipperin/dipperin.js'
 import { Utils } from '@dipperin/dipperin.js'
 import aesjs from 'aes-js'
+import format from 'date-fns/format'
 
 /**
  * Cipher encryption
@@ -69,7 +70,7 @@ export const formatNumber = (num: number, w: number) => {
   const m = 10 ** w
   const b = Math.floor(num * m) / m
   return b.toLocaleString('zh-Hans', {
-    maximumFractionDigits: w
+    maximumFractionDigits: w,
   })
 }
 
@@ -85,7 +86,7 @@ export const getParamsFromLinkUrl = (key: string, url: string): undefined | stri
   try {
 
     const query = url.split('?')[1]
-    if (!query) return
+    if (!query) {return}
     const paramsString = query.split('&').map(item => item.split('=')).find(item => item[0] === key)
     if (paramsString && paramsString[1]) {
       return paramsString[1]
@@ -110,6 +111,14 @@ export const fromUnitToDip = (num: number) => {
 export const verifyBalance = (amount: string, fee: string, balance: string) => {
   const bn1 = new BigNumber(amount)
   return bn1.plus(new BigNumber(fee)).isLessThanOrEqualTo(new BigNumber(balance))
+}
+
+export const formatUTCTime = (time: string) => {
+  if (!time) {
+    return ''
+  }
+  const date = new Date(Number(time.substr(0, 13)))
+  return format(date, 'yyyy-MM-dd HH:mm:ss b zzzz')
 }
 
 export interface Success<T> {

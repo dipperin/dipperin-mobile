@@ -1,9 +1,9 @@
-import React from "react"
-import { observer } from "mobx-react"
-import { View, Text, StyleSheet } from "react-native"
+import React from 'react'
+import { observer } from 'mobx-react'
+import { View, Text, StyleSheet } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import Eye from "Components/Eye"
-import { formatNumber } from "Global/utils"
+import Eye from 'Components/Eye'
+import { formatNumber } from 'Global/utils'
 import { I18nAccountType } from 'I18n/config'
 
 
@@ -22,7 +22,7 @@ class AssetsInfo extends React.Component<Props>{
         return (
             <LinearGradient
                 style={styles.container}
-                colors={["#275DA5", "#061120"]}
+                colors={['#275DA5', '#061120']}
             >
                 <Text style={styles.title}>{labels.total}</Text>
                 <View style={styles.dipBox}>
@@ -40,11 +40,11 @@ export default AssetsInfo
 const styles = StyleSheet.create({
     container: {
         height: 130,
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
-        color: "#fff",
+        color: '#fff',
         marginBottom: 5
     },
     dipBox: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     num: {
         fontSize: 25,
-        color: "#fff",
+        color: '#fff',
         marginLeft: 30,
         marginRight: 12,
     }

@@ -1,16 +1,16 @@
-import { FlatList } from "react-native"
-import React from "react"
-import { observer } from "mobx-react"
-import { action, observable, runInAction } from "mobx"
-import { Toast } from "Components/PopupWindow"
+import { FlatList } from 'react-native'
+import React from 'react'
+import { observer } from 'mobx-react'
+import { action, observable, runInAction } from 'mobx'
+import { Toast } from 'Components/PopupWindow'
 
-import TransactionModel from "Models/transaction"
-import { getTxList } from "Server"
-import { transferTxfromNode, TxRes } from "../config"
+import TransactionModel from 'Models/transaction'
+import { getTxList } from 'Server'
+import { transferTxfromNode, TxRes } from '../config'
 import { I18nAccountType } from 'I18n/config'
 
 
-import TxItem from "./TxItem"
+import TxItem from './TxItem'
 
 interface Props {
     transactionsFromLocal?: TransactionModel[]
@@ -68,14 +68,14 @@ class TxList extends React.Component<Props>{
             from_or_to: this.getFromOrTo(),
             address: activeAccountaddress,
             page: 1,
-            per_page: 10
+            per_page: 10,
         }
         this.getTransctionsfromNode(params)
     }
     @action
     getTransctionsfromNode = async (params: Params) => {
         const { keyIndex } = this.props
-        if (keyIndex === 'failed') return
+        if (keyIndex === 'failed') {return}
         Toast.loading()
         const res = await getTxList(params) as TxRes
         Toast.hide()

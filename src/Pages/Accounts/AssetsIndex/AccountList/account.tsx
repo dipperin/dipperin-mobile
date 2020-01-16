@@ -1,12 +1,12 @@
-import React from "react"
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native"
-import AccountModel from "Models/account"
-import { withNavigation, NavigationScreenProp } from "react-navigation"
-import { observer } from "mobx-react"
-import { formatNumber } from "Global/utils"
+import React from 'react'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import AccountModel from 'Models/account'
+import { withNavigation, NavigationScreenProp } from 'react-navigation'
+import { observer } from 'mobx-react'
+import { formatNumber } from 'Global/utils'
 import { I18nAccountType } from 'I18n/config'
 
-import AcountIcon from "Assets/account.png"
+import AcountIcon from 'Assets/account.png'
 
 interface Props {
     account: AccountModel
@@ -23,7 +23,7 @@ class AccountItem extends React.Component<Props>{
     goDetail = () => {
         const { account:{id},changeActiveAccount } = this.props
         changeActiveAccount(id)
-        this.props.navigation.navigate("accountDetail")
+        this.props.navigation.navigate('accountDetail')
     }
     render() {
         const { account:{name, balance, id},isEyeOpen,labels } = this.props        
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginHorizontal: 10,
         flexDirection: 'row',
-        justifyContent: "space-between",
-        alignItems: "center",
+        justifyContent: 'space-between',
+        alignItems: 'center',
         height: 80,
         paddingLeft: 8,
         paddingRight: 15,

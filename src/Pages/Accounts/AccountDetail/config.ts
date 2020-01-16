@@ -1,10 +1,10 @@
 import i18n from 'I18n';
-import Collection from "Assets/collection.png"
-import Transfer from "Assets/transfer.png"
+import Collection from 'Assets/collection.png'
+import Transfer from 'Assets/transfer.png'
 
 
-import TransactionModel from "Models/transaction"
-import { TRANSACTION_STATUS_FAIL, TRANSACTION_STATUS_PENDING ,TRANSACTION_STATUS_SUCCESS} from "Global/constants"
+import TransactionModel from 'Models/transaction'
+import { TRANSACTION_STATUS_FAIL, TRANSACTION_STATUS_PENDING ,TRANSACTION_STATUS_SUCCESS} from 'Global/constants'
 
 export const TxIconConfig = {
     collection: Collection,

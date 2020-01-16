@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, Animated, Easing } from "react-native"
-import { action, observable } from "mobx"
-import { RNCamera } from "react-native-camera"
-import React from "react"
-import { NavigationScreenProp } from "react-navigation"
-import _ from "lodash"
-import { Utils } from "@dipperin/dipperin.js"
+import { View, Text, StyleSheet, Animated, Easing } from 'react-native'
+import { action, observable } from 'mobx'
+import { RNCamera } from 'react-native-camera'
+import React from 'react'
+import { NavigationScreenProp } from 'react-navigation'
+import _ from 'lodash'
+import { Utils } from '@dipperin/dipperin.js'
 import { Toast } from 'Components/PopupWindow'
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'

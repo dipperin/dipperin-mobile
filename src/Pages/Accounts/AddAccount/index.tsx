@@ -1,13 +1,13 @@
-import { View } from "react-native"
-import { observable, action } from "mobx"
-import { observer, inject } from "mobx-react"
-import React from "react"
+import { View } from 'react-native'
+import { observable, action } from 'mobx'
+import { observer, inject } from 'mobx-react'
+import React from 'react'
 import { InputItem, List } from '@ant-design/react-native';
-import { NavigationScreenProp } from "react-navigation"
+import { NavigationScreenProp } from 'react-navigation'
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
 
-import AccountStore from "Store/account"
+import AccountStore from 'Store/account'
 
 
 interface Props {

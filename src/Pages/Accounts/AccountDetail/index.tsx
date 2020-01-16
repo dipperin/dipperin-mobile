@@ -1,18 +1,18 @@
-import { View, Text, StyleSheet } from "react-native"
-import React from "react"
-import { inject, observer } from "mobx-react"
-import TxRecord from "./TxRecord"
-import AccountInfo from "./AccountInfo"
-import { Button } from "@ant-design/react-native"
-import { NavigationEvents } from "react-navigation"
-import { NavigationStackScreenProps} from "react-navigation-stack"
+import { View, StyleSheet } from 'react-native'
+import React from 'react'
+import { inject, observer } from 'mobx-react'
+import TxRecord from './TxRecord'
+import AccountInfo from './AccountInfo'
+import { Button } from '@ant-design/react-native'
+import { NavigationEvents } from 'react-navigation'
+import { NavigationStackScreenProps} from 'react-navigation-stack'
 
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
 
 import TransactionStore from 'Store/transaction'
-import AccountStore from "Store/account"
-import SystemStore from "Store/System"
+import AccountStore from 'Store/account'
+import SystemStore from 'Store/System'
 
 
 interface Props {
@@ -39,7 +39,7 @@ class AccountDetail extends React.Component<Props> {
         const { isEyeOpen, setIsEyeOpen } = this.props.system!
         const { labels } = this.props
         return (
-            <View style={{ flex: 1, backgroundColor: "#FAFBFC" }}>
+            <View style={{ flex: 1, backgroundColor: '#FAFBFC' }}>
                 <NavigationEvents 
                     onDidFocus={this.didFocus}
                 />
@@ -77,20 +77,20 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         height: 85,
-        backgroundColor: "#FAFBFC"
+        backgroundColor: '#FAFBFC',
     },
     transfterBtn: {
         borderRadius: 44,
         height: 44,
         width: 134,
         borderWidth: 0,
-        backgroundColor: "#1C77BC",
+        backgroundColor: '#1C77BC',
     },
     collectionBtn: {
         borderRadius: 44,
         height: 44,
         width: 134,
         borderWidth: 0,
-        backgroundColor: "#107E4A",
-    }
+        backgroundColor: '#107E4A',
+    },
 })

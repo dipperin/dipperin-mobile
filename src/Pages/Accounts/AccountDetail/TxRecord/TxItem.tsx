@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native"
-import React from "react"
-import { observer } from "mobx-react"
-import { NavigationScreenProp, withNavigation } from "react-navigation"
-import moment from "moment"
-import { getIsTxFromMe, formatNumber } from "Global/utils"
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { observer } from 'mobx-react'
+import { NavigationScreenProp, withNavigation } from 'react-navigation'
+import moment from 'moment'
+import { getIsTxFromMe, formatNumber } from 'Global/utils'
 import { I18nAccountType } from 'I18n/config'
 
-import TransactionModel from "Models/transaction"
-import Collection from "Assets/collection.png"
-import Transfer from "Assets/transfer.png"
+import TransactionModel from 'Models/transaction'
+import Collection from 'Assets/collection.png'
+import Transfer from 'Assets/transfer.png'
 
 
 interface Props {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     dip: {
-        textAlign: "right"
+        textAlign: 'right'
     },
     txt: {
         maxWidth: 200,

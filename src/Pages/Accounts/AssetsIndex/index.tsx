@@ -1,17 +1,17 @@
 import React from 'react'
-import { inject, observer } from "mobx-react"
+import { inject, observer } from 'mobx-react'
 import { View, StatusBar, Platform } from 'react-native'
-import { NavigationEvents } from "react-navigation"
-import { NavigationStackScreenProps } from "react-navigation-stack"
+import { NavigationEvents } from 'react-navigation'
+import { NavigationStackScreenProps } from 'react-navigation-stack'
 
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nAccountType } from 'I18n/config'
 
-import AssetsInfo from "./AssetsInfo"
-import AccountList from "./AccountList"
+import AssetsInfo from './AssetsInfo'
+import AccountList from './AccountList'
 
-import SystemStore from "Store/System"
-import AccountStore from "Store/account"
+import SystemStore from 'Store/System'
+import AccountStore from 'Store/account'
 
 interface Props {
   account?: AccountStore
