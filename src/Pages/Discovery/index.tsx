@@ -18,22 +18,19 @@ interface Props {
   labels:I18nDiscoveryType
 }
 
-class Discovery extends React.Component<Props, State> {
-  constructor(props: any) {
+class Discovery extends React.Component<any, State> {
+  _navListener: any
+  constructor (props:any) {
     super(props)
     this.state = {
       activeIndex: 0
     }
   }
-  _navListener: any
-  componentDidMount() {
-    this._navListener = this.props.navigation.addListener('didFocus', () => {
-      StatusBar.setBackgroundColor('#0B0E19')
-      StatusBar.setBarStyle('light-content')
-      this.setState({
-        activeIndex: 0
-      })
-    });
+  componentDidMount() {
+      this._navListener = this.props.navigation.addListener('didFocus', () => {
+        StatusBar.setBackgroundColor('#0B0E19')
+        StatusBar.setBarStyle('light-content')
+      });
   }
   componentWillUnmount() {
     this._navListener.remove();

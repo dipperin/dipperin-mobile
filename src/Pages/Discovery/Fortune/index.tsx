@@ -47,7 +47,7 @@ class Fortune extends React.Component<FortuneProps> {
       <View style={styles.tRow}>
         <Text style={styles.ranking}>{index +1}</Text>
         <Text style={styles.address}>{formatEllipsis(item.address)}</Text>
-        <Text style={styles.balance}>{item.dip_balance} DIP</Text>
+        <Text style={styles.balance}>{item.dip_balance}</Text>
         <Text style={styles.holdings}>{balancePercent(item.balance, totalBlocks)}%</Text>
       </View>
     )

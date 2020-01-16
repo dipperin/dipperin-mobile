@@ -1,10 +1,12 @@
 import React from 'react'
-import { Text } from 'react-native'
+// import { View } from 'react-native'
+import { WebView } from 'react-native-webview'
+import { userProtocol } from './userProtocol'
 
 class UserProtocol extends React.Component {
   render() {
     return (
-      <Text>用户协议</Text>
+      <WebView source={{html: userProtocol}} />
     )
   }
 }

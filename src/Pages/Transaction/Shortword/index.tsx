@@ -142,7 +142,10 @@ class Shortword extends React.Component<Props> {
 
     const {isFingerPay} = this.props.system!
     if (isFingerPay) {
-      Modal.FingerprintPopShow({successHint: this.props.labels.proccessPay}, {
+      Modal.FingerprintPopShow({
+        startHint: this.props.labels.pleaseEnterFingerprint,
+        successHint: this.props.labels.proccessPay,
+      }, {
         fingerprintFailCb: this.handleFingerprintFailCb,
         fingerprintSuccessCb: this.handleFingerprintSuccessCb,
         hide: () => Modal.hide(),

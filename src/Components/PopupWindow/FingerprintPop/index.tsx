@@ -5,6 +5,9 @@ import FINGERPRINT from 'Assets/fingerprint.png'
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
+import { I18StartType } from 'I18n/config';
+
+const label = i18n.t('dipperin:start') as I18StartType
 
 const client = Dimensions.get('window')
 
@@ -24,10 +27,10 @@ class FingerprintPop extends React.Component<Props> {
   @observable contentText: string = ''
   curTimes: number = 0
 
-  static defaultProps = { 
-    startHint: i18n.t('dipperin:start.pleaseEnterFingerprint'),
-    proccessHint: i18n.t('dipperin:start.proccessAuthFingerprint'),
-    successHint: i18n.t('dipperin:start.successAuthFingerprint')
+  static defaultProps = {
+    startHint: label.pleaseEnterFingerprint,
+    proccessHint: label.proccessAuthFingerprint,
+    successHint: label.successAuthFingerprint,
   }
 
   componentDidMount() {
@@ -102,7 +105,7 @@ export default FingerprintPop
 export const styles = StyleSheet.create({
   popWrapper: {
     width: client.width,
-    height: "100%",
+    height: '100%',
     backgroundColor: 'rgba(52,52,52,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -112,7 +115,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: client.width * 0.86,
     borderRadius: 8,
-    overflow: "hidden"
+    overflow: 'hidden',
   },
 
   box: {
@@ -125,25 +128,25 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   curStatusText: {
     color: '#1C77BC',
     fontSize: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   fingerprintImg: {
     marginBottom: 6,
     width: 60,
     height: 60,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
 
   cancelBtn: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   cancelBtnText: {
     padding: 4,
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 })

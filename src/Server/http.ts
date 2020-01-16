@@ -1,3 +1,5 @@
+import Toast from "Components/Toast"
+
 export const host= "http://venus.dipperin.io"
 // export const host = 'http://172.16.5.120:8886'
 export const baseUrl = '/api/v1'
@@ -16,16 +18,15 @@ export const fetchRequest = async (url: string = '', method: string = 'GET', bod
           reject('timeout')
         }, 20000)
       })])
-      console.log('res:', res, 'params:', body)
+    // console.log('res:', res, 'params:', body)
     // handle response
     const resJson = await res.json()
-    console.log("resJson: ", resJson)
     if (resJson && resJson.success !== true) {
-      console.log("result", resJson.info)
+      Toast.info(resJson.info)
     }
     return resJson
   } catch (error) {
-    console.log(error)
+    Toast.info(error)
   }
 }
 

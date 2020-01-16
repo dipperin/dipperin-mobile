@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 
 import {
-  styles
+  styles,
 } from './config'
 import { NavigationScreenProp } from 'react-navigation'
 import { observer, inject } from 'mobx-react'
@@ -41,7 +41,7 @@ class ChangePassword extends React.Component<Props> {
             <Text style={styles.inputItemLabel}>{label.oldPassword}</Text>
             <TextInput
               secureTextEntry={true}
-              placeholder={label.pleaseEnterOldPsd}
+              // placeholder={label.pleaseEnterOldPsd}
               autoCompleteType="password"
               style={styles.input}
               value={this.oldPassword}
@@ -53,7 +53,7 @@ class ChangePassword extends React.Component<Props> {
             <Text style={styles.inputItemLabel}>{label.newPassword}</Text>
             <TextInput
               secureTextEntry={true}
-              placeholder={label.pleaseEnterNewPsd}
+              // placeholder={label.pleaseEnterNewPsd}
               autoCompleteType="password"
               maxLength={24}
               style={styles.input}
@@ -66,7 +66,7 @@ class ChangePassword extends React.Component<Props> {
             <Text style={styles.inputItemLabel}>{label.confrimPassword}</Text>
             <TextInput
               secureTextEntry={true}
-              placeholder={label.pleaseConfirmNewPsd}
+              // placeholder={label.pleaseConfirmNewPsd}
               autoCompleteType="password"
               maxLength={24}
               style={styles.input}
@@ -76,9 +76,9 @@ class ChangePassword extends React.Component<Props> {
           </View>
 
           <View style={styles.inputItem}>
-            <Text style={styles.inputItemLabel}>{label.confrimPassword}</Text>
+            <Text style={styles.inputItemLabel}>{label.passwordTipMsg}</Text>
             <TextInput
-              placeholder={label.passwordTipMsg}
+              // placeholder={label.passwordTipMsg}
               autoCompleteType="off"
               style={styles.input}
               value={this.passwordTip}
@@ -110,6 +110,7 @@ class ChangePassword extends React.Component<Props> {
         <ResetWalletPop
           language={label}
           visible={this.isShowResetWalletPop}
+          cancelText={label.cancel}
           confrimText={label.resetWallet}
           onCancel={this.hideResetWalletPop}
           onConfirm={this.resetWallet}

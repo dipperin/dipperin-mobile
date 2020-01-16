@@ -1,43 +1,46 @@
-import { View, Text, Image, StyleSheet } from "react-native"
-import React from "react"
+import { View, Text, Image, StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
+import React from 'react'
 import AccountModel from 'Models/account'
-import Accountlogo from "Assets/accountLogo.png"
-import Eye from "Components/Eye"
+import Accountlogo from 'Assets/accountLogo.png'
+import Eye from 'Components/Eye'
 import { I18nAccountType } from 'I18n/config'
 
-import { formatNumber } from "Global/utils"
+import { formatNumber } from 'Global/utils'
 
 interface Props {
     account: AccountModel | undefined
     isEyeOpen: boolean
     setIsEyeOpen: (val: boolean) => void
-    labels:I18nAccountType
+    labels: I18nAccountType
 
 }
-
-const AccountInfo = (props: Props) => {
-    const { isEyeOpen, setIsEyeOpen, account ,labels} = props
-    return (
-        <View style={styles.infoBox}>
-            <Image source={Accountlogo} style={styles.accountLogo} />
-            <View style={styles.nameBox}>
-                <Text style={styles.dip}>{isEyeOpen ? `${formatNumber(Number(account?.balance), 6)} DIP` : '*******'}</Text>
-                <Eye
-                    isEyeOpen={isEyeOpen}
-                    onPress={setIsEyeOpen}
-                />
+@observer
+class AccountInfo extends React.Component<Props>{
+    render() {
+        const { isEyeOpen, setIsEyeOpen, account } = this.props
+        return (
+            <View style={styles.infoBox}>
+                <Image source={Accountlogo} style={styles.accountLogo} />
+                <View style={styles.nameBox}>
+                    <Text style={styles.dip}>{isEyeOpen ? `${formatNumber(Number(account?.balance), 6)} DIP` : '*******'}</Text>
+                    <Eye
+                        isEyeOpen={isEyeOpen}
+                        onPress={setIsEyeOpen}
+                    />
+                </View>
             </View>
-
-        </View>
-    )
-
+        )
+    }
 }
+
+
 
 export default AccountInfo
 
 const styles = StyleSheet.create({
     infoBox: {
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
         alignItems: 'center',
         height: 110,
         marginBottom: 10,
@@ -50,13 +53,13 @@ const styles = StyleSheet.create({
     nameBox: {
         marginTop: 8,
         flexDirection: 'row',
-        alignItems:'center',
+        alignItems: 'center',
     },
     dip: {
-        marginLeft:20,
-        marginRight:10,
+        marginLeft: 20,
+        marginRight: 10,
         fontSize: 22,
-        color: "#393B42",
+        color: '#393B42',
 
-    }
+    },
 })
