@@ -66,11 +66,11 @@ class LockPage extends React.Component<Props> {
 
   showFingerprintUnlock = () => {
     Modal.FingerprintPopShow({
-      successHint: this.props.language.unlocking
+      successHint: this.props.language.unlocking,
     }, {
       fingerprintSuccessCb: this.fingerprintSuccessCb,
       fingerprintFailCb: this.fingerprintFailCb,
-      hide: this.FingerprintPopHide
+      hide: this.FingerprintPopHide,
     });
   };
 
@@ -121,7 +121,7 @@ class LockPage extends React.Component<Props> {
     const address = getParam('address')
     const amount = getParam('amount')
     const scheme = getParam('scheme')
-    if(type === 'send') {
+    if (type === 'send') {
       this.props.navigation.navigate('send', { type, address, amount, scheme })
       return
     }

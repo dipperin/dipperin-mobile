@@ -1,10 +1,6 @@
 import React from 'react'
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Slider,
   EmitterSubscription,
   Keyboard,
   Clipboard,
@@ -25,6 +21,11 @@ import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils'
 import AccountStore from 'Store/account'
 import { Utils } from '@dipperin/dipperin.js'
 import ContractStore from 'Store/contract'
+import AddressBox from './AddressBox'
+import AmoutBox from './AmountBox'
+import ExtraData from './ExtraDataBox'
+import BtnBox from './BtnBox'
+import TxFeeBox from './TxFeeBox'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -298,131 +299,36 @@ class Send extends React.Component<Props> {
           contentContainerStyle={styles.wrapper}
           style={styles.contentWrapper}
           resetScrollToCoords={{ x: 0, y: 0 }}>
-          {this.renderAddressBox()}
+          <AddressBox
+            labels={this.props.labels}
+            value={this.addressOrShortWord}
+            handleChange={this.handleChangeAddressOrShortword}
+          />
 
-          {this.renderAmountBox()}
+          <AmoutBox
+            labels={this.props.labels}
+            value={this.sendAmount}
+            balance={this.props.account!.activeAccount!.balance}
+            handleChange={this.handleChangeSendAmount}
+          />
 
-          {this.renderExtraDataBox()}
+          <ExtraData
+            labels={this.props.labels}
+            value={this.extraData}
+            handleChange={this.handleChangeExtraData}
+          />
 
-          {this.renderTxFeeBox()}
+          <TxFeeBox
+            labels={this.props.labels}
+            fee={this.txFee}
+            value={this.txFeeLevel}
+            handleChange={this.handleChangeTxfee}
+          />
         </KeyboardAwareScrollView>
-        {!this.keyboardShow && this.renderBtnBox()}
+        {!this.keyboardShow && (
+          <BtnBox labels={this.props.labels} onPress={this.handleSend} />
+        )}
       </View>
-    )
-  }
-
-  renderAddressBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
-        <View style={styles.toAddressLabel}>
-          <Text style={styles.toAddressText}>{labels.toAddress}</Text>
-        </View>
-        <TextInput
-          style={styles.toAddressInput}
-          value={this.addressOrShortWord}
-          onChangeText={this.handleChangeAddressOrShortword}
-          placeholder={labels.enterAddressOrWord}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderAmountBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
-        <View style={styles.sendAmountBar}>
-          <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
-          <Text style={styles.balanceText}>{`${labels.balance}: ${
-            this.props.account!.activeAccount!.balance
-          } DIP`}</Text>
-        </View>
-        <TextInput
-          style={styles.sendAmountInput}
-          value={this.sendAmount}
-          onChangeText={this.handleChangeSendAmount}
-          placeholder={labels.enterAmount}
-          keyboardType="numeric"
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderExtraDataBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.extraDataWrapper} activeOpacity={0.8}>
-        <View style={styles.extraDataBar}>
-          <Text style={styles.extraDataLabel}>
-            {labels.remark}({labels.optional})
-          </Text>
-        </View>
-        <TextInput
-          style={styles.extraDataInput}
-          value={this.extraData}
-          onChangeText={this.handleChangeExtraData}
-          placeholder={labels.enterRemark}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderTxFeeBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
-        <View style={styles.txFeeBar}>
-          <Text style={styles.txFeeLabel}>{labels.txFee}</Text>
-          <Text style={styles.txFeeText}>{this.txFee} DIP</Text>
-        </View>
-        <Slider
-          minimumValue={1}
-          maximumValue={3}
-          minimumTrackTintColor="#0099cb"
-          step={1}
-          onValueChange={this.handleChangeTxfee}
-        />
-        <View style={styles.txFeeBottomBar}>
-          <Text
-            style={
-              this.txFeeLevel >= 1
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.low}
-          </Text>
-          <Text
-            style={
-              this.txFeeLevel >= 2
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.middle}
-          </Text>
-          <Text
-            style={
-              this.txFeeLevel >= 3
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.high}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    )
-  }
-  renderBtnBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity
-        style={styles.btnWrapper}
-        onPress={this.handleSend}
-        activeOpacity={0.8}>
-        <View style={styles.btnView}>
-          <Text style={styles.btnText}>{labels.send}</Text>
-        </View>
-      </TouchableOpacity>
     )
   }
 }
