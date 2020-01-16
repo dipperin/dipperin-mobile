@@ -113,7 +113,7 @@ class Create extends React.Component<Props> {
   }
 
   showAgree = () => {
-
+    this.props.navigation.navigate('initUserProtocol')
   }
 
   render() {
