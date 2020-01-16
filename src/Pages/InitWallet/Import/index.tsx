@@ -97,12 +97,12 @@ class Import extends React.Component<Props> {
 
   @action
   handleChangeMnemonic = (text: string) => {
-    this.mnemonic = text
+    this.mnemonic = text.replace(/[\u4E00-\u9FA5]/g,'')
   }
 
   @action
   handleChangePassword = (text: string) => {
-    this.password = text
+    this.password = text.replace(/[\u4E00-\u9FA5]/g,'')
   }
 
   @action
@@ -172,6 +172,7 @@ class Import extends React.Component<Props> {
               onChangeText={this.handleChangePasswordTip}
               style={styles.input}
               value={this.passwordTip}
+              maxLength={24}
               placeholder={labels.passwordTip}
             />
           </View>
@@ -182,14 +183,12 @@ class Import extends React.Component<Props> {
                 : <View style={styles.selectIcon} />
               }
             </TouchableOpacity>
-            <View style={styles.agreeTextWrap}>
+            <Text style={styles.agreeTextWrap}>
               <Text style={styles.agreeText}>
                 {labels.agreeLabel}
               </Text>
-              <TouchableOpacity onPress={this.showAgree} activeOpacity={0.7}>
-                <Text style={styles.agree}>{labels.agree}</Text>
-              </TouchableOpacity>
-            </View>
+              <Text onPress={this.showAgree} style={styles.agree}>{labels.agree}</Text>
+            </Text>
           </View>
         </KeyboardAwareScrollView>
         {!this.keyboardShow &&
@@ -250,11 +249,13 @@ const styles = StyleSheet.create({
     height: 55,
   },
   agreeWrap: {
+    marginTop: 10,
     height: 55,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   selectIcon: {
+    marginTop: 2,
     width: 17,
     height: 17,
     borderRadius: 17,
