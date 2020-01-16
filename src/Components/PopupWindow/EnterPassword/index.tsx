@@ -1,59 +1,59 @@
-import React from 'react';
-import { Text, View, TextInput, StatusBar } from 'react-native';
-import { action, observable } from 'mobx';
-import { observer } from 'mobx-react';
-import { Button, Modal, Provider } from '@ant-design/react-native';
+import React from 'react'
+import { Text, View, TextInput, StatusBar } from 'react-native'
+import { action, observable } from 'mobx'
+import { observer } from 'mobx-react'
+import { Button, Modal, Provider } from '@ant-design/react-native'
 
-import { I18nTransactionType } from 'I18n/config';
-import i18n from 'I18n';
-import { getStorage } from 'Db';
-import { STORAGE_KEYS } from 'Global/constants';
-import { styles } from './config';
+import { I18nTransactionType } from 'I18n/config'
+import i18n from 'I18n'
+import { getStorage } from 'Db'
+import { STORAGE_KEYS } from 'Global/constants'
+import { styles } from './config'
 
 interface Props {
   hasCancel?: boolean
-  onClose: () => void;
-  onConfirm: (password: string) => Promise<void>;
+  onClose: () => void
+  onConfirm: (password: string) => Promise<void>
 }
 
-const labels = i18n.t('dipperin:transaction') as I18nTransactionType;
+const labels = i18n.t('dipperin:transaction') as I18nTransactionType
 
 @observer
 class EnterPassword extends React.Component<Props> {
-  @observable password: string = '';
-  @observable passwordHint: string = '';
+  @observable password: string = ''
+  @observable passwordHint: string = ''
 
   static defaultProps = {
-    hasCancel: true
+    hasCancel: true,
   }
   componentDidMount() {
-    this.getPasswordHint();
+    this.getPasswordHint()
   }
 
   @action private setPasswordHint = (tip: string) => {
-    this.passwordHint = tip;
-  };
+    this.passwordHint = tip
+  }
 
   @action private setPassword = (text: string) => {
-    this.password = text;
-  };
+    this.password = text
+  }
 
   getPasswordHint = async () => {
-    const hint = await getStorage(STORAGE_KEYS.PASSWORD_TIP);
-    this.setPasswordHint(hint);
-  };
+    const hint = await getStorage(STORAGE_KEYS.PASSWORD_TIP)
+    this.setPasswordHint(hint)
+  }
 
   handleChangePassword = (text: string) => {
-    this.setPassword(text);
-  };
+    this.setPassword(text)
+  }
 
   handleConfirm = async () => {
     try {
-      await this.props.onConfirm(this.password);
+      await this.props.onConfirm(this.password)
     } finally {
-      this.setPassword('');
+      this.setPassword('')
     }
-  };
+  }
 
   render() {
     return (
@@ -65,8 +65,8 @@ class EnterPassword extends React.Component<Props> {
           // onClose={this.props.onClose}
           maskClosable
           visible={true}
-          style={{ width: 308 }}>
-          <View style={{ paddingVertical: 20, width: 308 }}>
+          style={styles.modal}>
+          <View style={styles.mainContent}>
             <TextInput
               style={styles.passwordInput}
               value={this.password}
@@ -82,16 +82,14 @@ class EnterPassword extends React.Component<Props> {
             </View>
           </View>
           <View style={styles.btnBox}>
-            {
-              this.props.hasCancel && (
-                <Button
-                  style={styles.cancelBtn}
-                  type={'primary'}
-                  onPress={this.props.onClose}>
-                  {labels.cancel}
-                </Button>
-              )
-            }
+            {this.props.hasCancel && (
+              <Button
+                style={styles.cancelBtn}
+                type={'primary'}
+                onPress={this.props.onClose}>
+                {labels.cancel}
+              </Button>
+            )}
 
             <Button
               style={styles.confirmBtn}
@@ -102,8 +100,8 @@ class EnterPassword extends React.Component<Props> {
           </View>
         </Modal>
       </Provider>
-    );
+    )
   }
 }
 
-export default EnterPassword;
+export default EnterPassword

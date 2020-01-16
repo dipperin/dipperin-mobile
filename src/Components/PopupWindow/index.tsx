@@ -8,4 +8,3 @@ export default {
   Toast: ToastClass,
   Modal: ModalClass,
 }
-

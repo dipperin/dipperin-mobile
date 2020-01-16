@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   mainWrapper: {
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     width: 339,
     // height: 417,
     paddingBottom: 40,
-    },
+  },
   contentTitleWrapper: {
     backgroundColor: '#F1F2F3',
     justifyContent: 'center',
@@ -85,8 +85,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
   },
+  btnMain: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 308,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#4992c9',
+  },
+  btnText: { color: '#fff', fontSize: 17 },
   btnSend: {
     height: 30,
     // borderRadius: 15,
   },
-});
+})

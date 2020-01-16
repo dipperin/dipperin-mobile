@@ -160,6 +160,7 @@ class Shortword extends React.Component<Props> {
   handleFingerprintSuccessCb = async() => {
     const _password = await getStorage(STORAGE_KEYS.PASSWORD)
     this.handleConfirmTransaction(encryptionPassword(_password))
+    Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
 
   handleConfirmTransaction = async (psw: string) => {
