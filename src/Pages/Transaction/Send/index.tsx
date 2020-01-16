@@ -194,11 +194,33 @@ class Send extends React.Component<Props> {
       this.handleChangeAddressOrShortword(word)
       return
     }
+    const parseAccount = word.match(/^(0x)?(0000|0014)[0-9a-fA-F]{40}$/)
+    if (parseAccount && Utils.isAddress(parseAccount[0])) {
+      this.handleChangeAddressOrShortword(parseAccount[0])
+      return
+    }
+    const parseShortword = word.match(
+      /short word: ([\u4e00-\u9fa5A-Za-z0-9]{1,20})/,
+    )
+    const res = await this.queryShortWord(
+      (parseShortword && parseShortword[1]) || '',
+    )
+    if (res) {
+      return
+    }
+    this.queryShortWord(word)
+  }
 
+  queryShortWord = async (word: string): Promise<boolean> => {
+    if (!/[\u4e00-\u9fa5A-Za-z0-9]{1,20}/.test(word)) {
+      return false
+    }
     const account = await this.props.contract!.queryAddressByShordword(word)
     if (account && this.addressOrShortWord === '') {
       this.handleChangeAddressOrShortword(word)
+      return true
     }
+    return false
   }
 
   sendTransaction = async () => {
