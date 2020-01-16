@@ -4,7 +4,6 @@ import FINGERPRINT from 'Assets/fingerprint.png';
 import { styles } from './config';
 import { NavigationScreenProp } from 'react-navigation';
 // There are differences between IOS and Android
-import FingerprintPop from 'Components/PopupWindow/FingerprintPop'
 import { observer, inject } from 'mobx-react'
 import { observable, action } from 'mobx'
 import { WithTranslation, withTranslation } from 'react-i18next'
@@ -15,6 +14,7 @@ import { getStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
 import { decryptionPassword } from 'Global/utils'
 import System from 'Store/System';
+// import EnterPassword from 'Components/PopupWindow/EnterPassword'
 
 interface Props {
   navigation: NavigationScreenProp<any>;
@@ -26,6 +26,7 @@ interface Props {
 @inject('wallet', 'system')
 @observer
 class LockPage extends React.Component<Props> {
+  @observable isShowPropEnterPassword: boolean = false
   @observable fingerprintHintText: string = this.props.language.fingerprintUnlock
 
   componentDidMount() {
@@ -55,22 +56,37 @@ class LockPage extends React.Component<Props> {
           onPress={this.togglePasswordLogin}>
           <Text style={styles.btnText}>{language.passwordUnlock}</Text>
         </TouchableOpacity>
+
+        {/* {
+          this.isShowPropEnterPassword && (
+            <EnterPassword
+              hasCancel={this.props.system?.isFingerUnLock}
+              onClose={this.hideEnterPassword}
+              onConfirm={this.enterPassword}
+            />
+          )
+        } */}
       </View>
     );
   }
 
-  togglePasswordLogin = () => {
+  @action togglePasswordLogin = () => {
     // Show password unlock page
-    Modal.enterPassword(this.enterPassword, {hasCancel: this.props.system?.isFingerUnLock});
+    // Modal.enterPassword(this.enterPassword, {hasCancel: this.props.system?.isFingerUnLock});
+    this.isShowPropEnterPassword = true
   };
+
+  @action hideEnterPassword = () => {
+    this.isShowPropEnterPassword = false
+  }
 
   showFingerprintUnlock = () => {
     Modal.FingerprintPopShow({
-      successHint: this.props.language.unlocking
+      successHint: this.props.language.unlocking,
     }, {
       fingerprintSuccessCb: this.fingerprintSuccessCb,
       fingerprintFailCb: this.fingerprintFailCb,
-      hide: this.FingerprintPopHide
+      hide: this.FingerprintPopHide,
     });
   };
 
@@ -102,7 +118,6 @@ class LockPage extends React.Component<Props> {
   };
 
   enterPassword = async (password: string) => {
-    await Modal.hide();
     Toast.loading();
     const unlock = await this.props.wallet!.unlockWallet(password)
     if (!unlock) {
@@ -121,7 +136,7 @@ class LockPage extends React.Component<Props> {
     const address = getParam('address')
     const amount = getParam('amount')
     const scheme = getParam('scheme')
-    if(type === 'send') {
+    if (type === 'send') {
       this.props.navigation.navigate('send', { type, address, amount, scheme })
       return
     }

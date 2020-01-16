@@ -21,10 +21,13 @@ import { styles } from './config'
 import {Toast, Modal} from 'Components/PopupWindow'
 import TransactionStore from 'Store/transaction'
 import WalletStore from 'Store/wallet'
-import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils'
+import { fromUnitToDip, sleep, verifyBalance, encryptionPassword } from 'Global/utils'
 import AccountStore from 'Store/account'
 import { Utils } from '@dipperin/dipperin.js'
 import ContractStore from 'Store/contract'
+import System from 'Store/System';
+import { getStorage } from 'Db';
+import { STORAGE_KEYS } from 'Global/constants';
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -33,9 +36,10 @@ interface Props {
   wallet?: WalletStore
   account?: AccountStore
   contract?: ContractStore
+  system?: System
 }
 
-@inject('transaction', 'wallet', 'account', 'contract')
+@inject('transaction', 'wallet', 'account', 'contract', 'system')
 @observer
 class Send extends React.Component<Props> {
   @observable addressOrShortWord = ''
@@ -237,13 +241,30 @@ class Send extends React.Component<Props> {
     if (!this.verifyBalance()) {
       return
     }
-    Modal.enterPassword(this.handleConfirmTransaction)
+
+    const {isFingerPay} = this.props.system!
+    if (isFingerPay) {
+      Modal.FingerprintPopShow({successHint: this.props.labels.proccessPay}, {
+        fingerprintFailCb: this.handleFingerprintFailCb,
+        fingerprintSuccessCb: this.handleFingerprintSuccessCb,
+        hide: () => Modal.hide(),
+      })
+      return
+    }
+    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
+  }
+
+  handleFingerprintFailCb = () => {
+    Modal.hide()
+  }
+  handleFingerprintSuccessCb = async() => {
+    const _password = await getStorage(STORAGE_KEYS.PASSWORD)
+    this.handleConfirmTransaction(encryptionPassword(_password))
   }
 
   handleConfirmTransaction = async (psw: string) => {
-    await Modal.hide()
+    Modal.hide()
     Toast.loading()
-    await sleep(500)
 
     if (!this.props.wallet!.checkPassword(psw)) {
       Toast.hide()

@@ -3,7 +3,7 @@ const enResource = {
     tabName:{
       me:'Me',
       discovery:'Discovery',
-      wallet:'Wallet'
+      wallet:'Wallet',
     },
     userProtocol: 'User agreement',
     start: {
@@ -20,7 +20,7 @@ const enResource = {
       successAuthFingerprint: 'Fingerprint authentication is successful',
       unlocking: 'Unlocking',
       hintFingerprintDisabled: 'Please check whether the system fingerprint verification is on',
-      passwordError: 'Wrong Password!'
+      passwordError: 'Wrong Password!',
     },
     discovery: {
       title: 'Discovery',
@@ -37,14 +37,14 @@ const enResource = {
         accounts: 'Accounts',
         txCount: 'TxCount',
         value: 'Value',
-        moreDapp: 'Stay tuned for more DApps'
+        moreDapp: 'Stay tuned for more DApps',
       },
       fortune: {
         ranking: 'Ranking',
         holdings: 'Holdings',
         address: 'Address',
         balance: 'Balance',
-      }
+      },
     },
     import: {
       title: 'Import Mnemonic',
@@ -58,8 +58,8 @@ const enResource = {
       info: {
         mnemonicNotAvailable: 'Mnemonic not available!',
         passwordNotAvailable: 'Password must be 8~24 characters in length.',
-        repeatPasswordErr: 'Two passwords do not match!'
-      }
+        repeatPasswordErr: 'Two passwords do not match!',
+      },
     },
     create: {
       title: 'Create Wallet',
@@ -71,8 +71,8 @@ const enResource = {
       btnText: 'Create Wallet',
       info: {
         passwordNotAvailable: 'Password must be 8~24 characters in length.',
-        repeatPasswordErr: 'Two passwords do not match!'
-      }
+        repeatPasswordErr: 'Two passwords do not match!',
+      },
     },
     createStep1: {
       title: 'Wallet Mnemonic',
@@ -166,10 +166,10 @@ const enResource = {
       3.Screening they may reveal the private key
       `,
       FAQTransferAccountsFailTitle: 'Transfer is not successful??',
-      FAQTransferAccountsFailDesc1: `1. Transaction status did not send:`,
+      FAQTransferAccountsFailDesc1: '1. Transaction status did not send:',
       FAQTransferAccountsFailDesc2: 'Probably because transfer request is not block links, please wait patiently',
       FAQTransferAccountsFailDesc3: '2. Transaction status for confirmation:',
-      FAQTransferAccountsFailDesc4: `May be caused by miners fee set lower, please wait patiently`,
+      FAQTransferAccountsFailDesc4: 'May be caused by miners fee set lower, please wait patiently',
       FAQTransferAccountsFailDesc5: '3. Transaction status failure:',
       FAQTransferAccountsFailDesc6: `
       1> Inadequate gas or only the problem of contract, if you cannot confirm the specific reason, please contact us\n
@@ -221,6 +221,7 @@ const enResource = {
       noEnoughBalance: 'Balance is not enough',
       returnError: 'Return Error:',
       confirmTxError: 'Confirm Transaction Error:',
+      proccessPay: 'In the payment',
     },
     account:{
       wallet:'Wallet',
@@ -247,8 +248,8 @@ const enResource = {
       send:'Transfer',
       receive:'Receive',
       record:'Transaction Detail',
-      addAcount:'Add Account'
-    }
+      addAcount:'Add Account',
+    },
   },
 };
 
@@ -268,7 +269,7 @@ const zhResource: typeof enResource = {
     tabName:{
       me:'我的',
       discovery:'发现',
-      wallet:'钱包'
+      wallet:'钱包',
     },
     userProtocol: '用户协议',
     start: {
@@ -285,7 +286,7 @@ const zhResource: typeof enResource = {
       successAuthFingerprint: '指纹验证成功',
       unlocking: '正在解锁',
       hintFingerprintDisabled: '请检查系统指纹认证是否开启',
-      passwordError: '密码错误!'
+      passwordError: '密码错误!',
     },
     discovery: {
       title: '发现',
@@ -302,14 +303,14 @@ const zhResource: typeof enResource = {
         accounts: '用户',
         txCount: '交易数',
         value: '交易额',
-        moreDapp: '更多DApp敬请期待'
+        moreDapp: '更多DApp敬请期待',
       },
       fortune: {
         ranking: '排序',
         holdings: '持有量',
         address: '账户地址',
         balance: '余额(DIP)',
-      }
+      },
     },
     import: {
       title: '助记词导入',
@@ -323,8 +324,8 @@ const zhResource: typeof enResource = {
       info: {
         mnemonicNotAvailable: '助记词不可用!',
         passwordNotAvailable: '密码长度为8~24个字符!',
-        repeatPasswordErr: '两次密码不一致!'
-      }
+        repeatPasswordErr: '两次密码不一致!',
+      },
     },
     create: {
       title: '创建钱包',
@@ -336,8 +337,8 @@ const zhResource: typeof enResource = {
       btnText: '创建钱包',
       info: {
         passwordNotAvailable: '密码长度为8~24个字符!',
-        repeatPasswordErr: '两次密码不一致!'
-      }
+        repeatPasswordErr: '两次密码不一致!',
+      },
     },
     createStep1: {
       title: '钱包助记词',
@@ -430,10 +431,10 @@ const zhResource: typeof enResource = {
       3.排查自己可能泄露私钥的情况
       `,
       FAQTransferAccountsFailTitle: '转账不成功怎么办?',
-      FAQTransferAccountsFailDesc1: `1. 交易状态未发送：`,
+      FAQTransferAccountsFailDesc1: '1. 交易状态未发送：',
       FAQTransferAccountsFailDesc2: '可能因为转账请求未被区块链接收，请您耐心等待',
       FAQTransferAccountsFailDesc3: '2. 交易状态等待确认：',
-      FAQTransferAccountsFailDesc4: `可能因矿工费设置较低造成，请您耐心等待`,
+      FAQTransferAccountsFailDesc4: '可能因矿工费设置较低造成，请您耐心等待',
       FAQTransferAccountsFailDesc5: '3. 交易状态失败：',
       FAQTransferAccountsFailDesc6: `
       1> gas不足或者是只能合约的问题，如果您无法确认具体原因，请与我们联系\n
@@ -486,6 +487,7 @@ const zhResource: typeof enResource = {
       noEnoughBalance: '余额不足',
       returnError: '返回失败',
       confirmTxError: '确认交易失败',
+      proccessPay: '正在支付',
     },
     account:{
       wallet:'钱包',
@@ -512,8 +514,8 @@ const zhResource: typeof enResource = {
       send:'转账',
       receive:'收款',
       record:'交易详情',
-      addAcount:'创建账户'
-    }
+      addAcount:'创建账户',
+    },
   },
 };
 

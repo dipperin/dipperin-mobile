@@ -5,12 +5,11 @@ import {
   Linking,
   AppState,
   NativeModules,
-  AppStateStatus
+  AppStateStatus,
 } from 'react-native'
 import { configure } from 'mobx'
 import { Provider } from 'mobx-react'
 import { I18nextProvider } from 'react-i18next'
-import SplashScreen from 'react-native-splash-screen'
 
 
 import './ global' // for nodejs modules
@@ -24,7 +23,7 @@ import navigationService from 'Router/navigationService'
 
 // Configure mobx
 configure({
-  enforceActions: 'observed'
+  enforceActions: 'observed',
 })
 
 const rootStore = new RootStore()
@@ -86,7 +85,7 @@ const App = () => {
   )
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
 
 })
 

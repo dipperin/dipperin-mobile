@@ -18,11 +18,14 @@ import { I18nTransactionType } from 'I18n/config'
 import TransactionStore from 'Store/transaction'
 import { styles } from './config'
 import { Toast, Modal } from 'Components/PopupWindow'
-import { fromUnitToDip } from 'Global/utils'
+import { fromUnitToDip, encryptionPassword } from 'Global/utils'
 import WalletStore from 'Store/wallet'
 import ContractStore from 'Store/contract'
 import AccountStore from 'Store/account'
 import { sleep, Result } from 'Global/utils'
+import System from 'Store/System'
+import { getStorage } from 'Db'
+import { STORAGE_KEYS } from 'Global/constants'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -31,9 +34,10 @@ interface Props {
   wallet?: WalletStore
   contract?: ContractStore
   account?: AccountStore
+  system?: System
 }
 
-@inject('transaction', 'wallet', 'contract', 'account')
+@inject('transaction', 'wallet', 'contract', 'account', 'system')
 @observer
 class Shortword extends React.Component<Props> {
   @observable shortword: string = ''
@@ -135,13 +139,32 @@ class Shortword extends React.Component<Props> {
     if (!ifVerifiedShortword) {
       return
     }
-    Modal.enterPassword(this.handleConfirmTransaction)
+
+    const {isFingerPay} = this.props.system!
+    if (isFingerPay) {
+      Modal.FingerprintPopShow({successHint: this.props.labels.proccessPay}, {
+        fingerprintFailCb: this.handleFingerprintFailCb,
+        fingerprintSuccessCb: this.handleFingerprintSuccessCb,
+        hide: () => Modal.hide(),
+      })
+      return
+    }
+
+    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
+  }
+
+  handleFingerprintFailCb = () => {
+    Modal.hide()
+  }
+
+  handleFingerprintSuccessCb = async() => {
+    const _password = await getStorage(STORAGE_KEYS.PASSWORD)
+    this.handleConfirmTransaction(encryptionPassword(_password))
   }
 
   handleConfirmTransaction = async (psw: string) => {
-    await Modal.hide()
+    Modal.hide()
     Toast.loading()
-    await sleep(300)
 
     if (!this.props.wallet!.checkPassword(psw)) {
       Toast.hide()
