@@ -37,7 +37,7 @@ class Fortune extends React.Component<FortuneProps> {
           data={fortuneList}
           renderItem={({item, index}) => this.renderItem(item, index, totalBlocks)}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0.1}
         />
       </View>
     )
@@ -48,7 +48,7 @@ class Fortune extends React.Component<FortuneProps> {
         <Text style={styles.ranking}>{index +1}</Text>
         <Text style={styles.address}>{formatEllipsis(item.address)}</Text>
         <Text style={styles.balance}>{item.dip_balance}</Text>
-        <Text style={styles.holdings}>{balancePercent(item.balance, totalBlocks)}%</Text>
+        <Text style={styles.holdings}>{balancePercent(item.dip_balance, totalBlocks)}%</Text>
       </View>
     )
   }
