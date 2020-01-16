@@ -1,10 +1,6 @@
 import React from 'react'
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Slider,
   EmitterSubscription,
   Keyboard,
   Clipboard,
@@ -21,10 +17,18 @@ import { styles } from './config'
 import { Toast, Modal } from 'Components/PopupWindow'
 import TransactionStore from 'Store/transaction'
 import WalletStore from 'Store/wallet'
-import { fromUnitToDip, sleep, verifyBalance } from 'Global/utils'
+import { fromUnitToDip, sleep, verifyBalance, encryptionPassword } from 'Global/utils'
 import AccountStore from 'Store/account'
 import { Utils } from '@dipperin/dipperin.js'
 import ContractStore from 'Store/contract'
+import System from 'Store/System';
+import { getStorage } from 'Db';
+import { STORAGE_KEYS } from 'Global/constants';
+import AddressBox from './AddressBox'
+import AmoutBox from './AmountBox'
+import ExtraData from './ExtraDataBox'
+import BtnBox from './BtnBox'
+import TxFeeBox from './TxFeeBox'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -33,11 +37,51 @@ interface Props {
   wallet?: WalletStore
   account?: AccountStore
   contract?: ContractStore
+  system?: System
 }
 
-@inject('transaction', 'wallet', 'account', 'contract')
+@inject('transaction', 'wallet', 'account', 'contract', 'system')
 @observer
 class Send extends React.Component<Props> {
+  render() {
+    return (
+      <View style={styles.mainWrapper}>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.wrapper}
+          style={styles.contentWrapper}
+          resetScrollToCoords={{ x: 0, y: 0 }}>
+          <AddressBox
+            labels={this.props.labels}
+            value={this.addressOrShortWord}
+            handleChange={this.handleChangeAddressOrShortword}
+          />
+
+          <AmoutBox
+            labels={this.props.labels}
+            value={this.sendAmount}
+            balance={this.props.account!.activeAccount!.balance}
+            handleChange={this.handleChangeSendAmount}
+          />
+
+          <ExtraData
+            labels={this.props.labels}
+            value={this.extraData}
+            handleChange={this.handleChangeExtraData}
+          />
+
+          <TxFeeBox
+            labels={this.props.labels}
+            fee={this.txFee}
+            value={this.txFeeLevel}
+            handleChange={this.handleChangeTxfee}
+          />
+        </KeyboardAwareScrollView>
+        {!this.keyboardShow && (
+          <BtnBox labels={this.props.labels} onPress={this.handleSend} />
+        )}
+      </View>
+    )
+  }
   @observable addressOrShortWord = ''
   @observable toAddress: string = ''
   @observable sendAmount: string = ''
@@ -193,11 +237,33 @@ class Send extends React.Component<Props> {
       this.handleChangeAddressOrShortword(word)
       return
     }
+    const parseAccount = word.match(/^(0x)?(0000|0014)[0-9a-fA-F]{40}$/)
+    if (parseAccount && Utils.isAddress(parseAccount[0])) {
+      this.handleChangeAddressOrShortword(parseAccount[0])
+      return
+    }
+    const parseShortword = word.match(
+      /short word: ([\u4e00-\u9fa5A-Za-z0-9]{1,20})/,
+    )
+    const res = await this.queryShortWord(
+      (parseShortword && parseShortword[1]) || '',
+    )
+    if (res) {
+      return
+    }
+    this.queryShortWord(word)
+  }
 
+  queryShortWord = async (word: string): Promise<boolean> => {
+    if (!/[\u4e00-\u9fa5A-Za-z0-9]{1,20}/.test(word)) {
+      return false
+    }
     const account = await this.props.contract!.queryAddressByShordword(word)
     if (account && this.addressOrShortWord === '') {
       this.handleChangeAddressOrShortword(word)
+      return true
     }
+    return false
   }
 
   sendTransaction = async () => {
@@ -242,12 +308,30 @@ class Send extends React.Component<Props> {
     } catch (error) {
       console.log(error)
     }
+
+    const {isFingerPay} = this.props.system!
+    if (isFingerPay) {
+      Modal.FingerprintPopShow({successHint: this.props.labels.proccessPay}, {
+        fingerprintFailCb: this.handleFingerprintFailCb,
+        fingerprintSuccessCb: this.handleFingerprintSuccessCb,
+        hide: () => Modal.hide(),
+      })
+      return
+    }
+    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
+  }
+
+  handleFingerprintFailCb = () => {
+    Modal.hide()
+  }
+  handleFingerprintSuccessCb = async() => {
+    const _password = await getStorage(STORAGE_KEYS.PASSWORD)
+    this.handleConfirmTransaction(encryptionPassword(_password))
   }
 
   handleConfirmTransaction = async (psw: string): Promise<void> => {
     Modal.hide()
     Toast.loading()
-    await sleep(500)
 
     if (!this.props.wallet!.checkPassword(psw)) {
       Toast.hide()
@@ -289,141 +373,6 @@ class Send extends React.Component<Props> {
         }
       })
     }
-  }
-
-  render() {
-    return (
-      <View style={styles.mainWrapper}>
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.wrapper}
-          style={styles.contentWrapper}
-          resetScrollToCoords={{ x: 0, y: 0 }}>
-          {this.renderAddressBox()}
-
-          {this.renderAmountBox()}
-
-          {this.renderExtraDataBox()}
-
-          {this.renderTxFeeBox()}
-        </KeyboardAwareScrollView>
-        {!this.keyboardShow && this.renderBtnBox()}
-      </View>
-    )
-  }
-
-  renderAddressBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
-        <View style={styles.toAddressLabel}>
-          <Text style={styles.toAddressText}>{labels.toAddress}</Text>
-        </View>
-        <TextInput
-          style={styles.toAddressInput}
-          value={this.addressOrShortWord}
-          onChangeText={this.handleChangeAddressOrShortword}
-          placeholder={labels.enterAddressOrWord}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderAmountBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
-        <View style={styles.sendAmountBar}>
-          <Text style={styles.sendAmountLabel}>{labels.sendAmount}</Text>
-          <Text style={styles.balanceText}>{`${labels.balance}: ${
-            this.props.account!.activeAccount!.balance
-          } DIP`}</Text>
-        </View>
-        <TextInput
-          style={styles.sendAmountInput}
-          value={this.sendAmount}
-          onChangeText={this.handleChangeSendAmount}
-          placeholder={labels.enterAmount}
-          keyboardType="numeric"
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderExtraDataBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.extraDataWrapper} activeOpacity={0.8}>
-        <View style={styles.extraDataBar}>
-          <Text style={styles.extraDataLabel}>
-            {labels.remark}({labels.optional})
-          </Text>
-        </View>
-        <TextInput
-          style={styles.extraDataInput}
-          value={this.extraData}
-          onChangeText={this.handleChangeExtraData}
-          placeholder={labels.enterRemark}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderTxFeeBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
-        <View style={styles.txFeeBar}>
-          <Text style={styles.txFeeLabel}>{labels.txFee}</Text>
-          <Text style={styles.txFeeText}>{this.txFee} DIP</Text>
-        </View>
-        <Slider
-          minimumValue={1}
-          maximumValue={3}
-          minimumTrackTintColor="#0099cb"
-          step={1}
-          onValueChange={this.handleChangeTxfee}
-        />
-        <View style={styles.txFeeBottomBar}>
-          <Text
-            style={
-              this.txFeeLevel >= 1
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.low}
-          </Text>
-          <Text
-            style={
-              this.txFeeLevel >= 2
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.middle}
-          </Text>
-          <Text
-            style={
-              this.txFeeLevel >= 3
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.high}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    )
-  }
-  renderBtnBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity
-        style={styles.btnWrapper}
-        onPress={this.handleSend}
-        activeOpacity={0.8}>
-        <View style={styles.btnView}>
-          <Text style={styles.btnText}>{labels.send}</Text>
-        </View>
-      </TouchableOpacity>
-    )
   }
 }
 
