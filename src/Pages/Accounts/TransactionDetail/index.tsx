@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     },
     greySpace: {
         height: 10,
-        backgroundColor: '#FAFBFC'
+        backgroundColor: '#FAFBFC',
     },
     title: {
         marginLeft: 20,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20,
-        minHeight: 45
+        minHeight: 45,
     },
     itemLabel: {
         color: '#3C3E42',
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     itemValue: {
         color: '#3C3E42',
         fontSize: 15,
-        maxWidth: 260
-    }
-
+        maxWidth: 260,
+    },
 })

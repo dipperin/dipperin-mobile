@@ -28,7 +28,7 @@ class ScanScreen extends React.Component<Props> {
             {
                 toValue: -200,
                 duration: 1500,
-                easing: Easing.linear
+                easing: Easing.linear,
             }
         ).start(() => this.startAnimation());
     };
@@ -93,35 +93,35 @@ export default withTranslation()(ScanScreenWrap)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     preview: {
         flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     rectangleContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     rectangle: {
         height: 200,
         width: 200,
         borderWidth: 1,
         borderColor: '#00FF00',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     rectangleText: {
         flex: 0,
         color: '#fff',
-        marginTop: 10
+        marginTop: 10,
     },
     border: {
         flex: 0,
         width: 200,
         height: 2,
         backgroundColor: '#00FF00',
-    }
-});
+    },
+})

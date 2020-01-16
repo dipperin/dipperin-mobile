@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { observable, action } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import React from 'react'
@@ -13,7 +13,7 @@ import AccountStore from 'Store/account'
 interface Props {
     account?: AccountStore
     navigation: NavigationScreenProp<any>
-    labels:I18nAccountType
+    labels: I18nAccountType
 }
 @inject('account')
 @observer
@@ -33,8 +33,8 @@ class AddAccount extends React.Component<Props> {
     render() {
         const { labels } = this.props
         return (
-            <View style={{ flex: 1, backgroundColor: '#FAFBFC' }}>
-                <List style={{ marginTop: 10 }}>
+            <View style={styles.box}>
+                <List style={styles.list}>
                     <InputItem
                         clear
                         value={this.accountName}
@@ -43,7 +43,7 @@ class AddAccount extends React.Component<Props> {
                         maxLength={16}
                     >
                         {labels.accountName}
-                     </InputItem>
+                    </InputItem>
                 </List>
             </View>
         )
@@ -58,3 +58,13 @@ const AddAccountWrap = (props: WithTranslation & { navigation: NavigationScreenP
 }
 
 export default withTranslation()(AddAccountWrap)
+
+const styles = StyleSheet.create({
+    box: {
+        flex: 1,
+        backgroundColor: '#FAFBFC',
+    },
+    list: {
+        marginTop: 10,
+    },
+})

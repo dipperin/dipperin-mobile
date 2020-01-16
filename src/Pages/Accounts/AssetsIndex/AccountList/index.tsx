@@ -18,13 +18,13 @@ const AccountList = (props: Props) => {
             <ScrollView style={styles.list}>
                 {
                     accounts.map((item, index) => {
-                        return <AccountItem 
-                        account={item}
-                         key={index}
-                         isEyeOpen={isEyeOpen} 
-                         changeActiveAccount={changeActiveAccount} 
-                         labels={labels}
-                         />
+                        return <AccountItem
+                            account={item}
+                            key={index}
+                            isEyeOpen={isEyeOpen}
+                            changeActiveAccount={changeActiveAccount}
+                            labels={labels}
+                        />
                     })
                 }
                 <View style={styles.space} />
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#09182C'
-    }
+        color: '#09182C',
+    },
 })

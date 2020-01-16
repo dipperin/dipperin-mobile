@@ -41,21 +41,21 @@ const styles = StyleSheet.create({
     container: {
         height: 130,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     title: {
         color: '#fff',
-        marginBottom: 5
+        marginBottom: 5,
     },
     dipBox: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     num: {
         fontSize: 25,
         color: '#fff',
         marginLeft: 30,
         marginRight: 12,
-    }
+    },
 
 })

@@ -16,7 +16,7 @@ interface Props {
 }
 
 const AccountInfo = (props: Props) => {
-    const { isEyeOpen, setIsEyeOpen, account ,labels} = props
+    const { isEyeOpen, setIsEyeOpen, account } = props
     return (
         <View style={styles.infoBox}>
             <Image source={Accountlogo} style={styles.accountLogo} />
@@ -58,5 +58,5 @@ const styles = StyleSheet.create({
         fontSize: 22,
         color: '#393B42',
 
-    }
+    },
 })

@@ -10,10 +10,10 @@ import AcountIcon from 'Assets/account.png'
 
 interface Props {
     account: AccountModel
-    isEyeOpen:boolean
-    changeActiveAccount:(id:string)=>void
+    isEyeOpen: boolean
+    changeActiveAccount: (id: string) => void
     navigation: NavigationScreenProp<any>
-    labels:I18nAccountType
+    labels: I18nAccountType
 
 
 }
@@ -21,12 +21,12 @@ interface Props {
 @observer
 class AccountItem extends React.Component<Props>{
     goDetail = () => {
-        const { account:{id},changeActiveAccount } = this.props
+        const { account: { id }, changeActiveAccount } = this.props
         changeActiveAccount(id)
         this.props.navigation.navigate('accountDetail')
     }
     render() {
-        const { account:{name, balance, id},isEyeOpen,labels } = this.props        
+        const { account: { name, balance, id }, isEyeOpen, labels } = this.props
         const showName = name ? name : `${labels.accountName} ${id}`
         return (
             <TouchableOpacity
@@ -37,7 +37,7 @@ class AccountItem extends React.Component<Props>{
                         <Image source={AcountIcon} style={styles.accountLogo} />
                         <Text style={styles.txt}>{showName}</Text>
                     </View>
-                    <Text style={styles.txt} >{isEyeOpen ?`${formatNumber(Number(balance), 6)} DIP` :'*******'}</Text>
+                    <Text style={styles.txt} >{isEyeOpen ? `${formatNumber(Number(balance), 6)} DIP` : '*******'}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 15,
         fontSize: 16,
-        marginBottom: 10
+        marginBottom: 10,
     },
     itemLeft: {
         flexDirection: 'row',
@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
     accountLogo: {
         width: 40,
         height: 40,
-        marginRight: 8
+        marginRight: 8,
     },
     txt: {
-        maxWidth:160,
+        maxWidth: 160,
         fontSize: 16,
-        color:'#393B42'
-    }
+        color: '#393B42',
+    },
 })

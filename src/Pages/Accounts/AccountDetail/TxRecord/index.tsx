@@ -31,7 +31,6 @@ class TxRecord extends React.Component<Props>{
             { title: i18n.t('dipperin:account.received') },
             { title: i18n.t('dipperin:account.failed') },
         ];
-        console.log('transactions',transactions)
         return (
             <View style={styles.tabsBox}>
                 <Tabs
@@ -85,10 +84,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     bottomLine: {
-        backgroundColor: '#1C77BC'
+        backgroundColor: '#1C77BC',
     },
     tabContent: {
         flex: 1,
-        backgroundColor: '#fff'
-    }
+        backgroundColor: '#fff',
+    },
 })

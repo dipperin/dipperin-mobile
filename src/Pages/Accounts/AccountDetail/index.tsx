@@ -5,7 +5,7 @@ import TxRecord from './TxRecord'
 import AccountInfo from './AccountInfo'
 import { Button } from '@ant-design/react-native'
 import { NavigationEvents } from 'react-navigation'
-import { NavigationStackScreenProps} from 'react-navigation-stack'
+import { NavigationStackScreenProps } from 'react-navigation-stack'
 
 import { I18nAccountType } from 'I18n/config'
 import { WithTranslation, withTranslation } from 'react-i18next'
@@ -29,18 +29,18 @@ class AccountDetail extends React.Component<Props> {
     navigate = (routeName: string) => () => {
         this.props.navigation.navigate(routeName)
     }
-    didFocus=()=>{
+    didFocus = () => {
         const { activeAccount } = this.props.account!
-        const title = activeAccount?.name? activeAccount?.name : `${this.props.labels.accountName} ${activeAccount?.id}`
-        this.props.navigation.setParams({title:title})
+        const title = activeAccount?.name ? activeAccount?.name : `${this.props.labels.accountName} ${activeAccount?.id}`
+        this.props.navigation.setParams({ title: title })
     }
     render() {
         const { activeAccount } = this.props.account!
         const { isEyeOpen, setIsEyeOpen } = this.props.system!
         const { labels } = this.props
         return (
-            <View style={{ flex: 1, backgroundColor: '#FAFBFC' }}>
-                <NavigationEvents 
+            <View style={styles.container}>
+                <NavigationEvents
                     onDidFocus={this.didFocus}
                 />
                 <AccountInfo
@@ -72,6 +72,7 @@ const AccountDetailWrap = (props: WithTranslation & { navigation: NavigationStac
 export default withTranslation()(AccountDetailWrap)
 
 const styles = StyleSheet.create({
+    container:{ flex: 1, backgroundColor: '#FAFBFC' },
     btnBox: {
         flexDirection: 'row',
         justifyContent: 'space-around',
