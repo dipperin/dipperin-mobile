@@ -39,6 +39,45 @@ interface Props {
 @inject('transaction', 'wallet', 'account', 'contract')
 @observer
 class Send extends React.Component<Props> {
+  render() {
+    return (
+      <View style={styles.mainWrapper}>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.wrapper}
+          style={styles.contentWrapper}
+          resetScrollToCoords={{ x: 0, y: 0 }}>
+          <AddressBox
+            labels={this.props.labels}
+            value={this.addressOrShortWord}
+            handleChange={this.handleChangeAddressOrShortword}
+          />
+
+          <AmoutBox
+            labels={this.props.labels}
+            value={this.sendAmount}
+            balance={this.props.account!.activeAccount!.balance}
+            handleChange={this.handleChangeSendAmount}
+          />
+
+          <ExtraData
+            labels={this.props.labels}
+            value={this.extraData}
+            handleChange={this.handleChangeExtraData}
+          />
+
+          <TxFeeBox
+            labels={this.props.labels}
+            fee={this.txFee}
+            value={this.txFeeLevel}
+            handleChange={this.handleChangeTxfee}
+          />
+        </KeyboardAwareScrollView>
+        {!this.keyboardShow && (
+          <BtnBox labels={this.props.labels} onPress={this.handleSend} />
+        )}
+      </View>
+    )
+  }
   @observable addressOrShortWord = ''
   @observable toAddress: string = ''
   @observable sendAmount: string = ''
@@ -312,46 +351,6 @@ class Send extends React.Component<Props> {
         }
       })
     }
-  }
-
-  render() {
-    return (
-      <View style={styles.mainWrapper}>
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.wrapper}
-          style={styles.contentWrapper}
-          resetScrollToCoords={{ x: 0, y: 0 }}>
-          <AddressBox
-            labels={this.props.labels}
-            value={this.addressOrShortWord}
-            handleChange={this.handleChangeAddressOrShortword}
-          />
-
-          <AmoutBox
-            labels={this.props.labels}
-            value={this.sendAmount}
-            balance={this.props.account!.activeAccount!.balance}
-            handleChange={this.handleChangeSendAmount}
-          />
-
-          <ExtraData
-            labels={this.props.labels}
-            value={this.extraData}
-            handleChange={this.handleChangeExtraData}
-          />
-
-          <TxFeeBox
-            labels={this.props.labels}
-            fee={this.txFee}
-            value={this.txFeeLevel}
-            handleChange={this.handleChangeTxfee}
-          />
-        </KeyboardAwareScrollView>
-        {!this.keyboardShow && (
-          <BtnBox labels={this.props.labels} onPress={this.handleSend} />
-        )}
-      </View>
-    )
   }
 }
 

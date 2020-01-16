@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
 import FINGERPRINT from 'Assets/fingerprint.png';
 import { styles } from './config';
 import { NavigationScreenProp } from 'react-navigation';
 // There are differences between IOS and Android
-import FingerprintPop from 'Components/PopupWindow/FingerprintPop'
+// import FingerprintPop from 'Components/PopupWindow/FingerprintPop'
 import { observer, inject } from 'mobx-react'
-import { observable, action } from 'mobx'
+import { observable } from 'mobx'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import { I18StartType } from 'I18n/config'
 import { Toast, Modal } from 'Components/PopupWindow'
 import WalletStore from 'Store/wallet'
 import { getStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
-import { decryptionPassword } from 'Global/utils'
+import { decryptionPassword, Result } from 'Global/utils'
 import System from 'Store/System';
 
 interface Props {
@@ -115,7 +115,16 @@ class LockPage extends React.Component<Props> {
     this.navigationRedirect()
   };
 
-  navigationRedirect = () => {
+  detectiveClickboard = async ():Promise<Result<string>> => {
+    const word = await Clipboard.getString()
+    const matchResult = word.match(/address: (0x[A-Fa-f0-9]{44})/)
+    if (matchResult) {
+      return {success: true,result: matchResult[1]}
+    }
+    return {success: false, error: new Error()}
+  }
+
+  navigationRedirect = async () => {
     const { getParam } = this.props.navigation
     const type = getParam('type')
     const address = getParam('address')
@@ -123,6 +132,11 @@ class LockPage extends React.Component<Props> {
     const scheme = getParam('scheme')
     if (type === 'send') {
       this.props.navigation.navigate('send', { type, address, amount, scheme })
+      return
+    }
+    const res = await this.detectiveClickboard()
+    if (res.success) {
+      this.props.navigation.navigate('send', {address: res.result})
       return
     }
 
