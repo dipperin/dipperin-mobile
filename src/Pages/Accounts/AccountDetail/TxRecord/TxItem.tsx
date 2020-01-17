@@ -32,9 +32,9 @@ class TxItem extends React.Component<Props>{
         }
     }
     render() {
-        const { activeAccountaddress, labels, transaction: { from, value, timestamp } } = this.props
+        const { activeAccountaddress, labels, transaction: { from, value, timestamp,to } } = this.props
         const showTime = timestamp ? this.getShowTime(timestamp) : ''
-        const isFromMe = getIsTxFromMe(activeAccountaddress, from)
+        const isFromMe = getIsTxFromMe(activeAccountaddress, from) && from !== to   // in case that from === to
         const showValue = formatNumber(Number(value), 6)
         return (
             <TouchableOpacity
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: 68,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
     },
     left: {
         flexDirection: 'row',
@@ -78,18 +78,18 @@ const styles = StyleSheet.create({
     icon: {
         width: 43,
         height: 43,
-        marginRight: 10
+        marginRight: 10,
     },
     dip: {
-        textAlign: 'right'
+        textAlign: 'right',
     },
     txt: {
         maxWidth: 200,
         paddingTop: 3,
-        color: '#A1A1A1'
+        color: '#A1A1A1',
     },
     time:{
         paddingTop: 3,
-        color: '#A1A1A1' 
-    }
+        color: '#A1A1A1' ,
+    },
 })
