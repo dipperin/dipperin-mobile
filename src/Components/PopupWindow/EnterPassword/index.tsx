@@ -16,7 +16,7 @@ interface Props {
   onConfirm: (password: string) => Promise<void>
 }
 
-const labels = i18n.t('dipperin:transaction') as I18nTransactionType
+
 
 @observer
 class EnterPassword extends React.Component<Props> {
@@ -56,6 +56,7 @@ class EnterPassword extends React.Component<Props> {
   }
 
   render() {
+    const labels = i18n.t('dipperin:transaction') as I18nTransactionType
     return (
       <Provider>
         <StatusBar backgroundColor="#808080" />
