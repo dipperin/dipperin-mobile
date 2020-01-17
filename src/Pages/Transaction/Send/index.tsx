@@ -13,17 +13,26 @@ import { observer, inject } from 'mobx-react'
 import { observable, action, computed } from 'mobx'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nTransactionType } from 'I18n/config'
-import { styles } from './config'
+import {
+  styles,
+  validateEnteringArressOrShortword,
+  validateEnteringAmount,
+} from './config'
 import { Toast, Modal } from 'Components/PopupWindow'
 import TransactionStore from 'Store/transaction'
 import WalletStore from 'Store/wallet'
-import { fromUnitToDip, sleep, verifyBalance, encryptionPassword } from 'Global/utils'
+import {
+  fromUnitToDip,
+  sleep,
+  verifyBalance,
+  encryptionPassword,
+} from 'Global/utils'
 import AccountStore from 'Store/account'
 import { Utils } from '@dipperin/dipperin.js'
 import ContractStore from 'Store/contract'
-import System from 'Store/System';
-import { getStorage } from 'Db';
-import { STORAGE_KEYS } from 'Global/constants';
+import System from 'Store/System'
+import { getStorage } from 'Db'
+import { STORAGE_KEYS, DEFAULT_GASLIMIT } from 'Global/constants'
 import AddressBox from './AddressBox'
 import AmoutBox from './AmountBox'
 import ExtraData from './ExtraDataBox'
@@ -132,12 +141,12 @@ class Send extends React.Component<Props> {
     this.toAddress = text
   }
   @action handleChangeAddressOrShortword = (text: string) => {
-    if (this.validateEnteringArressOrShortword(text)) {
+    if (validateEnteringArressOrShortword(text)) {
       this.addressOrShortWord = text
     }
   }
   @action handleChangeSendAmount = (amountString: string) => {
-    if (this.validateEnteringAmount(amountString)) {
+    if (validateEnteringAmount(amountString)) {
       this.sendAmount = amountString
     }
   }
@@ -148,29 +157,6 @@ class Send extends React.Component<Props> {
   }
   @action handleChangeTxfee = (num: number) => {
     this.txFeeLevel = num
-  }
-
-  validateEnteringAddress = (addr: string) => {
-    return /^(0x)?(0000|0014)[0-9a-fA-F]{0,40}$/.test(addr)
-  }
-
-  validateEnteringShortword = (word: string) => {
-    const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$')
-    if (!reg.test(word)) {
-      return false
-    }
-    return true
-  }
-
-  validateEnteringArressOrShortword = (text: string) => {
-    return (
-      this.validateEnteringAddress(text) || this.validateEnteringShortword(text)
-    )
-  }
-
-  validateEnteringAmount(amountString: string) {
-    const reg = new RegExp('^[0-9]*([.][0-9]{0,18})?$')
-    return reg.test(amountString)
   }
 
   validateExtraData(text: string) {
@@ -275,21 +261,16 @@ class Send extends React.Component<Props> {
       this.toAddress,
       this.sendAmount,
       this.extraData,
-      '10000000',
-      '1',
+      DEFAULT_GASLIMIT,
+      String(10 ** this.txFeeLevel),
     )
     if (res.success) {
       return res
     } else {
       console.warn(res.error.message)
-      Toast.info(this.props.labels.returnError + res.error.message)
+      // Toast.info(this.props.labels.returnError + res.error.message)
       return res
     }
-  }
-
-  turnBack = async (timelimit: number = 0) => {
-    await sleep(timelimit)
-    this.props.navigation.goBack()
   }
 
   handleSend = async () => {
@@ -309,26 +290,30 @@ class Send extends React.Component<Props> {
       console.log(error)
     }
 
-    const {isFingerPay} = this.props.system!
+    const { isFingerPay } = this.props.system!
     if (isFingerPay) {
-      Modal.FingerprintPopShow({
-        successHint: this.props.labels.proccessPay,
-        startHint: this.props.labels.pleaseEnterFingerprint,
-      }, {
-        fingerprintFailCb: this.handleFingerprintFailCb,
-        fingerprintSuccessCb: this.handleFingerprintSuccessCb,
-        hide: () => Modal.hide(),
-      })
+      Modal.FingerprintPopShow(
+        {
+          successHint: this.props.labels.proccessPay,
+          startHint: this.props.labels.pleaseEnterFingerprint,
+        },
+        {
+          fingerprintFailCb: this.handleFingerprintFailCb,
+          fingerprintSuccessCb: this.handleFingerprintSuccessCb,
+          hide: () => Modal.hide(),
+        },
+      )
       return
     }
-    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
+    Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
 
   handleFingerprintFailCb = () => {
     Modal.hide()
     Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
-  handleFingerprintSuccessCb = async() => {
+
+  handleFingerprintSuccessCb = async () => {
     const _password = await getStorage(STORAGE_KEYS.PASSWORD)
     this.handleConfirmTransaction(encryptionPassword(_password))
   }
@@ -348,18 +333,23 @@ class Send extends React.Component<Props> {
     if (res.success) {
       Toast.success(this.props.labels.sendSuccess)
       this.linkingAppCallBack(true)
-      const resetAction = StackActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Assets' }),
-          NavigationActions.navigate({ routeName: 'accountDetail' }),
-        ],
-      })
-      this.props.navigation.dispatch(resetAction)
+      this.backToAccountDetail()
     } else {
       Toast.info(this.props.labels.sendFailure)
       this.linkingAppCallBack(false)
     }
+  }
+
+  backToAccountDetail = async () => {
+    const resetAction = StackActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Assets' }),
+        NavigationActions.navigate({ routeName: 'accountDetail' }),
+      ],
+    })
+    await sleep(2000)
+    this.props.navigation.dispatch(resetAction)
   }
 
   // Linking open app callback
