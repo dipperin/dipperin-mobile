@@ -14,6 +14,7 @@ const client = Dimensions.get('window')
 const FINGERPRINT_AVAILABLE = 'Fingerprint'
 
 interface Props {
+  isSwitch?: boolean
   startHint?: string
   proccessHint?: string
   successHint?: string
@@ -34,14 +35,16 @@ export const SYSTEM_CANCEL = 'SystemCancel'
 export const FINGERPRINT_UNKNOWN_ERROR = 'FingerprintScannerUnknownError'
 export const DEVICE_LOCKED = 'DeviceLocked'
 
+export const AuthFail = `${AUTHENICATION_NOT_MATCH},${AUTHENTICATION_FAILED}`
+
 // Error message
 const ERROR_MSG = (_label: I18StartType) => ({
-  [`${FINGERPRINT_NOT_SUPPORTED}, ${FINGERPRINT_NOT_AVAILABLE}, ${FINGERPRINT_NOT_ENROLLED}, ${PASSCODE_NOT_SET}`]: label.fingerprintDisabled,
-  [`${AUTHENICATION_NOT_MATCH}`]: label.AuthenticationNotMatch,
-  [`${AUTHENTICATION_FAILED}`]: label.AuthenticationFailed,
-  [`${USER_CANCEL}, ${USER_FALLBACK}, ${SYSTEM_CANCEL}`]: label.AuthenticationCancel,
-  [`${FINGERPRINT_UNKNOWN_ERROR}`]: label.AuthenticationUnknownError,
-  [`${DEVICE_LOCKED}`]: label.AuthenticationDeviceLocked,
+  [`${FINGERPRINT_NOT_SUPPORTED}, ${FINGERPRINT_NOT_AVAILABLE}, ${FINGERPRINT_NOT_ENROLLED}, ${PASSCODE_NOT_SET}`]: i18n.t('dipperin:start.fingerprintDisabled'),
+  [`${AUTHENICATION_NOT_MATCH}`]: i18n.t('dipperin:start.AuthenticationNotMatch'),
+  // [`${AUTHENTICATION_FAILED}`]: i18n.t('dipperin:start.AuthenticationFailed'),
+  [`${USER_CANCEL}, ${USER_FALLBACK}, ${SYSTEM_CANCEL}`]: i18n.t('dipperin:start.AuthenticationCancel'),
+  [`${FINGERPRINT_UNKNOWN_ERROR}`]: i18n.t('dipperin:start.AuthenticationUnknownError'),
+  [`${AUTHENTICATION_FAILED}, ${DEVICE_LOCKED}`]: i18n.t('dipperin:start.AuthenticationDeviceLocked'),
 })
 
 
@@ -81,16 +84,21 @@ class FingerprintPop extends React.Component<Props> {
       }
     } catch (error) {
       this.handleContentTextErrorMsg(error)
-
     }
   }
 
   handleContentTextErrorMsg = (_error: any) => {
+    const {isSwitch} = this.props
+    let _text: string = ''
+    if (!isSwitch && AuthFail.includes(_error.name)) {
+      _text = `${i18n.t('dipperin:start.threeTimesFingerprintPre')} ${3 - this.curTimes} ${i18n.t('dipperin:start.threeTimesFingerprint')}`
+    }
+
     const _obj = ERROR_MSG(i18n.t('dipperin:start'))
     for (const key in _obj) {
       const exit = key.includes(_error.name)
       if (exit) {
-        this.changeContentText(_obj[key])
+        this.changeContentText(_obj[key] + '. ' + _text)
       }
     }
   }
@@ -122,7 +130,7 @@ class FingerprintPop extends React.Component<Props> {
               <View style={styles.content}>
                 <Image style={styles.fingerprintImg} source={FINGERPRINT} />
                 <Text style={styles.curStatusText}>{this.contentText}</Text>
-                <Text style={styles.fingerHint}>{i18n.t('dipperin:start.threeTimesFingerprint')}</Text>
+                {/* <Text style={styles.fingerHint}>{i18n.t('dipperin:start.threeTimesFingerprint')}</Text> */}
               </View>
 
               <TouchableOpacity

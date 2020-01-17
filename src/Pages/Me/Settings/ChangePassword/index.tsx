@@ -81,6 +81,7 @@ class ChangePassword extends React.Component<Props> {
           <View style={styles.inputItem}>
             <TextInput
               placeholder={label.passwordTipMsg}
+              maxLength={24}
               autoCompleteType="off"
               style={[styles.input, {textAlign: 'left'}]}
               value={this.passwordTip}
@@ -174,15 +175,15 @@ class ChangePassword extends React.Component<Props> {
   }
 
   @action inputOldPassword = (_value: string) => {
-    this.oldPassword = _value
+    this.oldPassword = _value.replace(/[\u4e00-\u9fa5]+/g, '')
   }
 
   @action inputNewPassword = (_value: string) => {
-    this.newPassword = _value
+    this.newPassword = _value.replace(/[\u4e00-\u9fa5]+/g, '')
   }
 
   @action inputConfirmPassword = (_value: string) => {
-    this.confrimPassword = _value
+    this.confrimPassword = _value.replace(/[\u4e00-\u9fa5]+/g, '')
   }
 }
 
