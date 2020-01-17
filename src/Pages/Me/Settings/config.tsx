@@ -31,6 +31,7 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
           }
 
           Modal.FingerprintPopShow({
+            isSwitch: true,
             startHint: i18n.t('dipperin:start.pleaseEnterFingerprint'),
             successHint: i18n.t('dipperin:me.openUnlockFunction'),
           },{
@@ -61,6 +62,7 @@ export const settingListItemsMain = (system: System, options: ListItemMainTypes)
           }
 
           Modal.FingerprintPopShow({
+            isSwitch: true,
             startHint: i18n.t('dipperin:start.pleaseEnterFingerprint'),
             successHint: i18n.t('dipperin:me.openFingerprintPayFunction'),
           },{

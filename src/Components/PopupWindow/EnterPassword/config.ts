@@ -15,13 +15,14 @@ export const styles = StyleSheet.create({
   btnBox: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   cancelBtn: {
     width: 132,
     height: 38,
     borderRadius: 5,
     backgroundColor: '#DEE0E3',
+    marginRight: 10,
     // color: '#fff',
     // fontSize: 15,
     // fontWeight: 'bold',
