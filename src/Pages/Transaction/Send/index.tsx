@@ -276,13 +276,13 @@ class Send extends React.Component<Props> {
       this.sendAmount,
       this.extraData,
       '10000000',
-      '1',
+      String(10 ** this.txFeeLevel),
     )
     if (res.success) {
       return res
     } else {
       console.warn(res.error.message)
-      Toast.info(this.props.labels.returnError + res.error.message)
+      // Toast.info(this.props.labels.returnError + res.error.message)
       return res
     }
   }
@@ -355,6 +355,7 @@ class Send extends React.Component<Props> {
           NavigationActions.navigate({ routeName: 'accountDetail' }),
         ],
       })
+      await sleep(2000)
       this.props.navigation.dispatch(resetAction)
     } else {
       Toast.info(this.props.labels.sendFailure)
