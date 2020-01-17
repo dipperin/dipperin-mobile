@@ -36,5 +36,5 @@ export const styles  = StyleSheet.create({
     flex:2,
     textAlign: 'center',
     color: '#ffffff'
-  }
+  },
 })

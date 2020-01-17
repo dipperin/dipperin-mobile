@@ -115,6 +115,7 @@ class LockPage extends React.Component<Props> {
 
   // Fingerprint fail
   fingerprintFailCb = () => {
+    Modal.hide()
     this.togglePasswordLogin()
   };
 
