@@ -33,6 +33,7 @@ import ContractStore from 'Store/contract'
 import System from 'Store/System'
 import { getStorage } from 'Db'
 import { STORAGE_KEYS, DEFAULT_GASLIMIT } from 'Global/constants'
+import { handleError } from 'Global/errors'
 import AddressBox from './AddressBox'
 import AmoutBox from './AmountBox'
 import ExtraData from './ExtraDataBox'
@@ -264,12 +265,12 @@ class Send extends React.Component<Props> {
       DEFAULT_GASLIMIT,
       String(10 ** this.txFeeLevel),
     )
+    console.log('end send tx')
     if (res.success) {
       return res
     } else {
-      console.warn(res.error.message)
-      // Toast.info(this.props.labels.returnError + res.error.message)
-      return res
+      const errToast = handleError(res.error.message)
+      return {success: false, error: new Error(errToast)}
     }
   }
 
@@ -335,7 +336,7 @@ class Send extends React.Component<Props> {
       this.linkingAppCallBack(true)
       this.backToAccountDetail()
     } else {
-      Toast.info(this.props.labels.sendFailure)
+      Toast.info(res.error.message)
       this.linkingAppCallBack(false)
     }
   }

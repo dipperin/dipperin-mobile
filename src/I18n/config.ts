@@ -252,6 +252,10 @@ const enResource = {
       record:'Transaction Detail',
       addAcount:'Add Account',
     },
+    errors: {
+      toLowFee: 'Please increase the gas Price',
+      sendFailure: 'Send Failure',
+    },
   },
 };
 
@@ -265,6 +269,7 @@ export type I18nMeType = typeof enResource.dipperin.me;
 export type I18nTransactionType = typeof enResource.dipperin.transaction;
 export type I18nAccountType  = typeof enResource.dipperin.account;
 export type I18nDiscoveryType = typeof enResource.dipperin.discovery;
+export type I18nErrorType = typeof enResource.dipperin.errors;
 
 const zhResource: typeof enResource = {
   dipperin: {
@@ -519,6 +524,10 @@ const zhResource: typeof enResource = {
       receive:'收款',
       record:'交易详情',
       addAcount:'创建账户',
+    },
+    errors: {
+      toLowFee: '交易费过低，请提高手续费',
+      sendFailure: '发送失败',
     },
   },
 };
