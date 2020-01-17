@@ -80,6 +80,7 @@ class Splash extends React.Component<Props> {
       const { isHaveWallet } = this.props.wallet!
       if (isHaveWallet) {
         if (this.openType === 'send') {
+          this.resetOpenParams()
           this.props.navigation.navigate('lock', {
             address: this.address,
             amount: this.amount,
@@ -93,6 +94,13 @@ class Splash extends React.Component<Props> {
       }
       this.props.navigation.navigate('start')
     }
+  }
+
+  resetOpenParams = () => {
+    this.address = ''
+    this.amount = ''
+    this.scheme = ''
+    this.openType = ''
   }
 
   render() {
