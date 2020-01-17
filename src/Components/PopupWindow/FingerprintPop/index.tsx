@@ -22,6 +22,29 @@ interface Props {
   onCancel: () => void
 }
 
+export const FINGERPRINT_NOT_SUPPORTED = 'FingerprintScannerNotSupported'
+export const FINGERPRINT_NOT_AVAILABLE = 'FingerprintScannerNotAvailable'
+export const FINGERPRINT_NOT_ENROLLED = 'FingerprintScannerNotEnrolled'
+export const PASSCODE_NOT_SET = 'PasscodeNotSet'
+export const AUTHENICATION_NOT_MATCH = 'AuthenticationNotMatch'
+export const AUTHENTICATION_FAILED = 'AuthenticationFailed'
+export const USER_CANCEL = 'UserCancel'
+export const USER_FALLBACK = 'UserFallback'
+export const SYSTEM_CANCEL = 'SystemCancel'
+export const FINGERPRINT_UNKNOWN_ERROR = 'FingerprintScannerUnknownError'
+export const DEVICE_LOCKED = 'DeviceLocked'
+
+// Error message
+const ERROR_MSG = (_label: I18StartType) => ({
+  [`${FINGERPRINT_NOT_SUPPORTED}, ${FINGERPRINT_NOT_AVAILABLE}, ${FINGERPRINT_NOT_ENROLLED}, ${PASSCODE_NOT_SET}`]: label.fingerprintDisabled,
+  [`${AUTHENICATION_NOT_MATCH}`]: label.AuthenticationNotMatch,
+  [`${AUTHENTICATION_FAILED}`]: label.AuthenticationFailed,
+  [`${USER_CANCEL}, ${USER_FALLBACK}, ${SYSTEM_CANCEL}`]: label.AuthenticationCancel,
+  [`${FINGERPRINT_UNKNOWN_ERROR}`]: label.AuthenticationUnknownError,
+  [`${DEVICE_LOCKED}`]: label.AuthenticationDeviceLocked,
+})
+
+
 @observer
 class FingerprintPop extends React.Component<Props> {
   @observable contentText: string = ''
@@ -57,13 +80,24 @@ class FingerprintPop extends React.Component<Props> {
         }
       }
     } catch (error) {
-      this.changeContentText(error.message)
+      this.handleContentTextErrorMsg(error)
+
+    }
+  }
+
+  handleContentTextErrorMsg = (_error: any) => {
+    const _obj = ERROR_MSG(i18n.t('dipperin:start'))
+    for (const key in _obj) {
+      const exit = key.includes(_error.name)
+      if (exit) {
+        this.changeContentText(_obj[key])
+      }
     }
   }
 
   handleAuthenticationAttempted = (error: any) => {
     this.curTimes++;
-    this.changeContentText(error.message)
+    this.handleContentTextErrorMsg(error)
     if (this.curTimes >= 3) {
       FingerprintScanner.release()
       this.props.fingerprintFailCb()
@@ -88,6 +122,7 @@ class FingerprintPop extends React.Component<Props> {
               <View style={styles.content}>
                 <Image style={styles.fingerprintImg} source={FINGERPRINT} />
                 <Text style={styles.curStatusText}>{this.contentText}</Text>
+                <Text style={styles.fingerHint}>{i18n.t('dipperin:start.threeTimesFingerprint')}</Text>
               </View>
 
               <TouchableOpacity
@@ -113,7 +148,7 @@ export default FingerprintPop
 export const styles = StyleSheet.create({
   popWrapper: {
     width: client.width,
-    height: '100%',
+    flex: 1,
     backgroundColor: 'rgba(52,52,52,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -127,8 +162,9 @@ export const styles = StyleSheet.create({
   },
 
   box: {
-    padding: 20,
-    minHeight: 140,
+    margin: 20,
+    marginTop: 16,
+    minHeight: 120,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -141,6 +177,12 @@ export const styles = StyleSheet.create({
   curStatusText: {
     color: '#1C77BC',
     fontSize: 15,
+    textAlign: 'center',
+  },
+  fingerHint: {
+    marginTop: 10,
+    color: '#1C77BC',
+    fontSize: 13,
     textAlign: 'center',
   },
   fingerprintImg: {
