@@ -25,7 +25,7 @@ class ContractStore {
   registerShortword = async (word: string, gasPrice = 1) => {
     const callData = createCallMethod(
       REGISTER_PASSWORD,
-      METHOD_INPUTS[REGISTER_PASSWORD],
+      METHOD_INPUTS.REGISTER_PASSWORD,
       [word],
     )
     return this._relay.transaction.confirmTransaction(
@@ -41,7 +41,7 @@ class ContractStore {
     try {
       const callData = createCallMethod(
         QUERY_ADDR_BY_PASSWORD,
-        METHOD_INPUTS[QUERY_ADDR_BY_PASSWORD],
+        METHOD_INPUTS.QUERY_ADDR_BY_PASSWORD,
         [word],
       )
       const tx = this._relay.transaction.getSignedTransactionData(
@@ -68,7 +68,7 @@ class ContractStore {
     try {
       const callData = createCallMethod(
         QUERY_PASSWORD_BY_ADDR,
-        METHOD_INPUTS[QUERY_PASSWORD_BY_ADDR],
+        METHOD_INPUTS.QUERY_PASSWORD_BY_ADDR,
         [address],
       )
       const tx = this._relay.transaction.getSignedTransactionData(

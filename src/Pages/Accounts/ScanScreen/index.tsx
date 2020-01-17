@@ -34,20 +34,23 @@ class ScanScreen extends React.Component<Props> {
     };
     //  scan the qrcode
     onBarCodeRead = (result: any) => {
-        const { data } = result;
-        if (!Utils.isAddress(data)) {
-            Toast.info('wrong address')
-            return
+        const { data } = result
+        if (data) {
+            if (!Utils.isAddress(data)) {
+                Toast.info('wrong address')
+                return
+            }
+            this.props.navigation.navigate('send', { address: data })
         }
-        this.props.navigation.navigate('send', { address: data })
+
     };
     //get the camera
     @action
     getCarema = (ref: any) => {
         this.camera = ref
     }
-    // debonce code Read
-    debonceOnCodeRead = _.debounce(this.onBarCodeRead, 500)
+    // throttle code Read
+    throttleOnCodeRead = _.throttle(this.onBarCodeRead, 500,{leading:true})
 
     render() {
         const { labels } = this.props
@@ -60,7 +63,7 @@ class ScanScreen extends React.Component<Props> {
                     style={styles.preview}
                     type={RNCamera.Constants.Type.back}
                     flashMode={RNCamera.Constants.FlashMode.on}
-                    onBarCodeRead={this.debonceOnCodeRead}
+                    onBarCodeRead={this.throttleOnCodeRead}
                     androidCameraPermissionOptions={{
                         title: labels.caremaTitle,
                         message: labels.caremaMessage,

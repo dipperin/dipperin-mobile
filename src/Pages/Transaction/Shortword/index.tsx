@@ -101,7 +101,7 @@ class Shortword extends React.Component<Props> {
   register = async (): Promise<Result<void>> => {
     const res = await this.props.contract!.registerShortword(
       this.shortword,
-      this.txFeeLevel,
+      10 ** this.txFeeLevel,
     )
     if (res.success) {
       return { success: true, result: undefined }

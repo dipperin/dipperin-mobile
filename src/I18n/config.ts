@@ -50,7 +50,7 @@ const enResource = {
         ranking: 'Ranking',
         holdings: 'Holdings',
         address: 'Address',
-        balance: 'Balance',
+        balance: 'Balance(DIP)',
       },
     },
     import: {

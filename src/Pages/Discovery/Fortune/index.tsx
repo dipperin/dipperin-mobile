@@ -37,7 +37,7 @@ class Fortune extends React.Component<FortuneProps> {
           data={fortuneList}
           renderItem={({item, index}) => this.renderItem(item, index, totalBlocks)}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.2}
         />
       </View>
     )
@@ -57,10 +57,11 @@ class Fortune extends React.Component<FortuneProps> {
     this.props.discovery!.getFortuneList(params)
   }
   onEndReached = () => {
-    const {fortuneListPerPage, fortuneListCurPage, fortuneListTotalPage} = this.props.discovery!
+    const {fortuneListPerPage, fortuneListCurPage, fortuneListTotalCount} = this.props.discovery!
     const curPage = fortuneListCurPage
     const perPage = fortuneListPerPage
-    const totalPage = fortuneListTotalPage % fortuneListPerPage === 0 ? fortuneListTotalPage / fortuneListPerPage : Math.ceil(fortuneListTotalPage / fortuneListPerPage)
+    const totalPage = fortuneListTotalCount % fortuneListPerPage === 0 ? fortuneListTotalCount / fortuneListPerPage : Math.ceil(fortuneListTotalCount / fortuneListPerPage)
+    if(totalPage === 1) return ;
     if(curPage < totalPage){
       this.getFortuneList( curPage + 1, perPage )
     }
