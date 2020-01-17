@@ -31,7 +31,7 @@ class Splash extends React.Component<Props> {
       () => this.props.system!.loading,
       loading => {
         this.checkLoading(loading)
-      }
+      },
     )
 
     Linking.addEventListener('url', this.handleLinkUrlChange)
@@ -47,7 +47,7 @@ class Splash extends React.Component<Props> {
 
   // app state change cb
   handleAppStateChange = (status: string) => {
-    if(status === 'active') {
+    if (status === 'active') {
       Linking.getInitialURL().then(url => {
         NativeModules.linkingModule.resetURL()
         if (isToTransferUrl(url)) {
@@ -63,48 +63,49 @@ class Splash extends React.Component<Props> {
   // redirect to send page
   @action
   sendRedirect = (url: string) => {
-    try {
-      const address = getParamsFromLinkUrl('address', url)
-      const amount = getParamsFromLinkUrl('amount', url)
-      const scheme = getParamsFromLinkUrl('scheme', url)
-      if (address) {
-        this.address = address
-        this.amount = amount || ''
-        this.scheme = scheme || ''
-        this.openType = 'send'
-        this.checkLoading(this.props.system!.loading)
-      }
-    } catch (_) {
-
-    }
+    const address = getParamsFromLinkUrl('address', url)
+    const amount = getParamsFromLinkUrl('amount', url)
+    const scheme = getParamsFromLinkUrl('scheme', url)
+    this.address = address || ''
+    this.amount = amount || ''
+    this.scheme = scheme || ''
+    this.openType = 'send'
+    this.checkLoading(this.props.system!.loading)
   }
 
   // checkLoading && redirect
   checkLoading = (loading: boolean) => {
-    if(!loading) {
+    if (!loading) {
       SplashScreen.hide() // hide splash page
       const { isHaveWallet } = this.props.wallet!
-      if(isHaveWallet) {
-        if(this.openType === 'send') {
-          this.props.navigation.navigate('lock', { address: this.address, amount: this.amount, scheme: this.scheme, type: 'send' })
+      if (isHaveWallet) {
+        if (this.openType === 'send') {
+          this.resetOpenParams()
+          this.props.navigation.navigate('lock', {
+            address: this.address,
+            amount: this.amount,
+            scheme: this.scheme,
+            type: 'send',
+          })
           return
         }
         this.props.navigation.navigate('lock')
         return
-      } 
+      }
       this.props.navigation.navigate('start')
     }
   }
 
-
+  resetOpenParams = () => {
+    this.address = ''
+    this.amount = ''
+    this.scheme = ''
+    this.openType = ''
+  }
 
   render() {
-    return (
-      <View />
-    )
+    return <View />
   }
 }
 
 export default Splash
-
-
