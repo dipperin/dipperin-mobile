@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Image, StyleSheet, Dimensions, Modal } from 'react-native';
+import { View, TouchableOpacity, Text, Image, StyleSheet, Dimensions, Modal, AppState } from 'react-native';
 import i18n from 'I18n';
 import FINGERPRINT from 'Assets/fingerprint.png'
 import { observer } from 'mobx-react';
@@ -26,6 +26,7 @@ interface Props {
 class FingerprintPop extends React.Component<Props> {
   @observable contentText: string = ''
   curTimes: number = 0
+  appState: any
 
   static defaultProps = {
     startHint: label.pleaseEnterFingerprint,
@@ -36,6 +37,13 @@ class FingerprintPop extends React.Component<Props> {
   componentDidMount() {
     this.changeContentText(this.props.startHint!)
     this.startFingerprint()
+    this.appState = AppState.addEventListener('change', this.appActive)
+  }
+
+  appActive = (_status: string) => {
+    if (_status === 'active') {
+      this.startFingerprint()
+    }
   }
 
   startFingerprint = async () => {
