@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
 
 export const styles = StyleSheet.create({
   box: {
-    flex: 1,
-    backgroundColor: '#fafbfc'
+    height: Dimensions.get('window').height - 75,
+    backgroundColor: '#fafbfc',
   },
 
   content: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     height: 58,
     backgroundColor: '#fff',
     borderColor: '#EFF2F4',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   inputItemBorderTopAndBottom: {
     borderTopWidth: 1,
@@ -27,12 +27,12 @@ export const styles = StyleSheet.create({
     marginRight: 10,
     flexWrap: 'nowrap',
     fontSize: 17,
-    color: '#393B42'
+    color: '#393B42',
   },
   input: {
     flex: 1,
     fontSize: 17,
-    textAlign: 'right'
+    textAlign: 'right',
   },
 
   psdHint: {
@@ -41,11 +41,11 @@ export const styles = StyleSheet.create({
     paddingLeft: 14,
     paddingRight: 14,
     fontSize: 12,
-    color: '#B7BBBE'
+    color: '#B7BBBE',
   },
 
   btnBox: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   btnTounch: {
     minWidth: 308,
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
   btnText: {
     textAlign: 'center',
     color: '#fff',
-    fontSize: 15
+    fontSize: 15,
   },
 
   forgetPassword: {
@@ -66,10 +66,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 6,
     height: 34,
-    marginBottom: 20,
   },
   forgetPasswordText: {
     fontSize: 15,
     color: '#767F86',
-  }
+  },
 })

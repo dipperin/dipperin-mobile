@@ -1,5 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import {
   styles,
@@ -35,13 +37,16 @@ class ChangePassword extends React.Component<Props> {
   render() {
     const { label } = this.props
     return (
-      <View style={styles.box}>
+      <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableAutomaticScroll={false}
+        contentContainerStyle={styles.box}
+      >
         <View style={styles.content}>
           <View style={[styles.inputItem, styles.inputItemBorderTopAndBottom, { marginBottom: 10 }]}>
             <Text style={styles.inputItemLabel}>{label.oldPassword}</Text>
             <TextInput
               secureTextEntry={true}
-              // placeholder={label.pleaseEnterOldPsd}
               autoCompleteType="password"
               style={styles.input}
               value={this.oldPassword}
@@ -53,7 +58,6 @@ class ChangePassword extends React.Component<Props> {
             <Text style={styles.inputItemLabel}>{label.newPassword}</Text>
             <TextInput
               secureTextEntry={true}
-              // placeholder={label.pleaseEnterNewPsd}
               autoCompleteType="password"
               maxLength={24}
               style={styles.input}
@@ -66,7 +70,6 @@ class ChangePassword extends React.Component<Props> {
             <Text style={styles.inputItemLabel}>{label.confrimPassword}</Text>
             <TextInput
               secureTextEntry={true}
-              // placeholder={label.pleaseConfirmNewPsd}
               autoCompleteType="password"
               maxLength={24}
               style={styles.input}
@@ -76,11 +79,10 @@ class ChangePassword extends React.Component<Props> {
           </View>
 
           <View style={styles.inputItem}>
-            <Text style={styles.inputItemLabel}>{label.passwordTipMsg}</Text>
             <TextInput
-              // placeholder={label.passwordTipMsg}
+              placeholder={label.passwordTipMsg}
               autoCompleteType="off"
-              style={styles.input}
+              style={[styles.input, {textAlign: 'left'}]}
               value={this.passwordTip}
               onChangeText={this.inputPasswordTip}
             />
@@ -115,7 +117,7 @@ class ChangePassword extends React.Component<Props> {
           onCancel={this.hideResetWalletPop}
           onConfirm={this.resetWallet}
         />
-      </View>
+      </KeyboardAwareScrollView>
     )
   }
 
