@@ -5,4 +5,7 @@ module.exports = {
     'prettier/prettier': ['off'],
     semi: ['off'],
   },
+  env: {
+    jest: true
+  }
 }
