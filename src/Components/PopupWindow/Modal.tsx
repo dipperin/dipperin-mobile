@@ -22,6 +22,7 @@ export class Modal {
   static FingerprintPopShow(fingerprintConfig: FingerprintConfigType, options: FingerprintPopOptionsType) {
     RootView.setView(
       <FingerprintPop
+        isSwitch={fingerprintConfig.isSwitch}
         startHint={fingerprintConfig.startHint}
         proccessHint={fingerprintConfig.proccessHint}
         successHint={fingerprintConfig.successHint}

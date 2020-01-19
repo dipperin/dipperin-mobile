@@ -14,6 +14,7 @@ const generateKey = (password: string, salt: string, cost: number, length: numbe
 
 const encryptWithKey = (text: string, key: string): Promise<EncryptedData> => {
     return Aes.randomKey(16).then((iv: string) => {
+        Aes.encrypt(text, key, iv).then((a: string) => {console.log(a, 'aaaaa')})
         return Aes.encrypt(text, key, iv).then((cipher: string) => ({
             cipher,
             iv,

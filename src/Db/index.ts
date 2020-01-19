@@ -27,7 +27,7 @@ export const setStorage = async (key: string, value: any) => {
     try {
         storage.save({
             key,
-            data: value
+            data: value,
         })
     } catch (_) {
 
@@ -59,7 +59,7 @@ export const updateSingleAccount = async (account: AccountObj) => {
         storage.save({
             key: ACCOUNT_DB,
             id: account.id + '',
-            data: account
+            data: account,
         })
     } catch (_) {
 
@@ -105,18 +105,18 @@ export const getContractTx = async (
         return null
     }
 }
-export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[]> => {
+export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[] | undefined>  => {
     try {
         let res = await storage.getAllDataForKey(TRANSACTION_DB)
-        console.log("localtransaction",res)
-        return res.filter(item => {
+        const filterRes = res.filter(item => {
             return (item.from === address && item.net === net)
+                || (item.from === address.toLocaleLowerCase() && item.net === net)
                 || (item.to === address && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
-                || (item.address === address.toLocaleLowerCase() && item.net === net)
-                || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
+            || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
         })
+        return filterRes
     } catch (_) {
-        return []
+        return undefined
 
     }
 }
@@ -128,7 +128,7 @@ export const insertTx = async (tx: TransactionInterface, net: string = DEFAULT_N
         await storage.save({
             key: TRANSACTION_DB,
             id: tx.transactionHash + net,
-            data: insertData
+            data: insertData,
 
         })
     } catch (_) {
@@ -141,7 +141,7 @@ export const updateTx = async (txHash: string, updateObj: any, net: string = DEF
         await storage.save({
             key: TRANSACTION_DB,
             id: txHash + net,
-            data: {...updateObj,net}
+            data: { ...updateObj, net },
         })
     } catch (_) {
 
@@ -158,7 +158,7 @@ export const insertWallet = async (walletObj: WalletObj) => {
         await storage.save({
             key: WALLET_DB,
             id: walletObj.walletId + '',
-            data: walletObj
+            data: walletObj,
         })
     } catch (_) {
 
@@ -174,7 +174,7 @@ export const getWallet = async (walletId?: number): Promise<WalletObj | undefine
     try {
         const res = await storage.load({
             key: WALLET_DB,
-            id: walletId + ''
+            id: walletId + '',
         })
         return res
     } catch (_) {
@@ -189,7 +189,7 @@ export const getWallet = async (walletId?: number): Promise<WalletObj | undefine
 export const getActiveId = async (walletId: number): Promise<string> => {
     const res = await storage.load({
         key: WALLET_DB,
-        id: walletId + ''
+        id: walletId + '',
     })
     return res ? res.activeAccountId as string : '1'
 }
@@ -197,7 +197,7 @@ export const getActiveId = async (walletId: number): Promise<string> => {
 export const getErrTimes = async (walletId: number): Promise<number> => {
     const res = await storage.load({
         key: WALLET_DB,
-        id: walletId + ''
+        id: walletId + '',
     })
     return res ? res.unlockErrTimes : 0
 }
@@ -205,7 +205,7 @@ export const getErrTimes = async (walletId: number): Promise<number> => {
 export const getLockTime = async (walletId: number): Promise<string> => {
     const res = await storage.load({
         key: WALLET_DB,
-        id: walletId + ''
+        id: walletId + '',
     })
     return res ? res.lockTime : ''
 }
@@ -214,7 +214,7 @@ export const updateLockTime = async (walletId: number, lockTime: string) => {
     try {
         const res = await storage.load({
             key: WALLET_DB,
-            id: walletId + ''
+            id: walletId + '',
         })
         if (res) {
             await storage.save({
@@ -222,8 +222,8 @@ export const updateLockTime = async (walletId: number, lockTime: string) => {
                 id: walletId + '',
                 data: {
                     ...res,
-                    lockTime
-                }
+                    lockTime,
+                },
             })
         }
     } catch (_) {
@@ -236,7 +236,7 @@ export const updateActiveId = async (walletId: number, activeAccountId: string) 
     try {
         const res = await storage.load({
             key: WALLET_DB,
-            id: walletId + ''
+            id: walletId + '',
         })
         if (res) {
             await storage.save({
@@ -244,8 +244,8 @@ export const updateActiveId = async (walletId: number, activeAccountId: string) 
                 id: walletId + '',
                 data: {
                     ...res,
-                    activeAccountId
-                }
+                    activeAccountId,
+                },
             })
         }
     } catch (_) {
@@ -257,7 +257,7 @@ export const updateErrTimes = async (walletId: number, unlockErrTimes: number = 
     try {
         const res = await storage.load({
             key: WALLET_DB,
-            id: walletId + ''
+            id: walletId + '',
         })
         if (res) {
             await storage.save({
@@ -265,12 +265,13 @@ export const updateErrTimes = async (walletId: number, unlockErrTimes: number = 
                 id: walletId + '',
                 data: {
                     ...res,
-                    unlockErrTimes
-                }
+                    unlockErrTimes,
+                },
             })
-        }   
+        }
+
     } catch (_) {
-        
+
     }
 
 }

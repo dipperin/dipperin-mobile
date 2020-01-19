@@ -7,12 +7,11 @@ module.exports = {
         root: ['./src'],
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
-          "test/*": "./test/",
-        }
-      }
+          'test/*': './test/',
+        },
+      },
     ],
-    ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["import", { libraryName: "@ant-design/react-native" }]
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['import', { libraryName: '@ant-design/react-native' }],
   ],
-      
-};
+}

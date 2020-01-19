@@ -31,6 +31,7 @@ class TxRecord extends React.Component<Props>{
             { title: i18n.t('dipperin:account.received') },
             { title: i18n.t('dipperin:account.failed') },
         ];
+        console.log('222222222222222222',transactions)
         return (
             <View style={styles.tabsBox}>
                 <Tabs
