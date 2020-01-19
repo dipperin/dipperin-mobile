@@ -80,9 +80,9 @@ export const FIRST_ACCOUNT_ID = '1'
 /**
  * net
  */
-export enum NET  {
-  VENUS = 'venus',
-  TEST =  'test'
+export const NET = {
+  VENUS : 'venus',
+  TEST :  'test',
 }
 
 export const NET_HOST = {
