@@ -47,6 +47,7 @@ export interface TxfromNode {
     timestamp: string
     position: number
 }
+export type Key = 'all' | 'sent' | 'received' | 'failed'
 
 export const transferTxfromNode = (tx: TxfromNode) => {
     const { nonce, amount, from_address, to_address, extra_data, timestamp, hash, cost } = tx

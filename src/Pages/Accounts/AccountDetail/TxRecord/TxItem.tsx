@@ -9,6 +9,7 @@ import { I18nAccountType } from 'I18n/config'
 import TransactionModel from 'Models/transaction'
 import Collection from 'Assets/collection.png'
 import Transfer from 'Assets/transfer.png'
+import { Key } from '../config'
 
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
     transaction: TransactionModel
     navigation: NavigationScreenProp<any>
     labels: I18nAccountType
+    keyIndex: Key
 }
 @observer
 class TxItem extends React.Component<Props>{
@@ -31,21 +33,52 @@ class TxItem extends React.Component<Props>{
             return moment(timestamp).format('YYYY/MM/DD ')
         }
     }
+    getIconAndText = (isFromMe: boolean) => {
+        const { keyIndex, labels } = this.props
+        let text
+        let icon
+        switch (keyIndex) {
+            case 'all':
+                text = isFromMe ? labels.to : labels.from
+                icon = isFromMe ? Transfer : Collection
+                break
+            case 'failed':
+                text = isFromMe ? labels.to : labels.from
+                icon = isFromMe ? Transfer : Collection
+                break
+            case 'sent':
+                text = labels.to
+                icon = Transfer
+                break
+            case 'received':
+                text = labels.from
+                icon = Collection
+                break
+            default:
+                break;
+        }
+        return {
+            text,
+            icon,
+        }
+
+    }
     render() {
-        const { activeAccountaddress, labels, transaction: { from, value, timestamp,to } } = this.props
+        const { activeAccountaddress, labels, transaction: { from, value, timestamp, to } } = this.props
         const showTime = timestamp ? this.getShowTime(timestamp) : ''
-        const isFromMe = getIsTxFromMe(activeAccountaddress, from) && from !== to   // in case that from === to
+        const isFromMe = getIsTxFromMe(activeAccountaddress, from)
         const showValue = formatNumber(Number(value), 6)
+        const textAndIcon = this.getIconAndText(isFromMe)
         return (
             <TouchableOpacity
                 onPress={this.goDetail}
             >
                 <View style={styles.txItem}>
                     <View style={styles.left}>
-                        <Image source={isFromMe ? Transfer : Collection} style={styles.icon} />
+                        <Image source={textAndIcon.icon} style={styles.icon} />
                         <View>
                             <Text >{isFromMe ? labels.sent : labels.received}</Text>
-                            <Text style={styles.txt} numberOfLines={1} ellipsizeMode={'tail'}>{isFromMe ? labels.to : labels.from}: {from}</Text>
+                            <Text style={styles.txt} numberOfLines={1} ellipsizeMode={'tail'}>{textAndIcon.text}: {isFromMe ? to : from}</Text>
                         </View>
                     </View>
                     <View>
@@ -88,8 +121,8 @@ const styles = StyleSheet.create({
         paddingTop: 3,
         color: '#A1A1A1',
     },
-    time:{
+    time: {
         paddingTop: 3,
-        color: '#A1A1A1' ,
+        color: '#A1A1A1',
     },
 })
