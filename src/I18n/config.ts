@@ -21,7 +21,8 @@ const enResource = {
       unlocking: 'Unlocking',
       hintFingerprintDisabled: 'Please check whether the system fingerprint verification is on',
       passwordError: 'Wrong Password!',
-      threeTimesFingerprint: 'After three times fingerprint authentication failure will enable password authentication',
+      threeTimesFingerprintPre: 'After',
+      threeTimesFingerprint: 'times fingerprint authentication failure will enable password authentication',
       fingerprintDisabled: 'System does not support or fingerprint unlock function is not enabled, please open in the set',
       AuthenticationNotMatch: '	No match',
       AuthenticationFailed: 'Validation failure, unable to provide valid credentials',
@@ -259,6 +260,10 @@ const enResource = {
       record:'Transaction Detail',
       addAcount:'Add Account',
     },
+    errors: {
+      toLowFee: 'Please increase the gas Price',
+      sendFailure: 'Send Failure',
+    },
   },
 };
 
@@ -272,6 +277,7 @@ export type I18nMeType = typeof enResource.dipperin.me;
 export type I18nTransactionType = typeof enResource.dipperin.transaction;
 export type I18nAccountType  = typeof enResource.dipperin.account;
 export type I18nDiscoveryType = typeof enResource.dipperin.discovery;
+export type I18nErrorType = typeof enResource.dipperin.errors;
 
 const zhResource: typeof enResource = {
   dipperin: {
@@ -296,7 +302,8 @@ const zhResource: typeof enResource = {
       unlocking: '正在解锁',
       hintFingerprintDisabled: '请检查系统指纹认证是否开启',
       passwordError: '密码错误!',
-      threeTimesFingerprint: '3次指纹验证失败后将启用密码验证',
+      threeTimesFingerprintPre: '',
+      threeTimesFingerprint: '次指纹验证失败后将启用密码验证',
       fingerprintDisabled: '系统不支持或未启用指纹解锁功能，请在设置中开启',
       AuthenticationNotMatch: '没有匹配',
       AuthenticationFailed: '验证失败，因为无法提供有效的凭据',
@@ -533,6 +540,10 @@ const zhResource: typeof enResource = {
       receive:'收款',
       record:'交易详情',
       addAcount:'创建账户',
+    },
+    errors: {
+      toLowFee: '交易费过低，请提高手续费',
+      sendFailure: '发送失败',
     },
   },
 };

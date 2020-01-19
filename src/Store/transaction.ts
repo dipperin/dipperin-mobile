@@ -68,7 +68,7 @@ class TransactionStore {
                   tx.setFail()
                   updateTx(
                     tx.transactionHash!,
-                    { ...tx, status: TRANSACTION_STATUS_FAIL },
+                    { ...tx.toJS(), status: TRANSACTION_STATUS_FAIL },
                     this._store.chainData.currentNet,
                   )
                   // updata account nonce when transition failed
@@ -81,7 +81,7 @@ class TransactionStore {
                 tx.setSuccess()
                 updateTx(
                   tx.transactionHash!,
-                  { ...tx, status: TRANSACTION_STATUS_SUCCESS },
+                  { ...tx.toJS(), status: TRANSACTION_STATUS_SUCCESS },
                   this._store.chainData.currentNet,
                 )
               }

@@ -1,7 +1,8 @@
 export interface FingerprintConfigType {
   startHint?: string
   proccessHint?:  string
-  successHint?: string 
+  successHint?: string
+  isSwitch?: boolean
 }
 
 export interface FingerprintPopOptionsType {

@@ -220,7 +220,7 @@ export default class TransactionModel {
       timestamp: this._timestamp,
       to: this._to,
       transactionHash: this._transactionHash,
-      value: this._value
+      value: this._value,
     }
   }
 }

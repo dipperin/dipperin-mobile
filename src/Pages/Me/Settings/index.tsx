@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react'
 import { View, Text, ScrollView } from 'react-native'
 import { NavigationScreenProp } from 'react-navigation'
@@ -30,10 +31,10 @@ class Settings extends React.Component<Props> {
     const { system, chainData } = this.props
     const mainOptions = {
       extraOnChange: this.handleListMainChange,
-      onChangeItem: this.goToChangePassword
+      onChangeItem: this.goToChangePassword,
     }
     const extOptions = {
-      onChangeItem: this.handleExtRoute
+      onChangeItem: this.handleExtRoute,
     }
     return (
       <View style={{ flex: 1, backgroundColor: '#fafbfc' }}>

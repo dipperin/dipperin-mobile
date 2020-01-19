@@ -6,7 +6,7 @@ import { Toast } from 'Components/PopupWindow'
 
 import TransactionModel from 'Models/transaction'
 import { getTxList } from 'Server'
-import { transferTxfromNode, TxRes } from '../config'
+import { transferTxfromNode, TxRes,Key } from '../config'
 import { I18nAccountType } from 'I18n/config'
 
 
@@ -19,7 +19,6 @@ interface Props {
     keyIndex: Key
 
 }
-type Key = 'all' | 'sent' | 'received' | 'failed'
 interface Params {
     address: string
     page: number
@@ -97,7 +96,7 @@ class TxList extends React.Component<Props>{
     }
 
     render() {
-        const { activeAccountaddress, labels } = this.props
+        const { activeAccountaddress, labels,keyIndex } = this.props
         return (
             <FlatList
                 refreshing={false}
@@ -110,6 +109,7 @@ class TxList extends React.Component<Props>{
                     transaction={item}
                     activeAccountaddress={activeAccountaddress}
                     labels={labels}
+                    keyIndex={keyIndex}
                 />}
 
             />
