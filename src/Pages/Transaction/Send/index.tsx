@@ -265,7 +265,6 @@ class Send extends React.Component<Props> {
       DEFAULT_GASLIMIT,
       String(10 ** this.txFeeLevel),
     )
-    console.log('end send tx')
     if (res.success) {
       return res
     } else {

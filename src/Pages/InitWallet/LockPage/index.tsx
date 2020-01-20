@@ -153,6 +153,7 @@ class LockPage extends React.Component<Props> {
     }
     const res = await this.detectiveClickboard()
     if (res.success) {
+      Modal.hide()
       this.props.navigation.navigate('send', {address: res.result})
       return
     }

@@ -263,6 +263,8 @@ const enResource = {
     errors: {
       toLowFee: 'Please increase the gas Price',
       sendFailure: 'Send Failure',
+      alreadyInPool: 'this transaction already in tx pool',
+      invalidNonce: 'Please try again after a moment',
     },
   },
 };
@@ -544,6 +546,8 @@ const zhResource: typeof enResource = {
     errors: {
       toLowFee: '交易费过低，请提高手续费',
       sendFailure: '发送失败',
+      alreadyInPool: '交易已发送',
+      invalidNonce: '请稍后重新发送',
     },
   },
 };
