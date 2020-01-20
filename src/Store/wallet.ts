@@ -62,7 +62,6 @@ export default class WalletStore {
     return !!this._currentWallet
   }
 
-  @computed
   get mnemonic() {
     return this._mnemonic
   }
@@ -96,7 +95,6 @@ export default class WalletStore {
     return this._currentWallet ? this._currentWallet.showLock : false
   }
 
-  @computed
   get hdAccount() {
     return this._hdAccount
   }

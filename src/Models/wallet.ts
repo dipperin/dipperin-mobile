@@ -36,7 +36,6 @@ export default class WalletModel {
     this._activeAccountId = id
   }
 
-  @computed
   get activeAccountId() {
     return this._activeAccountId
   }
@@ -45,12 +44,10 @@ export default class WalletModel {
     this._showLock = flag
   }
 
-  @computed
   get showLock(): boolean {
     return this._showLock
   }
 
-  @computed
   get encryptSeed(): EncryptedData | undefined {
     return this._encryptSeed
   }
@@ -59,7 +56,6 @@ export default class WalletModel {
     this._lockTime = time
   }
 
-  @computed
   get lockTime(): string {
     return this._lockTime
   }
@@ -68,7 +64,6 @@ export default class WalletModel {
     this._unlockErrTimes = times
   }
 
-  @computed
   get unlockErrTimes(): number {
     return this._unlockErrTimes
   }

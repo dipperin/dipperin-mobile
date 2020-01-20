@@ -6,6 +6,7 @@ module.exports = {
     semi: ['off'],
   },
   env: {
-    jest: true
+    jest: true,
+    node: true
   }
 }
