@@ -73,11 +73,14 @@ export const generateTxResponse = (
 
 export const handleError = (errorMsg: string): string => {
   const labels = i18n.t('dipperin:errors') as I18nErrorType
-  if (
-    errorMsg ===
-    'ResponseError: Returned error: "new fee is too low to replace the old one"'
-  ) {
+  if (errorMsg.includes('new fee is too low to replace the old one')) {
     return labels.toLowFee
+  }
+  if (errorMsg.includes('this transaction already in tx pool')) {
+    return labels.alreadyInPool
+  }
+  if (errorMsg.includes('tx nonce is invalid')) {
+    return labels.invalidNonce
   }
   return labels.sendFailure
 }
