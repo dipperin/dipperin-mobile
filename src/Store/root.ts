@@ -34,7 +34,7 @@ class Root {
   async init() {
     try {
       await this.chainData.init()
-      this.dipperin = new Dipperin(this.chainData.currentNetHost) 
+      this.dipperin = new Dipperin(this.chainData.currentNetHost)
       await Promise.all([this.wallet.load(), this.account.load(), this.system.init()])
       await this.transaction.load()
       this.chainData.startUpdate()
@@ -44,15 +44,15 @@ class Root {
           if (isConnect) {
             this.account.startUpdate()
             this.transaction.startUpdate()
-          } 
+          }
         }
       )
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     } finally {
       this.system.setLoading(false)
     }
-    
+
   }
 
   updateDipperinHost() {

@@ -52,7 +52,7 @@ interface Props {
 
 @inject('transaction', 'wallet', 'account', 'contract', 'system')
 @observer
-class Send extends React.Component<Props> {
+export class Send extends React.Component<Props> {
   render() {
     return (
       <View style={styles.mainWrapper}>

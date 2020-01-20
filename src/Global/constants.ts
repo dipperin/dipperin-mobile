@@ -1,7 +1,7 @@
 export enum Tabs {
   WALLET = 'wallet',
   DISCOVERY = 'discovery',
-  ME = 'me'
+  ME = 'me',
 }
 
 /**
@@ -35,7 +35,6 @@ export const RECEIPT_DB = 'receipt'
 export const MINE_DB = 'mine'
 export const CONFIG_DB = 'config'
 
-
 /**
  * Transaction
  */
@@ -58,7 +57,7 @@ export enum STORAGE_KEYS {
   PASSWORD_TIP = 'passwordTip',
   PASSWORD = 'password',
   FINGERPRINT_UNLOCK = 'fingerprintUnlock',
-  FINGERPRINT_PAY = 'fingerprintPay'
+  FINGERPRINT_PAY = 'fingerprintPay',
 }
 
 /**
@@ -72,17 +71,15 @@ export const LOCKTIMES = 8 // wrong password times
  * Account
  */
 
-export const ACCOUNTS_PATH = 'm/44\'/709394\'/0\'/0'
+export const ACCOUNTS_PATH = "m/44'/709394'/0'/0"
 export const FIRST_ACCOUNT_ID = '1'
-
-
 
 /**
  * net
  */
-export const NET = {
-  VENUS : 'venus',
-  TEST :  'test',
+export enum NET {
+  VENUS = 'venus',
+  TEST = 'test',
 }
 
 export const NET_HOST = {
@@ -94,7 +91,6 @@ export const CHAIN_ID_DIC = {
   [NET.VENUS]: '0x02',
   [NET.TEST]: '0x640',
 }
-
 
 export const CONTRACT_ADDRESS = '0x0014a4A3397aEFB57B0Db4b146E5f767411C0f445482'
 
