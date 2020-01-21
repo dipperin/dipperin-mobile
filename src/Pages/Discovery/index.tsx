@@ -58,7 +58,7 @@ class Discovery extends React.Component<any, State> {
             </Text>
             <Text
               onPress={() => this.tabsChange(2)}
-              style={activeIndex === 2 ? { ...styles.item2, ...styles.activeItem, ...styles.item } : { ...styles.item, ...styles.item2 }}
+              style={activeIndex === 2 ? { ...styles.item2, ...styles.item, ...styles.activeItem} : { ...styles.item, ...styles.item2 }}
             >
               {i18n.t('dipperin:discovery.tab3')}
             </Text>

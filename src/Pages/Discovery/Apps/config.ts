@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     height: 87,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(231, 245, 248, 0.1)',
+    backgroundColor: '#E8EBED',
     padding: 11,
     borderRadius: 8,
     marginBottom: 9
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     marginTop: 3,
   },
   title: {
-    color: '#ffffff',
+    color: '#393B42',
     fontWeight: 'bold',
     fontSize: 15,
     marginRight: 14
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   more: {
     width:'100%',
     paddingTop: 30,
-    color: '#ffffff',
+    color: '#393B42',
     fontSize: 10,
     textAlign: 'center'
   }
