@@ -60,7 +60,8 @@ export default class WalletModel {
     return this._lockTime
   }
 
-  set unlockErrTimes(times: number) {
+  @action
+  setUnlockErrTimes(times: number) {
     this._unlockErrTimes = times
   }
 
