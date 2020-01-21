@@ -1,5 +1,6 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, Slider } from 'react-native'
+import { TouchableOpacity, View, Text } from 'react-native'
+import Slider from '@react-native-community/slider'
 import { I18nTransactionType } from 'I18n/config'
 import { styles } from './config'
 

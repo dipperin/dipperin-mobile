@@ -16,6 +16,7 @@
     "@ant-design/react-native": "^3.2.2",
     "@dipperin/dipperin.js": "^0.5.1",
     "@react-native-community/async-storage": "^1.7.1",
+    "@react-native-community/slider": "^2.0.8",
     "@react-native-community/viewpager": "^3.3.0",
     "@tradle/react-native-http": "^2.0.1",
     "@types/aes-js": "^3.1.0",

@@ -37,3 +37,11 @@ export const validateEnteringAmount = (amountString: string) => {
   const reg = new RegExp('^[0-9]*([.][0-9]{0,18})?$')
   return reg.test(amountString)
 }
+
+export const validateExtraData = (text: string) => {
+  if (text.length > 200) {
+    return false
+  }
+  // --- add new rule here
+  return true
+}

@@ -56,6 +56,8 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
     // Unlock Wallet
     mockWallet.unlockWallet('12345678')
 
+    mockAccount.initAccount()
+
     // Update account balance
     await mockAccount.updateAccountsBalance()
   }

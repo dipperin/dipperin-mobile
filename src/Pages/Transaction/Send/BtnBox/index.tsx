@@ -8,7 +8,7 @@ interface Props {
   onPress: () => void
 }
 
-class AddressBox extends React.Component<Props> {
+class BtnBox extends React.Component<Props> {
   render() {
     const { labels, onPress } = this.props
     return (
@@ -24,4 +24,4 @@ class AddressBox extends React.Component<Props> {
   }
 }
 
-export default AddressBox
+export default BtnBox

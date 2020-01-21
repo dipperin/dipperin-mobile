@@ -17,6 +17,7 @@ import {
   styles,
   validateEnteringArressOrShortword,
   validateEnteringAmount,
+  validateExtraData,
 } from './config'
 import { Toast, Modal } from 'Components/PopupWindow'
 import TransactionStore from 'Store/transaction'
@@ -152,20 +153,12 @@ export class Send extends React.Component<Props> {
     }
   }
   @action handleChangeExtraData = (text: string) => {
-    if (this.validateExtraData(text)) {
+    if (validateExtraData(text)) {
       this.extraData = text
     }
   }
   @action handleChangeTxfee = (num: number) => {
     this.txFeeLevel = num
-  }
-
-  validateExtraData(text: string) {
-    if (text.length > 200) {
-      return false
-    }
-    // --- add new rule here
-    return true
   }
 
   verifyAddressOrShortword = async () => {
@@ -269,26 +262,22 @@ export class Send extends React.Component<Props> {
       return res
     } else {
       const errToast = handleError(res.error.message)
-      return {success: false, error: new Error(errToast)}
+      return { success: false, error: new Error(errToast) }
     }
   }
 
   handleSend = async () => {
-    try {
-      const ifVerifyAddress = await this.verifyAddressOrShortword()
-      if (!ifVerifyAddress) {
-        return
-      }
-      if (!this.verifyAmount()) {
-        return
-      }
-      if (!this.verifyBalance()) {
-        return
-      }
-      Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
-    } catch (error) {
-      console.log(error)
+    const ifVerifyAddress = await this.verifyAddressOrShortword()
+    if (!ifVerifyAddress) {
+      return
     }
+    if (!this.verifyAmount()) {
+      return
+    }
+    if (!this.verifyBalance()) {
+      return
+    }
+    // Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
 
     const { isFingerPay } = this.props.system!
     if (isFingerPay) {
