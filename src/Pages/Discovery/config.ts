@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native'
 export const formatEllipsis = (str: string) => {
-  return `${str.substr(0,6)}...${str.substr(str.length-2,2)}`
+  return `${str.substr(0,2)}...${str.substr(str.length-6,6)}`
 }
 
 export const styles = StyleSheet.create({
   wrap: {
-    backgroundColor: '#0B0E19',
+    backgroundColor: '#ffffff',
     paddingVertical: 9,
     height: '100%'
   },
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     minWidth: 94,
     textAlign:'center', 
     fontSize: 15,
-    color: '#ffffff',
+    color: '#5F6064',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderColor: '#1C77BC',
@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: 38
   },
   activeItem: {
-    backgroundColor: '#1C77BC'
+    backgroundColor: '#1C77BC',
+    color: '#ffffff'
   }
 })

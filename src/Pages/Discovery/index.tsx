@@ -27,10 +27,7 @@ class Discovery extends React.Component<any, State> {
     }
   }
   componentDidMount() {
-      this._navListener = this.props.navigation.addListener('didFocus', () => {
-        StatusBar.setBackgroundColor('#0B0E19')
-        StatusBar.setBarStyle('light-content')
-      });
+      this._navListener = this.props.navigation.addListener('didFocus', () => {});
   }
   componentWillUnmount() {
     this._navListener.remove();
@@ -41,7 +38,7 @@ class Discovery extends React.Component<any, State> {
   render() {
     const { activeIndex } = this.state
     return (
-      <SafeAreaView style={{ backgroundColor: '#0B0E19' }}>
+      <SafeAreaView>
         <NavigationEvents
           onDidFocus={this.didFocus}
         />
@@ -49,13 +46,13 @@ class Discovery extends React.Component<any, State> {
           <View style={styles.tabs}>
             <Text
               onPress={() => this.tabsChange(0)}
-              style={activeIndex === 0 ? { ...styles.item0, ...styles.activeItem, ...styles.item } : { ...styles.item, ...styles.item0 }}
+              style={activeIndex === 0 ? { ...styles.item0, ...styles.item, ...styles.activeItem  } : { ...styles.item, ...styles.item0 }}
             >
               {i18n.t('dipperin:discovery.tab1')}
             </Text>
             <Text
               onPress={() => this.tabsChange(1)}
-              style={activeIndex === 1 ? { ...styles.item1, ...styles.activeItem, ...styles.item } : { ...styles.item, ...styles.item1 }}
+              style={activeIndex === 1 ? { ...styles.item1,  ...styles.item, ...styles.activeItem, } : { ...styles.item, ...styles.item1 }}
             >
               {i18n.t('dipperin:discovery.tab2')}
             </Text>
