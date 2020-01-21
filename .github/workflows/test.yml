@@ -27,3 +27,11 @@ jobs:
 
       - name: Run test:ci
         run: yarn test:ci
+      
+      - name: Monitor coverage
+        uses: slavcodev/coverage-monitor-action@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          clover_file: "coverage/clover.xml"
+          threshold_alert: 10
+          threshold_warning: 50
