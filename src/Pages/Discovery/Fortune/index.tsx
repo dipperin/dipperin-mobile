@@ -25,13 +25,14 @@ class Fortune extends React.Component<FortuneProps> {
   }
   render() {
     const { fortuneList, totalBlocks } = this.props.discovery!
+    console.log(fortuneList)
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>
-          <Text style={styles.ranking}>{i18n.t('dipperin:discovery.fortune.ranking')}</Text>
-          <Text style={styles.address}>{i18n.t('dipperin:discovery.fortune.address')}</Text>
-          <Text style={styles.balance}>{i18n.t('dipperin:discovery.fortune.balance')}</Text>
-          <Text style={styles.holdings}>{i18n.t('dipperin:discovery.fortune.holdings')}</Text>
+          <Text style={{...styles.ranking, ...styles.textColor}}>{i18n.t('dipperin:discovery.fortune.ranking')}</Text>
+          <Text style={{...styles.address, ...styles.textColor}}>{i18n.t('dipperin:discovery.fortune.address')}</Text>
+          <Text style={{...styles.balance, ...styles.textColor}}>{i18n.t('dipperin:discovery.fortune.balance')}</Text>
+          <Text style={{...styles.holdings, ...styles.textColor}}>{i18n.t('dipperin:discovery.fortune.holdings')}</Text>
         </View>
         <FlatList 
           data={fortuneList}

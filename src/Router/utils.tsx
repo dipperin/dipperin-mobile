@@ -25,7 +25,6 @@ export const getTabNavigationOptions = ({ navigation }: any) => {
             style: {
                 height: 48,
                 borderTopColor: '#E7F2DF',
-                backgroundColor: navigation.state.routeName === 'discovery' ? '#0B0E19' : '#ffffff'
             },
         },
     }

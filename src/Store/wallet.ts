@@ -334,7 +334,7 @@ export default class WalletStore {
       updateLockTime(this._currentWallet!.walletId, nowDateString)
       this._currentWallet!.lockTime = nowDateString
       this._currentWallet!.showLock = true
-      this._currentWallet!.unlockErrTimes = 0
+      this._currentWallet!.setUnlockErrTimes(0)
       updateErrTimes(this._currentWallet!.walletId, 0)
     }
   }
@@ -357,13 +357,13 @@ export default class WalletStore {
       )
       if (seed) {
         const account = Accounts.create(seed)
-        this._currentWallet.unlockErrTimes = DEFAULT_ERR_TIMES
+        this._currentWallet.setUnlockErrTimes(DEFAULT_ERR_TIMES)
         return account
       }
     } catch (_) {
       const preErrTimes = this._currentWallet.unlockErrTimes
       let errTimes = preErrTimes ? preErrTimes : DEFAULT_ERR_TIMES
-      this._currentWallet.unlockErrTimes = ++errTimes
+      this._currentWallet.setUnlockErrTimes(++errTimes) 
       return
     }
   }

@@ -17,25 +17,30 @@ export const styles  = StyleSheet.create({
     marginBottom: 4,
     borderRadius: 8,
     height: 44,
+    borderBottomColor: '#E8EBED',
+    borderBottomWidth: 1
   },
   address: {
     flex: 1.5,
     textAlign:'center',
-    color: '#ffffff'
+    color: '#393B42'
   },
   holdings: {
     flex:1.5,
     textAlign: 'center',
-    color: '#ffffff'
+    color: '#393B42'
   },
   balance: {
     flex:2,
     textAlign: 'center',
-    color: '#ffffff'
+    color: '#393B42'
   },
   ranking: {
     flex:1,
     textAlign: 'center',
-    color: '#ffffff'
+    color: '#393B42'
+  },
+  textColor: {
+    color:'#ffffff'
   }
 })

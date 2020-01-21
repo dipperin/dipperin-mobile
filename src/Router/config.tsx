@@ -242,12 +242,9 @@ export const discoveryStack = createStackNavigator({
       ...headerBackConfig,
       headerLeft: null,
       title: i18n.t('dipperin:discovery.title'),
-      headerStyle: {
-        backgroundColor: '#0B0E19',
-      },
       headerTitleStyle: {
         width: '100%',
-        color: '#ffffff',
+        color: '#3C3E42',
         textAlign: 'center',
       },
     }),

@@ -122,7 +122,7 @@ export const balancePercent = (
     .div(2 * height + 52560000)
     .times(100)
     .toString(10)
-    .substr(0, 10)
+    .substr(0, 8)
 }
 export const sleep = (time: number) => {
   return new Promise(resolve => {

@@ -34,10 +34,10 @@ class Contracts extends React.Component<ContractsProps> {
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>
-          <Text style={styles.address}>{i18n.t('dipperin:discovery.contracts.address')}</Text>
-          <Text style={styles.name}>{i18n.t('dipperin:discovery.contracts.name')}</Text>
-          <Text style={styles.balance}>{i18n.t('dipperin:discovery.contracts.balance')}</Text>
-          <Text style={styles.txcount}>{i18n.t('dipperin:discovery.contracts.txCount')}</Text>
+          <Text style={{...styles.address, ...styles.headerColor}}>{i18n.t('dipperin:discovery.contracts.address')}</Text>
+          <Text style={{...styles.name, ...styles.headerColor}}>{i18n.t('dipperin:discovery.contracts.name')}</Text>
+          <Text style={{...styles.balance, ...styles.headerColor}}>{i18n.t('dipperin:discovery.contracts.balance')}</Text>
+          <Text style={{...styles.txcount,...styles.headerColor}}>{i18n.t('dipperin:discovery.contracts.txCount')}</Text>
         </View>
           <FlatList 
             data={contractsList}
