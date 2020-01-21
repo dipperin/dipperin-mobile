@@ -1,12 +1,12 @@
 import i18n from 'i18next'
-import * as RNLocalize from "react-native-localize"
+import * as RNLocalize from 'react-native-localize'
 import { resource } from './config'
 
 const languageDetector = {
-  type: 'languageDetector' as "languageDetector" | "backend" | "logger" | "postProcessor" | "i18nFormat" | "3rdParty",
+  type: 'languageDetector' as 'languageDetector' | 'backend' | 'logger' | 'postProcessor' | 'i18nFormat' | '3rdParty',
   async: true, // flags below detection to be async
   detect: (callback: any) => {
-    const fallback = { languageTag: "zh" }
+    const fallback = { languageTag: 'zh' }
 
     const { languageTag } = RNLocalize.findBestAvailableLanguage(['en', 'zh']) || fallback
 
@@ -23,11 +23,14 @@ i18n
 
     resources: resource,
 
+    debug: false,
+
     // have a common namespace used around the full app
     ns: ['common'],
     defaultNS: 'common',
 
-    debug: true,
+    // initImmediate: false,
+    // lng: 'zh',
 
     // cache: {
     //   enabled: true

@@ -5,7 +5,7 @@ const accounts = [
     nonce: '0',
     path: "m/44'/709394'/0'/0/1",
     _id: 'sqEVSm4jZaNAegxA',
-    name: ''
+    name: '',
   },
   {
     address: '0x00001B0e12d3b39F606f2B83d5c78d2C3A41A9CC91CF',
@@ -13,7 +13,7 @@ const accounts = [
     nonce: '0',
     path: "m/44'/709394'/0'/0/2",
     _id: 'Ve0iubiCL8hvYkxn',
-    name: ''
+    name: '',
   },
   {
     address: '0x00007B71014bd3AdfB86bC0E774605F85DE850F89192',
@@ -21,7 +21,7 @@ const accounts = [
     nonce: '0',
     path: "m/44'/709394'/0'/0/3",
     _id: 'NP90e1xaWUSvcsTw',
-    name: ''
+    name: '',
   },
   {
     address: '0x00007Aa1664385C83a0B7F66e9F8BF1D51c91494BD5b',
@@ -29,7 +29,7 @@ const accounts = [
     nonce: '0',
     path: "m/44'/709394'/0'/0/4",
     _id: 'VR8j8VlvKGdUlQO9',
-    name: ''
+    name: '',
   },
   {
     address: '0x000024b51856eDca1169CDf800996bC149da1bAE7926',
@@ -37,7 +37,7 @@ const accounts = [
     nonce: '0',
     path: "m/44'/709394'/0'/0/5",
     _id: '74PUTpjwA2y1zutu',
-    name: ''
+    name: '',
   },
   {
     address: '0x00005a9306610b1f2c89a7186B79905FfcB4D87fbC28',
@@ -45,8 +45,8 @@ const accounts = [
     nonce: '0',
     path: "m/44'/709394'/0'/0/6",
     _id: '5yZKG1GpZUI1E1iR',
-    name: ''
-  }
+    name: '',
+  },
 ]
 
 export default accounts

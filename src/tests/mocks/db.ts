@@ -1,4 +1,3 @@
-
 export const getWallet = async () => ({
   activeAccountId: '1',
   encryptSeed: {
@@ -10,9 +9,11 @@ export const getWallet = async () => ({
   unlockErrTimes: 0,
   walletId: 1579501201165,
 })
-
 export const getAccount = async () => []
-export const getStorage = jest.fn()
+const storage = {
+  Language: 'zh',
+}
+export const getStorage = jest.fn((key: string) => storage[key])
 export const setStorage = jest.fn()
 export const updateSingleAccount = jest.fn()
 export const insertAccount = jest.fn()

@@ -1,3 +1,5 @@
+import 'i18next'
+jest.mock('i18next')
 import Account from 'Store/account'
 import Root from 'Store/root'
 import Timer from 'Store/timer'
@@ -7,6 +9,7 @@ import ChainData from 'Store/chainData'
 import Contract from 'Store/contract'
 import System from 'Store/System'
 import Discovery from 'Store/discovery'
+
 
 import mockDipperinBuilder from './dipperin'
 
@@ -19,7 +22,8 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
 
   const mockRoot = new Root() as MockRoot
 
-  const mockTime = new Timer()
+  const mockTimer = new Timer()
+  mockTimer.on = jest.fn()
 
   const mockWallet = new Wallet(mockRoot)
 
@@ -36,7 +40,7 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
   const mockDiscovery = new Discovery()
 
   mockRoot.dipperin = dipperin
-  mockRoot.timer = mockTime
+  mockRoot.timer = mockTimer
   mockRoot.wallet = mockWallet
   mockRoot.account = mockAccount
   mockRoot.transaction = mockTransaction

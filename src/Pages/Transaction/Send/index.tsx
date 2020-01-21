@@ -69,7 +69,7 @@ export class Send extends React.Component<Props> {
           <AmoutBox
             labels={this.props.labels}
             value={this.sendAmount}
-            balance={this.props.account!.activeAccount!.balance}
+            balance={this.props.account!.activeAccount?.balance || '0'}
             handleChange={this.handleChangeSendAmount}
           />
 

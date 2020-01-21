@@ -98,7 +98,8 @@
       "<rootDir>/src/tests/jestSetup.js"
     ],
     "moduleNameMapper": {
-      "Db": "<rootDir>/src/tests/mocks/db"
+      "Db": "<rootDir>/src/tests/mocks/db",
+      "^I18n": "<rootDir>/src/tests/mocks/i18n"
     },
     "globals": {
       "window": {}

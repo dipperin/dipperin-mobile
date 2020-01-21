@@ -13,7 +13,7 @@ const transactions = {
       timestamp: 1548063597639,
       to: '0x00001b0e12d3b39f606f2b83d5c78d2c3a41a9cc91cf',
       transactionHash: '0x6d9baad34a8be30b8aa95cac9c92ec59c2f2808f846b5c55c29a3b5932ef57f0',
-      value: '1000000000'
+      value: '1000000000',
     },
     {
       _id: '0xd81b131a75abf926c5d748f8d983086dbf470c742a66d5f1b873a622b7917226',
@@ -28,7 +28,7 @@ const transactions = {
       timestamp: 1548063792173,
       to: '0x00001b0e12d3b39f606f2b83d5c78d2c3a41a9cc91cf',
       transactionHash: '0xd81b131a75abf926c5d748f8d983086dbf470c742a66d5f1b873a622b7917226',
-      value: '1000000000'
+      value: '1000000000',
     },
     {
       _id: '0xb1bbd94219e17a62dedf3993c86ede96e43e97a1a037d4a5281fb8fc3996f93b',
@@ -43,8 +43,8 @@ const transactions = {
       timestamp: 1548063879779,
       to: '0x00001b0e12d3b39f606f2b83d5c78d2c3a41a9cc91cf',
       transactionHash: '0xb1bbd94219e17a62dedf3993c86ede96e43e97a1a037d4a5281fb8fc3996f93b',
-      value: '1000000000'
-    }
+      value: '1000000000',
+    },
   ],
   '0x00001B0e12d3b39F606f2B83d5c78d2C3A41A9CC91CF': [
     {
@@ -60,7 +60,7 @@ const transactions = {
       timestamp: 1548063597639,
       to: '0x00001b0e12d3b39f606f2b83d5c78d2c3a41a9cc91cf',
       transactionHash: '0x6d9baad34a8be30b8aa95cac9c92ec59c2f2808f846b5c55c29a3b5932ef57f0',
-      value: '1000000000'
+      value: '1000000000',
     },
     {
       _id: '0xd81b131a75abf926c5d748f8d983086dbf470c742a66d5f1b873a622b7917226',
@@ -75,7 +75,7 @@ const transactions = {
       timestamp: 1548063792173,
       to: '0x00001b0e12d3b39f606f2b83d5c78d2c3a41a9cc91cf',
       transactionHash: '0xd81b131a75abf926c5d748f8d983086dbf470c742a66d5f1b873a622b7917226',
-      value: '1000000000'
+      value: '1000000000',
     },
     {
       _id: '0xb1bbd94219e17a62dedf3993c86ede96e43e97a1a037d4a5281fb8fc3996f93b',
@@ -90,7 +90,7 @@ const transactions = {
       timestamp: 1548063879779,
       to: '0x00001b0e12d3b39f606f2b83d5c78d2c3a41a9cc91cf',
       transactionHash: '0xb1bbd94219e17a62dedf3993c86ede96e43e97a1a037d4a5281fb8fc3996f93b',
-      value: '1000000000'
+      value: '1000000000',
     },
     {
       _id: '0xf84236f25e504d51f698eba4a2fc562a2b3fcd9ecde058eab10a706d34dbdbf7',
@@ -105,8 +105,8 @@ const transactions = {
       timestamp: 1548064004883,
       to: '0x00007b71014bd3adfb86bc0e774605f85de850f89192',
       transactionHash: '0xf84236f25e504d51f698eba4a2fc562a2b3fcd9ecde058eab10a706d34dbdbf7',
-      value: '1000000000'
-    }
+      value: '1000000000',
+    },
   ],
   '0x00005a9306610b1f2c89a7186B79905FfcB4D87fbC28': [
     {
@@ -122,9 +122,9 @@ const transactions = {
       timestamp: 1548064004883,
       to: '0x00007b71014bd3adfb86bc0e774605f85de850f89192',
       transactionHash: '0xf84236f25e504d51f698eba4a2fc562a2b3fcd9ecde058eab10a706d34dbdbf7',
-      value: '1000000000'
-    }
-  ]
+      value: '1000000000',
+    },
+  ],
 }
 
 export const contractTx = [
@@ -141,7 +141,7 @@ export const contractTx = [
     timestamp: 1550733139242,
     to: '0x0010f083e9334Dcf865fa99Fbb2965b6C6BEfb94635c',
     transactionHash: '0xe79312151b7ab4f67d1478fe6d7c206c71a4267e9d29be1592a67ef0e2f094cb',
-    value: '0'
+    value: '0',
   },
   {
     extraData:
@@ -156,8 +156,8 @@ export const contractTx = [
     timestamp: 1550733221123,
     to: '0x0010f083e9334Dcf865fa99Fbb2965b6C6BEfb94635c',
     transactionHash: '0xb86f4b67a32e8ddb6fd38a07a30702ae7515abae0248b7bbf0017af3c28359fa',
-    value: '0'
-  }
+    value: '0',
+  },
 ]
 
 export default transactions

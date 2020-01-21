@@ -15,16 +15,16 @@ const wallet = {
         p: 1,
         prf: '',
         r: 8,
-        salt: 'c5aa07bc62af40a92941986c4094fe1b1afebaa64797015975e18d29f557d277'
+        salt: 'c5aa07bc62af40a92941986c4094fe1b1afebaa64797015975e18d29f557d277',
       },
-      mac: 'ef1c788507cf3df5c6603208b22d3042fdfec1b007292f66f22eb845c27ef8f3'
+      mac: 'ef1c788507cf3df5c6603208b22d3042fdfec1b007292f66f22eb845c27ef8f3',
     },
     id: '3bdf01d5-4619-424f-8947-22b7ccb90a57',
-    version: 1
+    version: 1,
   },
   unlockErrTimes: 0,
   lockTime: '',
-  _id: 'kQSCSvXWIv2dz9bi'
+  _id: 'kQSCSvXWIv2dz9bi',
 }
 
 export default wallet
