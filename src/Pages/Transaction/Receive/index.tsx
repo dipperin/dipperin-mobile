@@ -18,6 +18,8 @@ import AccountStore from 'Store/account'
 import ContractStore from 'Store/contract'
 import { computed, reaction } from 'mobx'
 
+import ContentHeader from './ContentHeader'
+
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
   labels: I18nTransactionType
@@ -76,11 +78,12 @@ class Receive extends React.Component<Props> {
   }
 
   render() {
+    const { labels } = this.props
     return (
       <View style={styles.mainWrapper}>
         <StatusBar backgroundColor="#1C77BC" barStyle="light-content" />
         <View style={styles.mainContent}>
-          {this.renderContentHeader()}
+          <ContentHeader labels={labels} />
 
           {this.renderAddressDisplay()}
 
@@ -93,14 +96,7 @@ class Receive extends React.Component<Props> {
       </View>
     )
   }
-  renderContentHeader() {
-    const { labels } = this.props
-    return (
-      <View style={styles.contentTitleWrapper}>
-        <Text style={styles.contentTitle}>{labels.qrCode}</Text>
-      </View>
-    )
-  }
+
 
   renderAddressDisplay() {
     return (
