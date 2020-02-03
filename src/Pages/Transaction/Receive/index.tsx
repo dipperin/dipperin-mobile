@@ -19,6 +19,7 @@ import ContractStore from 'Store/contract'
 import { computed, reaction } from 'mobx'
 
 import ContentHeader from './ContentHeader'
+import { Toast } from 'Components/PopupWindow'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -71,6 +72,7 @@ class Receive extends React.Component<Props> {
 
   copyToClickboard = () => {
     Clipboard.setString(this.props.account!.activeAccount!.address)
+    Toast.success(this.props.labels.copySuccess)
   }
 
   copyShortwordToClickboard = () => {
