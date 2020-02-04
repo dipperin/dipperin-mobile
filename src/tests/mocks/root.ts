@@ -13,6 +13,14 @@ import Discovery from 'Store/discovery'
 
 import mockDipperinBuilder from './dipperin'
 
+jest.mock('Store/timer', () => {
+  return class Timer {
+      async on(name: string, method: () => void, interval: number) {
+          await method()
+      }
+      clear() {}
+  }
+})
 interface MockRoot extends Root {
   initWallet: (autoInit?: boolean) => Promise<void>
 }
@@ -23,7 +31,6 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
   const mockRoot = new Root() as MockRoot
 
   const mockTimer = new Timer()
-  mockTimer.on = jest.fn()
 
   const mockWallet = new Wallet(mockRoot)
 
