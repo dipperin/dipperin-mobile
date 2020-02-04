@@ -78,6 +78,7 @@ class Receive extends React.Component<Props> {
 
   copyShortwordToClickboard = () => {
     Clipboard.setString(this.shortword)
+    Toast.success(this.props.labels.copySuccess)
   }
 
   render() {
