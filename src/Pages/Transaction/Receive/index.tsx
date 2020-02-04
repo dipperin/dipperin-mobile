@@ -1,16 +1,12 @@
 import React from 'react'
 import {
   View,
-  // Text,
   StatusBar,
-  // TouchableOpacity,
   Clipboard,
 } from 'react-native'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
-// import QRCode from 'react-native-qrcode-svg'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nTransactionType } from 'I18n/config'
-// import { Icon } from 'Components/Icon'
 
 import { styles } from './config'
 import { observer, inject } from 'mobx-react'
@@ -34,7 +30,7 @@ interface Props {
 
 @inject('account', 'contract')
 @observer
-class Receive extends React.Component<Props> {
+export class Receive extends React.Component<Props> {
   @computed get shortword() {
     const addr = this.props.account!.activeAccount!.address
     const sw = this.props.contract!.shortwordMap.get(addr)
@@ -67,9 +63,11 @@ class Receive extends React.Component<Props> {
     const res = await this.props.contract!.queryShortwordByAddr(addr)
     console.log(res)
   }
+
   handleClose = () => {
     this.props.navigation.goBack()
   }
+
   turnToShortword = () => {
     this.props.navigation.navigate('shortword')
   }
@@ -93,7 +91,7 @@ class Receive extends React.Component<Props> {
           <ContentHeader labels={labels} />
 
           <AddressDisplay
-            address={this.props.account!.activeAccount!.address}
+            address={this.props.account!.activeAccount?.address}
             onCopy={this.copyToClickboard}
           />
 
@@ -114,51 +112,6 @@ class Receive extends React.Component<Props> {
       </View>
     )
   }
-
-  // renderShortwordDisplay() {
-  //   const { labels } = this.props
-  //   return (
-  //     <View style={styles.ShortWordWrapper}>
-  //       <View style={styles.ShortWordContent}>
-  //         <Text
-  //           style={
-  //             styles.address
-  //           }>{`${labels.shortword}: ${this.shortword}`}</Text>
-  //         <TouchableOpacity
-  //           style={styles.copyShortWord}
-  //           onPress={this.copyShortwordToClickboard}>
-  //           <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   )
-  // }
-
-  // renderQRCodeDisplay() {
-  //   return (
-  //     <View style={styles.qrcodeWrapper}>
-  //       <QRCode
-  //         value={this.props.account!.activeAccount!.address || ''}
-  //         size={200}
-  //         backgroundColor={'#f2f5f6'}
-  //       />
-  //     </View>
-  //   )
-  // }
-
-  // renderToShortwordRegister() {
-  //   const { labels } = this.props
-  //   return (
-  //     <TouchableOpacity
-  //       style={styles.btnWrapper}
-  //       activeOpacity={0.8}
-  //       onPress={this.turnToShortword}>
-  //       <View style={styles.btnMain}>
-  //         <Text style={styles.btnText}>{labels.shortWordReceive}</Text>
-  //       </View>
-  //     </TouchableOpacity>
-  //   )
-  // }
 }
 
 const Wrapped = (
