@@ -18,8 +18,9 @@ import AccountStore from 'Store/account'
 import ContractStore from 'Store/contract'
 import { computed, reaction } from 'mobx'
 
-import ContentHeader from './ContentHeader'
 import { Toast } from 'Components/PopupWindow'
+import ContentHeader from './ContentHeader'
+import AddressDisplay from './AddressDisplay'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -87,7 +88,10 @@ class Receive extends React.Component<Props> {
         <View style={styles.mainContent}>
           <ContentHeader labels={labels} />
 
-          {this.renderAddressDisplay()}
+          <AddressDisplay
+            address={this.props.account!.activeAccount!.address}
+            onCopy={this.copyToClickboard}
+          />
 
           {this.renderQRCodeDisplay()}
 
@@ -95,22 +99,6 @@ class Receive extends React.Component<Props> {
         </View>
 
         {!this.shortword && this.renderToShortwordRegister()}
-      </View>
-    )
-  }
-
-
-  renderAddressDisplay() {
-    return (
-      <View style={styles.addressWrapper}>
-        <View style={styles.addressContent}>
-          <Text style={styles.address}>
-            {this.props.account!.activeAccount!.address || ''}
-          </Text>
-          <TouchableOpacity style={styles.copy} onPress={this.copyToClickboard}>
-            <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
-          </TouchableOpacity>
-        </View>
       </View>
     )
   }
