@@ -15,7 +15,7 @@ import AccountStore from 'Store/account'
 import SystemStore from 'Store/System'
 
 
-interface Props {
+export interface Props {
     transaction?: TransactionStore
     account?: AccountStore
     system?: SystemStore
@@ -25,7 +25,7 @@ interface Props {
 
 @inject('account', 'system', 'transaction')
 @observer
-class AccountDetail extends React.Component<Props> {
+export class AccountDetail extends React.Component<Props> {
     navigate = (routeName: string) => () => {
         this.props.navigation.navigate(routeName)
     }
