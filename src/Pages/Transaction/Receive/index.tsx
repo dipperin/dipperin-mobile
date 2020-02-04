@@ -1,16 +1,16 @@
 import React from 'react'
 import {
   View,
-  Text,
+  // Text,
   StatusBar,
-  TouchableOpacity,
+  // TouchableOpacity,
   Clipboard,
 } from 'react-native'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
-import QRCode from 'react-native-qrcode-svg'
+// import QRCode from 'react-native-qrcode-svg'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nTransactionType } from 'I18n/config'
-import { Icon } from 'Components/Icon'
+// import { Icon } from 'Components/Icon'
 
 import { styles } from './config'
 import { observer, inject } from 'mobx-react'
@@ -19,8 +19,11 @@ import ContractStore from 'Store/contract'
 import { computed, reaction } from 'mobx'
 
 import { Toast } from 'Components/PopupWindow'
-import ContentHeader from './ContentHeader'
-import AddressDisplay from './AddressDisplay'
+import ContentHeader from './components/ContentHeader'
+import AddressDisplay from './components/AddressDisplay'
+import QRCodeDisplay from './components/QRCodeDisplay'
+import ShortwordDisplay from './components/ShortwordDisplay'
+import ShortwordRegisterBtn from './components/ShortwordRegisterBtn'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -94,60 +97,68 @@ class Receive extends React.Component<Props> {
             onCopy={this.copyToClickboard}
           />
 
-          {this.renderQRCodeDisplay()}
+          <QRCodeDisplay address={this.props.account!.activeAccount!.address} />
 
-          {!!this.shortword && this.renderShortwordDisplay()}
+          {!!this.shortword && (
+            <ShortwordDisplay
+              labels={labels}
+              shortword={this.shortword}
+              onCopy={this.copyShortwordToClickboard}
+            />
+          )}
         </View>
 
-        {!this.shortword && this.renderToShortwordRegister()}
+        {!this.shortword && (
+          <ShortwordRegisterBtn labels={labels} onTurn={this.turnToShortword} />
+        )}
       </View>
     )
   }
 
-  renderShortwordDisplay() {
-    const { labels } = this.props
-    return (
-      <View style={styles.ShortWordWrapper}>
-        <View style={styles.ShortWordContent}>
-          <Text
-            style={
-              styles.address
-            }>{`${labels.shortword}: ${this.shortword}`}</Text>
-          <TouchableOpacity
-            style={styles.copyShortWord}
-            onPress={this.copyShortwordToClickboard}>
-            <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    )
-  }
+  // renderShortwordDisplay() {
+  //   const { labels } = this.props
+  //   return (
+  //     <View style={styles.ShortWordWrapper}>
+  //       <View style={styles.ShortWordContent}>
+  //         <Text
+  //           style={
+  //             styles.address
+  //           }>{`${labels.shortword}: ${this.shortword}`}</Text>
+  //         <TouchableOpacity
+  //           style={styles.copyShortWord}
+  //           onPress={this.copyShortwordToClickboard}>
+  //           <Icon name={'fontAwesome|copy'} size={20} color={'#67686E'} />
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //   )
+  // }
 
-  renderQRCodeDisplay() {
-    return (
-      <View style={styles.qrcodeWrapper}>
-        <QRCode
-          value={this.props.account!.activeAccount!.address || ''}
-          size={200}
-          backgroundColor={'#f2f5f6'}
-        />
-      </View>
-    )
-  }
+  // renderQRCodeDisplay() {
+  //   return (
+  //     <View style={styles.qrcodeWrapper}>
+  //       <QRCode
+  //         value={this.props.account!.activeAccount!.address || ''}
+  //         size={200}
+  //         backgroundColor={'#f2f5f6'}
+  //       />
+  //     </View>
+  //   )
+  // }
 
-  renderToShortwordRegister() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity
-        style={styles.btnWrapper}
-        activeOpacity={0.8}
-        onPress={this.turnToShortword}>
-        <View style={styles.btnMain}>
-          <Text style={styles.btnText}>{labels.shortWordReceive}</Text>
-        </View>
-      </TouchableOpacity>
-    )
-  }
+  // renderToShortwordRegister() {
+  //   const { labels } = this.props
+  //   return (
+  //     <TouchableOpacity
+  //       style={styles.btnWrapper}
+  //       activeOpacity={0.8}
+  //       onPress={this.turnToShortword}>
+  //       <View style={styles.btnMain}>
+  //         <Text style={styles.btnText}>{labels.shortWordReceive}</Text>
+  //       </View>
+  //     </TouchableOpacity>
+  //   )
+  // }
 }
 
 const Wrapped = (
