@@ -232,6 +232,7 @@ const enResource = {
       confirmTxError: 'Confirm Transaction Error:',
       proccessPay: 'In the payment',
       pleaseEnterFingerprint: 'Verify that the fingerprint',
+      copySuccess: 'Replicating Success!',
     },
     account:{
       wallet:'Wallet',
@@ -515,6 +516,7 @@ const zhResource: typeof enResource = {
       confirmTxError: '确认交易失败',
       proccessPay: '正在支付',
       pleaseEnterFingerprint: '请验证指纹',
+      copySuccess: '复制成功!',
     },
     account:{
       wallet:'钱包',
