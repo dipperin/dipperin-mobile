@@ -1,5 +1,5 @@
-import 'i18next'
-jest.mock('i18next')
+// import 'i18next'
+// jest.mock('i18next')
 import Account from 'Store/account'
 import Root from 'Store/root'
 import Timer from 'Store/timer'
@@ -65,7 +65,7 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
   mockRoot.initWallet = initWallet
 
   if (autoInit) {
-    initWallet()
+     initWallet()
   }
 
   return mockRoot

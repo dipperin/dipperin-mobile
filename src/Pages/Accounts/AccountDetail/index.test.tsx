@@ -1,11 +1,11 @@
 import React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
-import { AccountDetail } from '../index'
+import { AccountDetail } from './index'
 import { mockNavigation } from 'tests/mocks/navigation'
 import mockRootBuilder from 'tests/mocks/root'
 import { mockI18n } from 'tests/mocks/i18n'
-import TxRecord from '../TxRecord'
-import AccountInfo from '../AccountInfo'
+import TxRecord from './TxRecord'
+import AccountInfo from './AccountInfo'
 
 describe('AccountDetail', () => {
     const mockRoot = mockRootBuilder(false)

@@ -3,18 +3,21 @@ import { shallow, ShallowWrapper } from 'enzyme'
 import { mockI18n } from 'tests/mocks/i18n'
 import mockRootBuilder from 'tests/mocks/root'
 import { TxRecord, Props } from './index'
+import Account from 'Models/account'
 import TxList from './TxList'
 
 
 describe('TxRecord', () => {
     const mockRoot = mockRootBuilder(false)
-    mockRoot.initWallet()
     let props: Props = {
         transaction: mockRoot.transaction,
-        activeAccount: mockRoot.account.activeAccount,
+        activeAccount: new Account('1', 'path', 'address', ''),
         labels: mockI18n.dipperin.account,
     }
     let component: ShallowWrapper
+    beforeAll(async()=>{
+        await mockRoot.initWallet()
+    })
 
     beforeEach(() => {
         component = shallow(<TxRecord {...props} />)

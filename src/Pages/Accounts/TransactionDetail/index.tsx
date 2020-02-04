@@ -12,7 +12,7 @@ interface Props {
     labels: I18nAccountType
 }
 
-class TransactionDetail extends React.Component<Props>{
+export class TransactionDetail extends React.Component<Props>{
     getShowTime = (timestamp: number) => {
         if (`${timestamp}`.length > 16) {
             return formatUTCTime(timestamp + '')
