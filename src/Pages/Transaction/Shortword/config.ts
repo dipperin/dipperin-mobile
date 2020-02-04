@@ -102,3 +102,14 @@ export const styles = StyleSheet.create({
     // borderRadius: 15,
   },
 });
+
+export const validateShortword = (text: string) => {
+  const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$')
+  if (!reg.test(text)) {
+    return false
+  }
+  if (text.length > 20) {
+    return false
+  }
+  return true
+}
