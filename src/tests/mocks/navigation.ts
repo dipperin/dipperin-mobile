@@ -3,5 +3,5 @@ export const mockNavigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
   getParam: jest.fn().mockReturnValue(''),
-  setParams:jest.fn(),
+  setParams: jest.fn(),
 } as any
