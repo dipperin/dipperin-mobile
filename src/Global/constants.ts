@@ -92,7 +92,7 @@ export const CHAIN_ID_DIC = {
   [NET.TEST]: '0x640',
 }
 
-export const CONTRACT_ADDRESS = '0x0014a4A3397aEFB57B0Db4b146E5f767411C0f445482'
+export const CONTRACT_ADDRESS = '0x0014122b3111815DF922bA0D791f08Ff62Ccd893EdA3'
 
 export const REGISTER_PASSWORD = 'registerPassword'
 export const QUERY_PASSWORD_BY_ADDR = 'queryPasswordByAddr'

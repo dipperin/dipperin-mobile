@@ -5,11 +5,11 @@ class TimerStore {
   @observable
   private _events: Map<string, any> = new Map()
 
-  on(name: string, method: () => void, interval: number): void {
+  async on(name: string, method: () => void, interval: number){
     if (!isFunction(method) || this._events.has(name)) {
       return
     }
-    method()
+    await method()
     const timer = setInterval(method, interval)
     this._events.set(name, timer)
   }
