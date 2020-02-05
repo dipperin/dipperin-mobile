@@ -35,4 +35,8 @@ describe('AddAccount',()=>{
         await instance.addAcount()
         expect(mockNavigation.goBack).toBeCalled()
     })
+    it('changeAccountName',()=>{
+        instance.changeAccountName('name')
+        expect(instance.accountName).toBe('name')
+    })
 })
