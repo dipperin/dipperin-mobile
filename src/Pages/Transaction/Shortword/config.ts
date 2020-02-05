@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import { StyleSheet, Platform } from 'react-native'
 
 export const styles = StyleSheet.create({
   mainWrapper: {
@@ -101,7 +101,12 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     // borderRadius: 15,
   },
-});
+  tips: {
+    width: '100%',
+    padding: 20,
+    color: '#aaa',
+  },
+})
 
 export const validateShortword = (text: string) => {
   const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$')

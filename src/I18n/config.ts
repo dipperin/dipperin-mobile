@@ -233,6 +233,7 @@ const enResource = {
       proccessPay: 'In the payment',
       pleaseEnterFingerprint: 'Verify that the fingerprint',
       copySuccess: 'Replicating Success!',
+      tips: 'tips: Please wait the transaction be on chain after register, the repeated register will not take effect while using gas.',
     },
     account:{
       wallet:'Wallet',
@@ -517,6 +518,7 @@ const zhResource: typeof enResource = {
       proccessPay: '正在支付',
       pleaseEnterFingerprint: '请验证指纹',
       copySuccess: '复制成功!',
+      tips: '提示: 注册口令后请等待交易上链确认，重复注册无效且交易费无法退回。',
     },
     account:{
       wallet:'钱包',
