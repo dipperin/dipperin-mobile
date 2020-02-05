@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { NavigationScreenProp } from 'react-navigation'
-import moment from 'moment'
 import { Utils } from '@dipperin/dipperin.js'
 import { formatUTCTime } from 'Global/utils'
 
@@ -14,11 +13,7 @@ interface Props {
 
 export class TransactionDetail extends React.Component<Props>{
     getShowTime = (timestamp: number) => {
-        if (`${timestamp}`.length > 16) {
-            return formatUTCTime(timestamp + '')
-        } else {
-            return moment(timestamp).format('YYYY/MM/DD HH:MM:SS A+UTC')
-        }
+        return formatUTCTime(timestamp + '')
     }
     render() {
         const transaction = this.props.navigation.getParam('transaction')
