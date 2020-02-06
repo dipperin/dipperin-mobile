@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { styles } from './config'
+import { styles } from '../config'
 import { I18nTransactionType } from 'I18n/config'
 import { observer } from 'mobx-react'
 

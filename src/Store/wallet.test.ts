@@ -3,10 +3,12 @@ import RootStore from './root'
 import WalletStore from './wallet'
 import { ACCOUNTS_PATH } from 'Global/constants'
 import * as Db from 'Db'
+import mockRootBuilder from 'tests/mocks/root'
 
 describe('wallet store, create new wallet', () => {
   let wallet: WalletStore
-  const root = new RootStore()
+  const root = mockRootBuilder()
+  root.timer.clear()
   it('construct', () => {
     expect(() => {
       wallet = new WalletStore(root)

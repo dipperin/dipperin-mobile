@@ -18,7 +18,7 @@ const mockDipperinBuilder = (): Dipperin => {
   dipperin.dr.contract.getContractDetail = jest
     .fn()
     .mockImplementation(async () => mockAddContract)
-
+  dipperin.net.isConnecting = jest.fn(async () => true)
   return dipperin
 }
 

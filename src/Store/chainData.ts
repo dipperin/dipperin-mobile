@@ -33,9 +33,11 @@ class ChainData {
     return this._blockInfo
   }
 
-  startUpdate() {
-    this._rootStore.timer.on('checkConnect', this._checkIsConnect.bind(this), 5000)
-    this._rootStore.timer.on('getBlockInfo', this._getCurrentBlock.bind(this), 10000)
+  async startUpdate() {
+    await Promise.all([
+      this._rootStore.timer.on('checkConnect', this._checkIsConnect.bind(this), 5000),
+      this._rootStore.timer.on('getBlockInfo', this._getCurrentBlock.bind(this), 10000)
+    ]) 
   }
 
   /**
@@ -61,15 +63,13 @@ class ChainData {
   }
 
   private _checkIsConnect = async () => {
-    this._rootStore.dipperin!.net
-      .isConnecting()
-      .then(res => {
-        this._changeIsConnect(res)
-      })
-      .catch(err => {
-        console.error('checkIsConnect', err)
-        this._changeIsConnect(false)
-      })
+    try {
+      const isConnect = await this._rootStore.dipperin!.net.isConnecting()
+      this._changeIsConnect(isConnect)
+    } catch(err) {
+      console.error('checkIsConnect', err)
+      this._changeIsConnect(false)
+    }
   }
 
   @action

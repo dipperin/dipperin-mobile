@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { styles } from './config'
+import { styles } from '../config'
 import { Icon } from 'Components/Icon'
 
 interface Props {

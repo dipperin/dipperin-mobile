@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Text } from 'react-native'
 import { Icon } from 'Components/Icon'
 import { I18nTransactionType } from 'I18n/config'
 
-import { styles } from './config'
+import { styles } from '../config'
 
 interface Props {
   labels: I18nTransactionType

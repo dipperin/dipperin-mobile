@@ -1,13 +1,10 @@
 import React from 'react'
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Slider,
   StatusBar,
   EmitterSubscription,
   Keyboard,
+  Text,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
@@ -16,7 +13,7 @@ import { observable, action, computed } from 'mobx'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { I18nTransactionType } from 'I18n/config'
 import TransactionStore from 'Store/transaction'
-import { styles } from './config'
+import { styles, validateShortword } from './config'
 import { Toast, Modal } from 'Components/PopupWindow'
 import { fromUnitToDip, encryptionPassword } from 'Global/utils'
 import WalletStore from 'Store/wallet'
@@ -26,6 +23,10 @@ import { sleep, Result } from 'Global/utils'
 import System from 'Store/System'
 import { getStorage } from 'Db'
 import { STORAGE_KEYS } from 'Global/constants'
+
+import ShortwordBox from './components/ShortwordBox'
+import TxFeeBox from './components/TxFeeBox'
+import BtnBox from './components/BtnBox'
 
 interface Props {
   navigation: NavigationStackScreenProps['navigation']
@@ -39,7 +40,7 @@ interface Props {
 
 @inject('transaction', 'wallet', 'contract', 'account', 'system')
 @observer
-class Shortword extends React.Component<Props> {
+export class Shortword extends React.Component<Props> {
   @observable shortword: string = ''
   @observable txFeeLevel: number = 1
   @observable keyboardShow: boolean = false
@@ -73,24 +74,13 @@ class Shortword extends React.Component<Props> {
 
   @action handleChangeShortword = (text: string) => {
     // limit short word in 20 letters
-    if (this.validateShortword(text)) {
+    if (validateShortword(text)) {
       this.shortword = text
     }
   }
 
   @action handleChangeTxfee = (num: number) => {
     this.txFeeLevel = num
-  }
-
-  validateShortword = (text: string) => {
-    const reg = new RegExp('^[\u4e00-\u9fa5A-Za-z0-9]{0,20}$')
-    if (!reg.test(text)) {
-      return false
-    }
-    if (text.length > 20) {
-      return false
-    }
-    return true
   }
 
   turnBack = async (timelimit: number = 0) => {
@@ -103,11 +93,7 @@ class Shortword extends React.Component<Props> {
       this.shortword,
       10 ** this.txFeeLevel,
     )
-    if (res.success) {
-      return { success: true, result: undefined }
-    } else {
-      return { success: false, error: new Error() }
-    }
+    return res.success ? { ...res, result: undefined } : res
   }
 
   verifyShortword = async () => {
@@ -119,7 +105,7 @@ class Shortword extends React.Component<Props> {
     const res = await this.props.contract!.queryAddressByShordword(
       this.shortword,
     )
-    console.log('shortword', res)
+
     if (res !== '') {
       Toast.info(labels.registeredShortword)
       return false
@@ -140,28 +126,31 @@ class Shortword extends React.Component<Props> {
       return
     }
 
-    const {isFingerPay} = this.props.system!
+    const { isFingerPay } = this.props.system!
     if (isFingerPay) {
-      Modal.FingerprintPopShow({
-        startHint: this.props.labels.pleaseEnterFingerprint,
-        successHint: this.props.labels.proccessPay,
-      }, {
-        fingerprintFailCb: this.handleFingerprintFailCb,
-        fingerprintSuccessCb: this.handleFingerprintSuccessCb,
-        hide: () => Modal.hide(),
-      })
+      Modal.FingerprintPopShow(
+        {
+          startHint: this.props.labels.pleaseEnterFingerprint,
+          successHint: this.props.labels.proccessPay,
+        },
+        {
+          fingerprintFailCb: this.handleFingerprintFailCb,
+          fingerprintSuccessCb: this.handleFingerprintSuccessCb,
+          hide: () => Modal.hide(),
+        },
+      )
       return
     }
 
-    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
+    Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
 
   handleFingerprintFailCb = () => {
     Modal.hide()
-    Modal.enterPassword(this.handleConfirmTransaction, {hasCancel: true})
+    Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
   }
 
-  handleFingerprintSuccessCb = async() => {
+  handleFingerprintSuccessCb = async () => {
     const _password = await getStorage(STORAGE_KEYS.PASSWORD)
     this.handleConfirmTransaction(encryptionPassword(_password))
     Modal.enterPassword(this.handleConfirmTransaction, { hasCancel: true })
@@ -188,6 +177,7 @@ class Shortword extends React.Component<Props> {
   }
 
   render() {
+    const { labels } = this.props
     return (
       <View style={styles.mainWrapper}>
         <StatusBar backgroundColor="#fff" />
@@ -196,86 +186,26 @@ class Shortword extends React.Component<Props> {
           contentContainerStyle={styles.wrapper}
           style={styles.contentWrapper}
           resetScrollToCoords={{ x: 0, y: 0 }}>
-          {this.renderShortwordBox()}
+          {/* {this.renderShortwordBox()} */}
+          <ShortwordBox
+            shortword={this.shortword}
+            labels={labels}
+            onChange={this.handleChangeShortword}
+          />
 
-          {this.renderTxFeeBox()}
+          {/* {this.renderTxFeeBox()} */}
+          <TxFeeBox
+            txFee={this.txFee}
+            txFeeLevel={this.txFeeLevel}
+            labels={labels}
+            onChange={this.handleChangeTxfee}
+          />
+        <Text style={styles.tips}>{labels.tips}</Text>
         </KeyboardAwareScrollView>
-        {!this.keyboardShow && this.renderBtnBox()}
+        {!this.keyboardShow && (
+          <BtnBox labels={labels} onPress={this.handleSend} />
+        )}
       </View>
-    )
-  }
-
-  renderShortwordBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
-        <View style={styles.toAddressLabel}>
-          <Text style={styles.toAddressText}>{labels.shortword}</Text>
-        </View>
-        <TextInput
-          style={styles.toAddressInput}
-          value={this.shortword}
-          onChangeText={this.handleChangeShortword}
-          placeholder={labels.enterRegisterShortword}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  renderTxFeeBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity style={styles.txFeeWrapper} activeOpacity={0.8}>
-        <View style={styles.txFeeBar}>
-          <Text style={styles.txFeeLabel}>{labels.txFee}</Text>
-          <Text style={styles.txFeeText}>{`${this.txFee} DIP`}</Text>
-        </View>
-        <Slider
-          minimumValue={1}
-          maximumValue={3}
-          step={1}
-          onValueChange={this.handleChangeTxfee}
-        />
-        <View style={styles.txFeeBottomBar}>
-          <Text
-            style={
-              this.txFeeLevel >= 1
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.low}
-          </Text>
-          <Text
-            style={
-              this.txFeeLevel >= 2
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.middle}
-          </Text>
-          <Text
-            style={
-              this.txFeeLevel >= 3
-                ? styles.activeFeeLevel
-                : styles.defalutFeeLevel
-            }>
-            {labels.high}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    )
-  }
-  renderBtnBox() {
-    const { labels } = this.props
-    return (
-      <TouchableOpacity
-        style={styles.btnWrapper}
-        onPress={this.handleSend}
-        activeOpacity={0.8}>
-        <View style={styles.btnView}>
-          <Text style={styles.btnText}>{labels.sendShortword}</Text>
-        </View>
-      </TouchableOpacity>
     )
   }
 }

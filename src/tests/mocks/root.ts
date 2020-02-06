@@ -1,5 +1,5 @@
-import 'i18next'
-jest.mock('i18next')
+// import 'i18next'
+// jest.mock('i18next')
 import Account from 'Store/account'
 import Root from 'Store/root'
 import Timer from 'Store/timer'
@@ -13,6 +13,14 @@ import Discovery from 'Store/discovery'
 
 import mockDipperinBuilder from './dipperin'
 
+jest.mock('Store/timer', () => {
+  return class Timer {
+      async on(name: string, method: () => void, interval: number) {
+          await method()
+      }
+      clear() {}
+  }
+})
 interface MockRoot extends Root {
   initWallet: (autoInit?: boolean) => Promise<void>
 }
@@ -23,7 +31,6 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
   const mockRoot = new Root() as MockRoot
 
   const mockTimer = new Timer()
-  mockTimer.on = jest.fn()
 
   const mockWallet = new Wallet(mockRoot)
 
@@ -54,9 +61,10 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
     await mockRoot.init()
 
     // Unlock Wallet
-    mockWallet.unlockWallet('12345678')
+    await mockWallet.unlockWallet('12345678')
 
-    mockAccount.initAccount()
+    await mockAccount.load()
+    await mockAccount.initAccount()
 
     // Update account balance
     await mockAccount.updateAccountsBalance()
