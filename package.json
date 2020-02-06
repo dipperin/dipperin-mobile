@@ -11,6 +11,7 @@
     "postinstall": "rn-nodeify --install fs,http,buffer,vm,crypto,stream --hack",
     "build-android-dev": "cd android && ./gradlew app:assembleRelease",
     "test:cov": "yarn test --coverage",
+    "test:watch": "yarn test --watch",
     "test:ci": "yarn test --ci"
   },
   "dependencies": {

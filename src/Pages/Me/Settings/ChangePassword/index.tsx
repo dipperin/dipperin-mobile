@@ -27,7 +27,7 @@ interface Props {
 
 @inject('system', 'wallet')
 @observer
-class ChangePassword extends React.Component<Props> {
+export class ChangePassword extends React.Component<Props> {
   @observable oldPassword: string = ''
   @observable newPassword: string = ''
   @observable confrimPassword: string = ''
@@ -152,14 +152,14 @@ class ChangePassword extends React.Component<Props> {
     }
 
     // Change password
-    const res = await this.props.wallet!.changePassword(newPassword) || ''
-    if (!res) {
+    const changeErrorMsg = await this.props.wallet!.changePassword(newPassword) || ''
+    if (!changeErrorMsg) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip)
       this.props.navigation.navigate('settings')
       Toast.hide()
       return
     }
-    Toast.info(res)
+    Toast.info(changeErrorMsg)
   }
 
   @action showResetWalletPop = () => {
@@ -175,15 +175,15 @@ class ChangePassword extends React.Component<Props> {
   }
 
   @action inputOldPassword = (_value: string) => {
-    this.oldPassword = _value.replace(/[\u4e00-\u9fa5]+/g, '')
+    this.oldPassword = _value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]+/g, '')
   }
 
   @action inputNewPassword = (_value: string) => {
-    this.newPassword = _value.replace(/[\u4e00-\u9fa5]+/g, '')
+    this.newPassword = _value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]+/g, '')
   }
 
   @action inputConfirmPassword = (_value: string) => {
-    this.confrimPassword = _value.replace(/[\u4e00-\u9fa5]+/g, '')
+    this.confrimPassword = _value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]+/g, '')
   }
 }
 

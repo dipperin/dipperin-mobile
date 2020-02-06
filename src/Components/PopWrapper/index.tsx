@@ -21,7 +21,7 @@ const PopWrapper = (Target: React.ComponentType<any>): any => {
       cancelText: i18n.t('dipperin:start.cancel'),
       confrimText: i18n.t('dipperin:start.confirm'),
       isConfirm: true,
-      onConfirm: () => null
+      onConfirm: () => null,
     }
     render() {
       const { animationType, visible, cancelText, confrimText, isConfirm, onCancel, onConfirm } = this.props
@@ -64,7 +64,7 @@ export default PopWrapper
 export const styles = StyleSheet.create({
   popWrapper: {
     width: client.width,
-    height: "100%",
+    height: '100%',
     backgroundColor: 'rgba(52,52,52,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: client.width * 0.86,
     borderRadius: 8,
-    overflow: "hidden"
+    overflow: 'hidden',
   },
 
 
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   btnTouch: {
     justifyContent: 'center',
@@ -94,20 +94,20 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
   },
   btnCancelTouch: {
-    backgroundColor: '#DEE0E3'
+    backgroundColor: '#DEE0E3',
   },
   btnCancelText: {
     lineHeight: 20,
     fontSize: 16,
-    color: '#fff'
+    color: '#fff',
   },
   btnConfirmTouch: {
-    backgroundColor: '#1C77BC'
+    backgroundColor: '#1C77BC',
   },
   btnConfirmText: {
     lineHeight: 20,
     fontSize: 16,
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 })
 

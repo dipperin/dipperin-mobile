@@ -1,10 +1,9 @@
 import React from 'react'
-import { View, TouchableNativeFeedbackBase } from 'react-native'
+import { View } from 'react-native'
 import { styles } from './config'
 import { List, Radio } from '@ant-design/react-native'
 import { observer, inject } from 'mobx-react';
-import { observable, action } from 'mobx';
-import { VENUS, MERCURY, NET } from 'Global/constants';
+import { NET } from 'Global/constants';
 import i18n from 'I18n'
 import ChainData from 'Store/chainData';
 
@@ -21,19 +20,19 @@ interface Props {
 
 @inject('chainData')
 @observer
-class NodeChoose extends React.Component<Props> {
+export class NodeChoose extends React.Component<Props> {
   render() {
     const dataSource = [
       {
-        label: i18n.t('dipperin:me.remoteNode') + " - " +i18n.t('dipperin:me.venus'),
+        label: i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.venus'),
         value: NET.VENUS,
       },
       {
-        label: i18n.t('dipperin:me.remoteNode') + " - " +i18n.t('dipperin:me.mercury'),
+        label: i18n.t('dipperin:me.remoteNode') + ' - ' + i18n.t('dipperin:me.mercury'),
         value: NET.TEST,
-      }
+      },
     ]
-    
+
     return (
       <View style={styles.box}>
         <List>
@@ -42,7 +41,7 @@ class NodeChoose extends React.Component<Props> {
               <RadioItem
                 key={index}
                 checked={this.props.chainData.currentNet === item.value}
-                onChange={() => this.handleChange(item.value)}
+                onChange={this.handleChange(item.value)}
               >{item.label}</RadioItem>
             )
           })}
@@ -51,9 +50,9 @@ class NodeChoose extends React.Component<Props> {
     )
   }
 
-  handleChange = (_value: NET) => {
+  handleChange = (_value: NET) => () => {
     this.props.chainData.changeNet(_value)
-    // TODO 
+    // TODO
   }
 }
 
