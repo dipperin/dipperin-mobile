@@ -8,7 +8,7 @@ interface Props extends PopWrapperPropsInterface {
 }
 
 @PopWrapper
-class ResetWalletPop extends React.Component<Props> {
+export class ResetWalletPop extends React.Component<Props> {
   render() {
     const { language } = this.props
     return (

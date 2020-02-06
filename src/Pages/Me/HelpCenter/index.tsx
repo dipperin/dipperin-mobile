@@ -9,13 +9,13 @@ import { I18nMeType } from 'I18n/config'
 
 const Item = List.Item
 
-
 interface Props {
   label: I18nMeType
   navigation: NavigationScreenProp<any>
 }
 
-class HelpCenter extends React.Component<Props> {
+
+export class HelpCenter extends React.Component<Props> {
   render() {
     const { label } = this.props
     return (

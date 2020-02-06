@@ -1,6 +1,5 @@
-import { StyleSheet } from "react-native"
-import i18n from 'I18n'
-import { I18nMeType } from "I18n/config"
+import { StyleSheet } from 'react-native'
+import { I18nMeType } from 'I18n/config'
 
 export interface MeItemProps {
   iconName: string
@@ -29,13 +28,13 @@ export const MeListItems = (labels: I18nMeType): MeListItemsProps => [
     iconColor: '#E36918',
     title: labels.FAQ,
     routeName: 'helpCenter',
-  }
+  },
 ]
 
 export const styles = StyleSheet.create({
   box: {
     flex: 1,
-    backgroundColor: "#fafbfc"
+    backgroundColor: '#fafbfc',
   },
   title: {
     textAlign: 'center',
@@ -45,8 +44,8 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     fontSize: 20,
     color: '#6A7575',
-    fontWeight: "bold",
-    lineHeight: 44
+    fontWeight: 'bold',
+    lineHeight: 44,
   },
   item: {
     flexDirection: 'row',
@@ -56,7 +55,7 @@ export const styles = StyleSheet.create({
     padding: 14,
   },
   firstItem: {
-    marginBottom: 14
+    marginBottom: 14,
   },
   itemContent: {
     flex: 1,
@@ -66,7 +65,7 @@ export const styles = StyleSheet.create({
   itemTitle: {
     marginLeft: 10,
     fontSize: 16,
-    color: "#515151",
-    lineHeight: 24
-  }
+    color: '#515151',
+    lineHeight: 24,
+  },
 })

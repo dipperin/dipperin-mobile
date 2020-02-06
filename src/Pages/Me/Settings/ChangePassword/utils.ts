@@ -1,4 +1,4 @@
-import { I18nMeType } from "I18n/config";
+import { I18nMeType } from 'I18n/config';
 
 export const passwordCheck = (oldPassword: string, newPassword: string, confirmPassword: string, lange: I18nMeType) => {
   switch (true) {

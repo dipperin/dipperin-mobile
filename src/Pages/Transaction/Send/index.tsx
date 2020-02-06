@@ -6,7 +6,11 @@ import {
   Clipboard,
   Linking,
 } from 'react-native'
-import { NavigationActions, StackActions } from 'react-navigation'
+import {
+  NavigationActions,
+  StackActions,
+  NavigationEvents,
+} from 'react-navigation'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
 import { observer, inject } from 'mobx-react'
@@ -57,6 +61,7 @@ export class Send extends React.Component<Props> {
   render() {
     return (
       <View style={styles.mainWrapper}>
+        <NavigationEvents onDidFocus={this.didFocus} />
         <KeyboardAwareScrollView
           contentContainerStyle={styles.wrapper}
           style={styles.contentWrapper}
@@ -112,7 +117,7 @@ export class Send extends React.Component<Props> {
       this.keyboardDidHide,
     )
   }
-  componentDidMount() {
+  didFocus = () => {
     if (this.props.navigation.getParam('address')) {
       this.handleChangeAddressOrShortword(
         this.props.navigation.getParam('address'),
@@ -123,6 +128,9 @@ export class Send extends React.Component<Props> {
     if (this.props.navigation.getParam('amount')) {
       this.handleChangeSendAmount(this.props.navigation.getParam('amount'))
     }
+  }
+  componentDidMount() {
+    this.didFocus()
   }
 
   @computed get txFee() {

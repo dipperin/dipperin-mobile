@@ -13,7 +13,7 @@ interface Props {
   labels: I18nMeType
 }
 
-class Me extends React.Component<Props> {
+export class Me extends React.Component<Props> {
   _navListener: any
   componentDidMount() {
     this._navListener = this.props.navigation.addListener('didFocus', () => {
@@ -22,7 +22,8 @@ class Me extends React.Component<Props> {
   }
 
   componentWillUnmount() {
-    this._navListener.remove()
+    this._navListener && this._navListener.remove()
+    this._navListener = null
   }
 
   render() {
@@ -40,7 +41,7 @@ class Me extends React.Component<Props> {
         <TouchableOpacity
           key={index}
           style={_styles}
-          onPress={() => this.clickItem(item)}
+          onPress={this.clickItem(item)}
           activeOpacity={0.8}
         >
           <View style={styles.itemContent}>
@@ -53,8 +54,8 @@ class Me extends React.Component<Props> {
     })
   }
 
-  clickItem = (item: MeItemProps) => {
-    if (!item.routeName) return
+  clickItem = (item: MeItemProps) => () => {
+    if (!item.routeName) { return }
     this.props.navigation.navigate(item.routeName)
   }
 }

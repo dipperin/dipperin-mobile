@@ -26,7 +26,7 @@ interface Props {
 
 @inject('system', 'chainData')
 @observer
-class Settings extends React.Component<Props> {
+export class Settings extends React.Component<Props> {
   render() {
     const { system, chainData } = this.props
     const mainOptions = {
