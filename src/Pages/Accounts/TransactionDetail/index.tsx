@@ -12,9 +12,6 @@ interface Props {
 }
 
 export class TransactionDetail extends React.Component<Props>{
-    getShowTime = (timestamp: number) => {
-        return formatUTCTime(timestamp + '')
-    }
     render() {
         const transaction = this.props.navigation.getParam('transaction')
         const isFromMe = this.props.navigation.getParam('isFromMe')
@@ -31,7 +28,7 @@ export class TransactionDetail extends React.Component<Props>{
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.timeStamp}:</Text>
-                    <Text style={styles.itemValue}>{this.getShowTime(timestamp)}</Text>
+                    <Text style={styles.itemValue}>{formatUTCTime(timestamp + '')}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.nonce}:</Text>

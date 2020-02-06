@@ -25,7 +25,7 @@ describe('models/transaction', () => {
     hashLock,
     transactionHash,
     fee,
-    timestamp
+    timestamp,
   }
 
   it('constructor', () => {

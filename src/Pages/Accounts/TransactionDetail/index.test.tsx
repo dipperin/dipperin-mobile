@@ -3,31 +3,35 @@ import { View } from 'react-native'
 import { shallow, ShallowWrapper } from 'enzyme'
 import { mockNavigation } from 'tests/mocks/navigation'
 import { mockI18n } from 'tests/mocks/i18n'
-import moment from 'moment'
-import { formatUTCTime } from 'Global/utils'
 import { TransactionDetail } from './index'
+import Transaction from 'Models/transaction'
+const mockTx = {
+    nonce: '1',
+    value: '1',
+    from: '0xaaa',
+    to: '0x11111',
+    extraData: 'aaaa',
+    timeLock: 1,
+    status: 'pending',
+    hashLock: '',
+    transactionHash: '0x111112',
+    fee: '1',
+    timestamp: 1580867867481,
+}
+
 
 describe('TransactionDetail', () => {
+    mockNavigation.getParam = jest.fn().mockReturnValue(new Transaction(mockTx) )
     let props = {
         labels: mockI18n.dipperin.account,
         navigation: mockNavigation,
     }
     let component: ShallowWrapper
-    let instance: TransactionDetail
     beforeEach(() => {
         component = shallow(<TransactionDetail {...props} />)
-        instance = component.instance() as TransactionDetail
     })
     it('render', () => {
         expect(component.find(View).length).toBe(9)
     })
-    it('getShowTime',()=>{
-        const res1 = instance.getShowTime(66666666668888888888)
-        expect(res1).toBe(formatUTCTime(66666666668888888888 + ''))
-
-        const res2 = instance.getShowTime(666666666688)
-        expect(res2).toBe(moment(666666666688).format('YYYY/MM/DD HH:MM:SS A+UTC'))
-    })
-
 })
 
