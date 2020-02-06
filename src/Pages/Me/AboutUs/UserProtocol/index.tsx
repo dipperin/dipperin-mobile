@@ -3,7 +3,7 @@ import React from 'react'
 import { WebView } from 'react-native-webview'
 import { userProtocol } from './userProtocol'
 
-class UserProtocol extends React.Component {
+export class UserProtocol extends React.Component {
   render() {
     return (
       <WebView source={{html: userProtocol}} />

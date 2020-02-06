@@ -1,20 +1,15 @@
 import React from 'react'
 import LOGO from 'Assets/logo.png'
-import { Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
-import {
-  styles
-} from './config'
-import { List } from '@ant-design/react-native'
+import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { styles } from './config'
 import { NavigationScreenProp } from 'react-navigation'
 import i18n from 'I18n'
-
-const Item = List.Item
 
 interface Props {
   navigation: NavigationScreenProp<any>
 }
 
-class AboutUs extends React.Component<Props> {
+export class AboutUs extends React.Component<Props> {
   render() {
     return (
       <View style={styles.box}>

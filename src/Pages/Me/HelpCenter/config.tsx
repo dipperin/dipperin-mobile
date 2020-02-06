@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { StyleSheet, Text } from "react-native"
+import { StyleSheet, Text } from 'react-native'
 import { ListItemProps } from '@ant-design/react-native/lib/list/ListItem';
 import { I18nMeType } from 'I18n/config';
 
@@ -20,7 +21,7 @@ export const dataSource = (label: I18nMeType) => [
         <Text style={styles.faqDetailSubtitle}>{label.FAQForgetPassowrdDesc2}</Text>
         <Text>{label.FAQForgetPassowrdDesc3}</Text>
       </>
-    )
+    ),
   },
   {
     id: '2',
@@ -31,7 +32,7 @@ export const dataSource = (label: I18nMeType) => [
         <Text style={styles.faqDetailSubtitle}>{label.FAQToggleNodeDesc2}</Text>
         <Text>{label.FAQForgetPassowrdDesc3}</Text>
       </>
-    )
+    ),
   },
   {
     id: '3',
@@ -44,7 +45,7 @@ export const dataSource = (label: I18nMeType) => [
         <Text style={styles.faqDetailSubtitle}>{label.FAQMnemonicWordDesc4}</Text>
         <Text style={styles.faqDetailDot}>{label.FAQMnemonicWordDesc5}</Text>
       </>
-    )
+    ),
   },
   {
     id: '4',
@@ -54,7 +55,7 @@ export const dataSource = (label: I18nMeType) => [
         <Text style={styles.faqDetailSubParagraph}>{label.FAQWalletLossDesc1}</Text>
         <Text style={styles.faqDetailDot}>{label.FAQWalletLossDesc2}</Text>
       </>
-    )
+    ),
   },
   {
     id: '5',
@@ -65,23 +66,23 @@ export const dataSource = (label: I18nMeType) => [
         <Text style={styles.faqDetailDot}>{label.FAQTransferAccountsFailDesc2}</Text>
         <Text style={styles.faqDetailDotTitle}>{label.FAQTransferAccountsFailDesc3}</Text>
         <Text style={styles.faqDetailDot}>{label.FAQTransferAccountsFailDesc4}</Text>
-        <Text style={[styles.faqDetailDotTitle, {marginBottom: 0}]}>{label.FAQTransferAccountsFailDesc5}</Text>
+        <Text style={[styles.faqDetailDotTitle, { marginBottom: 0 }]}>{label.FAQTransferAccountsFailDesc5}</Text>
         <Text>{label.FAQTransferAccountsFailDesc6}</Text>
       </>
-    )
+    ),
   },
   {
     id: '6',
     title: label.FAQNotArriveAccountTitle,
-    detail: (<Text>{label.FAQNotArriveAccountDesc1}</Text>)
-  }
+    detail: (<Text>{label.FAQNotArriveAccountDesc1}</Text>),
+  },
 ]
 
 
 export const styles = StyleSheet.create({
   box: {
     flex: 1,
-    backgroundColor: '#fafbfc'
+    backgroundColor: '#fafbfc',
   },
 
   subTitle: {
@@ -90,13 +91,13 @@ export const styles = StyleSheet.create({
     lineHeight: 40,
     fontSize: 12,
     color: '#333',
-    backgroundColor: '#fafbfc'
+    backgroundColor: '#fafbfc',
   },
 
   itemText: {
     fontSize: 14,
     color: '#333',
-    lineHeight: 58
+    lineHeight: 58,
   },
 
   faqDetailSubtitle: {
@@ -104,21 +105,21 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   faqDetailSubParagraph: {
     lineHeight: 24,
-    fontSize: 15
+    fontSize: 15,
   },
   faqDetailDotTitle: {
     marginTop: 12,
     marginBottom: 12,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   faqDetailDot: {
     lineHeight: 22,
-  }
+  },
 
 })
