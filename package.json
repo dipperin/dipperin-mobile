@@ -103,7 +103,8 @@
     ],
     "moduleNameMapper": {
       "Db": "<rootDir>/src/tests/mocks/db",
-      "^I18n": "<rootDir>/src/tests/mocks/i18n"
+      "^I18n": "<rootDir>/src/tests/mocks/i18n",
+      "^react-native-gesture-handler$": "<rootDir>/src/tests/mocks/react-native-gesture-handler"
     },
     "globals": {
       "window": {}
