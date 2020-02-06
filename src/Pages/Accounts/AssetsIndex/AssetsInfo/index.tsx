@@ -15,7 +15,7 @@ interface Props {
 }
 
 @observer
-class AssetsInfo extends React.Component<Props>{
+export class AssetsInfo extends React.Component<Props>{
 
     render() {
         const { isEyeOpen, setIsEyeOpen,assets ,labels} = this.props

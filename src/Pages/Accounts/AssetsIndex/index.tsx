@@ -21,7 +21,7 @@ interface Props {
 }
 @inject('account', 'system')
 @observer
-class Assets extends React.Component<Props>{
+export class Assets extends React.Component<Props>{
   didFocus = () => {
     this.props.navigation.setParams({title: this.props.labels.wallet})
     Platform.OS === 'android' && StatusBar.setBackgroundColor('#275DA5')

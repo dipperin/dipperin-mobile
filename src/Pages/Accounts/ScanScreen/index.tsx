@@ -15,7 +15,7 @@ interface Props {
 }
 
 
-class ScanScreen extends React.Component<Props> {
+export class ScanScreen extends React.Component<Props> {
     @observable camera: any
     @observable moveAnim: Animated.Value = new Animated.Value(0)
     componentDidMount() {

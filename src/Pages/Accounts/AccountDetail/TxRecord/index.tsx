@@ -1,8 +1,8 @@
 import { View, StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 import React from 'react'
+
 import { Tabs } from '@ant-design/react-native'
-import i18n from 'I18n'
 import TxList from './TxList'
 
 import TransactionStore from 'Store/transaction'
@@ -10,28 +10,26 @@ import AccountModel from 'Models/account'
 
 import { getPendingAndFailedTransactions, getFailedTransactions } from '../config'
 import { I18nAccountType } from 'I18n/config'
-import { WithTranslation, withTranslation } from 'react-i18next'
 
-interface Props extends WithTranslation {
+export interface Props {
     transaction: TransactionStore
-    activeAccount: AccountModel
+    activeAccount: AccountModel | undefined
     labels: I18nAccountType
 }
 
 @observer
-class TxRecord extends React.Component<Props>{
+export class TxRecord extends React.Component<Props>{
 
     render() {
         const { labels } = this.props
         const { transactions } = this.props.transaction!
         const { address } = this.props.activeAccount!
         const TabsConfig = [
-            { title: i18n.t('dipperin:account.all')},
-            { title: i18n.t('dipperin:account.sent') },
-            { title: i18n.t('dipperin:account.received') },
-            { title: i18n.t('dipperin:account.failed') },
+            { title: labels.all},
+            { title: labels.sent },
+            { title: labels.received},
+            { title: labels.failed},
         ];
-        console.log('222222222222222222',transactions)
         return (
             <View style={styles.tabsBox}>
                 <Tabs
@@ -76,8 +74,7 @@ class TxRecord extends React.Component<Props>{
     }
 }
 
-
-export default withTranslation()(TxRecord)
+export default TxRecord
 
 const styles = StyleSheet.create({
     tabsBox: {

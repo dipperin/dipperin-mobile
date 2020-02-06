@@ -1,5 +1,4 @@
 import { fetchRequest } from './http'
- 
 // Get Apps List
 export const getAppsList = (params: any) => fetchRequest('/applications', 'POST', params)
 // get Block Height
