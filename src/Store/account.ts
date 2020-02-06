@@ -254,7 +254,6 @@ export default class AccountStore {
   private async getAccountBalance(address: string): Promise<string> {
     try {
       const res = await this._store.dipperin!.dr.getBalance(address)
-      console.log('11111111111111111111111',res)
       return res || '0'
     } catch (err) {
       return ''
