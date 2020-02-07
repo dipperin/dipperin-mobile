@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { inject } from 'mobx-react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { NavigationScreenProp, ScrollView } from 'react-navigation'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { shuffle } from 'lodash'
 
