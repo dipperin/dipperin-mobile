@@ -1,9 +1,9 @@
-import { observable, action, computed } from "mobx";
-import { VENUS, STORAGE_KEYS } from "Global/constants";
-import { getStorage, setStorage, resetDB } from "Db"
-import i18n from "I18n"
+import { observable, action, computed } from 'mobx';
+import { VENUS, STORAGE_KEYS } from 'Global/constants';
+import { getStorage, setStorage, resetDB } from 'Db'
+import i18n from 'I18n'
 import RootStore from './root'
-import i18next from "i18next";
+import i18next from 'i18next';
 
 
 class System {
@@ -11,7 +11,7 @@ class System {
   @observable loading: boolean = true // loading data from storage
   @observable curLanguage: string = i18next.language // Current Language
   @observable private _fingerUnLock: boolean = false // Fingerprint unlock
-  @observable private _fingerPay: boolean =  false // Fingerprint payment
+  @observable private _fingerPay: boolean = false // Fingerprint payment
   @observable curSystemNodeAddr: string = VENUS // current node
 
   @observable isEyeOpen: boolean = true
@@ -26,10 +26,12 @@ class System {
     this._fingerUnLock = await getStorage(STORAGE_KEYS.FINGERPRINT_UNLOCK)
     this._fingerPay = await getStorage(STORAGE_KEYS.FINGERPRINT_PAY)
     i18n.changeLanguage(this.curLanguage)
+
+    await setStorage('isEyeOpen', false)
     const res = await getStorage('isEyeOpen')
     if (typeof res === 'boolean') {
       this.isEyeOpen = res
-    }else{
+    } else {
       this.isEyeOpen = true
     }
   }
@@ -47,26 +49,26 @@ class System {
     this.loading = loading
   }
 
-  @action 
+  @action
   public setFingerUnLock = (value: boolean) => {
     this._fingerUnLock = value
     setStorage(STORAGE_KEYS.FINGERPRINT_UNLOCK, value)
   }
 
-  @action 
+  @action
   public setFingerPay = (value: boolean) => {
     this._fingerPay = value
     setStorage(STORAGE_KEYS.FINGERPRINT_PAY, value)
   }
 
-  @action 
+  @action
   public setCurLanguage = (_value: string) => {
     this.curLanguage = _value
     setStorage('Language', _value)
   }
-  @action setIsEyeOpen=(val:boolean)=>{
+  @action setIsEyeOpen = (val: boolean) => {
     this.isEyeOpen = val
-    setStorage('isEyeOpen',val)
+    setStorage('isEyeOpen', val)
   }
 
   resetWallet = () => {
