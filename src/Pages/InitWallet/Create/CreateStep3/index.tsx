@@ -24,7 +24,7 @@ interface ShuffleWords {
   selected: boolean
 }
 
-const CreateStep3 = inject('wallet')(({ labels, navigation, wallet }: Props) => {
+export const CreateStep3 = inject('wallet')(({ labels, navigation, wallet }: Props) => {
 
   const mnemonic = wallet!.mnemonic
   const mnemonicArr = mnemonic!.split(' ')

@@ -15,7 +15,7 @@ interface Props {
   navigation: NavigationScreenProp<any>
 }
 
-const CreateStep2 = inject('wallet')(({ labels, navigation, wallet }: Props) => {
+export const CreateStep2 = inject('wallet')(({ labels, navigation, wallet }: Props) => {
 
   const handNext = () => {
     navigation.navigate('createStep3')
