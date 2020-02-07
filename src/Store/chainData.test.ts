@@ -21,8 +21,6 @@ describe('ChainData Store', () => {
         expect(chainData.currentNet).toBe(NET.TEST)
     })
 
-    
-
     it('startUpDate', async () => {
         const mockBlockInfo = {
             header: {
