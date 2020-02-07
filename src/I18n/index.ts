@@ -20,9 +20,7 @@ i18n
   .use(languageDetector)
   .init({
     fallbackLng: 'zh',
-
     resources: resource,
-
     debug: false,
 
     // have a common namespace used around the full app

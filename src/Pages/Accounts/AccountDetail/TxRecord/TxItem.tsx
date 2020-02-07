@@ -12,7 +12,7 @@ import Transfer from 'Assets/transfer.png'
 import { Key } from '../config'
 
 
-interface Props {
+export interface Props {
     activeAccountaddress: string
     transaction: TransactionModel
     navigation: NavigationScreenProp<any>
@@ -20,7 +20,7 @@ interface Props {
     keyIndex: Key
 }
 @observer
-class TxItem extends React.Component<Props>{
+export class TxItem extends React.Component<Props>{
     goDetail = () => {
         const { activeAccountaddress, transaction } = this.props
         const isFromMe = getIsTxFromMe(activeAccountaddress, transaction.from)
@@ -30,7 +30,7 @@ class TxItem extends React.Component<Props>{
         if (`${timestamp}`.length > 16) {
             return moment(timestamp / 1000000).format('YYYY/MM/DD')
         } else {
-            return moment(timestamp).format('YYYY/MM/DD ')
+            return moment(timestamp).format('YYYY/MM/DD')
         }
     }
     getIconAndText = (isFromMe: boolean) => {

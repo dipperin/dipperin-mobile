@@ -12,7 +12,7 @@ import { I18nAccountType } from 'I18n/config'
 
 import TxItem from './TxItem'
 
-interface Props {
+export interface Props {
     transactionsFromLocal?: TransactionModel[]
     activeAccountaddress: string
     labels: I18nAccountType
@@ -26,7 +26,7 @@ interface Params {
 }
 
 @observer
-class TxList extends React.Component<Props>{
+export class TxList extends React.Component<Props>{
     @observable currentPage: number = 1
     @observable transactionsFromNode: TransactionModel[]
     constructor(props: Props) {
