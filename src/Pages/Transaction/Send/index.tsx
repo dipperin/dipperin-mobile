@@ -179,6 +179,11 @@ export class Send extends React.Component<Props> {
       this.handleChangeToAddress(this.addressOrShortWord)
       return true
     } else {
+      if (this.props.account!.activeAccount!.balance === '0') {
+        Toast.info(this.props.labels.noEnoughBalance)
+        return false
+      }
+
       try {
         const res = await this.props.contract!.queryAddressByShordword(
           this.addressOrShortWord,
