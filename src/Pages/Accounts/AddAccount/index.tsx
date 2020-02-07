@@ -17,13 +17,13 @@ interface Props {
 }
 @inject('account')
 @observer
-class AddAccount extends React.Component<Props> {
-    componentDidMount() {
-        this.props.navigation.setParams({ addAccount: this.addAcount })
-    }
+export class AddAccount extends React.Component<Props> {
     @observable accountName: string = ''
     @action changeAccountName = (val: string) => {
         this.accountName = val
+    }
+    componentDidMount() {
+        this.props.navigation.setParams({ addAccount: this.addAcount })
     }
     addAcount = async () => {
         const { addAccount } = this.props.account!

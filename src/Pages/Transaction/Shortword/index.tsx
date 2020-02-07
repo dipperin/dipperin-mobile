@@ -1,5 +1,11 @@
 import React from 'react'
-import { View, StatusBar, EmitterSubscription, Keyboard } from 'react-native'
+import {
+  View,
+  StatusBar,
+  EmitterSubscription,
+  Keyboard,
+  Text,
+} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { NavigationStackScreenProps } from 'react-navigation-stack'
 import { observer, inject } from 'mobx-react'
@@ -194,6 +200,7 @@ export class Shortword extends React.Component<Props> {
             labels={labels}
             onChange={this.handleChangeTxfee}
           />
+        <Text style={styles.tips}>{labels.tips}</Text>
         </KeyboardAwareScrollView>
         {!this.keyboardShow && (
           <BtnBox labels={labels} onPress={this.handleSend} />

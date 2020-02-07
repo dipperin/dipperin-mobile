@@ -8,7 +8,7 @@ import { I18nAccountType } from 'I18n/config'
 
 import { formatNumber } from 'Global/utils'
 
-interface Props {
+export interface Props {
     account: AccountModel | undefined
     isEyeOpen: boolean
     setIsEyeOpen: (val: boolean) => void
@@ -16,7 +16,7 @@ interface Props {
 
 }
 @observer
-class AccountInfo extends React.Component<Props>{
+export class AccountInfo extends React.Component<Props>{
     render() {
         const { isEyeOpen, setIsEyeOpen, account } = this.props
         return (
@@ -34,8 +34,6 @@ class AccountInfo extends React.Component<Props>{
     }
 }
 
-
-
 export default AccountInfo
 
 const styles = StyleSheet.create({
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
     accountLogo: {
         marginTop: 10,
         width: 45,
-        height: 45
+        height: 45,
     },
     nameBox: {
         marginTop: 8,

@@ -73,7 +73,7 @@ const mockRootBuilder = (autoInit?: boolean): MockRoot => {
   mockRoot.initWallet = initWallet
 
   if (autoInit) {
-    initWallet()
+     initWallet()
   }
 
   return mockRoot

@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { NavigationScreenProp } from 'react-navigation'
-import moment from 'moment'
 import { Utils } from '@dipperin/dipperin.js'
 import { formatUTCTime } from 'Global/utils'
 
@@ -12,14 +11,7 @@ interface Props {
     labels: I18nAccountType
 }
 
-class TransactionDetail extends React.Component<Props>{
-    getShowTime = (timestamp: number) => {
-        if (`${timestamp}`.length > 16) {
-            return formatUTCTime(timestamp + '')
-        } else {
-            return moment(timestamp).format('YYYY/MM/DD HH:MM:SS A+UTC')
-        }
-    }
+export class TransactionDetail extends React.Component<Props>{
     render() {
         const transaction = this.props.navigation.getParam('transaction')
         const isFromMe = this.props.navigation.getParam('isFromMe')
@@ -36,7 +28,7 @@ class TransactionDetail extends React.Component<Props>{
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.timeStamp}:</Text>
-                    <Text style={styles.itemValue}>{this.getShowTime(timestamp)}</Text>
+                    <Text style={styles.itemValue}>{formatUTCTime(timestamp + '')}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>{labels.nonce}:</Text>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { NavigationScreenProp, ScrollView } from 'react-navigation'
 import { observer } from 'mobx-react'
 import { observable, action } from 'mobx'
@@ -13,7 +13,7 @@ interface Props {
 }
 
 @observer
-class HelpCenterDetail extends React.Component<Props> {
+export class HelpCenterDetail extends React.Component<Props> {
   @observable curId: string = ''
 
   constructor(props: Props) {
@@ -21,8 +21,8 @@ class HelpCenterDetail extends React.Component<Props> {
     this.getUrlParams()
   }
 
-  @action getUrlParams = () => {
-    this.curId = this.props.navigation.getParam('id')
+  @action getUrlParams = async () => {
+    this.curId = await this.props.navigation.getParam('id')
   }
 
   render() {

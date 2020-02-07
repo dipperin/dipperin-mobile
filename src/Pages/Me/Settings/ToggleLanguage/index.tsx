@@ -20,17 +20,17 @@ interface Props {
 
 @inject('system')
 @observer
-class ToggleLanguage extends React.Component<Props> {
+export class ToggleLanguage extends React.Component<Props> {
   render() {
     return (
       <View style={styles.box}>
         <List>
           {dataSource.map((item: DataSourceType, index: number) => {
             return (
-              <RadioItem 
+              <RadioItem
                 key={index}
                 checked={this.props.system.curLanguage === item.value}
-                onChange={() => this.handleChange(item.value)}
+                onChange={this.handleChange(item.value)}
               >{item.label}</RadioItem>
             )
           })}
@@ -40,7 +40,7 @@ class ToggleLanguage extends React.Component<Props> {
   }
 
   // Toggle Langueage
-  @action handleChange = (_value: string) => {
+  @action handleChange = (_value: string) => () => {
     this.props.system.setCurLanguage(_value)
     // TODO toggle language
     i18next.changeLanguage(_value)
