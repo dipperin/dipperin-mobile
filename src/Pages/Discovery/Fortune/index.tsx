@@ -17,7 +17,7 @@ interface FortuneProps extends WithTranslation {
 
 @inject('discovery')
 @observer
-class Fortune extends React.Component<FortuneProps> {
+export class Fortune extends React.Component<FortuneProps> {
 
   componentDidMount () {
     this.props.discovery!.getBlockHeight()
@@ -25,7 +25,6 @@ class Fortune extends React.Component<FortuneProps> {
   }
   render() {
     const { fortuneList, totalBlocks } = this.props.discovery!
-    console.log(fortuneList)
     return (
       <View style={styles.wrap}>
         <View style={{...styles.tRow, ...styles.tHeader}}>

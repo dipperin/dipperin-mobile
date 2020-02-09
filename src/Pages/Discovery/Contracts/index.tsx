@@ -14,7 +14,7 @@ interface ContractsProps extends WithTranslation {
 }
 @inject('discovery')
 @observer
-class Contracts extends React.Component<ContractsProps> {
+export class Contracts extends React.Component<ContractsProps> {
 
   componentDidMount(){
     this.init()
