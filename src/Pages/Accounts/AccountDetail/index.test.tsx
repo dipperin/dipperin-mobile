@@ -42,12 +42,6 @@ describe('AccountDetail', () => {
         instance.didFocus()
         expect(mockNavigation.setParams).toBeCalledWith({title})
     })
-
-
-
-
-
-
 })
 
 

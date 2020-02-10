@@ -18,7 +18,7 @@ interface Props {
   labels:I18nDiscoveryType
 }
 
-class Discovery extends React.Component<any, State> {
+export class Discovery extends React.Component<any, State> {
   _navListener: any
   constructor (props:any) {
     super(props)
@@ -30,7 +30,7 @@ class Discovery extends React.Component<any, State> {
       this._navListener = this.props.navigation.addListener('didFocus', () => {});
   }
   componentWillUnmount() {
-    this._navListener.remove();
+    this._navListener && this._navListener.remove();
   }
   didFocus = () => {
     this.props.navigation.setParams({ title: i18n.t('dipperin:discovery.title') })
