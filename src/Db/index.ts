@@ -8,6 +8,7 @@ import {
     TRANSACTION_DB,
     TRANSACTION_STATUS_SUCCESS,
     WALLET_DB,
+    WHITE_LIST,
 } from 'Global/constants'
 
 import { TransactionInterface } from 'Models/transaction'
@@ -105,14 +106,14 @@ export const getContractTx = async (
         return null
     }
 }
-export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[] | undefined>  => {
+export const getTx = async (address: string, net: string = DEFAULT_NET): Promise<TransactionInterface[] | undefined> => {
     try {
         let res = await storage.getAllDataForKey(TRANSACTION_DB)
         const filterRes = res.filter(item => {
             return (item.from === address && item.net === net)
                 || (item.from === address.toLocaleLowerCase() && item.net === net)
                 || (item.to === address && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
-            || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
+                || (item.to === address.toLocaleLowerCase() && item.status === TRANSACTION_STATUS_SUCCESS && item.net === net)
         })
         return filterRes
     } catch (_) {
@@ -273,7 +274,22 @@ export const updateErrTimes = async (walletId: number, unlockErrTimes: number = 
     } catch (_) {
 
     }
+}
+export const getWhiteList = async (): Promise<string[]> => {
+    try {
+        const res = (await getStorage(WHITE_LIST)) || []
+        return res as string[]
+    } catch (_) {
+        return []
+    }
+}
 
+export const addWhiteList = async (appName: string) => {
+    const whiteList = await getWhiteList()
+    if (whiteList.length > 0) {
+        whiteList.push(appName)
+        setStorage(WHITE_LIST, whiteList)
+    }
 }
 
 

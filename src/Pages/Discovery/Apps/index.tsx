@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, FlatList } from 'react-native'
+import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native'
 import { inject, observer } from 'mobx-react'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import i18n from 'I18n'
@@ -8,13 +8,14 @@ import { appsInterface, appsResourceInterface } from 'Global/inteface'
 import { styles } from './config'
 import { host } from 'Server/http'
 
-interface AppsProps extends  WithTranslation {
+interface AppsProps extends WithTranslation {
   discovery?: DiscoveryStore
+  goGame: () => void
 }
 @inject('discovery')
 @observer
 class Apps extends React.Component<AppsProps> {
-  componentDidMount(){
+  componentDidMount() {
     this.getAppsList()
   }
 
@@ -23,7 +24,7 @@ class Apps extends React.Component<AppsProps> {
       page,
       per_page,
       as_and_desc,
-      order_by
+      order_by,
     }
     await this.props.discovery!.getAppsList(initParams)
   }
@@ -32,36 +33,39 @@ class Apps extends React.Component<AppsProps> {
     const { appsList, appResource } = this.props.discovery!
     return (
       <View style={styles.wrap}>
+        <TouchableOpacity onPress={this.props.goGame}>
+          <Text >goGame</Text>
+        </TouchableOpacity>
         <FlatList
           data={appsList}
-          renderItem={({item}) => this.renderItem(item, appResource)}
+          renderItem={({ item }) => this.renderItem(item, appResource)}
           ListFooterComponent={() => <View><Text style={styles.more}>{i18n.t('dipperin:discovery.apps.moreDapp')}</Text></View>}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.2}
         />
-     </View>
+      </View>
     )
   }
   onEndReached = () => {
-    const {appsListTotalPage, appsListCurPage , appsListPerPage} = this.props.discovery!
+    const { appsListTotalPage, appsListCurPage, appsListPerPage } = this.props.discovery!
     const curPage = appsListCurPage
     const perPage = appsListPerPage
     const totalPage = appsListTotalPage
-    if(totalPage === 1) return ;
-    if(curPage < totalPage){
-      this.getAppsList( curPage + 1, perPage )
+    if (totalPage === 1) { return; }
+    if (curPage < totalPage) {
+      this.getAppsList(curPage + 1, perPage)
     }
   }
-  renderItem = (item:appsInterface, appResource:appsResourceInterface[]) => {
+  renderItem = (item: appsInterface, appResource: appsResourceInterface[]) => {
     return (
       <View style={styles.item}>
         <View style={styles.left}>
-          <Image source={{uri:`${host}${appResource.filter((k:appsResourceInterface) => k.name === item.name)[0].image_url}`}} style={styles.iamge} />
+          <Image source={{ uri: `${host}${appResource.filter((k: appsResourceInterface) => k.name === item.name)[0].image_url}` }} style={styles.iamge} />
         </View>
         <View style={styles.right}>
           <View style={styles.intro}>
             <Text style={styles.title}>{item.name}</Text>
-            <Text style={styles.type}>{appResource.filter((k:appsResourceInterface) => k.name === item.name)[0].classification}</Text>
+            <Text style={styles.type}>{appResource.filter((k: appsResourceInterface) => k.name === item.name)[0].classification}</Text>
           </View>
           <View style={styles.data}>
             <View style={styles.info}>
@@ -74,8 +78,8 @@ class Apps extends React.Component<AppsProps> {
             </View>
           </View>
           <View style={styles.flex}>
-              <Text style={styles.grayLabel}>{i18n.t('dipperin:discovery.apps.value')}:</Text>
-              <Text style={styles.blueText}>{item.tx_amount}DIP</Text>
+            <Text style={styles.grayLabel}>{i18n.t('dipperin:discovery.apps.value')}:</Text>
+            <Text style={styles.blueText}>{item.tx_amount}DIP</Text>
           </View>
         </View>
       </View>
