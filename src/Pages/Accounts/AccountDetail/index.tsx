@@ -31,7 +31,7 @@ export class AccountDetail extends React.Component<Props> {
     }
     didFocus = () => {
         const { activeAccount } = this.props.account!
-        const title = activeAccount?.name ? activeAccount?.name : `${this.props.labels.accountName} ${activeAccount?.id}`
+        const title = activeAccount!.name ? activeAccount!.name : `${this.props.labels.accountName} ${activeAccount!.id}`
         this.props.navigation.setParams({ title: title })
     }
     render() {

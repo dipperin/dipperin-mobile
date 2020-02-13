@@ -10,7 +10,7 @@ import { host } from 'Server/http'
 
 interface AppsProps extends WithTranslation {
   discovery?: DiscoveryStore
-  goGame: () => void
+  goGame: (name: string) => () => void
 }
 @inject('discovery')
 @observer
@@ -32,8 +32,9 @@ class Apps extends React.Component<AppsProps> {
   render() {
     const { appsList, appResource } = this.props.discovery!
     return (
+      // TODO app name && app link
       <View style={styles.wrap}>
-        <TouchableOpacity onPress={this.props.goGame}>
+        <TouchableOpacity onPress={this.props.goGame('richBet')}>
           <Text >goGame</Text>
         </TouchableOpacity>
         <FlatList

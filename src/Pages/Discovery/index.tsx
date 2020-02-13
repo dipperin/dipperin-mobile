@@ -35,9 +35,8 @@ class Discovery extends React.Component<any, State> {
   didFocus = () => {
     this.props.navigation.setParams({ title: i18n.t('dipperin:discovery.title') })
   }
-  goGame = () => {
-    console.log('haha')
-    this.props.navigation.navigate('game')
+  goGame = (name: string) => () => {
+    this.props.navigation.navigate('game', {name})
   }
   render() {
     const { activeIndex } = this.state
