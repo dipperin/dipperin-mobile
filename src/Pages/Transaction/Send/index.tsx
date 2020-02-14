@@ -342,9 +342,14 @@ export class Send extends React.Component<Props> {
       const txHash = (res as Success<string>).result
       Toast.success(this.props.labels.sendSuccess)
       this.linkingAppCallBack(true)
+      
+      const type = this.props.navigation.getParam('type')
+      if(type !== 'dappSend') {
+        this.backToAccountDetail()
+        return
+      }
       // dapp send success callback
       this.dappSendSuccessCb(txHash)
-      this.backToAccountDetail()
     } else {
       Toast.info(res.error.message)
       this.linkingAppCallBack(false)
@@ -364,10 +369,6 @@ export class Send extends React.Component<Props> {
   }
 
   dappSendSuccessCb = (txHash: string) => {
-    const type = this.props.navigation.getParam('type')
-    if(type !== 'dappSend') {
-      return
-    }
     const dappName = this.props.navigation.getParam('name')
     const params = {
       type: 'dappSend',

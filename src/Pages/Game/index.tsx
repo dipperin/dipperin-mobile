@@ -47,8 +47,6 @@ class Game extends React.Component<Props> {
     handleMessage = (e: any) => {
         try {
             const message = e.nativeEvent.data
-            // this.gameName = gameName
-            console.log('message', message)
             const data = JSON.parse(message)
             if(data.type === 'dappSend') {
                 const { name, amount, extraData, address } = data
@@ -79,7 +77,6 @@ class Game extends React.Component<Props> {
     }
 
     dappLoaded = () => {
-        console.log('aaaaaaaaaaaa')
         this.initAddress()
     }
 
@@ -103,14 +100,12 @@ class Game extends React.Component<Props> {
             extraData,
             hash
         }
-        console.log('diddddd', messageData)
         this.webView.postMessage(JSON.stringify(messageData))
     }
 
     render() {
         const { label } = this.props
         const dappUri = this.getDappUri()
-        console.log(dappUri, 'uuuuuuuuuu')
         return (
             <View style={styles.container}>
                 <NavigationEvents onDidFocus={this.didFocus} />
