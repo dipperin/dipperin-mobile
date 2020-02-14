@@ -21,6 +21,7 @@ export interface appsInterface {
   tx_amount: string
   image_url: string
   classification: string
+  app_play_url: string
 }
 export interface AppParams {
   page: number
@@ -32,13 +33,23 @@ export interface appsResourceInterface {
   name: string
   image_url: string
   classification: string
+  app_play_url: string
+}
 
+export interface AppDataResoruce {
+  name: string
+  balance: string
+  user_count: number
+  tx_count: number
+  tx_amount: string
+  image_url: string
+  classification: string
 }
 export interface appsRes {
   success: boolean
   app: appsResourceInterface[]
   data: {
-    app_data: appsInterface[]
+    app_data: AppDataResoruce[]
     total_count: number
     total_pages: number
   }

@@ -59,7 +59,9 @@ class Apps extends React.Component<AppsProps> {
   }
   renderItem = (item: appsInterface, appResource: appsResourceInterface[]) => {
     return (
+        <TouchableOpacity activeOpacity={1} onPress={this.props.goGame(item.name)}>
       <View style={styles.item}>
+
         <View style={styles.left}>
           <Image source={{ uri: `${host}${appResource.filter((k: appsResourceInterface) => k.name === item.name)[0].image_url}` }} style={styles.iamge} />
         </View>
@@ -84,6 +86,8 @@ class Apps extends React.Component<AppsProps> {
           </View>
         </View>
       </View>
+      </TouchableOpacity>
+
     )
   }
 }

@@ -9,14 +9,16 @@ import { NavigationScreenProp, NavigationEvents } from 'react-navigation'
 import { getWhiteList, addWhiteList } from 'Db'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import AccountStore from 'Store/account'
+import DiscoveryStore from 'Store/discovery'
 
 interface Props {
+    discovery?: DiscoveryStore
     account?: AccountStore
     navigation: NavigationScreenProp<any>
     label: I18nGameType
 }
 
-@inject('account')
+@inject('account', 'discovery')
 @observer
 class Game extends React.Component<Props> {
     @observable isShowAuthorityPop: boolean = false
@@ -67,12 +69,10 @@ class Game extends React.Component<Props> {
 
     getDappUri = () => {
         const dappName = this.props.navigation.getParam('name')
-        switch(dappName) {
-            // TODO app name && app rui
-            case 'richBet':
-                return 'http://10.0.2.2:3000'
-            default:
-                return 'http://10.0.2.2:3000'
+        const { appsList } = this.props.discovery!
+        const currentApp = appsList.find(app => app.name === dappName)
+        if(currentApp && currentApp.app_play_url) {
+            return currentApp.app_play_url
         }
     }
 
@@ -113,7 +113,7 @@ class Game extends React.Component<Props> {
                     <Text>Authority</Text>
                 </TouchableOpacity>
                 <WebView
-                    source={{ uri: dappUri }}
+                    source={{ uri: dappUri || '' }}
                     onMessage={this.handleMessage}
                     ref={ref => this.webView = ref}
                     onLoadEnd={this.dappLoaded}
