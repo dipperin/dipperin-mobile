@@ -26,11 +26,11 @@ class Game extends React.Component<Props> {
     webView: any
 
     didFocus = () => {
-       // dapp send success callback
-       const type = this.props.navigation.getParam('type')
-       if(type === 'dappSend') {
-           this.sendSuccessCb()
-       }
+        // dapp send success callback
+        const type = this.props.navigation.getParam('type')
+        if (type === 'dappSend') {
+            this.sendSuccessCb()
+        }
     }
 
     @action
@@ -42,15 +42,26 @@ class Game extends React.Component<Props> {
         this.isShowAuthorityPop = false
     }
     authorize = async () => {
+        console.log('thisganmenam',this.gameName)
         await addWhiteList(this.gameName)
         this.hideAuthorityPop()
     }
 
-    handleMessage = (e: any) => {
+    handleMessage = async (e: any) => {
         try {
             const message = e.nativeEvent.data
             const data = JSON.parse(message)
-            if(data.type === 'dappSend') {
+            if (data.type === 'Authority') {
+                const { name } = data
+                const whiteList = await getWhiteList()
+                console.log('32323333',whiteList)
+                if (!whiteList.includes(name)) {
+                    this.gameName = name
+                    this.openAuthorityPop()
+                }
+
+            }
+            if (data.type === 'dappSend') {
                 const { name, amount, extraData, address } = data
                 const params = {
                     type: 'dappSend',
@@ -61,7 +72,7 @@ class Game extends React.Component<Props> {
                 }
                 this.props.navigation.navigate('send', params)
             }
-            
+
         } catch (error) {
             console.log(error.message);
         }
@@ -71,7 +82,7 @@ class Game extends React.Component<Props> {
         const dappName = this.props.navigation.getParam('name')
         const { appsList } = this.props.discovery!
         const currentApp = appsList.find(app => app.name === dappName)
-        if(currentApp && currentApp.app_play_url) {
+        if (currentApp && currentApp.app_play_url) {
             return currentApp.app_play_url
         }
     }
@@ -83,7 +94,7 @@ class Game extends React.Component<Props> {
     initAddress = () => {
         const message = {
             type: 'init',
-            address: this.props.account!.activeAccount!.address
+            address: this.props.account!.activeAccount!.address,
         }
         this.webView.postMessage(JSON.stringify(message))
     }
@@ -98,7 +109,7 @@ class Game extends React.Component<Props> {
             name: dappName,
             amount,
             extraData,
-            hash
+            hash,
         }
         this.webView.postMessage(JSON.stringify(messageData))
     }
@@ -109,11 +120,9 @@ class Game extends React.Component<Props> {
         return (
             <View style={styles.container}>
                 <NavigationEvents onDidFocus={this.didFocus} />
-                <TouchableOpacity onPress={this.openAuthorityPop}>
-                    <Text>Authority</Text>
-                </TouchableOpacity>
                 <WebView
-                    source={{ uri: dappUri || '' }}
+                    // source={{ uri: dappUri || '' }}
+                    source={{ uri: 'http://192.168.1.3:3000' }}
                     onMessage={this.handleMessage}
                     ref={ref => this.webView = ref}
                     onLoadEnd={this.dappLoaded}

@@ -31,6 +31,7 @@ class Apps extends React.Component<AppsProps> {
 
   render() {
     const { appsList, appResource } = this.props.discovery!
+    console.log(appsList)
     return (
       // TODO app name && app link
       <View style={styles.wrap}>

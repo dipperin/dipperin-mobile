@@ -252,6 +252,9 @@ export const discoveryStack = createStackNavigator({
   },
   game:{
     screen:Game,
+    navigationOptions: () => ({
+      header: null,
+    }),
   },
 })
 

@@ -286,10 +286,8 @@ export const getWhiteList = async (): Promise<string[]> => {
 
 export const addWhiteList = async (appName: string) => {
     const whiteList = await getWhiteList()
-    if (whiteList.length > 0) {
-        whiteList.push(appName)
-        setStorage(WHITE_LIST, whiteList)
-    }
+    whiteList.push(appName)
+    setStorage(WHITE_LIST, whiteList)
 }
 
 
