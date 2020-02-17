@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { observer, inject } from 'mobx-react'
 import { observable, action } from 'mobx'
@@ -42,7 +42,6 @@ class Game extends React.Component<Props> {
         this.isShowAuthorityPop = false
     }
     authorize = async () => {
-        console.log('thisganmenam',this.gameName)
         await addWhiteList(this.gameName)
         this.hideAuthorityPop()
     }
@@ -54,7 +53,6 @@ class Game extends React.Component<Props> {
             if (data.type === 'Authority') {
                 const { name } = data
                 const whiteList = await getWhiteList()
-                console.log('32323333',whiteList)
                 if (!whiteList.includes(name)) {
                     this.gameName = name
                     this.openAuthorityPop()
@@ -121,8 +119,7 @@ class Game extends React.Component<Props> {
             <View style={styles.container}>
                 <NavigationEvents onDidFocus={this.didFocus} />
                 <WebView
-                    // source={{ uri: dappUri || '' }}
-                    source={{ uri: 'http://192.168.1.3:3000' }}
+                    source={{ uri: dappUri || '' }}
                     onMessage={this.handleMessage}
                     ref={ref => this.webView = ref}
                     onLoadEnd={this.dappLoaded}
