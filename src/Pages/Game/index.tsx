@@ -22,7 +22,6 @@ interface Props {
 @observer
 class Game extends React.Component<Props> {
     @observable isShowAuthorityPop: boolean = false
-    @observable gameName: string = ''
     webView: any
 
     didFocus = () => {
