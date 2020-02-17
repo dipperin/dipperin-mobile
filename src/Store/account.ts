@@ -298,7 +298,7 @@ export default class AccountStore {
     const newPath = `${ACCOUNTS_PATH}/${0}`
     const opt: Opt = {
       type: AccountType.privateKey,
-      encryptKey: Accounts.encrypt(privateKey, this._store.wallet.getPrivateKeyByPath(newPath))
+      encryptKey: Accounts.encrypt(privateKey, this._store.wallet.getPrivateKeyByPath(newPath)),
     }
     const newAccount = new AccountModel(id, newPath, address, '', opt)
     return newAccount
