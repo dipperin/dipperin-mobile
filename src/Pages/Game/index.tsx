@@ -42,7 +42,8 @@ class Game extends React.Component<Props> {
         this.isShowAuthorityPop = false
     }
     authorize = async () => {
-        await addWhiteList(this.gameName)
+        const dappName = this.props.navigation.getParam('name')
+        await addWhiteList(dappName)
         this.hideAuthorityPop()
     }
 
@@ -51,10 +52,9 @@ class Game extends React.Component<Props> {
             const message = e.nativeEvent.data
             const data = JSON.parse(message)
             if (data.type === 'Authority') {
-                const { name } = data
+                const dappName = this.props.navigation.getParam('name')
                 const whiteList = await getWhiteList()
-                if (!whiteList.includes(name)) {
-                    this.gameName = name
+                if (!whiteList.includes(dappName)) {
                     this.openAuthorityPop()
                 }
 
