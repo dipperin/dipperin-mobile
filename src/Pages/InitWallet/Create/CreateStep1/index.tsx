@@ -12,7 +12,7 @@ interface Props {
   navigation: NavigationScreenProp<any>
 }
 
-const CreateStep1 = ({ labels, navigation }: Props) => {
+export const CreateStep1 = ({ labels, navigation }: Props) => {
 
   const handNext = () => {
     navigation.navigate('createStep2')

@@ -26,7 +26,7 @@ interface Props {
 
 @inject('wallet')
 @observer
-class Create extends React.Component<Props> {
+export class Create extends React.Component<Props> {
   @observable keyboardShow: boolean = false
   @observable password: string = ''
   @observable repeatPassword: string = ''
@@ -78,8 +78,9 @@ class Create extends React.Component<Props> {
       Toast.info(labels.info.repeatPasswordErr)
       return
     }
-
+    Toast.loading()
     const err = await this.props.wallet!.create(password)
+    Toast.hide()
     if (!err) {
       setStorage(STORAGE_KEYS.PASSWORD_TIP, this.passwordTip) // set password tip in storage
       setStorage(STORAGE_KEYS.PASSWORD, encryptionPassword(password))

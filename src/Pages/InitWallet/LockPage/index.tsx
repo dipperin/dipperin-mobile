@@ -60,7 +60,7 @@ class LockPage extends React.Component<Props> {
         {
           this.isShowPropEnterPassword && (
             <EnterPassword
-              hasCancel={this.props.system?.isFingerUnLock}
+              hasCancel={this.props.system!.isFingerUnLock}
               onClose={this.hideEnterPassword}
               onConfirm={this.enterPassword}
             />

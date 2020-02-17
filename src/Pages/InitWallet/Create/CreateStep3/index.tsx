@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { inject } from 'mobx-react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { NavigationScreenProp, ScrollView } from 'react-navigation'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { shuffle } from 'lodash'
 
@@ -24,7 +24,7 @@ interface ShuffleWords {
   selected: boolean
 }
 
-const CreateStep3 = inject('wallet')(({ labels, navigation, wallet }: Props) => {
+export const CreateStep3 = inject('wallet')(({ labels, navigation, wallet }: Props) => {
 
   const mnemonic = wallet!.mnemonic
   const mnemonicArr = mnemonic!.split(' ')

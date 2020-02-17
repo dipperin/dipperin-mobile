@@ -35,12 +35,30 @@ export default class discoveryStore {
   @observable totalBlocks: number = 0
 
   @action updateAppsList = (res: appsRes) => {
-    this.appResource = res.app
-    this.appsListTotalPage = res.data.total_pages
-    if(this.appsListCurPage === 1) {
-      this.appsList = res.data.app_data
-    }else{
-      this.appsList = [...this.appsList, ... res.data.app_data]
+    try {
+      this.appResource = res.app
+      this.appsListTotalPage = res.data.total_pages
+      const appInfo = res.app.map(app => {
+        const { name, app_play_url, image_url, classification } = app
+        const appDataInfo = res.data.app_data.find(appData => appData.name === name)
+        return {
+          name,
+          app_play_url: app_play_url,
+          image_url,
+          classification,
+          balance: appDataInfo ? appDataInfo.balance : '0',
+          user_count: appDataInfo ? appDataInfo.user_count : 0,
+          tx_count: appDataInfo ? appDataInfo.tx_count : 0,
+          tx_amount: appDataInfo ? appDataInfo.tx_amount : '0',
+        }
+      })
+      if(this.appsListCurPage === 1) {
+        this.appsList = appInfo
+      }else{
+        this.appsList = [...this.appsList, ...appInfo]
+      }
+    }catch(_) {
+
     }
   }
   @action updateFortuneList = (data: fortuneRes) => {

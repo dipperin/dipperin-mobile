@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   wrap:{
-    padding: 24
+    padding: 24,
   },
   flex: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   item: {
     width: '100%',
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#E8EBED',
     padding: 11,
     borderRadius: 8,
-    marginBottom: 9
+    marginBottom: 9,
   },
   left:{
     width:118,
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   right: {
-   flex:1
+   flex:1,
   },
   intro: {
     flexDirection: 'row',
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     color: '#393B42',
     fontWeight: 'bold',
     fontSize: 15,
-    marginRight: 14
+    marginRight: 14,
   },
   type: {
     color: '#BCC2C9',
@@ -47,28 +47,28 @@ export const styles = StyleSheet.create({
   },
   data: {
     width: '100%',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   info: {
     flex:1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6
+    marginBottom: 6,
   },
   blueText: {
     color: '#1C77BC',
-    fontSize: 10.5
+    fontSize: 10.5,
   },
   grayLabel: {
     color:'#767F86',
     marginRight: 4,
-    fontSize: 10.5
+    fontSize: 10.5,
   },
   more: {
     width:'100%',
     paddingTop: 30,
     color: '#393B42',
     fontSize: 10,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 })

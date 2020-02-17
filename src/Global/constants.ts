@@ -34,6 +34,7 @@ export const OWNER_DB = 'owner'
 export const RECEIPT_DB = 'receipt'
 export const MINE_DB = 'mine'
 export const CONFIG_DB = 'config'
+export const WHITE_LIST = 'whiteList'
 
 /**
  * Transaction

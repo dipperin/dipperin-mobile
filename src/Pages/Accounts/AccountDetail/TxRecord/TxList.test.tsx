@@ -3,10 +3,9 @@ import { shallow, ShallowWrapper } from 'enzyme'
 import TransactionModel from 'Models/transaction'
 import { mockI18n } from 'tests/mocks/i18n'
 import { FlatList } from 'react-native'
-// import { transferTxfromNode } from '../config'
+jest.mock('Components/PopupWindow')
 import { TxList, Props } from './TxList'
-jest.mock('Server')
-// import { getTxList }  from 'Server'
+
 // const txFromNode={
 //     hash: '0x11',
 //     block_hash: '0x22',
@@ -88,5 +87,14 @@ describe('TxList', () => {
         const getTransctionsfromNode = jest.spyOn(instance,'getTransctionsfromNode')
         instance.refresh()
         expect(getTransctionsfromNode).toBeCalled()
+    })
+    it('getTransctionsfromNode',async()=>{
+        await instance.getTransctionsfromNode({
+            address:'0x112233',
+            page:1,
+            per_page:10,
+        })
+        expect(instance.currentPage).toBe(3)
+        expect(instance.transactionsFromNode.length).toBe(2)
     })
 })

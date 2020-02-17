@@ -139,10 +139,6 @@ export default class AccountStore {
     this.updateAccountsNonce(newAccount.id)
   }
 
-  showDbAccounts = async () => {
-    console.log('show db account', await getAccount())
-  }
-
   /**
    * Change now active account
    *

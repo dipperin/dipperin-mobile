@@ -268,6 +268,12 @@ const enResource = {
       alreadyInPool: 'this transaction already in tx pool',
       invalidNonce: 'Please try again after a moment',
     },
+    game:{
+      cancel:'Cancel',
+      confirmAuthority:'Confirm',
+      authorityTitle:'Authority',
+      authorityContent:'needs authority',
+    },
   },
 };
 
@@ -282,6 +288,7 @@ export type I18nTransactionType = typeof enResource.dipperin.transaction;
 export type I18nAccountType  = typeof enResource.dipperin.account;
 export type I18nDiscoveryType = typeof enResource.dipperin.discovery;
 export type I18nErrorType = typeof enResource.dipperin.errors;
+export type I18nGameType = typeof enResource.dipperin.game;
 
 const zhResource: typeof enResource = {
   dipperin: {
@@ -552,6 +559,12 @@ const zhResource: typeof enResource = {
       sendFailure: '发送失败',
       alreadyInPool: '交易已发送',
       invalidNonce: '请稍后重新发送',
+    },
+    game:{
+      cancel:'取消',
+      confirmAuthority:'确定授权',
+      authorityTitle:'授权服务',
+      authorityContent:'需要授权',
     },
   },
 };

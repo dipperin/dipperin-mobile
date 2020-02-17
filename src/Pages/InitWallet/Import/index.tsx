@@ -25,7 +25,7 @@ interface Props {
 
 @inject('wallet')
 @observer
-class Import extends React.Component<Props> {
+export class Import extends React.Component<Props> {
   @observable keyboardShow: boolean = false
   @observable mnemonic: string = ''
   @observable password: string = ''
@@ -85,7 +85,6 @@ class Import extends React.Component<Props> {
       return
     }
     Toast.loading()
-    await sleep(100)
     const err = await this.props.wallet!.create(password, mnemonic)
     Toast.hide()
     if (!err) {
@@ -107,7 +106,7 @@ class Import extends React.Component<Props> {
 
   @action
   handleChangeRepeatPasword = (text: string) => {
-    this.repeatPassword = text
+    this.repeatPassword = text.replace(/[\u4E00-\u9FA5]/g,'')
   }
 
   @action

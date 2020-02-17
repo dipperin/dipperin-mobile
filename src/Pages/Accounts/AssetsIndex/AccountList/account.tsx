@@ -8,18 +8,16 @@ import { I18nAccountType } from 'I18n/config'
 
 import AcountIcon from 'Assets/account.png'
 
-interface Props {
+export interface Props {
     account: AccountModel
     isEyeOpen: boolean
     changeActiveAccount: (id: string) => void
     navigation: NavigationScreenProp<any>
     labels: I18nAccountType
-
-
 }
 
 @observer
-class AccountItem extends React.Component<Props>{
+export class AccountItem extends React.Component<Props>{
     goDetail = () => {
         const { account: { id }, changeActiveAccount } = this.props
         changeActiveAccount(id)

@@ -6,7 +6,7 @@ import React from 'react'
 import {
   StyleSheet,
   View,
-  AppRegistry
+  AppRegistry,
 } from 'react-native'
 
 let viewRoot: any = null
@@ -23,8 +23,8 @@ class RootView extends React.Component<any> {
   render() {
     const { view }: any = this.state
     return (
-      <View 
-        style={styles.rootView} 
+      <View
+        style={styles.rootView}
       >
         {view}
       </View>
@@ -61,18 +61,18 @@ export default RootView
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative'
+    position: 'relative',
   },
   // 蒙层设置
   rootView: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    flexDirection: "row",
-    justifyContent: "center"
-  } 
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 })
 
 

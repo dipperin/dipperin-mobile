@@ -35,7 +35,9 @@ describe('assets',()=>{
     it('didBlur',()=>{
         instance.didBlur()
     })
-    it('getAllAssets',()=>{
+    it('getAllAssets',async()=>{
+        await account.load()
+        console.log('accounts',account.accounts.length)
         expect(instance.getAllAssets()).toBe(0)
     })
 

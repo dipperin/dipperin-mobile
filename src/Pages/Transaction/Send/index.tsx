@@ -31,6 +31,7 @@ import {
   sleep,
   verifyBalance,
   encryptionPassword,
+  Success,
 } from 'Global/utils'
 import AccountStore from 'Store/account'
 import { Utils } from '@dipperin/dipperin.js'
@@ -75,7 +76,7 @@ export class Send extends React.Component<Props> {
           <AmoutBox
             labels={this.props.labels}
             value={this.sendAmount}
-            balance={this.props.account!.activeAccount?.balance || '0'}
+            balance={this.props.account!.activeAccount!.balance || '0'}
             handleChange={this.handleChangeSendAmount}
           />
 
@@ -127,6 +128,11 @@ export class Send extends React.Component<Props> {
     }
     if (this.props.navigation.getParam('amount')) {
       this.handleChangeSendAmount(this.props.navigation.getParam('amount'))
+    }
+
+    const extraData = this.props.navigation.getParam('extraData')
+    if (extraData) {
+      this.handleChangeExtraData(extraData)
     }
   }
   componentDidMount() {
@@ -333,9 +339,17 @@ export class Send extends React.Component<Props> {
     const res = await this.sendTransaction()
     Toast.hide()
     if (res.success) {
+      const txHash = (res as Success<string>).result
       Toast.success(this.props.labels.sendSuccess)
       this.linkingAppCallBack(true)
-      this.backToAccountDetail()
+      
+      const type = this.props.navigation.getParam('type')
+      if(type !== 'dappSend') {
+        this.backToAccountDetail()
+        return
+      }
+      // dapp send success callback
+      this.dappSendSuccessCb(txHash)
     } else {
       Toast.info(res.error.message)
       this.linkingAppCallBack(false)
@@ -352,6 +366,18 @@ export class Send extends React.Component<Props> {
     })
     await sleep(2000)
     this.props.navigation.dispatch(resetAction)
+  }
+
+  dappSendSuccessCb = (txHash: string) => {
+    const dappName = this.props.navigation.getParam('name')
+    const params = {
+      type: 'dappSend',
+      name: dappName,
+      amount: this.sendAmount,
+      extraData: this.extraData,
+      hash: txHash
+    }
+    this.props.navigation.navigate('game', params)
   }
 
   // Linking open app callback

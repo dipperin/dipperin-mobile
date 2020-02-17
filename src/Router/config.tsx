@@ -30,6 +30,7 @@ import Shortword from 'Pages/Transaction/Shortword'
 
 // discovery
 import Discovery from 'Pages/Discovery'
+import Game from 'Pages/Game'
 
 //setting
 import Me from 'Pages/Me'
@@ -247,6 +248,12 @@ export const discoveryStack = createStackNavigator({
         color: '#3C3E42',
         textAlign: 'center',
       },
+    }),
+  },
+  game:{
+    screen:Game,
+    navigationOptions: () => ({
+      header: null,
     }),
   },
 })
