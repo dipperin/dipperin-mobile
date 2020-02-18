@@ -339,8 +339,8 @@ export class Send extends React.Component<Props> {
   handleConfirmTransaction = async (psw: string): Promise<void> => {
     Modal.hide()
     Toast.loading()
-
-    if (!this.props.wallet!.checkPassword(psw)) {
+    const result = await this.props.wallet!.checkPassword(psw)
+    if (!result) {
       Toast.hide()
       Toast.info(this.props.labels.passwordError)
       return
