@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, AppState } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { observer, inject } from 'mobx-react'
 import { observable, action } from 'mobx'
@@ -10,19 +10,37 @@ import { getWhiteList, addWhiteList } from 'Db'
 import { WithTranslation, withTranslation } from 'react-i18next'
 import AccountStore from 'Store/account'
 import DiscoveryStore from 'Store/discovery'
+import SystemStore from 'Store/System';
 
 interface Props {
     discovery?: DiscoveryStore
     account?: AccountStore
+    system?: SystemStore
     navigation: NavigationScreenProp<any>
     label: I18nGameType
 }
 
-@inject('account', 'discovery')
+@inject('account', 'discovery', 'system')
 @observer
 class Game extends React.Component<Props> {
     @observable isShowAuthorityPop: boolean = false
     webView: any
+
+    constructor(props: Props) {
+        super(props)
+        AppState.addEventListener('change', this.handleAppStateChange)
+    }
+
+    // app state change cb
+  handleAppStateChange = (status: string) => {
+    if (status === 'background') {
+        const name = this.props.navigation.getParam('name')
+        this.props.system!.dappName = name
+    }
+  }
+  componentWillUnmount() {
+      AppState.removeEventListener('change', this.handleAppStateChange)
+  }
 
     didFocus = () => {
         // dapp send success callback

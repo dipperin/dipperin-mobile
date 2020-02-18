@@ -13,6 +13,7 @@ class System {
   @observable private _fingerUnLock: boolean = false // Fingerprint unlock
   @observable private _fingerPay: boolean = false // Fingerprint payment
   @observable curSystemNodeAddr: string = VENUS // current node
+  @observable dappName: string = '' // from dapp page to background
 
   @observable isEyeOpen: boolean = true
   constructor(root: RootStore) {

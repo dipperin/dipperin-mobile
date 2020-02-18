@@ -159,6 +159,14 @@ class LockPage extends React.Component<Props> {
     }
 
     Modal.hide()
+
+    // dapp name
+    const name = this.props.system!.dappName
+    if(name) {
+      this.props.system!.dappName = '' // reset dapp name after unlock
+      this.props.navigation.navigate('game', {name})
+      return
+    }
     this.props.navigation.navigate('wallet')
   }
 }
