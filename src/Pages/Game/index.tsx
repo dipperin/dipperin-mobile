@@ -24,11 +24,17 @@ class Game extends React.Component<Props> {
     @observable isShowAuthorityPop: boolean = false
     webView: any
 
-    didFocus = () => {
+    didFocus = async() => {
         // dapp send success callback
         const type = this.props.navigation.getParam('type')
+        const dappName = this.props.navigation.getParam('name')
+
         if (type === 'dappSend') {
             this.sendSuccessCb()
+        }
+        const whiteList = await getWhiteList()
+        if (!whiteList.includes(dappName)) {
+            this.openAuthorityPop()
         }
     }
 
@@ -40,6 +46,11 @@ class Game extends React.Component<Props> {
     hideAuthorityPop = () => {
         this.isShowAuthorityPop = false
     }
+    cancelAuthority=()=>{
+        this.hideAuthorityPop()
+        this.props.navigation.goBack()
+    }
+
     authorize = async () => {
         const dappName = this.props.navigation.getParam('name')
         await addWhiteList(dappName)
@@ -50,14 +61,6 @@ class Game extends React.Component<Props> {
         try {
             const message = e.nativeEvent.data
             const data = JSON.parse(message)
-            if (data.type === 'Authority') {
-                const dappName = this.props.navigation.getParam('name')
-                const whiteList = await getWhiteList()
-                if (!whiteList.includes(dappName)) {
-                    this.openAuthorityPop()
-                }
-
-            }
             if (data.type === 'dappSend') {
                 const { name, amount, extraData, address } = data
                 const params = {
@@ -114,10 +117,12 @@ class Game extends React.Component<Props> {
     render() {
         const { label } = this.props
         const dappUri = this.getDappUri()
+        const dappName = this.props.navigation.getParam('name')
         return (
             <View style={styles.container}>
                 <NavigationEvents onDidFocus={this.didFocus} />
                 <WebView
+                // source={{uri:'http://192.168.1.3:3002/'}}
                     source={{ uri: dappUri || '' }}
                     onMessage={this.handleMessage}
                     ref={ref => this.webView = ref}
@@ -128,8 +133,9 @@ class Game extends React.Component<Props> {
                     visible={this.isShowAuthorityPop}
                     cancelText={label.cancel}
                     confrimText={label.confirmAuthority}
-                    onCancel={this.hideAuthorityPop}
+                    onCancel={this.cancelAuthority}
                     onConfirm={this.authorize}
+                    dappName={dappName}
                 />
             </View>
         )
