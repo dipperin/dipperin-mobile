@@ -7,11 +7,12 @@ interface Props {
   labels: I18nTransactionType
   value: string
   handleChange: (text: string) => void
+  readonly?: boolean
 }
 
 class AddressBox extends React.Component<Props> {
   render() {
-    const { labels, value, handleChange } = this.props
+    const { labels, value, handleChange, readonly } = this.props
     return (
       <TouchableOpacity style={styles.toAddressWrapper} activeOpacity={0.8}>
         <View style={styles.toAddressLabel}>
@@ -22,6 +23,7 @@ class AddressBox extends React.Component<Props> {
           value={value}
           onChangeText={handleChange}
           placeholder={labels.enterAddressOrWord}
+          editable={!readonly}
         />
       </TouchableOpacity>
     )

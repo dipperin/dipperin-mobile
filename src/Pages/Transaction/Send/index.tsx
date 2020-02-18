@@ -71,6 +71,7 @@ export class Send extends React.Component<Props> {
             labels={this.props.labels}
             value={this.addressOrShortWord}
             handleChange={this.handleChangeAddressOrShortword}
+            readonly={this.readonly}
           />
 
           <AmoutBox
@@ -78,12 +79,14 @@ export class Send extends React.Component<Props> {
             value={this.sendAmount}
             balance={this.props.account!.activeAccount!.balance || '0'}
             handleChange={this.handleChangeSendAmount}
+            readonly={this.readonly}
           />
 
           <ExtraData
             labels={this.props.labels}
             value={this.extraData}
             handleChange={this.handleChangeExtraData}
+            readonly={this.readonly}
           />
 
           <TxFeeBox
@@ -105,6 +108,7 @@ export class Send extends React.Component<Props> {
   @observable extraData: string = ''
   @observable txFeeLevel: number = 1
   @observable keyboardShow: boolean = false
+  @observable readonly = false
   keyboardDidShowListener: EmitterSubscription
   keyboardDidHideListener: EmitterSubscription
   constructor(props: Props) {
@@ -134,6 +138,9 @@ export class Send extends React.Component<Props> {
     if (extraData) {
       this.handleChangeExtraData(extraData)
     }
+
+    const type = this.props.navigation.getParam('type')
+    this.setReadOnly(type === 'dappSend')
   }
   componentDidMount() {
     this.didFocus()
@@ -157,22 +164,25 @@ export class Send extends React.Component<Props> {
     this.toAddress = text
   }
   @action handleChangeAddressOrShortword = (text: string) => {
-    if (validateEnteringArressOrShortword(text)) {
+    if (validateEnteringArressOrShortword(text) && !this.readonly) {
       this.addressOrShortWord = text
     }
   }
   @action handleChangeSendAmount = (amountString: string) => {
-    if (validateEnteringAmount(amountString)) {
+    if (validateEnteringAmount(amountString) && !this.readonly) {
       this.sendAmount = amountString
     }
   }
   @action handleChangeExtraData = (text: string) => {
-    if (validateExtraData(text)) {
+    if (validateExtraData(text) && !this.readonly) {
       this.extraData = text
     }
   }
   @action handleChangeTxfee = (num: number) => {
     this.txFeeLevel = num
+  }
+  @action setReadOnly = (flag: boolean) => {
+    this.readonly = flag
   }
 
   verifyAddressOrShortword = async () => {
@@ -342,9 +352,9 @@ export class Send extends React.Component<Props> {
       const txHash = (res as Success<string>).result
       Toast.success(this.props.labels.sendSuccess)
       this.linkingAppCallBack(true)
-      
+
       const type = this.props.navigation.getParam('type')
-      if(type !== 'dappSend') {
+      if (type !== 'dappSend') {
         this.backToAccountDetail()
         return
       }
@@ -375,7 +385,7 @@ export class Send extends React.Component<Props> {
       name: dappName,
       amount: this.sendAmount,
       extraData: this.extraData,
-      hash: txHash
+      hash: txHash,
     }
     this.props.navigation.navigate('game', params)
   }
