@@ -124,6 +124,7 @@ class Game extends React.Component<Props> {
                 <WebView
                 // source={{uri:'http://192.168.1.3:3002/'}}
                     source={{ uri: dappUri || '' }}
+                    // source={{uri: 'http://10.0.2.2:3000'}}
                     onMessage={this.handleMessage}
                     ref={ref => this.webView = ref}
                     onLoadEnd={this.dappLoaded}

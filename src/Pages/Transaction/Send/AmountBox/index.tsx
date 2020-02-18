@@ -8,11 +8,12 @@ interface Props {
   balance: string
   value: string
   handleChange: (text: string) => void
+  readonly?: boolean
 }
 
 class AmountBox extends React.Component<Props> {
   render() {
-    const { labels, balance, value, handleChange } = this.props
+    const { labels, balance, value, handleChange, readonly } = this.props
     return (
       <TouchableOpacity style={styles.sendAmountWrapper} activeOpacity={0.8}>
         <View style={styles.sendAmountBar}>
@@ -28,6 +29,7 @@ class AmountBox extends React.Component<Props> {
           onChangeText={handleChange}
           placeholder={labels.enterAmount}
           keyboardType="numeric"
+          editable={!readonly}
         />
       </TouchableOpacity>
     )

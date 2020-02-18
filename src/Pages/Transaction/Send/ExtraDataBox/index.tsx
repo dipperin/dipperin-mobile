@@ -7,11 +7,12 @@ interface Props {
   labels: I18nTransactionType
   value: string
   handleChange: (text: string) => void
+  readonly?: boolean
 }
 
 class ExtraDataBox extends React.Component<Props> {
   render() {
-    const { labels, value, handleChange } = this.props
+    const { labels, value, handleChange, readonly } = this.props
     return (
       <TouchableOpacity style={styles.extraDataWrapper} activeOpacity={0.8}>
         <View style={styles.extraDataBar}>
@@ -24,6 +25,7 @@ class ExtraDataBox extends React.Component<Props> {
           value={value}
           onChangeText={handleChange}
           placeholder={labels.enterRemark}
+          editable={!readonly}
         />
       </TouchableOpacity>
     )
