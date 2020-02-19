@@ -389,7 +389,8 @@ export class Send extends React.Component<Props> {
     }
     this.setReadOnly(false)
     this.resetNavigationParam()
-    this.props.navigation.navigate('game', params)
+    this.props.navigation.replace('Assets')
+    this.props.navigation.navigate({routeName: 'game', params})
   }
 
   resetNavigationParam = () => {
