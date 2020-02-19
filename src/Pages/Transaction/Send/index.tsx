@@ -164,17 +164,17 @@ export class Send extends React.Component<Props> {
     this.toAddress = text
   }
   @action handleChangeAddressOrShortword = (text: string) => {
-    if (validateEnteringArressOrShortword(text) && !this.readonly) {
+    if (validateEnteringArressOrShortword(text)) {
       this.addressOrShortWord = text
     }
   }
   @action handleChangeSendAmount = (amountString: string) => {
-    if (validateEnteringAmount(amountString) && !this.readonly) {
+    if (validateEnteringAmount(amountString) ) {
       this.sendAmount = amountString
     }
   }
   @action handleChangeExtraData = (text: string) => {
-    if (validateExtraData(text) && !this.readonly) {
+    if (validateExtraData(text)) {
       this.extraData = text
     }
   }
@@ -387,7 +387,13 @@ export class Send extends React.Component<Props> {
       extraData: this.extraData,
       hash: txHash,
     }
+    this.setReadOnly(false)
+    this.resetNavigationParam()
     this.props.navigation.navigate('game', params)
+  }
+
+  resetNavigationParam = () => {
+    this.props.navigation.setParams({ address: '', amount: '', extraData: ''})
   }
 
   // Linking open app callback
