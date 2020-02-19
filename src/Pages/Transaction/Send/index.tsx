@@ -32,6 +32,7 @@ import {
   verifyBalance,
   encryptionPassword,
   Success,
+  decryptionPassword
 } from 'Global/utils'
 import AccountStore from 'Store/account'
 import { Utils } from '@dipperin/dipperin.js'
@@ -332,7 +333,8 @@ export class Send extends React.Component<Props> {
   }
 
   handleFingerprintSuccessCb = async () => {
-    const _password = await getStorage(STORAGE_KEYS.PASSWORD)
+    const enciryptionPassword: string = await getStorage(STORAGE_KEYS.PASSWORD) as any as string
+    const _password = decryptionPassword(enciryptionPassword)
     this.handleConfirmTransaction(encryptionPassword(_password))
   }
 
