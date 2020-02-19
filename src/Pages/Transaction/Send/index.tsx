@@ -335,7 +335,7 @@ export class Send extends React.Component<Props> {
   handleFingerprintSuccessCb = async () => {
     const enciryptionPassword: string = await getStorage(STORAGE_KEYS.PASSWORD) as any as string
     const _password = decryptionPassword(enciryptionPassword)
-    this.handleConfirmTransaction(encryptionPassword(_password))
+    this.handleConfirmTransaction(_password)
   }
 
   handleConfirmTransaction = async (psw: string): Promise<void> => {
