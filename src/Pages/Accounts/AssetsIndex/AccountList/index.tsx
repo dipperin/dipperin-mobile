@@ -8,10 +8,11 @@ interface Props {
     isEyeOpen: boolean
     changeActiveAccount: (id: string) => void
     labels: I18nAccountType
+    activeAddress:string
 }
 
 const AccountList = (props: Props) => {
-    const { accounts, isEyeOpen, changeActiveAccount, labels } = props
+    const { accounts, isEyeOpen, changeActiveAccount, labels,activeAddress } = props
     return (
         <View style={styles.listBox}>
             <Text style={styles.title}>{labels.assets}</Text>
@@ -24,6 +25,7 @@ const AccountList = (props: Props) => {
                             isEyeOpen={isEyeOpen}
                             changeActiveAccount={changeActiveAccount}
                             labels={labels}
+                            activeAddress={activeAddress}
                         />
                     })
                 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import AccountModel from 'Models/account'
 import { withNavigation, NavigationScreenProp } from 'react-navigation'
-import { observer } from 'mobx-react'
+import { observer,inject } from 'mobx-react'
 import { formatNumber } from 'Global/utils'
 import { I18nAccountType } from 'I18n/config'
 
@@ -14,23 +14,24 @@ export interface Props {
     changeActiveAccount: (id: string) => void
     navigation: NavigationScreenProp<any>
     labels: I18nAccountType
+    activeAddress:string
 }
 
 @observer
 export class AccountItem extends React.Component<Props>{
     goDetail = () => {
-        const { account: { id }, changeActiveAccount } = this.props
+        const { account: { id }, changeActiveAccount,activeAddress } = this.props
         changeActiveAccount(id)
         this.props.navigation.navigate('accountDetail')
     }
     render() {
-        const { account: { name, balance, id }, isEyeOpen, labels } = this.props
+        const { account: { name, balance, id,address }, isEyeOpen, labels,activeAddress } = this.props
         const showName = name ? name : `${labels.accountName} ${id}`
         return (
             <TouchableOpacity
                 onPress={this.goDetail}
             >
-                <View style={styles.item}>
+                <View style={[styles.item,activeAddress===address && styles.itemBorder]}>
                     <View style={styles.itemLeft}>
                         <Image source={AcountIcon} style={styles.accountLogo} />
                         <Text style={styles.txt}>{showName}</Text>
@@ -59,6 +60,10 @@ const styles = StyleSheet.create({
         paddingRight: 15,
         fontSize: 16,
         marginBottom: 10,
+    },
+    itemBorder:{
+        borderWidth:1,
+        borderColor:'#B2DFEE'
     },
     itemLeft: {
         flexDirection: 'row',

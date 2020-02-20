@@ -35,7 +35,7 @@ export class Assets extends React.Component<Props>{
     }, 0)
   }
   render() {
-    const { accounts, changeActiveAccount } = this.props.account!
+    const { accounts, changeActiveAccount,activeAccount:{address} } = this.props.account!
     const { isEyeOpen, setIsEyeOpen } = this.props.system!
     const { labels } = this.props
     const assets = this.getAllAssets()
@@ -56,6 +56,7 @@ export class Assets extends React.Component<Props>{
           isEyeOpen={isEyeOpen}
           changeActiveAccount={changeActiveAccount}
           labels={labels}
+          activeAddress={address}
         />
       </View>
 
