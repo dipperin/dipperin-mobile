@@ -273,7 +273,8 @@ const enResource = {
       cancel:'Cancel',
       confirmAuthority:'Confirm',
       authorityTitle:'Authority',
-      authorityContent:'needs authority',
+      authorityContent:'authorizes',
+      accountName:'Account',
     },
   },
 };
@@ -566,7 +567,8 @@ const zhResource: typeof enResource = {
       cancel:'取消',
       confirmAuthority:'确定授权',
       authorityTitle:'授权服务',
-      authorityContent:'需要授权',
+      authorityContent:'授权给',
+      accountName:'账户',
     },
   },
 };

@@ -5,17 +5,18 @@ import { I18nGameType } from 'I18n/config'
 
 interface Props extends PopWrapperPropsInterface {
   language: I18nGameType
+  accountName:string
   dappName:string
 }
 
 @PopWrapper
 export class AuthorityPop extends React.Component<Props> {
   render() {
-    const { language ,dappName} = this.props
+    const { language ,accountName,dappName} = this.props
     return (
       <View style={styles.box}>
         <Text style={styles.title}>{language.authorityTitle}</Text>
-        <Text style={styles.content}>{`${dappName} ${language.authorityContent}`}</Text>
+        <Text style={styles.content}>{`${accountName} ${language.authorityContent} ${dappName} `}</Text>
       </View>
     )
   }

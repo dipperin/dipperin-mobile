@@ -275,19 +275,28 @@ export const updateErrTimes = async (walletId: number, unlockErrTimes: number = 
 
     }
 }
-export const getWhiteList = async (): Promise<string[]> => {
+export const getWhiteList = async (accountAddress:string): Promise<any[]> => {
     try {
-        const res = (await getStorage(WHITE_LIST)) || []
-        return res as string[]
+        const res = await storage.load({
+            key: WHITE_LIST,
+            id: accountAddress,
+        })
+        return res
+
     } catch (_) {
         return []
+
     }
 }
 
-export const addWhiteList = async (appName: string) => {
-    const whiteList = await getWhiteList()
+export const addWhiteList = async (accountAddress:string,appName: string,) => {
+    const whiteList = await getWhiteList(accountAddress) || []
     whiteList.push(appName)
-    setStorage(WHITE_LIST, whiteList)
+    await storage.save({
+        key: WHITE_LIST,
+        id: accountAddress,
+        data: whiteList,
+    })
 }
 
 

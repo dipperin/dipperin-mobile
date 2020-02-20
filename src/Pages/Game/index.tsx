@@ -46,11 +46,12 @@ class Game extends React.Component<Props> {
     // dapp send success callback
     const type = this.props.navigation.getParam('type')
     const dappName = this.props.navigation.getParam('name')
+    const { address } = this.props.account!.activeAccount!
 
     if (type === 'dappSend') {
       this.sendSuccessCb()
     }
-    const whiteList = await getWhiteList()
+    const whiteList = await getWhiteList(address)
     if (!whiteList.includes(dappName)) {
       this.openAuthorityPop()
     }
@@ -71,7 +72,8 @@ class Game extends React.Component<Props> {
 
   authorize = async () => {
     const dappName = this.props.navigation.getParam('name')
-    await addWhiteList(dappName)
+    const { address } = this.props.account!.activeAccount!
+    await addWhiteList(address,dappName)
     this.hideAuthorityPop()
   }
 
@@ -134,6 +136,8 @@ class Game extends React.Component<Props> {
   render() {
     const { label } = this.props
     const dappUri = this.getDappUri()
+    const {name,id} = this.props.account!.activeAccount!
+    const activeAccountName = name ? name : `${label.accountName} ${id}`
     const dappName = this.props.navigation.getParam('name')
     return (
       <View style={styles.container}>
@@ -153,6 +157,7 @@ class Game extends React.Component<Props> {
           confrimText={label.confirmAuthority}
           onCancel={this.cancelAuthority}
           onConfirm={this.authorize}
+          accountName={activeAccountName}
           dappName={dappName}
         />
       </View>

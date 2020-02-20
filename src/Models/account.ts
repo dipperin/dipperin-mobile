@@ -188,7 +188,7 @@ export default class AccountModel {
       id: Number(this.id),
       nonce: this._nonce,
       path: this.path,
-      name: this._name
+      name: this._name,
     }
   }
 }
